@@ -6979,7 +6979,7 @@ span.select2-container.select2-container--default.select2-container--open {
   transition: all 0.5s;
 }
 .productset .productsetcontent {
-  padding: 13px;
+  padding: 15px;
   text-align: center;
 }
 .productset .productsetcontent h4 {
@@ -7024,8 +7024,9 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 .tabs_wrapper .tabs_container {
   padding-top: 0;
+  margin-left: 65px;
   display: inline-block;
-  width: 100%;
+  width: 90%;
 }
 .tabs_wrapper .tabs_container .tab_content {
   display: none;
