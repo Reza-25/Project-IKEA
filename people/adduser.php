@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -270,11 +274,11 @@
                 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                 <ul>
                   <li><a href="customerlist.html">Customer List</a></li>
-                  <li><a href="addcustomer.html" class="active">Add Customer </a></li>
+                  <li><a href="addcustomer.html">Add Customer </a></li>
                   <li><a href="supplierlist.html">Supplier List</a></li>
                   <li><a href="addsupplier.html">Add Supplier </a></li>
                   <li><a href="userlist.html">User List</a></li>
-                  <li><a href="adduser.html">Add User</a></li>
+                  <li><a href="adduser.html" class="active">Add User</a></li>
                   <li><a href="storelist.html">Store List</a></li>
                   <li><a href="addstore.html">Add Store</a></li>
                 </ul>
@@ -337,7 +341,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../icon-fontawesome.html">Fontawesome Icons</a></li>
+                   <li><a href="../icon-fontawesome.html">Fontawesome Icons</a></li>
                   <li><a href="../icon-feather.html">Feather Icons</a></li>
                   <li><a href="../icon-ionic.html">Ionic Icons</a></li>
                   <li><a href="../icon-material.html">Material Icons</a></li>
@@ -360,6 +364,7 @@
                   <li><a href="../form-validation.html">Form Validation </a></li>
                   <li><a href="../form-select2.html">Form Select2 </a></li>
                   <li><a href="../form-fileupload.html">File Upload </a></li>
+                </ul>
               </li>
               <li class="submenu">
                 <a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
@@ -379,7 +384,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/time.svg" alt="img" /><span> Report</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../purchaseorderreport.html">Purchase order report</a></li>
+                   <li><a href="../purchaseorderreport.html">Purchase order report</a></li>
                   <li><a href="../inventoryreport.html">Inventory Report</a></li>
                   <li><a href="../salesreport.html">Sales Report</a></li>
                   <li><a href="../invoicereport.html">Invoice Report</a></li>
@@ -415,8 +420,8 @@
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>Customer Management</h4>
-              <h6>Add/Update Customer</h6>
+              <h4>User Management</h4>
+              <h6>Add/Update User</h6>
             </div>
           </div>
 
@@ -425,7 +430,34 @@
               <div class="row">
                 <div class="col-lg-3 col-sm-6 col-12">
                   <div class="form-group">
-                    <label>Customer Name</label>
+                    <label>First Name</label>
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>User Name</label>
+                    <input type="text" />
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Password</label>
+                    <div class="pass-group">
+                      <input type="password" class="pass-input" />
+                      <span class="fas toggle-password fa-eye-slash"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>Phone</label>
                     <input type="text" />
                   </div>
                 </div>
@@ -437,45 +469,16 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                   <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" />
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                  <div class="form-group">
-                    <label>Choose Country</label>
+                    <label>Role</label>
                     <select class="select">
-                      <option>Choose Country</option>
-                      <option>India</option>
-                      <option>USA</option>
+                      <option>Select</option>
+                      <option>Owner</option>
                     </select>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                  <div class="form-group">
-                    <label>City</label>
-                    <select class="select">
-                      <option>Choose City</option>
-                      <option>City 1</option>
-                      <option>City 2</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-lg-9 col-12">
-                  <div class="form-group">
-                    <label>Address</label>
-                    <input type="text" />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="form-control"></textarea>
-                  </div>
-                </div>
-                <div class="col-lg-12">
-                  <div class="form-group">
-                    <label> Avatar</label>
+                    <label> User Image</label>
                     <div class="image-upload">
                       <input type="file" />
                       <div class="image-uploads">
@@ -487,7 +490,7 @@
                 </div>
                 <div class="col-lg-12">
                   <a href="javascript:void(0);" class="btn btn-submit me-2">Submit</a>
-                  <a href="javascript:void(0);" class="btn btn-cancel">Cancel</a>
+                  <a href="userlist.html" class="btn btn-cancel">Cancel</a>
                 </div>
               </div>
             </div>

@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -270,13 +274,13 @@
                 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                 <ul>
                   <li><a href="customerlist.html">Customer List</a></li>
-                  <li><a href="addcustomer.html">Add Customer </a></li>
+                  <li><a href="addcustomer.html" class="active">Add Customer </a></li>
                   <li><a href="supplierlist.html">Supplier List</a></li>
                   <li><a href="addsupplier.html">Add Supplier </a></li>
                   <li><a href="userlist.html">User List</a></li>
                   <li><a href="adduser.html">Add User</a></li>
                   <li><a href="storelist.html">Store List</a></li>
-                  <li><a href="addstore.html" class="active">Add Store</a></li>
+                  <li><a href="addstore.html">Add Store</a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -304,7 +308,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
                 <ul>
-                   <li><a href="../sweetalerts.html">Sweet Alerts</a></li>
+                  <li><a href="../sweetalerts.html">Sweet Alerts</a></li>
                   <li><a href="../tooltip.html">Tooltip</a></li>
                   <li><a href="../popover.html">Popover</a></li>
                   <li><a href="../ribbon.html">Ribbon</a></li>
@@ -360,7 +364,6 @@
                   <li><a href="../form-validation.html">Form Validation </a></li>
                   <li><a href="../form-select2.html">Form Select2 </a></li>
                   <li><a href="../form-fileupload.html">File Upload </a></li>
-                </ul>
               </li>
               <li class="submenu">
                 <a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
@@ -416,8 +419,8 @@
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>Store Management</h4>
-              <h6>Add/Update Store</h6>
+              <h4>Customer Management</h4>
+              <h6>Add/Update Customer</h6>
             </div>
           </div>
 
@@ -426,23 +429,14 @@
               <div class="row">
                 <div class="col-lg-3 col-sm-6 col-12">
                   <div class="form-group">
-                    <label>Store Name</label>
+                    <label>Customer Name</label>
                     <input type="text" />
                   </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                   <div class="form-group">
-                    <label>User Name</label>
+                    <label>Email</label>
                     <input type="text" />
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                  <div class="form-group">
-                    <label>Password</label>
-                    <div class="pass-group">
-                      <input type="password" class="pass-input" />
-                      <span class="fas toggle-password fa-eye-slash"></span>
-                    </div>
                   </div>
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
@@ -453,13 +447,39 @@
                 </div>
                 <div class="col-lg-3 col-sm-6 col-12">
                   <div class="form-group">
-                    <label>Email</label>
+                    <label>Choose Country</label>
+                    <select class="select">
+                      <option>Choose Country</option>
+                      <option>India</option>
+                      <option>USA</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-12">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select class="select">
+                      <option>Choose City</option>
+                      <option>City 1</option>
+                      <option>City 2</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-9 col-12">
+                  <div class="form-group">
+                    <label>Address</label>
                     <input type="text" />
                   </div>
                 </div>
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label> Store Image</label>
+                    <label>Description</label>
+                    <textarea class="form-control"></textarea>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label> Avatar</label>
                     <div class="image-upload">
                       <input type="file" />
                       <div class="image-uploads">
@@ -471,7 +491,7 @@
                 </div>
                 <div class="col-lg-12">
                   <a href="javascript:void(0);" class="btn btn-submit me-2">Submit</a>
-                  <a href="storelist.html" class="btn btn-cancel">Cancel</a>
+                  <a href="javascript:void(0);" class="btn btn-cancel">Cancel</a>
                 </div>
               </div>
             </div>

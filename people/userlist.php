@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿<?php
+
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -289,11 +293,11 @@
 <li class="submenu">
 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img"><span> People</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="customerlist.html" class="active">Customer List</a></li>
+<li><a href="customerlist.html">Customer List</a></li>
 <li><a href="addcustomer.html">Add Customer </a></li>
 <li><a href="supplierlist.html">Supplier List</a></li>
 <li><a href="addsupplier.html">Add Supplier </a></li>
-<li><a href="userlist.html">User List</a></li>
+<li><a href="userlist.html" class="active">User List</a></li>
 <li><a href="adduser.html">Add User</a></li>
 <li><a href="storelist.html">Store List</a></li>
 <li><a href="addstore.html">Add Store</a></li>
@@ -358,15 +362,14 @@
 <a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="../icon-fontawesome.html">Fontawesome Icons</a></li>
- <li><a href="../icon-feather.html">Feather Icons</a></li>
- <li><a href="../icon-ionic.html">Ionic Icons</a></li>
- <li><a href="../icon-material.html">Material Icons</a></li>
- <li><a href="../icon-pe7.html">Pe7 Icons</a></li>
- <li><a href="../icon-simpleline.html">Simpleline Icons</a></li>
- <li><a href="../icon-themify.html">Themify Icons</a></li>
- <li><a href="../icon-weather.html">Weather Icons</a></li>
- <li><a href="../icon-typicon.html">Typicon Icons</a></li>
- <li><a href="../icon-flag.html">Flag Icons</a></li>
+<li><a href="../icon-feather.html">Feather Icons</a></li>
+<li><a href="../icon-ionic.html">Ionic Icons</a></li>
+<li><a href="../icon-material.html">Material Icons</a></li>
+<li><a href="../icon-pe7.html">Pe7 Icons</a></li>
+<li><a href="../icon-simpleline.html">Simpleline Icons</a></li>
+<li><a href="../icon-themify.html">Themify Icons</a></li>
+<li><a href="../icon-weather.html">Weather Icons</a></li>
+<li><a href="../icon-flag.html">Flag Icons</a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -436,11 +439,11 @@
 <div class="content">
 <div class="page-header">
 <div class="page-title">
-<h4>Customer List</h4>
-<h6>Manage your Customers</h6>
+<h4>User List</h4>
+<h6>Manage your User</h6>
 </div>
 <div class="page-btn">
-<a href="addcustomer.html" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img">Add Customer</a>
+<a href="adduser.html" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img" class="me-2">Add User</a>
 </div>
 </div>
 
@@ -455,7 +458,9 @@
 </a>
 </div>
 <div class="search-input">
-<a class="btn btn-searchset"><img src="../assets/img/icons/search-white.svg" alt="img"></a>
+<a class="btn btn-searchset">
+<img src="../assets/img/icons/search-white.svg" alt="img">
+</a>
 </div>
 </div>
 <div class="wordset">
@@ -478,17 +483,12 @@
 <div class="row">
 <div class="col-lg-2 col-sm-6 col-12">
 <div class="form-group">
-<input type="text" placeholder="Enter Customer Code">
+<input type="text" placeholder="Enter User Name">
 </div>
 </div>
 <div class="col-lg-2 col-sm-6 col-12">
 <div class="form-group">
-<input type="text" placeholder="Enter Customer Name">
-</div>
-</div>
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<input type="text" placeholder="Enter Phone Number">
+<input type="text" placeholder="Enter Phone">
 </div>
 </div>
 <div class="col-lg-2 col-sm-6 col-12">
@@ -496,7 +496,15 @@
 <input type="text" placeholder="Enter Email">
 </div>
 </div>
-<div class="col-lg-1 col-sm-6 col-12  ms-auto">
+<div class="col-lg-2 col-sm-6 col-12">
+<div class="form-group">
+<select class="select">
+<option>Disable</option>
+<option>Enable</option>
+</select>
+</div>
+</div>
+<div class="col-lg-1 col-sm-6 col-12 ms-auto">
 <div class="form-group">
 <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img"></a>
 </div>
@@ -511,16 +519,17 @@
 <tr>
 <th>
 <label class="checkboxs">
-<input type="checkbox" id="select-all">
+<input type="checkbox">
 <span class="checkmarks"></span>
 </label>
 </th>
-<th>Customer Name</th>
-<th>code</th>
-<th>Customer</th>
+<th>Profile</th>
+<th>First name </th>
+<th>Last name </th>
+<th>User name </th>
 <th>Phone</th>
 <th>email</th>
-<th>Country</th>
+<th>Status</th>
 <th>Action</th>
 </tr>
 </thead>
@@ -536,15 +545,20 @@
 <a href="javascript:void(0);" class="product-img">
 <img src="../assets/img/customer/customer1.jpg" alt="product">
 </a>
-<a href="javascript:void(0);">Thomas</a>
 </td>
-<td>201</td>
 <td>Thomas</td>
+<td>Thomas </td>
+<td>Thomas21 </td>
 <td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1165797e7c7062517469707c617d743f727e7c">[email&#160;protected]</a></td>
-<td>USA</td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="42362a2d2f233102273a232f322e276c212d2f">[email&#160;protected]</a></td>
 <td>
-<a class="me-3" href="editcustomer.html">
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user1" class="check">
+<label for="user1" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -563,15 +577,20 @@
 <a href="javascript:void(0);" class="product-img">
 <img src="../assets/img/customer/customer2.jpg" alt="product">
 </a>
-<a href="javascript:void(0);">Benjamin</a>
 </td>
-<td>202</td>
 <td>Benjamin</td>
+<td>Franklin </td>
+<td>504Benjamin </td>
 <td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dcbfa9afa8b3b1b9ae9cb9a4bdb1acb0b9f2bfb3b1">[email&#160;protected]</a></td>
-<td>USA</td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e685939592898b8394a6839e878b968a83c885898b">[email&#160;protected]</a></td>
 <td>
-<a class="me-3" href="editcustomer.html">
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user2" class="check" checked="">
+<label for="user2" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -590,42 +609,20 @@
 <a href="javascript:void(0);" class="product-img">
 <img src="../assets/img/customer/customer3.jpg" alt="product">
 </a>
-<a href="javascript:void(0);">James</a>
 </td>
-<td>521</td>
 <td>James</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6d0e181e190200081f2d08150c001d0108430e0200">[email&#160;protected]</a></td>
-<td>USA</td>
+<td>James </td>
+<td>James 524 </td>
+<td>+12163547758 </td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ef4fff3fbeddefbe6fff3eef2fbb0fdf1f3">[email&#160;protected]</a></td>
 <td>
-<a class="me-3" href="editcustomer.html">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user3" class="check" checked="">
+<label for="user3" class="checktoggle">checkbox</label>
+</div>
 </td>
-</tr>
-<tr>
 <td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer3.jpg" alt="product">
-</a>
-<a href="javascript:void(0);">Bruklin</a>
-</td>
-<td>555</td>
-<td>Bruklin</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aeccdcdbc5c2c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</a></td>
-<td>Thailand</td>
-<td>
-<a class="me-3" href="editcustomer.html">
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -644,15 +641,20 @@
 <a href="javascript:void(0);" class="product-img">
 <img src="../assets/img/customer/customer4.jpg" alt="product">
 </a>
-<a href="javascript:void(0);">Beverly</a>
 </td>
-<td>325</td>
-<td>Beverly</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0143647764736d78416479606c716d642f626e6c">[email&#160;protected]</a></td>
-<td>Phuket island</td>
+ <td>Bruklin</td>
+<td>Bruklin </td>
+<td>Bruklin2022</td>
+<td>123-456-888</td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="781a0a0d13141116381d00191508141d561b1715">[email&#160;protected]</a></td>
 <td>
-<a class="me-3" href="editcustomer.html">
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user4" class="check" checked="">
+<label for="user4" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -671,15 +673,20 @@
 <a href="javascript:void(0);" class="product-img">
 <img src="../assets/img/customer/customer5.jpg" alt="product">
 </a>
-<a href="javascript:void(0);">B. Huber</a>
 </td>
-<td>589</td>
-<td>B. Huber	</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e8a09d8a8d9aa88d90898598848dc68b8785">[email&#160;protected]</a></td>
-<td>Germany</td>
+<td>Franklin</td>
+<td>Jacob </td>
+<td>BeverlyWIN25</td>
+<td>+12163547758 </td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aceec9dac9dec0d5ecc9d4cdc1dcc0c982cfc3c1">[email&#160;protected]</a></td>
 <td>
-<a class="me-3" href="editcustomer.html">
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user5" class="check">
+<label for="user5" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -698,123 +705,20 @@
 <a href="javascript:void(0);" class="product-img">
 <img src="../assets/img/customer/customer6.jpg" alt="product">
 </a>
-<a href="javascript:void(0);">James Stawberry</a>
 </td>
-<td>254</td>
-<td>James Stawberry</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1e7d6b6d6a71737b6c5e7b667f736e727b307d7173">[email&#160;protected]</a></td>
-<td>Angola</td>
-<td>
-<a class="me-3" href="editcustomer.html">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-imgs">
-WC
-</a>
-<a href="javascript:void(0);">James Stawberry</a>
-</td>
-<td>681</td>
-<td>Fred john</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="573d383f3917322f363a273b327934383a">[email&#160;protected]</a></td>
-<td>Albania</td>
-<td>
-<a class="me-3" href="editcustomer.html">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer5.jpg" alt="product">
-</a>
-<a href="javascript:void(0);">B. Huber</a>
- </td>
-<td>589</td>
 <td>B. Huber	</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7a320f181f083a1f021b170a161f54191517">[email&#160;protected]</a></td>
-<td>Germany</td>
-<td>
-<a class="me-3" href="editcustomer.html">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer6.jpg" alt="product">
-</a>
-<a href="javascript:void(0);">James Stawberry</a>
-</td>
-<td>254</td>
-<td>James Stawberry</td>
+<td>Jacob </td>
+<td>BeverlyWIN25</td>
 <td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="caa9bfb9bea5a7afb88aafb2aba7baa6afe4a9a5a7">[email&#160;protected]</a></td>
-<td>Angola</td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b330e191e093b1e031a160b171e55181416">[email&#160;protected]</a></td>
 <td>
-<a class="me-3" href="editcustomer.html">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user6" class="check">
+<label for="user6" class="checktoggle">checkbox</label>
+</div>
 </td>
-</tr>
-<tr>
 <td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-imgs">
-WC
-</a>
-<a href="javascript:void(0);">James Stawberry</a>
-</td>
-<td>681</td>
-<td>Fred john</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6e040106002e0b160f031e020b400d0103">[email&#160;protected]</a></td>
-<td>Albania</td>
-<td>
-<a class="me-3" href="editcustomer.html">
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -831,45 +735,23 @@ WC
 </td>
 <td class="productimgname">
 <a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer5.jpg" alt="product">
-</a>
-<a href="javascript:void(0);">B. Huber</a>
-</td>
-<td>589</td>
-<td>B. Huber	</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c68eb3a4a3b486a3bea7abb6aaa3e8a5a9ab">[email&#160;protected]</a></td>
-<td>Germany</td>
-<td>
-<a class="me-3" href="editcustomer.html">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
+<img src="../assets/img/customer/customer7.jpg" alt="product">
 </a>
 </td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer6.jpg" alt="product">
-</a>
-<a href="javascript:void(0);">James Stawberry</a>
-</td>
-<td>254</td>
-<td>James Stawberry</td>
+<td>Alwin</td>
+<td>Alwin </td>
+<td>Alwin243</td>
 <td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="395a4c4a4d56545c4b795c41585449555c175a5654">[email&#160;protected]</a></td>
-<td>Angola</td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0764727473686a627547627f666a776b622964686a">[email&#160;protected]</a></td>
+<td>
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user7" class="check">
+<label for="user7" class="checktoggle">checkbox</label>
+</div>
+</td>
 <td>
 
-<a class="me-3" href="editcustomer.html">
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -885,18 +767,151 @@ WC
 </label>
 </td>
 <td class="productimgname">
-<a href="javascript:void(0);" class="product-imgs">
-WC
+<a href="javascript:void(0);" class="product-img">
+<img src="../assets/img/customer/customer8.jpg" alt="product">
 </a>
-<a href="javascript:void(0);">James Stawberry</a>
 </td>
-<td>681</td>
 <td>Fred john</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aec4c1c6c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</a></td>
-<td>Albania</td>
+<td>john </td>
+<td>FredJ25</td>
+<td>+12163547758 </td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bad0d5d2d4fadfc2dbd7cad6df94d9d5d7">[email&#160;protected]</a></td>
 <td>
-<a class="me-3" href="editcustomer.html">
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user15" class="check">
+<label for="user15" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
+<img src="../assets/img/icons/edit.svg" alt="img">
+</a>
+<a class="me-3 confirm-text" href="javascript:void(0);">
+<img src="../assets/img/icons/delete.svg" alt="img">
+</a>
+</td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td class="productimgname">
+<a href="javascript:void(0);" class="product-img">
+<img src="../assets/img/customer/customer1.jpg" alt="product">
+</a>
+</td>
+<td>Rasmussen	</td>
+<td>Gothic </td>
+<td>Cras56</td>
+<td>+12163547758 </td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a685b49574f49495f547a5f425b574a565f14595557">[email&#160;protected]</a></td>
+<td>
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user9" class="check" checked="">
+<label for="user9" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
+<img src="../assets/img/icons/edit.svg" alt="img">
+</a>
+<a class="me-3 confirm-text" href="javascript:void(0);">
+<img src="../assets/img/icons/delete.svg" alt="img">
+</a>
+</td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td class="productimgname">
+<a href="javascript:void(0);" class="product-img">
+<img src="../assets/img/customer/customer2.jpg" alt="product">
+</a>
+</td>
+<td>Grace	</td>
+<td>Halena </td>
+<td>Grace2022</td>
+<td>+12163547758 </td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0c3d5d3d4cfcdc5d2e0c5d8c1cdd0ccc58ec3cfcd">[email&#160;protected]</a></td>
+<td>
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user10" class="check" checked="">
+<label for="user10" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
+<img src="../assets/img/icons/edit.svg" alt="img">
+</a>
+<a class="me-3 confirm-text" href="javascript:void(0);">
+<img src="../assets/img/icons/delete.svg" alt="img">
+</a>
+</td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td class="productimgname">
+<a href="javascript:void(0);" class="product-img">
+<img src="../assets/img/customer/customer3.jpg" alt="product">
+</a>
+</td>
+<td>Rasmussen	</td>
+<td>Gothic </td>
+<td>Cras56</td>
+<td>+12163547758 </td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="702211031d050303151e301508111d001c155e131f1d">[email&#160;protected]</a></td>
+<td>
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user19" class="check" checked="">
+<label for="user19" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
+<img src="../assets/img/icons/edit.svg" alt="img">
+</a>
+<a class="me-3 confirm-text" href="javascript:void(0);">
+<img src="../assets/img/icons/delete.svg" alt="img">
+</a>
+</td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td class="productimgname">
+<a href="javascript:void(0);" class="product-img">
+<img src="../assets/img/customer/customer4.jpg" alt="product">
+</a>
+</td>
+<td>Grace	</td>
+<td>Halena </td>
+<td>Grace2022</td>
+<td>+12163547758 </td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3e5d4b4d4a51535b4c7e5b465f534e525b105d5153">[email&#160;protected]</a></td>
+<td>
+<div class="status-toggle d-flex justify-content-between align-items-center">
+<input type="checkbox" id="user18" class="check" checked="">
+<label for="user18" class="checktoggle">checkbox</label>
+</div>
+</td>
+<td>
+<a class="me-3" href="edituser.html">
 <img src="../assets/img/icons/edit.svg" alt="img">
 </a>
 <a class="me-3 confirm-text" href="javascript:void(0);">
@@ -985,7 +1000,7 @@ WC
 <div class="form-group">
 <label>Reference</label>
 <input type="text" value="INV/SL0101">
- </div>
+</div>
 </div>
 <div class="col-lg-6 col-sm-12 col-12">
 <div class="form-group">

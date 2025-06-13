@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -274,9 +278,9 @@
                   <li><a href="supplierlist.html">Supplier List</a></li>
                   <li><a href="addsupplier.html">Add Supplier </a></li>
                   <li><a href="userlist.html">User List</a></li>
-                  <li><a href="adduser.html" class="active">Add User</a></li>
+                  <li><a href="adduser.html">Add User</a></li>
                   <li><a href="storelist.html">Store List</a></li>
-                  <li><a href="addstore.html">Add Store</a></li>
+                  <li><a href="addstore.html" class="active">Add Store</a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -304,7 +308,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../sweetalerts.html">Sweet Alerts</a></li>
+                   <li><a href="../sweetalerts.html">Sweet Alerts</a></li>
                   <li><a href="../tooltip.html">Tooltip</a></li>
                   <li><a href="../popover.html">Popover</a></li>
                   <li><a href="../ribbon.html">Ribbon</a></li>
@@ -337,7 +341,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
                 <ul>
-                   <li><a href="../icon-fontawesome.html">Fontawesome Icons</a></li>
+                  <li><a href="../icon-fontawesome.html">Fontawesome Icons</a></li>
                   <li><a href="../icon-feather.html">Feather Icons</a></li>
                   <li><a href="../icon-ionic.html">Ionic Icons</a></li>
                   <li><a href="../icon-material.html">Material Icons</a></li>
@@ -380,7 +384,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/time.svg" alt="img" /><span> Report</span> <span class="menu-arrow"></span></a>
                 <ul>
-                   <li><a href="../purchaseorderreport.html">Purchase order report</a></li>
+                  <li><a href="../purchaseorderreport.html">Purchase order report</a></li>
                   <li><a href="../inventoryreport.html">Inventory Report</a></li>
                   <li><a href="../salesreport.html">Sales Report</a></li>
                   <li><a href="../invoicereport.html">Invoice Report</a></li>
@@ -416,8 +420,8 @@
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>User Management</h4>
-              <h6>Add/Update User</h6>
+              <h4>Store Management</h4>
+              <h6>Add/Update Store</h6>
             </div>
           </div>
 
@@ -426,13 +430,7 @@
               <div class="row">
                 <div class="col-lg-3 col-sm-6 col-12">
                   <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" />
-                  </div>
-                </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                  <div class="form-group">
-                    <label>Last Name</label>
+                    <label>Store Name</label>
                     <input type="text" />
                   </div>
                 </div>
@@ -463,18 +461,9 @@
                     <input type="text" />
                   </div>
                 </div>
-                <div class="col-lg-3 col-sm-6 col-12">
-                  <div class="form-group">
-                    <label>Role</label>
-                    <select class="select">
-                      <option>Select</option>
-                      <option>Owner</option>
-                    </select>
-                  </div>
-                </div>
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label> User Image</label>
+                    <label> Store Image</label>
                     <div class="image-upload">
                       <input type="file" />
                       <div class="image-uploads">
@@ -486,7 +475,7 @@
                 </div>
                 <div class="col-lg-12">
                   <a href="javascript:void(0);" class="btn btn-submit me-2">Submit</a>
-                  <a href="userlist.html" class="btn btn-cancel">Cancel</a>
+                  <a href="storelist.html" class="btn btn-cancel">Cancel</a>
                 </div>
               </div>
             </div>
