@@ -252,7 +252,7 @@
                <li class="submenu">
                  <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img" /><span> Inventory</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../inventory/transferlist.php">Transfer List/a></li>
+                  <li><a href="../inventory/transferlist.php">Transfer List </a></li>
                   <li><a href="../inventory/suplierreturn.php">Supplier Return </a></li>
                   <li><a href="../inventory/customerreturn.php">Customer Return </a></li>
                 </ul>

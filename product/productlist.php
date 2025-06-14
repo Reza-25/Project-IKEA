@@ -12,7 +12,7 @@
     <meta content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" name="keywords" />
     <meta content="Dreamguys - Bootstrap Admin Template" name="author" />
     <meta content="noindex, nofollow" name="robots" />
-    <title>Dreams Pos admin template</title>
+    <title>IKEA</title>
     <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/animate.css" rel="stylesheet" />
@@ -236,7 +236,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img alt="img" src="../assets/img/icons/transfer1.svg" /><span> Inventory</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../inventory/transferlist.php">Transfer List/a></li>
+                  <li><a href="../inventory/transferlist.php">Transfer List </a></li>
                   <li><a href="../inventory/suplierreturn.php">Supplier Return </a></li>
                   <li><a href="../inventory/customerreturn.php">Customer Return </a></li>
                 </ul>
