@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -346,10 +350,10 @@
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="chart-apex.html" class="active">Apex Charts</a></li>
+<li><a href="chart-apex.html">Apex Charts</a></li>
 <li><a href="chart-js.html">Chart Js</a></li>
 <li><a href="chart-morris.html">Morris Charts</a></li>
-<li><a href="chart-flot.html">Flot Charts</a></li>
+<li><a href="chart-flot.html" class="active">Flot Charts</a></li>
 <li><a href="chart-peity.html">Peity Charts</a></li>
 </ul>
 </li>
@@ -432,15 +436,15 @@
 </div>
 
 <div class="page-wrapper cardhead">
-<div class="content ">
+<div class="content">
 
 <div class="page-header">
 <div class="row">
 <div class="col-sm-12">
-<h3 class="page-title">Charts</h3>
+<h3 class="page-title">Flot Chart</h3>
 <ul class="breadcrumb">
 <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-<li class="breadcrumb-item active">Charts</li>
+<li class="breadcrumb-item active">Flot Charts</li>
 </ul>
 </div>
 </div>
@@ -451,22 +455,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<h5 class="card-title">Apex Simple</h5>
+<div class="card-title">Bar Chart</div>
 </div>
-<div class="card-body">
-<div id="s-line" class="chart-set"></div>
-</div>
-</div>
-</div>
-
-
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Area Chart</h5>
-</div>
-<div class="card-body">
-<div id="s-line-area" class="chart-set"></div>
+<div class="card-body  chart-set">
+<div class="h-250" id="flotBar1"></div>
 </div>
 </div>
 </div>
@@ -475,22 +467,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<h5 class="card-title">Column Chart</h5>
+<div class="card-title">Bar Chart</div>
 </div>
-<div class="card-body">
-<div id="s-col" class="chart-set"></div>
-</div>
-</div>
-</div>
-
-
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Column Stacked Chart</h5>
-</div>
-<div class="card-body">
-<div id="s-col-stacked" class="chart-set"></div>
+<div class="card-body chart-set">
+<div class="h-250" id="flotBar2"></div>
 </div>
 </div>
 </div>
@@ -499,22 +479,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<h5 class="card-title">Bar Chart</h5>
+<div class="card-title">Line Chart</div>
 </div>
-<div class="card-body">
-<div id="s-bar" class="chart-set"></div>
-</div>
-</div>
-</div>
-
-
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Mixed Chart</h5>
-</div>
-<div class="card-body">
-<div id="mixed-chart" class="chart-set"></div>
+<div class="card-body chart-set">
+<div class="h-250" id="flotLine1"></div>
 </div>
 </div>
 </div>
@@ -523,10 +491,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<h5 class="card-title">Donut Chart</h5>
+<div class="card-title">Line ChartPOints</div>
 </div>
-<div class="card-body">
-<div id="donut-chart" class="chart-set"></div>
+<div class="card-body chart-set">
+<div class="h-250" id="flotLine2"></div>
 </div>
 </div>
 </div>
@@ -535,10 +503,46 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<h5 class="card-title">Radial Chart</h5>
+<div class="card-title">Area Chart</div>
 </div>
-<div class="card-body">
-<div id="radial-chart" class="chart-set"></div>
+<div class="card-body chart-set">
+<div class="h-250" id="flotArea1"></div>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<div class="card-title">Area Chart Points</div>
+</div>
+<div class="card-body chart-set">
+<div class="h-250" id="flotArea2"></div>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<div class="card-title">Pie Chart</div>
+</div>
+<div class="card-body chart-set">
+<div class="h-250" id="flotPie1"></div>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<div class="card-title">Donut Chart</div>
+</div>
+<div class="card-body chart-set">
+<div class="h-250" id="flotPie2"></div>
 </div>
 </div>
 </div>
@@ -548,37 +552,6 @@
 </div>
 </div>
 
-<div class="searchpart">
-<div class="searchcontent">
-<div class="searchhead">
-<h3>Search </h3>
-<a id="closesearch"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-</div>
-<div class="searchcontents">
-<div class="searchparts">
-<input type="text" placeholder="search here">
-<a class="btn btn-searchs">Search</a>
-</div>
-<div class="recentsearch">
-<h2>Recent Search</h2>
-<ul>
-<li>
-<h6><i class="fa fa-search me-2"></i> Settings</h6>
-</li>
-<li>
-<h6><i class="fa fa-search me-2"></i> Report</h6>
-</li>
-<li>
-<h6><i class="fa fa-search me-2"></i> Invoice</h6>
-</li>
-<li>
-<h6><i class="fa fa-search me-2"></i> Sales</h6>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 
@@ -588,8 +561,10 @@
 
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-<script src="assets/plugins/apexchart/chart-data.js"></script>
+<script src="assets/plugins/flot/jquery.flot.js"></script>
+<script src="assets/plugins/flot/jquery.flot.fillbetween.js"></script>
+<script src="assets/plugins/flot/jquery.flot.pie.js"></script>
+<script src="assets/plugins/flot/chart-data.js"></script>
 
 <script src="assets/js/script.js"></script>
 </body>

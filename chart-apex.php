@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -295,7 +299,7 @@
 <li><a href="userlist.html">User List</a></li>
 <li><a href="adduser.html">Add User</a></li>
 <li><a href="storelist.html">Store List</a></li>
- <li><a href="addstore.html">Add Store</a></li>
+<li><a href="addstore.html">Add Store</a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -346,10 +350,10 @@
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="chart-apex.html">Apex Charts</a></li>
-<li><a href="chart-js.html" class="active">Chart Js</a></li>
+<li><a href="chart-apex.html" class="active">Apex Charts</a></li>
+<li><a href="chart-js.html">Chart Js</a></li>
 <li><a href="chart-morris.html">Morris Charts</a></li>
- <li><a href="chart-flot.html">Flot Charts</a></li>
+<li><a href="chart-flot.html">Flot Charts</a></li>
 <li><a href="chart-peity.html">Peity Charts</a></li>
 </ul>
 </li>
@@ -401,7 +405,7 @@
 <ul>
 <li><a href="purchaseorderreport.html">Purchase order report</a></li>
 <li><a href="inventoryreport.html">Inventory Report</a></li>
- <li><a href="salesreport.html">Sales Report</a></li>
+<li><a href="salesreport.html">Sales Report</a></li>
 <li><a href="invoicereport.html">Invoice Report</a></li>
 <li><a href="purchasereport.html">Purchase Report</a></li>
 <li><a href="supplierreport.html">Supplier Report</a></li>
@@ -432,15 +436,15 @@
 </div>
 
 <div class="page-wrapper cardhead">
-<div class="content">
+<div class="content ">
 
 <div class="page-header">
 <div class="row">
 <div class="col-sm-12">
-<h3 class="page-title">Chartjs</h3>
+<h3 class="page-title">Charts</h3>
 <ul class="breadcrumb">
 <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-<li class="breadcrumb-item active">Chartjs</li>
+<li class="breadcrumb-item active">Charts</li>
 </ul>
 </div>
 </div>
@@ -451,12 +455,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Bar Chart</div>
+<h5 class="card-title">Apex Simple</h5>
 </div>
 <div class="card-body">
-<div>
-<canvas id="chartBar1" class="h-300"></canvas>
-</div>
+<div id="s-line" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -465,12 +467,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Transparency </div>
+<h5 class="card-title">Area Chart</h5>
 </div>
 <div class="card-body">
-<div>
-<canvas id="chartBar2" class="h-300"></canvas>
-</div>
+<div id="s-line-area" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -479,12 +479,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Gradient Bar Chart</div>
+<h5 class="card-title">Column Chart</h5>
 </div>
 <div class="card-body">
-<div>
-<canvas id="chartBar3" class="h-300"></canvas>
-</div>
+<div id="s-col" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -493,12 +491,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Horizontal Bar Chart</div>
+<h5 class="card-title">Column Stacked Chart</h5>
 </div>
 <div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartBar4" class="h-300"></canvas>
-</div>
+<div id="s-col-stacked" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -507,12 +503,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Horizontal Bar Chart Style2</div>
+<h5 class="card-title">Bar Chart</h5>
 </div>
 <div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartBar5" class="h-300"></canvas>
-</div>
+<div id="s-bar" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -521,12 +515,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Vertical Stacked Bar Chart</div>
+<h5 class="card-title">Mixed Chart</h5>
 </div>
 <div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartStacked1" class="h-300"></canvas>
-</div>
+<div id="mixed-chart" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -535,12 +527,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Horizontal Stacked Bar Chart</div>
+<h5 class="card-title">Donut Chart</h5>
 </div>
 <div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartStacked2" class="h-300"></canvas>
-</div>
+<div id="donut-chart" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -549,54 +539,10 @@
 <div class="col-md-6">
 <div class="card">
 <div class="card-header">
-<div class="card-title">Line Chart</div>
+<h5 class="card-title">Radial Chart</h5>
 </div>
 <div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartLine1" class="h-300"></canvas>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Donut Chart</div>
-</div>
-<div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartPie" class="h-300"></canvas>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Pie Chart</div>
-</div>
-<div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartDonut" class="h-300"></canvas>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-<div class="card-title">Area Chart</div>
-</div>
-<div class="card-body">
-<div class="chartjs-wrapper-demo">
-<canvas id="chartArea1" class="h-300"></canvas>
-</div>
+<div id="radial-chart" class="chart-set"></div>
 </div>
 </div>
 </div>
@@ -623,7 +569,7 @@
 <li>
 <h6><i class="fa fa-search me-2"></i> Settings</h6>
 </li>
- <li>
+<li>
 <h6><i class="fa fa-search me-2"></i> Report</h6>
 </li>
 <li>
@@ -646,8 +592,8 @@
 
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-<script src="assets/plugins/chartjs/chart.min.js"></script>
-<script src="assets/plugins/chartjs/chart-data.js"></script>
+<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+<script src="assets/plugins/apexchart/chart-data.js"></script>
 
 <script src="assets/js/script.js"></script>
 </body>

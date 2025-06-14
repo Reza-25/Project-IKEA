@@ -215,7 +215,7 @@
 
 </div>
 
-
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 <div class="sidebar-inner slimscroll">
 <div id="sidebar-menu" class="sidebar-menu">
@@ -226,9 +226,10 @@
 <li class="submenu">
 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="productlist.php">Product List</a></li>
-<li><a href="categorylist.php" class="active">Category List</a></li>
-<li><a href="brandlist.php">Brand List</a></li>
+<li><a href="product/productlist.php">Product List</a></li>
+<li><a href="product/categorylist.php">Category List</a></li>
+<li><a href="product/brandlist.php">Brand List</a></li>
+</ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
@@ -266,9 +267,18 @@
 <li class="submenu">
 <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img"><span> Inventory</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="../inventory/transferlist.php">Transfer List </a></li>
-<li><a href="../inventory/suplierreturn.php">Supplier Return </a></li>
-<li><a href="../inventory/customerreturn.php">Customer Return </a></li>
+ <li><a href="inventory/transferlist.php">Transfer List</a></li>
+  <li><a href="inventory/suplierreturn.php">Supplier Return </a></li>
+  <li><a href="inventory/customerreturn.php">Customer Return </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><img src="../assets/img/icons/return1.svg" alt="img"><span> Return</span> <span class="menu-arrow"></span></a>
+<ul>
+ <li><a href="../return/salesreturnlists.php">Sales Return List</a></li>
+ <li><a href="../return/createsalesreturn.php">Add Sales Return </a></li>
+ <li><a href="../return/purchasereturnlist.php">Purchase Return List</a></li>
+ <li><a href="../return/createpurchasereturn.php">Add Purchase Return </a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -416,7 +426,9 @@
 </div>
 </div>
 </div>
+<!-- SIDEBAR END -->
 
+<!-- BAGIAN ATAS -->
 <div class="page-wrapper">
 <div class="content">
 <div class="page-header">
@@ -459,7 +471,203 @@
 </ul>
 </div>
 </div>
+<!-- BAGIAN ATAS END -->
 
+<!-- TABLE TOTAL CATEGORY, TOTAL PRODUK, UPCOMING CATEGORY & PRODUCT  -->
+<div class="row justify-content-end">
+  <!-- Total Category -->
+  <div class="col-lg-3 col-sm-6 col-12 d-flex">
+  <a href="productsold.php" class="w-100 text-decoration-none text-dark">
+    <div class="dash-count das2">
+      <div class="dash-counts">
+        <h4><span class="counters" data-count="21">2.1</span></h4>
+        <h5>Total Category</h5>
+      </div>
+      <div class="dash-imgs">
+        <i data-feather="layers"></i>
+      </div>
+    </div>
+  </a>
+</div>
+
+  <!-- Total Product -->
+  <div class="col-lg-3 col-sm-6 col-12 d-flex">
+  <a href="productsold.php" class="w-100 text-decoration-none text-dark">
+    <div class="dash-count das2">
+      <div class="dash-counts">
+        <h4><span class="counters" data-count="12000">12.000</span></h4>
+        <h5>Total Product</h5>
+      </div>
+      <div class="dash-imgs">
+        <i data-feather="box"></i>
+      </div>
+    </div>
+  </a>
+</div>
+
+<!-- Up Coming Category & Product (Gabungan) -->
+<div class="col-lg-4 col-sm-6 col-12 d-flex">
+  <a href="productsold.php" class="w-100 text-decoration-none text-dark">
+    <div class="dash-count das2" style="padding: 20px; background-color: #FFCC00; border-radius: 10px; color: black;">
+      <div class="dash-counts">
+        <h4>Upcoming Items</h4>
+        <p style="margin: 0; font-weight: bold;">📁 Category: <span class="counters" data-count="6">6</span></p>
+        <p style="margin: 0; font-weight: bold;">📦 Product: <span class="counters" data-count="376">376</span></p>
+      </div>
+      <div class="dash-imgs" style="margin-top: auto;">
+        <i data-feather="clock"></i>
+      </div>
+    </div>
+  </a>
+</div>
+<!-- END -->
+
+<!-- CHART -->
+<!-- ROW CHART + CARD -->
+<div class="row mt-4">
+  <!-- DONUT CHART KIRI -->
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">Distribusi Produk IKEA</h5>
+      </div>
+      <div class="card-body" style="overflow-y: auto; max-height: 500px;">
+        <div id="donutChart"></div>
+      </div>
+    </div>
+  </div>
+
+ <!-- UPCOMING CARD KANAN -->
+<div class="col-md-6 d-flex flex-column">
+  <!-- Header tetap -->
+  <div class="text-center mb-2">
+    <h4 class="fw-bold text-primary">UPCOMING</h4>
+    <p class="text-muted">Kategori & Produk yang Akan Datang</p>
+  </div>
+
+  <!-- Container Scroll mulai dari Card 2 -->
+  <div style="max-height: 300px; overflow-y: auto;">
+    <div class="d-flex flex-column gap-3 pe-2">
+      <!-- Card 1 -->
+      <div class="card shadow p-3" style="background-color: #fef9e7;">
+        <h5 class="card-title text-dark">🪑 Smart Furniture</h5>
+        <p class="card-text">
+          Akan diluncurkan <strong>Agustus 2025</strong><br>
+          <span class="text-muted">120 produk pintar untuk rumah modern.</span>
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card shadow p-3" style="background-color: #fef9e7;">
+        <h5 class="card-title text-dark">📱 Home Tech</h5>
+        <p class="card-text">
+          Siap hadir <strong>September 2025</strong><br>
+          <span class="text-muted">80 produk teknologi dapur & kamar.</span>
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card shadow p-3" style="background-color: #fef9e7;">
+        <h5 class="card-title text-dark">🌱 Eco Living</h5>
+        <p class="card-text">
+          Rilis <strong>Oktober 2025</strong><br>
+          <span class="text-muted">Produk ramah lingkungan untuk rumah hijau.</span>
+        </p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card shadow p-3" style="background-color: #fef9e7;">
+        <h5 class="card-title text-dark">🛋️ Modular Sofa</h5>
+        <p class="card-text">
+          Hadir <strong>November 2025</strong><br>
+          <span class="text-muted">Sofa fleksibel untuk berbagai gaya ruang.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- END UPCOMING CARD KANAN -->    
+
+<!-- CDN APEXCHARTS -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<!-- Chart Script -->
+<script>
+  const categoryLabels = [
+    "Furniture", "Lighting", "Storage", "Bedroom", "Living Room",
+    "Kitchen", "Dining", "Office", "Outdoor", "Textiles",
+    "Decoration", "Bathroom", "Children", "Appliances", "Rugs",
+    "Curtains", "Tableware", "Cookware", "Laundry", "Cleaning", "Pet"
+  ];
+
+  const categoryValues = [
+    1200, 800, 950, 1000, 1100, 700, 600, 550, 400, 650,
+    300, 480, 500, 320, 430, 290, 510, 620, 230, 190, 100
+  ];
+
+  // Warna RGB Merah, Biru, Hijau
+  const rgbColors = [
+    "rgb(255, 99, 132)",   // merah
+    "rgb(54, 162, 235)",   // biru
+    "rgb(75, 192, 192)"    // hijau
+  ];
+
+  // Mengulang warna untuk setiap kategori
+  const repeatedColors = categoryLabels.map((_, i) => rgbColors[i % rgbColors.length]);
+
+  // Donut Chart
+  var donutOptions = {
+    chart: { type: 'donut' },
+    series: categoryValues,
+    labels: categoryLabels,
+    colors: repeatedColors,
+    title: {
+      text: "Distribusi Produk per Kategori"
+    },
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: { width: 360 },
+        legend: { position: 'bottom' }
+      }
+    }]
+  };
+  var donutChart = new ApexCharts(document.querySelector("#donutChart"), donutOptions);
+  donutChart.render();
+
+  // Bar Chart
+  var barOptions = {
+    chart: {
+      type: 'bar',
+      height: 400
+    },
+    series: [{
+      name: "Jumlah Produk",
+      data: categoryValues
+    }],
+    colors: repeatedColors,
+    xaxis: {
+      categories: categoryLabels,
+      labels: { rotate: -45 }
+    },
+    title: {
+      text: "Jumlah Produk per Kategori",
+      align: 'center'
+    },
+    plotOptions: {
+      bar: {
+        distributed: true
+      }
+    }
+  };
+  var barChart = new ApexCharts(document.querySelector("#barChart"), barOptions);
+  barChart.render();
+</script>
+
+  
 <div class="card" id="filter_inputs">
 <div class="card-body pb-0">
 <div class="row">
@@ -726,6 +934,7 @@
 <img src="../assets/img/product/noimage.png" alt="product">
 </a>
 <a href="javascript:void(0);">Accessories</a>
+</td>
 <td>CT009</td>
 <td>Accessories Description</td>
 <td>Admin</td>
@@ -750,6 +959,7 @@
 <img src="../assets/img/product/noimage.png" alt="product">
 </a>
 <a href="javascript:void(0);">Accessories</a>
+</td>
 <td>CT0010</td>
 <td>Accessories Description</td>
 <td>Admin</td>
@@ -774,6 +984,7 @@
 <img src="../assets/img/product/noimage.png" alt="product">
 </a>
 <a href="javascript:void(0);">Accessories</a>
+</td>
 <td>CT008</td>
 <td>Accessories Description</td>
 <td>Admin</td>
@@ -798,6 +1009,7 @@
 <img src="../assets/img/product/noimage.png" alt="product">
 </a>
 <a href="javascript:void(0);">Accessories</a>
+</td>
 <td>CT009</td>
 <td>Accessories Description</td>
 <td>Admin</td>
@@ -822,6 +1034,7 @@
 <img src="../assets/img/product/noimage.png" alt="product">
 </a>
 <a href="javascript:void(0);">Accessories</a>
+</td>
 <td>CT0010</td>
 <td>Accessories Description</td>
 <td>Admin</td>
