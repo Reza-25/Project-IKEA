@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +45,7 @@ associated with your account.</h4>
 </div>
 </div>
 <div class="form-login">
-<a class="btn btn-login" href="signin.html">Submit</a>
+<a class="btn btn-login" href="signin.php">Submit</a>
 </div>
 </div>
 </div>

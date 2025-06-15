@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,10 +37,10 @@
 <div class="header">
 
 <div class="header-left active">
-<a href="index.html" class="logo">
+<a href="index.php" class="logo">
 <img src="assets/img/logo.png" alt="">
 </a>
-<a href="index.html" class="logo-small">
+<a href="index.php" class="logo-small">
 <img src="assets/img/logo-small.png" alt="">
 </a>
 <a id="toggle_btn" href="javascript:void(0);">
@@ -105,7 +108,7 @@
 <div class="noti-content">
 <ul class="notification-list">
 <li class="notification-message">
-<a href="activities.html">
+<a href="activities.php">
 <div class="media d-flex">
 <span class="avatar flex-shrink-0">
 <img alt="" src="assets/img/profiles/avatar-02.jpg">
@@ -118,7 +121,7 @@
 </a>
 </li>
 <li class="notification-message">
-<a href="activities.html">
+<a href="activities.php">
 <div class="media d-flex">
 <span class="avatar flex-shrink-0">
 <img alt="" src="assets/img/profiles/avatar-03.jpg">
@@ -131,7 +134,7 @@
 </a>
 </li>
 <li class="notification-message">
-<a href="activities.html">
+<a href="activities.php">
 <div class="media d-flex">
 <span class="avatar flex-shrink-0">
 <img alt="" src="assets/img/profiles/avatar-06.jpg">
@@ -144,7 +147,7 @@
 </a>
 </li>
 <li class="notification-message">
-<a href="activities.html">
+<a href="activities.php">
 <div class="media d-flex">
 <span class="avatar flex-shrink-0">
 <img alt="" src="assets/img/profiles/avatar-17.jpg">
@@ -157,7 +160,7 @@
 </a>
 </li>
 <li class="notification-message">
-<a href="activities.html">
+<a href="activities.php">
 <div class="media d-flex">
 <span class="avatar flex-shrink-0">
 <img alt="" src="assets/img/profiles/avatar-13.jpg">
@@ -172,7 +175,7 @@
 </ul>
 </div>
 <div class="topnav-dropdown-footer">
-<a href="activities.html">View all Notifications</a>
+<a href="activities.php">View all Notifications</a>
 </div>
 </div>
 </li>
@@ -193,10 +196,10 @@
 </div>
 </div>
 <hr class="m-0">
-<a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My Profile</a>
-<a class="dropdown-item" href="generalsettings.html"><i class="me-2" data-feather="settings"></i>Settings</a>
+<a class="dropdown-item" href="profile.php"> <i class="me-2" data-feather="user"></i> My Profile</a>
+<a class="dropdown-item" href="generalsettings.php"><i class="me-2" data-feather="settings"></i>Settings</a>
 <hr class="m-0">
-<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+<a class="dropdown-item logout pb-0" href="signin.php"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
 </div>
 </div>
 </li>
@@ -206,9 +209,9 @@
 <div class="dropdown mobile-user-menu">
 <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 <div class="dropdown-menu dropdown-menu-right">
-<a class="dropdown-item" href="profile.html">My Profile</a>
-<a class="dropdown-item" href="generalsettings.html">Settings</a>
-<a class="dropdown-item" href="signin.html">Logout</a>
+<a class="dropdown-item" href="profile.php">My Profile</a>
+<a class="dropdown-item" href="generalsettings.php">Settings</a>
+<a class="dropdown-item" href="signin.php">Logout</a>
 </div>
 </div>
 
@@ -220,212 +223,212 @@
 <div id="sidebar-menu" class="sidebar-menu">
 <ul>
 <li>
-<a href="index.html"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
+<a href="index.php"><img src="assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="productlist.html">Product List</a></li>
-<li><a href="addproduct.html">Add Product</a></li>
-<li><a href="categorylist.html">Category List</a></li>
-<li><a href="addcategory.html">Add Category</a></li>
-<li><a href="subcategorylist.html">Sub Category List</a></li>
-<li><a href="subaddcategory.html">Add Sub Category</a></li>
-<li><a href="brandlist.html">Brand List</a></li>
-<li><a href="addbrand.html">Add Brand</a></li>
-<li><a href="importproduct.html">Import Products</a></li>
-<li><a href="barcode.html">Print Barcode</a></li>
+<li><a href="productlist.php">Product List</a></li>
+<li><a href="addproduct.php">Add Product</a></li>
+<li><a href="categorylist.php">Category List</a></li>
+<li><a href="addcategory.php">Add Category</a></li>
+<li><a href="subcategorylist.php">Sub Category List</a></li>
+<li><a href="subaddcategory.php">Add Sub Category</a></li>
+<li><a href="brandlist.php">Brand List</a></li>
+<li><a href="addbrand.php">Add Brand</a></li>
+<li><a href="importproduct.php">Import Products</a></li>
+<li><a href="barcode.php">Print Barcode</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="saleslist.html">Sales List</a></li>
-<li><a href="pos.html">POS</a></li>
-<li><a href="pos.html">New Sales</a></li>
-<li><a href="salesreturnlists.html">Sales Return List</a></li>
-<li><a href="createsalesreturns.html">New Sales Return</a></li>
+<li><a href="saleslist.php">Sales List</a></li>
+<li><a href="pos.php">POS</a></li>
+<li><a href="pos.php">New Sales</a></li>
+<li><a href="salesreturnlists.php">Sales Return List</a></li>
+<li><a href="createsalesreturns.php">New Sales Return</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img"><span> Purchase</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="purchaselist.html">Purchase List</a></li>
-<li><a href="addpurchase.html">Add Purchase</a></li>
-<li><a href="importpurchase.html">Import Purchase</a></li>
+<li><a href="purchaselist.php">Purchase List</a></li>
+<li><a href="addpurchase.php">Add Purchase</a></li>
+<li><a href="importpurchase.php">Import Purchase</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/expense1.svg" alt="img"><span> Expense</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="expenselist.html">Expense List</a></li>
-<li><a href="createexpense.html">Add Expense</a></li>
-<li><a href="expensecategory.html">Expense Category</a></li>
+<li><a href="expenselist.php">Expense List</a></li>
+<li><a href="createexpense.php">Add Expense</a></li>
+<li><a href="expensecategory.php">Expense Category</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/quotation1.svg" alt="img"><span> Quotation</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="quotationList.html">Quotation List</a></li>
-<li><a href="addquotation.html">Add Quotation</a></li>
+<li><a href="quotationList.php">Quotation List</a></li>
+<li><a href="addquotation.php">Add Quotation</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/transfer1.svg" alt="img"><span> Transfer</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="transferlist.html">Transfer List</a></li>
-<li><a href="addtransfer.html">Add Transfer </a></li>
-<li><a href="importtransfer.html">Import Transfer </a></li>
+<li><a href="transferlist.php">Transfer List</a></li>
+<li><a href="addtransfer.php">Add Transfer </a></li>
+<li><a href="importtransfer.php">Import Transfer </a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/return1.svg" alt="img"><span> Return</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="salesreturnlist.html">Sales Return List</a></li>
-<li><a href="createsalesreturn.html">Add Sales Return </a></li>
-<li><a href="purchasereturnlist.html">Purchase Return List</a></li>
-<li><a href="createpurchasereturn.html">Add Purchase Return </a></li>
+<li><a href="salesreturnlist.php">Sales Return List</a></li>
+<li><a href="createsalesreturn.php">Add Sales Return </a></li>
+<li><a href="purchasereturnlist.php">Purchase Return List</a></li>
+<li><a href="createpurchasereturn.php">Add Purchase Return </a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span> People</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="customerlist.html">Customer List</a></li>
-<li><a href="addcustomer.html">Add Customer </a></li>
-<li><a href="supplierlist.html">Supplier List</a></li>
-<li><a href="addsupplier.html">Add Supplier </a></li>
-<li><a href="userlist.html">User List</a></li>
-<li><a href="adduser.html">Add User</a></li>
-<li><a href="storelist.html">Store List</a></li>
-<li><a href="addstore.html">Add Store</a></li>
+<li><a href="customerlist.php">Customer List</a></li>
+<li><a href="addcustomer.php">Add Customer </a></li>
+<li><a href="supplierlist.php">Supplier List</a></li>
+<li><a href="addsupplier.php">Add Supplier </a></li>
+<li><a href="userlist.php">User List</a></li>
+<li><a href="adduser.php">Add User</a></li>
+<li><a href="storelist.php">Store List</a></li>
+<li><a href="addstore.php">Add Store</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/places.svg" alt="img"><span> Places</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="newcountry.html">New Country</a></li>
-<li><a href="countrieslist.html">Countries list</a></li>
-<li><a href="newstate.html">New State </a></li>
-<li><a href="statelist.html">State list</a></li>
+<li><a href="newcountry.php">New Country</a></li>
+<li><a href="countrieslist.php">Countries list</a></li>
+<li><a href="newstate.php">New State </a></li>
+<li><a href="statelist.php">State list</a></li>
 </ul>
 </li>
 <li>
-<a href="components.html"><i data-feather="layers"></i><span> Components</span> </a>
+<a href="components.php"><i data-feather="layers"></i><span> Components</span> </a>
 </li>
 <li>
-<a href="blankpage.html"><i data-feather="file"></i><span> Blank Page</span> </a>
+<a href="blankpage.php"><i data-feather="file"></i><span> Blank Page</span> </a>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="alert-octagon"></i> <span> Error Pages </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="error-404.html">404 Error </a></li>
-<li><a href="error-500.html">500 Error </a></li>
+<li><a href="error-404.php">404 Error </a></li>
+<li><a href="error-500.php">500 Error </a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="sweetalerts.html">Sweet Alerts</a></li>
-<li><a href="tooltip.html">Tooltip</a></li>
-<li><a href="popover.html">Popover</a></li>
-<li><a href="ribbon.html">Ribbon</a></li>
-<li><a href="clipboard.html">Clipboard</a></li>
-<li><a href="drag-drop.html">Drag & Drop</a></li>
-<li><a href="rangeslider.html">Range Slider</a></li>
-<li><a href="rating.html">Rating</a></li>
-<li><a href="toastr.html">Toastr</a></li>
-<li><a href="text-editor.html">Text Editor</a></li>
-<li><a href="counter.html">Counter</a></li>
-<li><a href="scrollbar.html">Scrollbar</a></li>
-<li><a href="spinner.html">Spinner</a></li>
-<li><a href="notification.html">Notification</a></li>
-<li><a href="lightbox.html">Lightbox</a></li>
-<li><a href="stickynote.html">Sticky Note</a></li>
-<li><a href="timeline.html">Timeline</a></li>
-<li><a href="form-wizard.html">Form Wizard</a></li>
+<li><a href="sweetalerts.php">Sweet Alerts</a></li>
+<li><a href="tooltip.php">Tooltip</a></li>
+<li><a href="popover.php">Popover</a></li>
+<li><a href="ribbon.php">Ribbon</a></li>
+<li><a href="clipboard.php">Clipboard</a></li>
+<li><a href="drag-drop.php">Drag & Drop</a></li>
+<li><a href="rangeslider.php">Range Slider</a></li>
+<li><a href="rating.php">Rating</a></li>
+<li><a href="toastr.php">Toastr</a></li>
+<li><a href="text-editor.php">Text Editor</a></li>
+<li><a href="counter.php">Counter</a></li>
+<li><a href="scrollbar.php">Scrollbar</a></li>
+<li><a href="spinner.php">Spinner</a></li>
+<li><a href="notification.php">Notification</a></li>
+<li><a href="lightbox.php">Lightbox</a></li>
+<li><a href="stickynote.php">Sticky Note</a></li>
+<li><a href="timeline.php">Timeline</a></li>
+<li><a href="form-wizard.php">Form Wizard</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="chart-apex.html">Apex Charts</a></li>
-<li><a href="chart-js.html">Chart Js</a></li>
- <li><a href="chart-morris.html">Morris Charts</a></li>
-<li><a href="chart-flot.html">Flot Charts</a></li>
-<li><a href="chart-peity.html">Peity Charts</a></li>
+<li><a href="chart-apex.php">Apex Charts</a></li>
+<li><a href="chart-js.php">Chart Js</a></li>
+ <li><a href="chart-morris.php">Morris Charts</a></li>
+<li><a href="chart-flot.php">Flot Charts</a></li>
+<li><a href="chart-peity.php">Peity Charts</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="icon-fontawesome.html">Fontawesome Icons</a></li>
-<li><a href="icon-feather.html">Feather Icons</a></li>
-<li><a href="icon-ionic.html">Ionic Icons</a></li>
-<li><a href="icon-material.html">Material Icons</a></li>
-<li><a href="icon-pe7.html">Pe7 Icons</a></li>
-<li><a href="icon-simpleline.html">Simpleline Icons</a></li>
-<li><a href="icon-themify.html">Themify Icons</a></li>
-<li><a href="icon-weather.html">Weather Icons</a></li>
-<li><a href="icon-typicon.html">Typicon Icons</a></li>
-<li><a href="icon-flag.html">Flag Icons</a></li>
+<li><a href="icon-fontawesome.php">Fontawesome Icons</a></li>
+<li><a href="icon-feather.php">Feather Icons</a></li>
+<li><a href="icon-ionic.php">Ionic Icons</a></li>
+<li><a href="icon-material.php">Material Icons</a></li>
+<li><a href="icon-pe7.php">Pe7 Icons</a></li>
+<li><a href="icon-simpleline.php">Simpleline Icons</a></li>
+<li><a href="icon-themify.php">Themify Icons</a></li>
+<li><a href="icon-weather.php">Weather Icons</a></li>
+<li><a href="icon-typicon.php">Typicon Icons</a></li>
+<li><a href="icon-flag.php">Flag Icons</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="form-basic-inputs.html">Basic Inputs </a></li>
-<li><a href="form-input-groups.html">Input Groups </a></li>
-<li><a href="form-horizontal.html">Horizontal Form </a></li>
-<li><a href="form-vertical.html"> Vertical Form </a></li>
-<li><a href="form-mask.html">Form Mask </a></li>
-<li><a href="form-validation.html">Form Validation </a></li>
-<li><a href="form-select2.html" class="active">Form Select2 </a></li>
-<li><a href="form-fileupload.html">File Upload </a></li>
+<li><a href="form-basic-inputs.php">Basic Inputs </a></li>
+<li><a href="form-input-groups.php">Input Groups </a></li>
+<li><a href="form-horizontal.php">Horizontal Form </a></li>
+<li><a href="form-vertical.php"> Vertical Form </a></li>
+<li><a href="form-mask.php" class="active">Form Mask </a></li>
+<li><a href="form-validation.php">Form Validation </a></li>
+<li><a href="form-select2.php">Form Select2 </a></li>
+<li><a href="form-fileupload.php">File Upload </a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="tables-basic.html">Basic Tables </a></li>
-<li><a href="data-tables.html">Data Table </a></li>
+<li><a href="tables-basic.php">Basic Tables </a></li>
+<li><a href="data-tables.php">Data Table </a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Application</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="chat.html">Chat</a></li>
-<li><a href="calendar.html">Calendar</a></li>
-<li><a href="email.html">Email</a></li>
+<li><a href="chat.php">Chat</a></li>
+<li><a href="calendar.php">Calendar</a></li>
+<li><a href="email.php">Email</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span> Report</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="purchaseorderreport.html">Purchase order report</a></li>
- <li><a href="inventoryreport.html">Inventory Report</a></li>
-<li><a href="salesreport.html">Sales Report</a></li>
-<li><a href="invoicereport.html">Invoice Report</a></li>
-<li><a href="purchasereport.html">Purchase Report</a></li>
-<li><a href="supplierreport.html">Supplier Report</a></li>
-<li><a href="customerreport.html">Customer Report</a></li>
+<li><a href="purchaseorderreport.php">Purchase order report</a></li>
+ <li><a href="inventoryreport.php">Inventory Report</a></li>
+<li><a href="salesreport.php">Sales Report</a></li>
+<li><a href="invoicereport.php">Invoice Report</a></li>
+<li><a href="purchasereport.php">Purchase Report</a></li>
+<li><a href="supplierreport.php">Supplier Report</a></li>
+<li><a href="customerreport.php">Customer Report</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span> Users</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="newuser.html">New User </a></li>
-<li><a href="userlists.html">Users List</a></li>
+<li><a href="newuser.php">New User </a></li>
+<li><a href="userlists.php">Users List</a></li>
 </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/settings.svg" alt="img"><span> Settings</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="generalsettings.html">General Settings</a></li>
-<li><a href="emailsettings.html">Email Settings</a></li>
-<li><a href="paymentsettings.html">Payment Settings</a></li>
-<li><a href="currencysettings.html">Currency Settings</a></li>
-<li><a href="grouppermissions.html">Group Permissions</a></li>
-<li><a href="taxrates.html">Tax Rates</a></li>
+<li><a href="generalsettings.php">General Settings</a></li>
+<li><a href="emailsettings.php">Email Settings</a></li>
+<li><a href="paymentsettings.php">Payment Settings</a></li>
+<li><a href="currencysettings.php">Currency Settings</a></li>
+<li><a href="grouppermissions.php">Group Permissions</a></li>
+<li><a href="taxrates.php">Tax Rates</a></li>
 </ul>
 </li>
 </ul>
@@ -439,159 +442,70 @@
 <div class="page-header">
 <div class="row">
 <div class="col-sm-12">
-<h3 class="page-title">Form Select2</h3>
+<h3 class="page-title">Form Mask</h3>
 <ul class="breadcrumb">
-<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-<li class="breadcrumb-item active">Form Select2</li>
+<li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
+<li class="breadcrumb-item active">Form Mask</li>
 </ul>
 </div>
 </div>
 </div>
 
 <div class="row">
-<div class="col-md-6">
-
+<div class="col-sm-12">
 <div class="card">
 <div class="card-header">
-<h5 class="card-title">Basic</h5>
+<h5 class="card-title">Form Mask</h5>
+<p class="card-text">Input masks can be used to force the user to enter data conform a specific format. Unlike validation, the user can't enter any other key than the ones specified by the mask.</p>
 </div>
 <div class="card-body">
-<div class="row">
-<div class="col-md-12">
-<p>Use select2() function on select element to convert it to Select 2.</p>
-<select class="js-example-basic-single select2">
-<option selected="selected">orange</option>
-<option>white</option>
-<option>purple</option>
-</select>
+<form action="#">
+<div class="form-group">
+<label>Phone</label>
+<input type="text" id="phone" class="form-control">
+<span class="form-text text-muted">(999) 999-9999</span>
 </div>
+<div class="form-group">
+<label>Date</label>
+<input type="text" id="date" class="form-control">
+<span class="form-text text-muted">dd/mm/yyyy</span>
 </div>
+<div class="form-group">
+<label>SSN field 1</label>
+<input type="text" id="ssn" class="form-control">
+<span class="form-text text-muted">e.g "999-99-9999"</span>
 </div>
+<div class="form-group">
+<label>Phone field + ext.</label>
+<input type="text" id="phoneExt" class="form-control">
+<span class="form-text text-muted">+40 999 999 999</span>
+ </div>
+<div class="form-group">
+<label>Product Key</label>
+<input type="text" id="product" class="form-control">
+<span class="form-text text-muted">e.g a*-999-a999</span>
 </div>
-
-
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Nested</h5>
+<div class="form-group">
+<label>Currency</label>
+<input type="text" id="currency" class="form-control">
+<span class="form-text text-muted">$ 999,999,999.99</span>
 </div>
-<div class="card-body">
-<div class="row">
-<div class="col-md-12">
-<p>Add options inside the optgroups to for group options.</p>
-<select class="form-control nested">
-<optgroup label="Group1">
-<option selected="selected">orange</option>
-<option>white</option>
-<option>purple</option>
-</optgroup>
-<optgroup label="Group2">
-<option>purple</option>
-<option>orange</option>
-<option>white</option>
-</optgroup>
-<optgroup label="Group3">
-<option>white</option>
-<option>purple</option>
-<option>orange</option>
-</optgroup>
-</select>
+<div class="form-group">
+<label>Eye Script</label>
+<input type="text" id="eyescript" class="form-control">
+<span class="form-text text-muted">~9.99 ~9.99 999</span>
 </div>
+<div class="form-group">
+<label>Percent</label>
+<input type="text" id="pct" class="form-control">
+<span class="form-text text-muted">e.g "99%"</span>
 </div>
+<div class="form-group mb-0">
+<label>Credit Card Number</label>
+<input type="text" class="form-control" id="ccn">
+<span class="form-text text-muted">e.g "999.999.999.9999"</span>
 </div>
-</div>
-
-
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Placeholder</h5>
-</div>
-<div class="card-body">
-<div class="row">
-<div class="col-md-12">
-<p>Apply Placeholder by setting option placeholder option.</p>
-<select class="placeholder js-states form-control">
-<option>Choose...</option>
-<option value="one">First</option>
-<option value="two">Second</option>
-<option value="three">Third</option>
-<option value="four">Fourth</option>
-<option value="five">Fifth</option>
-</select>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Tagging with multi-value select boxes</h5>
-</div>
-<div class="card-body">
-<div class="row">
-<div class="col-md-12">
-<p>Set tags: true to convert select 2 in Tag mode.</p>
-<select class="form-control tagging" multiple="multiple">
-<option>orange</option>
-<option>white</option>
-<option>purple</option>
-</select>
-</div>
-</div>
-</div>
-</div>
-
-</div>
-<div class="col-md-6">
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Small Select2</h5>
-</div>
-<div class="card-body">
-<div class="row">
-<div class="col-md-12">
-<p>Use data('select2') function to get container of select2.</p>
-<select class="form-control form-small select">
-<option selected="selected">orange</option>
-<option>white</option>
-<option>purple</option>
-</select>
-</div>
-</div>
-</div>
-</div>
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Disabling options</h5>
-</div>
-<div class="card-body">
-<div class="row">
-<div class="col-md-12">
-<p>Disable Select using disabled attribute.</p>
-<select class="form-control disabled-results">
-<option value="one">First</option>
-<option value="two" disabled="disabled">Second</option>
-<option value="three">Third</option>
-</select>
-</div>
-</div>
-</div>
-</div>
-<div class="card">
-<div class="card-header">
-<h5 class="card-title">Limiting the number of Tagging</h5>
-</div>
-<div class="card-body">
-<div class="row">
-<div class="col-md-12">
-<p>Set maximumSelectionLength: 2 with tags: true to limit selectin in Tag mode.</p>
-<select class="form-control tagging" multiple="multiple">
-<option>orange</option>
-<option>white</option>
-<option>purple</option>
-</select>
-</div>
-</div>
+</form>
 </div>
 </div>
 </div>
@@ -608,7 +522,6 @@
 <script src="assets/js/jquery.slimscroll.min.js"></script>
 
 <script src="assets/plugins/select2/js/select2.min.js"></script>
-<script src="assets/plugins/select2/js/custom-select.js"></script>
 
 <script src="assets/js/jquery.dataTables.min.js"></script>
 <script src="assets/js/dataTables.bootstrap4.min.js"></script>
