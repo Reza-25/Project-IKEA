@@ -428,6 +428,7 @@
 </div>
 <!-- SIDEBAR END -->
 
+
 <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
 <div class="content">
@@ -472,6 +473,8 @@
 </div>
 </div>
 <!-- BAGIAN ATAS END -->
+
+
 
 <!-- TABLE TOTAL CATEGORY, TOTAL PRODUK, UPCOMING CATEGORY & PRODUCT  -->
 <div class="row justify-content-end">
@@ -522,14 +525,15 @@
 </div>
 <!-- END -->
 
+
 <!-- CHART -->
 <!-- ROW CHART + CARD -->
 <div class="row mt-4">
   <!-- DONUT CHART KIRI -->
   <div class="col-md-6">
     <div class="card h-100">
-      <div class="card-header bg-primary text-white">
-        <h5 class="card-title mb-0">Distribusi Produk IKEA</h5>
+      <div class="text-center card-header text-white" style="background-color: rgb(100, 149, 237);">
+        <h5 class="card-title mb-0">Distribusi Produk per Kategori </h5>
       </div>
       <div class="card-body" style="overflow-y: auto; max-height: 500px;">
         <div id="donutChart"></div>
@@ -609,10 +613,10 @@
   ];
 
   // Warna RGB Merah, Biru, Hijau
-  const rgbColors = [
-    "rgb(255, 99, 132)",   // merah
-    "rgb(54, 162, 235)",   // biru
-    "rgb(75, 192, 192)"    // hijau
+ const rgbColors = [
+  "rgb(72, 61, 139)",    // dark slate blue
+  "rgb(100, 149, 237)",  // cornflower blue
+  "rgb(119, 136, 153)"   // light slate gray
   ];
 
   // Mengulang warna untuk setiap kategori
@@ -625,7 +629,7 @@
     labels: categoryLabels,
     colors: repeatedColors,
     title: {
-      text: "Distribusi Produk per Kategori"
+      // text: "Distribusi Produk per Kategori"
     },
     responsive: [{
       breakpoint: 480,
@@ -667,7 +671,7 @@
   barChart.render();
 </script>
 
-  
+<!-- CATEGORY PRODUCT -->
 <div class="card" id="filter_inputs">
 <div class="card-body pb-0">
 <div class="row">
@@ -1075,5 +1079,6 @@
 <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
 
 <script src="../assets/js/script.js"></script>
+
 </body>
 </html>
