@@ -1,7 +1,7 @@
 <?php
 
 ?>
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -12,13 +12,15 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Dreams Pos admin template</title>
 
-<!-- hai -->
-
 <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
 
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+
 <link rel="stylesheet" href="assets/css/animate.css">
+
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
 
 <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
 
@@ -180,7 +182,7 @@
 <a href="activities.html">View all Notifications</a>
 </div>
 </div>
-</li>
+</li> 
 
 <li class="nav-item dropdown has-arrow main-drop">
 <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
@@ -234,7 +236,7 @@
 <li><a href="addproduct.html">Add Product</a></li>
 <li><a href="categorylist.html">Category List</a></li>
 <li><a href="addcategory.html">Add Category</a></li>
-<li><a href="subcategorylist.html">Sub Category List</a></li>
+<li><a href="subcategorylist.html" class="active">Sub Category List</a></li>
 <li><a href="subaddcategory.html">Add Sub Category</a></li>
 <li><a href="brandlist.html">Brand List</a></li>
 <li><a href="addbrand.html">Add Brand</a></li>
@@ -267,8 +269,7 @@
 <li><a href="createexpense.html">Add Expense</a></li>
 <li><a href="expensecategory.html">Expense Category</a></li>
 </ul>
-</li>
-<li class="submenu">
+</li> <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/quotation1.svg" alt="img"><span> Quotation</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="quotationList.html">Quotation List</a></li>
@@ -328,6 +329,82 @@
 </ul>
 </li>
 <li class="submenu">
+<a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="sweetalerts.html">Sweet Alerts</a></li>
+<li><a href="tooltip.html">Tooltip</a></li>
+<li><a href="popover.html">Popover</a></li>
+<li><a href="ribbon.html">Ribbon</a></li>
+<li><a href="clipboard.html">Clipboard</a></li>
+<li><a href="drag-drop.html">Drag & Drop</a></li>
+<li><a href="rangeslider.html">Range Slider</a></li>
+<li><a href="rating.html">Rating</a></li>
+<li><a href="toastr.html">Toastr</a></li>
+<li><a href="text-editor.html">Text Editor</a></li>
+<li><a href="counter.html">Counter</a></li>
+<li><a href="scrollbar.html">Scrollbar</a></li>
+<li><a href="spinner.html">Spinner</a></li>
+<li><a href="notification.html">Notification</a></li>
+<li><a href="lightbox.html">Lightbox</a></li>
+<li><a href="stickynote.html">Sticky Note</a></li>
+<li><a href="timeline.html">Timeline</a></li>
+<li><a href="form-wizard.html">Form Wizard</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chart-apex.html">Apex Charts</a></li>
+<li><a href="chart-js.html">Chart Js</a></li>
+<li><a href="chart-morris.html">Morris Charts</a></li>
+<li><a href="chart-flot.html">Flot Charts</a></li>
+<li><a href="chart-peity.html">Peity Charts</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="icon-fontawesome.html">Fontawesome Icons</a></li>
+<li><a href="icon-feather.html">Feather Icons</a></li>
+<li><a href="icon-ionic.html">Ionic Icons</a></li>
+<li><a href="icon-material.html">Material Icons</a></li>
+<li><a href="icon-pe7.html">Pe7 Icons</a></li>
+<li><a href="icon-simpleline.html">Simpleline Icons</a></li>
+<li><a href="icon-themify.html">Themify Icons</a></li>
+<li><a href="icon-weather.html">Weather Icons</a></li>
+<li><a href="icon-typicon.html">Typicon Icons</a></li>
+<li><a href="icon-flag.html">Flag Icons</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="form-basic-inputs.html">Basic Inputs </a></li>
+<li><a href="form-input-groups.html">Input Groups </a></li>
+<li><a href="form-horizontal.html">Horizontal Form </a></li>
+<li><a href="form-vertical.html"> Vertical Form </a></li>
+<li><a href="form-mask.html">Form Mask </a></li>
+<li><a href="form-validation.html">Form Validation </a></li>
+<li><a href="form-select2.html">Form Select2 </a></li>
+<li><a href="form-fileupload.html">File Upload </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="tables-basic.html">Basic Tables </a></li>
+<li><a href="data-tables.html">Data Table </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Application</span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chat.html">Chat</a></li>
+<li><a href="calendar.html">Calendar</a></li>
+<li><a href="email.html">Email</a></li>
+</ul>
+</li>
+<li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span> Report</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="purchaseorderreport.html">Purchase order report</a></li>
@@ -336,7 +413,7 @@
 <li><a href="invoicereport.html">Invoice Report</a></li>
 <li><a href="purchasereport.html">Purchase Report</a></li>
 <li><a href="supplierreport.html">Supplier Report</a></li>
-<li><a href="customerreport.html">Customer Report</a></li>
+ <li><a href="customerreport.html" class="active">Customer Report</a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -366,76 +443,328 @@
 <div class="content">
 <div class="page-header">
 <div class="page-title">
-<h4>All Notifications</h4>
-<h6>View your all activities</h6>
+<h4>Customer Report</h4>
+<h6>Manage your Customer Report</h6>
 </div>
 </div>
 
-<div class="activity">
-<div class="activity-box">
-<ul class="activity-list">
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile3.jpg" class=" img-fluid">
+<div class="card">
+<div class="card-body">
+<div class="table-top">
+<div class="search-set">
+<div class="search-path">
+<a class="btn btn-filter" id="filter_search">
+<img src="assets/img/icons/filter.svg" alt="img">
+<span><img src="assets/img/icons/closes.svg" alt="img"></span>
 </a>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elwis Mathew </a> added a new product <a href="javascript:void(0);">Redmi Pro 7 Mobile</a>
-<span class="time">4 mins ago</span>
+<div class="search-input">
+<a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
 </div>
 </div>
+<div class="wordset">
+<ul>
+<li>
+<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
 </li>
 <li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elizabeth Olsen</a> added a new product category <a href="javascript:void(0);">Desktop Computers</a>
-<span class="time">6 mins ago</span>
-</div>
-</div>
+<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
 </li>
 <li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile5.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">William Smith</a> added a new sales list for<a href="javascript:void(0);">January Month</a>
-<span class="time">12 mins ago</span>
-</div>
-</div>
-</div>
-</li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/customer4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Lesley Grauer</a> has updated invoice <a href="javascript:void(0);">#987654</a>
-<span class="time">4 mins ago</span>
-</div>
-</div>
+<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
 </li>
 </ul>
 </div>
 </div>
 
+<div class="card" id="filter_inputs">
+<div class="card-body pb-0">
+<div class="row">
+<div class="col-lg-2 col-sm-6 col-12">
+<div class="form-group">
+<div class="input-groupicon">
+<input type="text" placeholder="From Date" class="datetimepicker">
+<div class="addonset">
+<img src="assets/img/icons/calendars.svg" alt="img">
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-2 col-sm-6 col-12">
+<div class="form-group">
+<div class="input-groupicon">
+<input type="text" placeholder="To Date" class="datetimepicker">
+<div class="addonset">
+<img src="assets/img/icons/calendars.svg" alt="img">
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-1 col-sm-6 col-12 ms-auto">
+<div class="form-group">
+<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+</div>
+</div>
 </div>
 </div>
 </div>
 
+<div class="table-responsive">
+<table class="table datanew">
+<thead>
+<tr>
+<th>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</th>
+<th>Customer code</th>
+<th>Customer name </th>
+<th>Amount</th>
+<th>Paid</th>
+<th>Amount due</th>
+<th>Status</th>
+<th>Paument Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1001</td>
+<td>Thomas21</td>
+<td>1500.00</td>
+<td>1500.00</td>
+<td>1500.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgreen">Paid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1002</td>
+<td>504Benjamin</td>
+<td>10.00</td>
+<td>10.00</td>
+<td>10.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightred">Overdue</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1003</td>
+<td>James 524</td>
+<td>10.00</td>
+<td>10.00</td>
+<td>10.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightred">Overdue</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1004</td>
+<td>Bruklin2022</td>
+<td>10.00</td>
+<td>10.00</td>
+<td>10.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgreen">Paid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1005</td>
+<td>BeverlyWIN25</td>
+<td>150.00</td>
+<td>150.00</td>
+<td>150.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightred">Overdue</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1006</td>
+<td>BHR256</td>
+<td>100.00</td>
+<td>100.00</td>
+<td>100.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightred">Overdue</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1007</td>
+<td>Alwin243</td>
+<td>5.00</td>
+<td>5.00</td>
+<td>5.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgreen">Paid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+ <span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1008</td>
+<td>FredJ25</td>
+<td>10.00</td>
+<td>10.00</td>
+<td>10.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgrey">Unpaid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1009</td>
+<td>FredJ25</td>
+<td>10.00</td>
+<td>10.00</td>
+<td>10.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgrey">Unpaid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1010</td>
+<td>Cras56</td>
+<td>15.00</td>
+<td>15.00</td>
+<td>15.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgrey">Unpaid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1011</td>
+<td>Grace2022</td>
+<td>15.00</td>
+<td>15.00</td>
+<td>15.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgrey">Unpaid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1011</td>
+<td>Cras56</td>
+<td>15.00</td>
+<td>15.00</td>
+<td>15.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgrey">Unpaid</span></td>
+</tr>
+<tr>
+<td>
+<label class="checkboxs">
+<input type="checkbox">
+<span class="checkmarks"></span>
+</label>
+</td>
+<td>CT_1012</td>
+<td>Grace2022</td>
+<td>15.00</td>
+<td>15.00</td>
+<td>15.00</td>
+<td><span class="badges bg-lightgreen">Completed</span></td>
+<td><span class="badges bg-lightgrey">Unpaid</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="searchpart">
+<div class="searchcontent">
+<div class="searchhead">
+<h3>Search </h3>
+<a id="closesearch"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+</div>
+<div class="searchcontents">
+<div class="searchparts">
+<input type="text" placeholder="search here">
+<a class="btn btn-searchs">Search</a>
+</div>
+<div class="recentsearch">
+<h2>Recent Search</h2>
+<ul>
+<li>
+<h6><i class="fa fa-search me-2"></i> Settings</h6>
+</li>
+<li>
+<h6><i class="fa fa-search me-2"></i> Report</h6>
+</li>
+<li>
+<h6><i class="fa fa-search me-2"></i> Invoice</h6>
+</li>
+<li>
+<h6><i class="fa fa-search me-2"></i> Sales</h6>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 
@@ -448,7 +777,13 @@
 
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
 <script src="assets/plugins/select2/js/select2.min.js"></script>
+
+<script src="assets/js/moment.min.js"></script>
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>

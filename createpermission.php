@@ -12,8 +12,6 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Dreams Pos admin template</title>
 
-<!-- hai -->
-
 <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
 
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -102,7 +100,7 @@
 <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 <img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
 </a>
-<div class="dropdown-menu notifications">
+ <div class="dropdown-menu notifications">
 <div class="topnav-dropdown-header">
 <span class="notification-title">Notifications</span>
 <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
@@ -314,19 +312,6 @@
 <li><a href="statelist.html">State list</a></li>
 </ul>
 </li>
-<li>
-<a href="components.html"><i data-feather="layers"></i><span> Components</span> </a>
-</li>
-<li>
-<a href="blankpage.html"><i data-feather="file"></i><span> Blank Page</span> </a>
-</li>
-<li class="submenu">
-<a href="javascript:void(0);"><i data-feather="alert-octagon"></i> <span> Error Pages </span> <span class="menu-arrow"></span></a>
-<ul>
-<li><a href="error-404.html">404 Error </a></li>
-<li><a href="error-500.html">500 Error </a></li>
-</ul>
-</li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span> Report</span> <span class="menu-arrow"></span></a>
 <ul>
@@ -353,7 +338,7 @@
 <li><a href="emailsettings.html">Email Settings</a></li>
 <li><a href="paymentsettings.html">Payment Settings</a></li>
 <li><a href="currencysettings.html">Currency Settings</a></li>
-<li><a href="grouppermissions.html">Group Permissions</a></li>
+<li><a href="grouppermissions.html" class="active">Group Permissions</a></li>
 <li><a href="taxrates.html">Tax Rates</a></li>
 </ul>
 </li>
@@ -366,69 +351,694 @@
 <div class="content">
 <div class="page-header">
 <div class="page-title">
-<h4>All Notifications</h4>
-<h6>View your all activities</h6>
+<h4>Create Permission</h4>
+<h6>Manage Create Permissions</h6>
 </div>
 </div>
 
-<div class="activity">
-<div class="activity-box">
-<ul class="activity-list">
+<div class="card">
+<div class="card-body">
+<div class="row">
+<div class="col-lg-3 col-sm-12">
+<div class="form-group">
+<label>Role</label>
+<input type="text">
+</div>
+</div>
+<div class="col-lg-9 col-sm-12">
+<div class="form-group">
+<label>Role Description</label>
+<input type="text">
+</div>
+</div>
+<div class="col-12 mb-3">
+<div class="input-checkset">
+<ul>
 <li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile3.jpg" class=" img-fluid">
-</a>
+<label class="inputcheck">Select All
+<input type="checkbox" id="select-all">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elwis Mathew </a> added a new product <a href="javascript:void(0);">Redmi Pro 7 Mobile</a>
-<span class="time">4 mins ago</span>
 </div>
+</div>
+<div class="row">
+<div class="col-12">
+<div class="productdetails product-respon">
+<ul>
+<li>
+<h4>Users Management</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">View all records of all users
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
 </div>
 </li>
 <li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elizabeth Olsen</a> added a new product category <a href="javascript:void(0);">Desktop Computers</a>
-<span class="time">6 mins ago</span>
-</div>
+<h4>User Permission</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
 </div>
 </li>
 <li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile5.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">William Smith</a> added a new sales list for<a href="javascript:void(0);">January Month</a>
-<span class="time">12 mins ago</span>
-</div>
-</div>
+<h4>Products</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Barcode
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Import Products
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
 </div>
 </li>
 <li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/customer4.jpg" class=" img-fluid">
-</a>
+<h4>Adjustment</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Lesley Grauer</a> has updated invoice <a href="javascript:void(0);">#987654</a>
-<span class="time">4 mins ago</span>
+</li>
+<li>
+<h4>Transfer</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
 </div>
+</li>
+<li>
+<h4>Expenses</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+ </label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Sales</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Purchase</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Quotations</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Sales Return</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Purchase Return</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Payment Sales</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Payments purchase</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Payments Return</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Customer list</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Supplier List</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<h4>Reports</h4>
+<div class="input-checkset">
+<ul>
+<li>
+<label class="inputcheck">View
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Create
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Edit
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Delete
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+<li>
+<label class="inputcheck">Select All
+<input type="checkbox">
+<span class="checkmark"></span>
+</label>
+</li>
+</ul>
 </div>
 </li>
 </ul>
+</div>
+</div>
+</div>
 </div>
 </div>
 

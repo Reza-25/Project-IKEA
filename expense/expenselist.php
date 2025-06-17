@@ -38,7 +38,7 @@
     <div class="main-wrapper">
       <div class="header">
         <div class="header-left active">
-          <a href="index.php" class="logo">
+          <a href="index.html" class="logo">
             <img src="../assets/img/logo1.png" alt="" />
           </a>
           <a id="toggle_btn" href="javascript:void(0);"> </a>
@@ -205,31 +205,20 @@
           <div id="sidebar-menu" class="sidebar-menu">
             <ul>
               <li>
-                <a href="../index.php"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
+                <a href="../index.html"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
               </li>
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img" /><span> Product</span> <span class="menu-arrow"></span></a>
                 <ul>
                   <li><a href="../product/productlist.php">Product List</a></li>
-                  <li><a href="../product/addproduct.php">Add Product</a></li>
                   <li><a href="../product/categorylist.php">Category List</a></li>
-                  <li><a href="../product/addcategory.php">Add Category</a></li>
-                  <li><a href="../product/subcategorylist.php">Sub Category List</a></li>
-                  <li><a href="../product/subaddcategory.php">Add Sub Category</a></li>
                   <li><a href="../product/brandlist.php">Brand List</a></li>
-                  <li><a href="../product/addbrand.php">Add Brand</a></li>
-                  <li><a href="../product/importproduct.php">Import Products</a></li>
-                  <li><a href="../product/barcode.php">Print Barcode</a></li>
                 </ul>
               </li>
               <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Sales</span> <span class="menu-arrow"></span></a>
+                <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../sales/saleslist.php">Sales List</a></li>
-                  <li><a href="../sales/pos.php">POS</a></li>
-                  <li><a href="../sales/pos.php">New Sales</a></li>
-                  <li><a href="../sales/salesreturnlist.php">Sales Return List</a></li>
-                  <li><a href="../sales/createsalesreturn.php">New Sales Return</a></li>
+                  <li><a href="../supplier/supplierlist.php">Supplier List</a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -244,7 +233,6 @@
                 <a href="javascript:void(0);"><img src="../assets/img/icons/expense1.svg" alt="img" /><span> Expense</span> <span class="menu-arrow"></span></a>
                 <ul>
                   <li><a href="expenselist.php" class="active">Expense List</a></li>
-                  <li><a href="createexpense.php">Add Expense</a></li>
                   <li><a href="expensecategory.php">Expense Category</a></li>
                 </ul>
               </li>
@@ -256,11 +244,11 @@
                 </ul>
               </li>
               <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img" /><span> Transfer</span> <span class="menu-arrow"></span></a>
+                <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img" /><span> Inventory</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../transfer/transferlist.php">Transfer List</a></li>
-                  <li><a href="../transfer/addtransfer.php">Add Transfer </a></li>
-                  <li><a href="../transfer/importtransfer.php">Import Transfer </a></li>
+                <li><a href="../inventory/transferlist.php">Transfer List </a></li>
+                  <li><a href="../inventory/suplierreturn.php">Supplier Return </a></li>
+                  <li><a href="../inventory/customerreturn.php">Customer Return </a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -275,14 +263,10 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../people/customerlist.php">Customer List</a></li>
-                  <li><a href="../people/addcustomer.php">Add Customer </a></li>
-                  <li><a href="../people/supplierlist.php">Supplier List</a></li>
-                  <li><a href="../people/addsupplier.php">Add Supplier </a></li>
-                  <li><a href="../people/userlist.php">User List</a></li>
-                  <li><a href="../people/adduser.php">Add User</a></li>
-                  <li><a href="../people/storelist.php">Store List</a></li>
-                  <li><a href="../people/addstore.php">Add Store</a></li>
+                  <li><a href="customerlist.php">Customer List</a></li>
+                  <li><a href="supplierlist.php">Supplier List</a></li>
+                  <li><a href="userlist.php">User List</a></li>
+                  <li><a href="storelist.php">Store List</a></li>
                 </ul>
               </li>
               <li class="submenu">

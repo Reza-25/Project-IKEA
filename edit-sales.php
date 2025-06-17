@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 ?>
 <!DOCTYPE html>
@@ -12,11 +12,11 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Dreams Pos admin template</title>
 
-<!-- hai -->
-
 <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
 
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
 
 <link rel="stylesheet" href="assets/css/animate.css">
 
@@ -247,7 +247,7 @@
 <ul>
 <li><a href="saleslist.html">Sales List</a></li>
 <li><a href="pos.html">POS</a></li>
-<li><a href="pos.html">New Sales</a></li>
+<li><a href="pos.html" class="active">New Sales</a></li>
 <li><a href="salesreturnlists.html">Sales Return List</a></li>
 <li><a href="createsalesreturns.html">New Sales Return</a></li>
 </ul>
@@ -267,8 +267,7 @@
 <li><a href="createexpense.html">Add Expense</a></li>
 <li><a href="expensecategory.html">Expense Category</a></li>
 </ul>
-</li>
-<li class="submenu">
+</li> <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/quotation1.svg" alt="img"><span> Quotation</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="quotationList.html">Quotation List</a></li>
@@ -328,6 +327,82 @@
 </ul>
 </li>
 <li class="submenu">
+<a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="sweetalerts.html">Sweet Alerts</a></li>
+<li><a href="tooltip.html">Tooltip</a></li>
+<li><a href="popover.html">Popover</a></li>
+<li><a href="ribbon.html">Ribbon</a></li>
+<li><a href="clipboard.html">Clipboard</a></li>
+<li><a href="drag-drop.html">Drag & Drop</a></li>
+<li><a href="rangeslider.html">Range Slider</a></li>
+<li><a href="rating.html">Rating</a></li>
+<li><a href="toastr.html">Toastr</a></li>
+<li><a href="text-editor.html">Text Editor</a></li>
+<li><a href="counter.html">Counter</a></li>
+<li><a href="scrollbar.html">Scrollbar</a></li>
+<li><a href="spinner.html">Spinner</a></li>
+<li><a href="notification.html">Notification</a></li>
+<li><a href="lightbox.html">Lightbox</a></li>
+<li><a href="stickynote.html">Sticky Note</a></li>
+<li><a href="timeline.html">Timeline</a></li>
+<li><a href="form-wizard.html">Form Wizard</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chart-apex.html">Apex Charts</a></li>
+<li><a href="chart-js.html">Chart Js</a></li>
+<li><a href="chart-morris.html">Morris Charts</a></li>
+<li><a href="chart-flot.html">Flot Charts</a></li>
+<li><a href="chart-peity.html">Peity Charts</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="icon-fontawesome.html">Fontawesome Icons</a></li>
+<li><a href="icon-feather.html">Feather Icons</a></li>
+<li><a href="icon-ionic.html">Ionic Icons</a></li>
+<li><a href="icon-material.html">Material Icons</a></li>
+<li><a href="icon-pe7.html">Pe7 Icons</a></li>
+<li><a href="icon-simpleline.html">Simpleline Icons</a></li>
+<li><a href="icon-themify.html">Themify Icons</a></li>
+<li><a href="icon-weather.html">Weather Icons</a></li>
+<li><a href="icon-typicon.html">Typicon Icons</a></li>
+<li><a href="icon-flag.html">Flag Icons</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="form-basic-inputs.html">Basic Inputs </a></li>
+<li><a href="form-input-groups.html">Input Groups </a></li>
+<li><a href="form-horizontal.html">Horizontal Form </a></li>
+<li><a href="form-vertical.html"> Vertical Form </a></li>
+<li><a href="form-mask.html">Form Mask </a></li>
+<li><a href="form-validation.html">Form Validation </a></li>
+<li><a href="form-select2.html">Form Select2 </a></li>
+<li><a href="form-fileupload.html">File Upload </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="tables-basic.html">Basic Tables </a></li>
+<li><a href="data-tables.html">Data Table </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Application</span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chat.html">Chat</a></li>
+<li><a href="calendar.html">Calendar</a></li>
+<li><a href="email.html">Email</a></li>
+</ul>
+</li>
+<li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span> Report</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="purchaseorderreport.html">Purchase order report</a></li>
@@ -337,13 +412,13 @@
 <li><a href="purchasereport.html">Purchase Report</a></li>
 <li><a href="supplierreport.html">Supplier Report</a></li>
 <li><a href="customerreport.html">Customer Report</a></li>
-</ul>
+ </ul>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img"><span> Users</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="newuser.html">New User </a></li>
-<li><a href="userlists.html">Users List</a></li>
+<li><a href="userlist.html">Users List</a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -366,72 +441,200 @@
 <div class="content">
 <div class="page-header">
 <div class="page-title">
-<h4>All Notifications</h4>
-<h6>View your all activities</h6>
+<h4>Edit Sale</h4>
+<h6>Edit your sale details</h6>
 </div>
 </div>
-
-<div class="activity">
-<div class="activity-box">
-<ul class="activity-list">
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile3.jpg" class=" img-fluid">
+<div class="card">
+<div class="card-body">
+<div class="row">
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Customer</label>
+<div class="row">
+<div class="col-lg-10 col-sm-10 col-10">
+<select class="select">
+<option>walk-in-customer</option>
+<option>Customer Name</option>
+</select>
+</div>
+<div class="col-lg-2 col-sm-2 col-2 ps-0">
+<div class="add-icon">
+<span><img src="assets/img/icons/plus1.svg" alt="img"></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Customer</label>
+<div class="input-groupicon">
+<input type="text" class="datetimepicker" value="10-02-2022">
+<div class="addonset">
+<img src="assets/img/icons/calendars.svg" alt="img">
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Supplier</label>
+<select class="select">
+<option>Store 1</option>
+<option>Store 2</option>
+</select>
+</div>
+</div>
+<div class="col-lg-12 col-sm-6 col-12">
+<div class="form-group">
+<label>Product Name</label>
+<div class="input-groupicon">
+<input type="text" placeholder="Please type product code and select...">
+<div class="addonset">
+<img src="assets/img/icons/scanner.svg" alt="img">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="table-responsive mb-3">
+<table class="table">
+<thead>
+<tr>
+<th>#</th>
+<th>Product Name</th>
+<th>QTY</th>
+<th>Price</th>
+<th>Discount</th>
+<th>Tax</th>
+<th>Subtotal</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td class="productimgname">
+<a class="product-img">
+<img src="assets/img/product/product7.jpg" alt="product">
 </a>
+<a href="javascript:void(0);">Apple Earpods</a>
+</td>
+<td>1.00</td>
+<td>15000.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>1500.00</td>
+<td>
+<a href="javascript:void(0);" class="delete-set"><img src="assets/img/icons/delete.svg" alt="svg"></a>
+</td>
+</tr>
+<tr>
+<td>2</td>
+<td class="productimgname">
+<a class="product-img">
+<img src="assets/img/product/product8.jpg" alt="product">
+</a>
+<a href="javascript:void(0);">iPhone 11</a>
+</td>
+<td>1.00</td>
+<td>1500.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>1500.00</td>
+<td>
+<a href="javascript:void(0);" class="delete-set"><img src="assets/img/icons/delete.svg" alt="svg"></a>
+</td>
+</tr>
+<tr>
+<td>2</td>
+<td class="productimgname">
+<a class="product-img">
+<img src="assets/img/product/product1.jpg" alt="product">
+</a>
+<a href="javascript:void(0);">Macbook pro</a>
+</td>
+<td>1.00</td>
+<td>1500.00</td>
+<td>0.00</td>
+<td>0.00</td>
+<td>1500.00</td>
+<td>
+<a href="javascript:void(0);" class="delete-set"><img src="assets/img/icons/delete.svg" alt="svg"></a>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elwis Mathew </a> added a new product <a href="javascript:void(0);">Redmi Pro 7 Mobile</a>
-<span class="time">4 mins ago</span>
+</div>
+<div class="row">
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Order Tax</label>
+<input type="text">
 </div>
 </div>
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Discount</label>
+<input type="text">
+</div>
+</div>
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Shipping</label>
+<input type="text">
+</div>
+</div>
+<div class="col-lg-3 col-sm-6 col-12">
+<div class="form-group">
+<label>Status</label>
+<select class="select">
+<option>Choose Status</option>
+<option>Completed</option>
+<option>Inprogress</option>
+</select>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-6 ">
+<div class="total-order w-100 max-widthauto m-auto mb-4">
+<ul>
+<li>
+<h4>Order Tax</h4>
+<h5>$ 0.00 (0.00%)</h5>
 </li>
 <li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elizabeth Olsen</a> added a new product category <a href="javascript:void(0);">Desktop Computers</a>
-<span class="time">6 mins ago</span>
-</div>
-</div>
-</li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile5.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">William Smith</a> added a new sales list for<a href="javascript:void(0);">January Month</a>
-<span class="time">12 mins ago</span>
-</div>
-</div>
-</div>
-</li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/customer4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Lesley Grauer</a> has updated invoice <a href="javascript:void(0);">#987654</a>
-<span class="time">4 mins ago</span>
-</div>
-</div>
+<h4>Discount	</h4>
+<h5>$ 0.00</h5>
 </li>
 </ul>
 </div>
 </div>
-
+<div class="col-lg-6 ">
+<div class="total-order w-100 max-widthauto m-auto mb-4">
+<ul>
+<li>
+<h4>Shipping</h4>
+<h5>$ 0.00</h5>
+</li>
+<li class="total">
+<h4>Grand Total</h4>
+<h5>$ 1750.00</h5>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-lg-12">
+<a href="javascript:void(0);" class="btn btn-submit me-2">Submit</a>
+<a href="javascript:void(0);" class="btn btn-cancel">Cancel</a>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -449,6 +652,9 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
 <script src="assets/plugins/select2/js/select2.min.js"></script>
+
+<script src="assets/js/moment.min.js"></script> 
+<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>

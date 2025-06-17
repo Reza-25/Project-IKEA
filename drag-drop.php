@@ -7,22 +7,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 <meta name="description" content="POS - Bootstrap Admin Template">
-<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
 <meta name="author" content="Dreamguys - Bootstrap Admin Template">
 <meta name="robots" content="noindex, nofollow">
 <title>Dreams Pos admin template</title>
-
-<!-- hai -->
 
 <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
 
 <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="assets/css/animate.css">
-
-<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
-
-<link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="assets/plugins/dragula/css/dragula.min.css">
 
 <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
@@ -138,7 +132,7 @@
 <li class="notification-message">
 <a href="activities.html">
 <div class="media d-flex">
-<span class="avatar flex-shrink-0">
+ <span class="avatar flex-shrink-0">
 <img alt="" src="assets/img/profiles/avatar-06.jpg">
 </span>
 <div class="media-body flex-grow-1">
@@ -252,7 +246,7 @@
 <li><a href="createsalesreturns.html">New Sales Return</a></li>
 </ul>
 </li>
-<li class="submenu">
+<li class="submenu"> 
 <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img"><span> Purchase</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="purchaselist.html">Purchase List</a></li>
@@ -328,12 +322,88 @@
 </ul>
 </li>
 <li class="submenu">
+<a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="sweetalerts.html">Sweet Alerts</a></li>
+<li><a href="tooltip.html">Tooltip</a></li>
+<li><a href="popover.html">Popover</a></li>
+<li><a href="ribbon.html">Ribbon</a></li>
+<li><a href="clipboard.html">Clipboard</a></li>
+<li><a href="drag-drop.html" class="active">Drag & Drop</a></li>
+<li><a href="rangeslider.html">Range Slider</a></li>
+<li><a href="rating.html">Rating</a></li>
+<li><a href="toastr.html">Toastr</a></li>
+<li><a href="text-editor.html">Text Editor</a></li>
+<li><a href="counter.html">Counter</a></li>
+<li><a href="scrollbar.html">Scrollbar</a></li>
+<li><a href="spinner.html">Spinner</a></li>
+<li><a href="notification.html">Notification</a></li>
+<li><a href="lightbox.html">Lightbox</a></li>
+<li><a href="stickynote.html">Sticky Note</a></li>
+<li><a href="timeline.html">Timeline</a></li>
+<li><a href="form-wizard.html">Form Wizard</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chart-apex.html">Apex Charts</a></li>
+<li><a href="chart-js.html">Chart Js</a></li>
+<li><a href="chart-morris.html">Morris Charts</a></li>
+<li><a href="chart-flot.html">Flot Charts</a></li>
+ <li><a href="chart-peity.html">Peity Charts</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="icon-fontawesome.html">Fontawesome Icons</a></li>
+<li><a href="icon-feather.html">Feather Icons</a></li>
+<li><a href="icon-ionic.html">Ionic Icons</a></li>
+<li><a href="icon-material.html">Material Icons</a></li>
+<li><a href="icon-pe7.html">Pe7 Icons</a></li>
+<li><a href="icon-simpleline.html">Simpleline Icons</a></li>
+<li><a href="icon-themify.html">Themify Icons</a></li>
+<li><a href="icon-weather.html">Weather Icons</a></li>
+<li><a href="icon-typicon.html">Typicon Icons</a></li>
+<li><a href="icon-flag.html">Flag Icons</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="form-basic-inputs.html">Basic Inputs </a></li>
+<li><a href="form-input-groups.html">Input Groups </a></li>
+<li><a href="form-horizontal.html">Horizontal Form </a></li>
+<li><a href="form-vertical.html"> Vertical Form </a></li>
+<li><a href="form-mask.html">Form Mask </a></li>
+<li><a href="form-validation.html">Form Validation </a></li>
+<li><a href="form-select2.html">Form Select2 </a></li>
+<li><a href="form-fileupload.html">File Upload </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="tables-basic.html">Basic Tables </a></li>
+<li><a href="data-tables.html">Data Table </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Application</span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chat.html">Chat</a></li>
+<li><a href="calendar.html">Calendar</a></li>
+<li><a href="email.html">Email</a></li>
+</ul>
+</li>
+<li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span> Report</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="purchaseorderreport.html">Purchase order report</a></li>
 <li><a href="inventoryreport.html">Inventory Report</a></li>
 <li><a href="salesreport.html">Sales Report</a></li>
-<li><a href="invoicereport.html">Invoice Report</a></li>
+ <li><a href="invoicereport.html">Invoice Report</a></li>
 <li><a href="purchasereport.html">Purchase Report</a></li>
 <li><a href="supplierreport.html">Supplier Report</a></li>
 <li><a href="customerreport.html">Customer Report</a></li>
@@ -362,76 +432,152 @@
 </div>
 </div>
 
-<div class="page-wrapper">
+<div class="page-wrapper cardhead">
 <div class="content">
+
 <div class="page-header">
-<div class="page-title">
-<h4>All Notifications</h4>
-<h6>View your all activities</h6>
+<div class="row">
+<div class="col-sm-12">
+<h3 class="page-title">Drag &amp; Drop</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+<li class="breadcrumb-item active">Drag &amp; Drop</li>
+</ul>
+</div>
 </div>
 </div>
 
-<div class="activity">
-<div class="activity-box">
-<ul class="activity-list">
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile3.jpg" class=" img-fluid">
-</a>
+<div class="row" id="card-drag-area">
+
+<div class="col-md-4 draggable">
+<div class="card">
+<div class="card-header">
+<h5 class="card-title">Draggable Card 1</h5>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elwis Mathew </a> added a new product <a href="javascript:void(0);">Redmi Pro 7 Mobile</a>
-<span class="time">4 mins ago</span>
+<div class="card-body">
+<p>Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie
+powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.</p>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-4 draggable">
+<div class="card">
+<div class="card-header">
+<h5 class="card-title">Draggable Card 2</h5>
+</div>
+<div class="card-body">
+<p>Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie
+powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.</p>
+</div>
+</div>
+</div>
+
+
+<div class="col-md-4 draggable">
+<div class="card">
+<div class="card-header">
+<h5 class="card-title">Draggable Card 3</h5>
+</div>
+<div class="card-body">
+<p>Jelly beans sugar plum cheesecake cookie oat cake soufflé.Tootsie roll bonbon liquorice tiramisu pie
+powder.Donut sweet roll marzipan pastry cookie cake tootsie roll oat cake cookie.</p>
+</div>
+</div>
+</div>
+
+</div>
+<div class="row">
+<div class="col-md-12">
+<div class="card">
+<div class="card-header">
+<h5 class="card-title">Basic List Group Sortable</h5>
+</div>
+<div class="card-body">
+
+<ul class="list-group" id="basic-list-group">
+<li class="list-group-item draggable">
+<div class="media">
+<div class="media-body">
+<h5 class="mt-0">Darren Elder</h5>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
 </div>
 </div>
 </li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elizabeth Olsen</a> added a new product category <a href="javascript:void(0);">Desktop Computers</a>
-<span class="time">6 mins ago</span>
+<li class="list-group-item draggable">
+<div class="media">
+<div class="media-body">
+<h5 class="mt-0">Linda Ellis</h5>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
 </div>
 </div>
 </li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile5.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">William Smith</a> added a new sales list for<a href="javascript:void(0);">January Month</a>
-<span class="time">12 mins ago</span>
-</div>
+<li class="list-group-item draggable">
+<div class="media">
+<div class="media-body">
+<h5 class="mt-0">Toney Ritch</h5>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
 </div>
 </div>
 </li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/customer4.jpg" class=" img-fluid">
-</a>
+<li class="list-group-item draggable">
+<div class="media">
+<div class="media-body">
+<h5 class="mt-0">Flora Jag</h5>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Lesley Grauer</a> has updated invoice <a href="javascript:void(0);">#987654</a>
-<span class="time">4 mins ago</span>
+</div>
+</li>
+<li class="list-group-item draggable">
+<div class="media">
+<div class="media-body">
+<h5 class="mt-0">Linda Marris</h5>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p>
 </div>
 </div>
 </li>
 </ul>
+
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+
+<div class="col-md-12">
+<div class="card" id="dd-handle">
+<div class="card-header">
+<h5 class="card-title">Drag Handler</h5>
+</div>
+<div class="card-body">
+<div class="row">
+<div class="col-sm-6">
+<h4 class="my-1">List One</h4>
+<ul class="list-group" id="handle-list-1">
+<li class="list-group-item"><span class="handle">+</span> Cras justo odio</li>
+<li class="list-group-item"><span class="handle">+</span> Dapibus ac facilisis in</li>
+<li class="list-group-item"><span class="handle">+</span> Morbi leo risus</li>
+<li class="list-group-item"><span class="handle">+</span> Porta ac consectetur ac</li>
+<li class="list-group-item"><span class="handle">+</span> Vestibulum at eros</li>
+</ul>
+</div>
+<div class="col-sm-6">
+<h4 class="my-1">List Two</h4>
+<ul class="list-group" id="handle-list-2">
+<li class="list-group-item"><span class="handle">+</span> Cras justo odio</li>
+<li class="list-group-item"><span class="handle">+</span> Dapibus ac facilisis in</li>
+<li class="list-group-item"><span class="handle">+</span> Morbi leo risus</li>
+<li class="list-group-item"><span class="handle">+</span> Porta ac consectetur ac</li>
+<li class="list-group-item"><span class="handle">+</span> Vestibulum at eros</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </div>
 
+</div>
 </div>
 </div>
 </div>
@@ -443,15 +589,10 @@
 
 <script src="assets/js/jquery.slimscroll.min.js"></script>
 
-<script src="assets/js/jquery.dataTables.min.js"></script>
-<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+<script src="assets/plugins/dragula/js/dragula.min.js"></script>
+<script src="assets/plugins/dragula/js/drag-drop.min.js"></script>
 
 <script src="assets/js/bootstrap.bundle.min.js"></script>
-
-<script src="assets/plugins/select2/js/select2.min.js"></script>
-
-<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
 
 <script src="assets/js/script.js"></script>
 </body>

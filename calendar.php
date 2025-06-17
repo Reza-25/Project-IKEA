@@ -7,12 +7,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 <meta name="description" content="POS - Bootstrap Admin Template">
-<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
 <meta name="author" content="Dreamguys - Bootstrap Admin Template">
 <meta name="robots" content="noindex, nofollow">
 <title>Dreams Pos admin template</title>
-
-<!-- hai -->
 
 <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg">
 
@@ -20,9 +18,9 @@
 
 <link rel="stylesheet" href="assets/css/animate.css">
 
-<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
-
 <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+
+<link rel="stylesheet" href="assets/plugins/fullcalendar/fullcalendar.min.css">
 
 <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
@@ -135,7 +133,7 @@
 </div>
 </a>
 </li>
-<li class="notification-message">
+ <li class="notification-message">
 <a href="activities.html">
 <div class="media d-flex">
 <span class="avatar flex-shrink-0">
@@ -187,7 +185,7 @@
 <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
 <span class="status online"></span></span>
 </a>
-<div class="dropdown-menu menu-drop-user">
+ <div class="dropdown-menu menu-drop-user">
 <div class="profilename">
 <div class="profileset">
 <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
@@ -328,6 +326,82 @@
 </ul>
 </li>
 <li class="submenu">
+<a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="sweetalerts.html">Sweet Alerts</a></li>
+<li><a href="tooltip.html">Tooltip</a></li>
+<li><a href="popover.html">Popover</a></li>
+<li><a href="ribbon.html">Ribbon</a></li>
+<li><a href="clipboard.html">Clipboard</a></li>
+<li><a href="drag-drop.html">Drag & Drop</a></li>
+<li><a href="rangeslider.html">Range Slider</a></li>
+<li><a href="rating.html">Rating</a></li>
+<li><a href="toastr.html">Toastr</a></li>
+<li><a href="text-editor.html">Text Editor</a></li>
+<li><a href="counter.html">Counter</a></li>
+<li><a href="scrollbar.html">Scrollbar</a></li>
+<li><a href="spinner.html">Spinner</a></li>
+<li><a href="notification.html">Notification</a></li>
+<li><a href="lightbox.html">Lightbox</a></li>
+<li><a href="stickynote.html">Sticky Note</a></li>
+<li><a href="timeline.html">Timeline</a></li>
+<li><a href="form-wizard.html">Form Wizard</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chart-apex.html">Apex Charts</a></li>
+<li><a href="chart-js.html">Chart Js</a></li>
+<li><a href="chart-morris.html">Morris Charts</a></li>
+<li><a href="chart-flot.html">Flot Charts</a></li>
+<li><a href="chart-peity.html">Peity Charts</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="icon-fontawesome.html">Fontawesome Icons</a></li>
+<li><a href="icon-feather.html">Feather Icons</a></li>
+<li><a href="icon-ionic.html">Ionic Icons</a></li>
+<li><a href="icon-material.html">Material Icons</a></li>
+<li><a href="icon-pe7.html">Pe7 Icons</a></li>
+<li><a href="icon-simpleline.html">Simpleline Icons</a></li>
+<li><a href="icon-themify.html">Themify Icons</a></li>
+<li><a href="icon-weather.html">Weather Icons</a></li>
+<li><a href="icon-typicon.html">Typicon Icons</a></li>
+<li><a href="icon-flag.html">Flag Icons</a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="form-basic-inputs.html">Basic Inputs </a></li>
+<li><a href="form-input-groups.html">Input Groups </a></li>
+<li><a href="form-horizontal.html">Horizontal Form </a></li>
+<li><a href="form-vertical.html"> Vertical Form </a></li>
+<li><a href="form-mask.html">Form Mask </a></li>
+<li><a href="form-validation.html">Form Validation </a></li>
+<li><a href="form-select2.html">Form Select2 </a></li>
+<li><a href="form-fileupload.html">File Upload </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="tables-basic.html">Basic Tables </a></li>
+<li><a href="data-tables.html">Data Table </a></li>
+</ul>
+</li>
+<li class="submenu">
+<a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span> Application</span> <span class="menu-arrow"></span></a>
+<ul>
+<li><a href="chat.html">Chat</a></li>
+<li><a href="calendar.html" class="active">Calendar</a></li>
+<li><a href="email.html">Email</a></li>
+</ul>
+</li>
+<li class="submenu">
 <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img"><span> Report</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="purchaseorderreport.html">Purchase order report</a></li>
@@ -365,93 +439,146 @@
 <div class="page-wrapper">
 <div class="content">
 <div class="page-header">
-<div class="page-title">
-<h4>All Notifications</h4>
-<h6>View your all activities</h6>
+<div class="row align-items-center w-100">
+<div class="col-lg-10 col-sm-12">
+<h3 class="page-title">Calendar</h3>
+</div>
+<div class="col-lg-2 col-sm-12">
+<a href="javascript:void(0);" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_event">Create Event</a>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-3 col-md-4">
+<h4 class="card-title">Drag & Drop Event</h4>
+<div id="calendar-events" class="mb-3">
+<div class="calendar-events" data-class="bg-info"><i class="fas fa-circle text-info"></i> My Event One</div>
+<div class="calendar-events" data-class="bg-success"><i class="fas fa-circle text-success"></i> My Event Two</div>
+<div class="calendar-events" data-class="bg-danger"><i class="fas fa-circle text-danger"></i> My Event Three</div>
+<div class="calendar-events" data-class="bg-warning"><i class="fas fa-circle text-warning"></i> My Event Four</div>
+</div>
+<div class="checkbox  mb-3">
+<input id="drop-remove" type="checkbox">
+<label for="drop-remove">
+Remove after drop
+</label>
+</div>
+<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#add_new_event" class="btn mb-3 btn-primary btn-block w-100">
+<i class="fas fa-plus"></i> Add Category
+</a>
+</div>
+<div class="col-lg-9 col-md-8">
+<div class="card bg-white">
+<div class="card-body">
+<div id="calendar"></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
-<div class="activity">
-<div class="activity-box">
-<ul class="activity-list">
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile3.jpg" class=" img-fluid">
-</a>
+<div id="add_event" class="modal custom-modal fade" role="dialog">
+<div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Add Event</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elwis Mathew </a> added a new product <a href="javascript:void(0);">Redmi Pro 7 Mobile</a>
-<span class="time">4 mins ago</span>
+<div class="modal-body">
+<form>
+<div class="form-group">
+<label>Event Name <span class="text-danger">*</span></label>
+<input class="form-control" type="text">
 </div>
-</div>
-</li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Elizabeth Olsen</a> added a new product category <a href="javascript:void(0);">Desktop Computers</a>
-<span class="time">6 mins ago</span>
+<div class="form-group">
+<label>Event Date <span class="text-danger">*</span></label>
+<div class="cal-icon">
+<input class="form-control " type="text">
 </div>
 </div>
-</li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/profile5.jpg" class=" img-fluid">
-</a>
+<div class="submit-section">
+<button class="btn btn-primary submit-btn">Submit</button>
 </div>
-<div class="activity-content">
-<div class="timeline-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">William Smith</a> added a new sales list for<a href="javascript:void(0);">January Month</a>
-<span class="time">12 mins ago</span>
+</form>
 </div>
-</div>
-</div>
-</li>
-<li>
-<div class="activity-user">
-<a href="profile.html" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-<img alt="Lesley Grauer" src="assets/img/customer/customer4.jpg" class=" img-fluid">
-</a>
-</div>
-<div class="activity-content">
-<div class="timeline-content">
-<a href="profile.html" class="name">Lesley Grauer</a> has updated invoice <a href="javascript:void(0);">#987654</a>
-<span class="time">4 mins ago</span>
-</div>
-</div>
-</li>
-</ul>
-</div>
-</div>
-
 </div>
 </div>
 </div>
 
 
-<script src="assets/js/jquery-3.6.0.min.js"></script>
+<div class="modal custom-modal fade none-border" id="my_event">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title">Add Event</h4>
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+</div>
+<div class="modal-body"></div>
+<div class="modal-footer justify-content-center">
+<button type="button" class="btn btn-success save-event submit-btn">Create event</button>
+<button type="button" class="btn btn-danger delete-event submit-btn" data-dismiss="modal">Delete</button>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="modal custom-modal fade" id="add_new_event">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title">Add Category</h4>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"><span aria-hidden="true">×</span></button>
+</div>
+<div class="modal-body">
+<form>
+<div class="form-group">
+<label>Category Name</label>
+<input class="form-control form-white" placeholder="Enter name" type="text" name="category-name" />
+</div>
+<div class="form-group mb-0">
+<label>Choose Category Color</label>
+<select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
+<option value="success">Success</option>
+<option value="danger">Danger</option>
+<option value="info">Info</option>
+<option value="primary">Primary</option>
+<option value="warning">Warning</option>
+<option value="inverse">Inverse</option>
+</select>
+</div>
+<div class="submit-section">
+<button type="button" class="btn btn-primary save-category submit-btn" data-dismiss="modal">Save</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+
+ <script src="assets/js/jquery-3.6.0.min.js"></script>
 
 <script src="assets/js/feather.min.js"></script>
+
+<script src="assets/plugins/moment/moment.min.js"></script>
 
 <script src="assets/js/jquery.slimscroll.min.js"></script>
 
 <script src="assets/js/jquery.dataTables.min.js"></script>
 <script src="assets/js/dataTables.bootstrap4.min.js"></script>
 
+<script src="assets/js/jquery-ui.min.js"></script>
+<script src="assets/plugins/fullcalendar/fullcalendar.min.js"></script>
+<script src="assets/plugins/fullcalendar/jquery.fullcalendar.js"></script>
+
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-<script src="assets/plugins/select2/js/select2.min.js"></script>
-
-<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+<script src="assets/plugins/apexchart/chart-data.js"></script>
 
 <script src="assets/js/script.js"></script>
 </body>
