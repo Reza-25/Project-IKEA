@@ -229,15 +229,8 @@
 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="../product/productlist.php">Product List</a></li>
-<li><a href="../product/addproduct.php">Add Product</a></li>
 <li><a href="../product/categorylist.php">Category List</a></li>
-<li><a href="../product/addcategory.php">Add Category</a></li>
-<li><a href="../product/subcategorylist.php">Sub Category List</a></li>
-<li><a href="../product/subaddcategory.php">Add Sub Category</a></li>
 <li><a href="../product/brandlist.php">Brand List</a></li>
-<li><a href="../product/addbrand.php">Add Brand</a></li>
-<li><a href="../product/importproduct.php">Import Products</a></li>
-<li><a href="../product/barcode.php">Print Barcode</a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -439,7 +432,45 @@
 </div>
 </div>
 
-<div class="card">
+<!-- KPI Boxes -->
+<div class="container py-4">
+  <div class="row justify-content-center text-center mb-4">
+    <div class="col-md-3 mb-2">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Cabang Terbaik</h6>
+          <h4 class="text-primary">Jakarta</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-2">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Karyawan Terbaik</h6>
+          <h4 class="text-success">Andi Saputra</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-2">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Total User</h6>
+          <h4>87</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-2">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="text-muted">Rata-rata Poin</h6>
+          <h4>82.3</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-4">
 <div class="card-body">
 <div class="table-top">
 <div class="search-set">
@@ -505,422 +536,115 @@
 </div>
 </div>
 
-<div class="table-responsive">
-<table class="table  datanew">
-<thead>
-<tr>
-<th>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</th>
-<th>Profile</th>
-<th>First name </th>
-<th>Last name </th>
-<th>User name </th>
-<th>Phone</th>
-<th>email</th>
-<th>Status</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer1.jpg" alt="product">
-</a>
-</td>
-<td>Thomas</td>
-<td>Thomas </td>
-<td>Thomas21 </td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="42362a2d2f233102273a232f322e276c212d2f">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user1" class="check">
-<label for="user1" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer2.jpg" alt="product">
-</a>
-</td>
-<td>Benjamin</td>
-<td>Franklin </td>
-<td>504Benjamin </td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e685939592898b8394a6839e878b968a83c885898b">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user2" class="check" checked="">
-<label for="user2" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer3.jpg" alt="product">
-</a>
-</td>
-<td>James</td>
-<td>James </td>
-<td>James 524 </td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ef4fff3fbeddefbe6fff3eef2fbb0fdf1f3">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user3" class="check" checked="">
-<label for="user3" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer4.jpg" alt="product">
-</a>
-</td>
- <td>Bruklin</td>
-<td>Bruklin </td>
-<td>Bruklin2022</td>
-<td>123-456-888</td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="781a0a0d13141116381d00191508141d561b1715">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user4" class="check" checked="">
-<label for="user4" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer5.jpg" alt="product">
-</a>
-</td>
-<td>Franklin</td>
-<td>Jacob </td>
-<td>BeverlyWIN25</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aceec9dac9dec0d5ecc9d4cdc1dcc0c982cfc3c1">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user5" class="check">
-<label for="user5" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer6.jpg" alt="product">
-</a>
-</td>
-<td>B. Huber	</td>
-<td>Jacob </td>
-<td>BeverlyWIN25</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b330e191e093b1e031a160b171e55181416">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user6" class="check">
-<label for="user6" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer7.jpg" alt="product">
-</a>
-</td>
-<td>Alwin</td>
-<td>Alwin </td>
-<td>Alwin243</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0764727473686a627547627f666a776b622964686a">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user7" class="check">
-<label for="user7" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
+<!-- List Evaluasi Karyawan IKEA -->
+<div class="row justify-content-center">
+  <div class="col-md-10">
+    <!-- ITEM 1 -->
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-1">Andi Saputra</h5>
+        <p class="text-muted mb-2">Sales Associate - Jakarta</p>
+        <div class="row mb-2 small">
+          <div class="col-4">Kehadiran</div>
+          <div class="col-4">Pelayanan</div>
+          <div class="col-4">Penyelesaian Tugas</div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 98%">98%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 90%">90%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 95%">95%</div></div></div>
+        </div>
+        <div class="text-end">
+          <span class="badge bg-success fs-6">94 <i class="bi bi-arrow-up"></i> +3%</span>
+        </div>
+      </div>
+    </div>
 
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer8.jpg" alt="product">
-</a>
-</td>
-<td>Fred john</td>
-<td>john </td>
-<td>FredJ25</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bad0d5d2d4fadfc2dbd7cad6df94d9d5d7">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user15" class="check">
-<label for="user15" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer1.jpg" alt="product">
-</a>
-</td>
-<td>Rasmussen	</td>
-<td>Gothic </td>
-<td>Cras56</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a685b49574f49495f547a5f425b574a565f14595557">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user9" class="check" checked="">
-<label for="user9" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer2.jpg" alt="product">
-</a>
-</td>
-<td>Grace	</td>
-<td>Halena </td>
-<td>Grace2022</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0c3d5d3d4cfcdc5d2e0c5d8c1cdd0ccc58ec3cfcd">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user10" class="check" checked="">
-<label for="user10" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer3.jpg" alt="product">
-</a>
-</td>
-<td>Rasmussen	</td>
-<td>Gothic </td>
-<td>Cras56</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="702211031d050303151e301508111d001c155e131f1d">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user19" class="check" checked="">
-<label for="user19" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/customer/customer4.jpg" alt="product">
-</a>
-</td>
-<td>Grace	</td>
-<td>Halena </td>
-<td>Grace2022</td>
-<td>+12163547758 </td>
-<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3e5d4b4d4a51535b4c7e5b465f534e525b105d5153">[email&#160;protected]</a></td>
-<td>
-<div class="status-toggle d-flex justify-content-between align-items-center">
-<input type="checkbox" id="user18" class="check" checked="">
-<label for="user18" class="checktoggle">checkbox</label>
-</div>
-</td>
-<td>
-<a class="me-3" href="edituser.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+    <!-- ITEM 2 -->
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-1">Rina Pramesti</h5>
+        <p class="text-muted mb-2">Customer Service - Bandung</p>
+        <div class="row mb-2 small">
+          <div class="col-4">Kehadiran</div>
+          <div class="col-4">Pelayanan</div>
+          <div class="col-4">Penyelesaian Tugas</div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 95%">95%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 88%">88%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 91%">91%</div></div></div>
+        </div>
+        <div class="text-end">
+          <span class="badge bg-success fs-6">91 <i class="bi bi-arrow-up"></i> +2%</span>
+        </div>
+      </div>
+    </div>
 
-</div>
-</div>
-</div>
+    <!-- ITEM 3 -->
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-1">Dimas Wahyu</h5>
+        <p class="text-muted mb-2">Warehouse Staff - Surabaya</p>
+        <div class="row mb-2 small">
+          <div class="col-4">Kehadiran</div>
+          <div class="col-4">Pelayanan</div>
+          <div class="col-4">Penyelesaian Tugas</div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 92%">92%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 85%">85%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 88%">88%</div></div></div>
+        </div>
+        <div class="text-end">
+          <span class="badge bg-success fs-6">88 <i class="bi bi-arrow-up"></i> +1%</span>
+        </div>
+      </div>
+    </div>
 
+    <!-- ITEM 4 -->
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-1">Siska Lestari</h5>
+        <p class="text-muted mb-2">Cashier - Bekasi</p>
+        <div class="row mb-2 small">
+          <div class="col-4">Kehadiran</div>
+          <div class="col-4">Pelayanan</div>
+          <div class="col-4">Penyelesaian Tugas</div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 90%">90%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 80%">80%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 84%">84%</div></div></div>
+        </div>
+        <div class="text-end">
+          <span class="badge bg-danger fs-6">84 <i class="bi bi-arrow-down"></i> -1%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITEM 5 -->
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <h5 class="mb-1">Yudha Hermawan</h5>
+        <p class="text-muted mb-2">Delivery Driver - Tangerang</p>
+        <div class="row mb-2 small">
+          <div class="col-4">Kehadiran</div>
+          <div class="col-4">Pelayanan</div>
+          <div class="col-4">Penyelesaian Tugas</div>
+        </div>
+        <div class="row align-items-center mb-2">
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 88%">88%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 78%">78%</div></div></div>
+          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 80%">80%</div></div></div>
+        </div>
+        <div class="text-end">
+          <span class="badge bg-danger fs-6">80 <i class="bi bi-arrow-down"></i> -2%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="modal fade" id="showpayment" tabindex="-1" aria-labelledby="showpayment" aria-hidden="true">
 <div class="modal-dialog modal-lg">

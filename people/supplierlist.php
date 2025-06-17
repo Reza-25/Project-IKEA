@@ -211,15 +211,8 @@
                 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img" /><span> Product</span> <span class="menu-arrow"></span></a>
                 <ul>
                   <li><a href="../product/productlist.php">Product List</a></li>
-                  <li><a href="../product/addproduct.php">Add Product</a></li>
                   <li><a href="../product/categorylist.php">Category List</a></li>
-                  <li><a href="../product/addcategory.php">Add Category</a></li>
-                  <li><a href="../product/subcategorylist.php">Sub Category List</a></li>
-                  <li><a href="../product/subaddcategory.php">Add Sub Category</a></li>
                   <li><a href="../product/brandlist.php">Brand List</a></li>
-                  <li><a href="../product/addbrand.php">Add Brand</a></li>
-                  <li><a href="../product/importproduct.php">Import Products</a></li>
-                  <li><a href="../product/barcode.php">Print Barcode</a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -422,7 +415,111 @@
             </div>
           </div>
 
-          <div class="card">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+  .card-body {
+    padding: 1rem;
+  }
+
+  .chart-wrapper {
+    height: 450px; /* Atur tinggi total biar sejajar */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  canvas {
+    max-height: 350px;
+    margin: auto;
+  }
+
+  .small-icon {
+    font-size: 1.5rem;
+  }
+
+  .card-dark {
+    background-color: #212529;
+    color: white;
+  }
+
+  .list-group-item {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+</style>
+
+<div class="container py-3">
+  <div class="row g-3">
+    <!-- Pie Chart -->
+    <div class="col-md-6">
+      <div class="card shadow h-100">
+        <div class="card-body text-center chart-wrapper">
+          <h5 class="mb-3">Distribusi Supplier Berdasarkan Negara</h5>
+          <canvas id="countryPieChart"></canvas>
+          <div class="mt-3 d-flex justify-content-center flex-wrap gap-3">
+            <span style="color: #0d6efd;">■ Indonesia</span>
+            <span style="color: #198754;">■ China</span>
+            <span style="color: #ffc107;">■ Malaysia</span>
+            <span style="color: #dc3545;">■ Vietnam</span>
+            <span style="color: #6f42c1;">■ India</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kanan: 2 kartu -->
+    <div class="col-md-6 d-flex flex-column gap-3">
+      <!-- Total Supplier Aktif -->
+      <div class="card card-dark text-center shadow-sm">
+        <div class="card-body py-3">
+          <i class="bi bi-truck small-icon mb-1"></i>
+          <h6 class="mb-1">Total Supplier Aktif</h6>
+          <h4 class="mb-0">128</h4>
+        </div>
+      </div>
+
+      <!-- Top 5 Supplier -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="text-center mb-3">Top 5 Supplier Berdasarkan Nilai Transaksi</h5>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between">PT Mebel Jati <span>Rp 1.200.000.000</span></li>
+            <li class="list-group-item d-flex justify-content-between">CV Cahaya Lampu <span>Rp 980.000.000</span></li>
+            <li class="list-group-item d-flex justify-content-between">Textile Nusantara <span>Rp 750.000.000</span></li>
+            <li class="list-group-item d-flex justify-content-between">Dapur Modern <span>Rp 680.000.000</span></li>
+            <li class="list-group-item d-flex justify-content-between">Rumah Indah <span>Rp 610.000.000</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ctx = document.getElementById('countryPieChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Indonesia', 'China', 'Malaysia', 'Vietnam', 'India'],
+      datasets: [{
+        data: [40, 30, 15, 10, 5],
+        backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545', '#6f42c1'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      }
+    }
+  });
+</script>
+
+
+          <div class="card mt-4">
             <div class="card-body">
               <div class="table-top">
                 <div class="search-set">
