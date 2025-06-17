@@ -38,7 +38,7 @@
     <div class="main-wrapper">
       <div class="header">
         <div class="header-left active">
-          <a href="index.php" class="logo">
+          <a href="index.html" class="logo">
             <img src="../assets/img/logo1.png" alt="" />
           </a>
           <a id="toggle_btn" href="javascript:void(0);"> </a>
@@ -205,7 +205,7 @@
           <div id="sidebar-menu" class="sidebar-menu">
             <ul>
               <li>
-                <a href="../index.php"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
+                <a href="../index.html"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
               </li>
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img" /><span> Product</span> <span class="menu-arrow"></span></a>
@@ -237,7 +237,6 @@
                 <a href="javascript:void(0);"><img src="../assets/img/icons/expense1.svg" alt="img" /><span> Expense</span> <span class="menu-arrow"></span></a>
                 <ul>
                   <li><a href="expenselist.php" class="active">Expense List</a></li>
-                  <li><a href="createexpense.php">Add Expense</a></li>
                   <li><a href="expensecategory.php">Expense Category</a></li>
                 </ul>
               </li>
