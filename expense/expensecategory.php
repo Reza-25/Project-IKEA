@@ -420,10 +420,10 @@
         <h6 class="card-title mb-0 text-white small">Expense Categories Chart</h6>
         <div class="d-flex align-items-center">
           <div class="btn-group btn-group-sm me-2" role="group">
-            <button type="button" class="btn btn-outline-light" id="monthlyBtn">Monthly</button>
-            <button type="button" class="btn btn-light" id="yearlyBtn">Yearly</button>
+            <button type="button" class="btn btn-outline-light rounded-pill" id="monthlyBtn">Monthly</button>
+            <button type="button" class="btn btn-light rounded-pill" id="yearlyBtn">Yearly</button>
           </div>
-          <select id="monthSelector" class="form-select form-select-sm d-none">
+          <select id="monthSelector" class="form-select form-select-sm d-none rounded-pill">
             <option value="january">January</option>
             <option value="february">February</option>
             <option value="march">March</option>
