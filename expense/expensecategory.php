@@ -409,24 +409,37 @@
               <h4>Expenses Category</h4>
               <h6>Manage your purchases</h6>
             </div>
-            <div class="page-btn">
-              <a href="createexpense.php" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img" />Add EXPENSES CATEGORY</a>
-            </div>
           </div>
 
-         <!-- CHART SECTION -->
+        <!-- CHART SECTION -->
 <div class="row mt-4">
   <!-- BAR CHART -->
   <div class="col-md-8">
     <div class="card h-100">
       <div class="card-header d-flex justify-content-between align-items-center py-2 px-3" style="background-color: rgb(100, 149, 237);">
         <h6 class="card-title mb-0 text-white small">Expense Categories Chart</h6>
-        <div class="btn-group btn-group-sm" role="group">
-          <button type="button" class="btn btn-outline-light" id="monthlyBtn">Monthly</button>
-          <button type="button" class="btn btn-light" id="yearlyBtn">Yearly</button>
+        <div class="d-flex align-items-center">
+          <div class="btn-group btn-group-sm me-2" role="group">
+            <button type="button" class="btn btn-outline-light" id="monthlyBtn">Monthly</button>
+            <button type="button" class="btn btn-light" id="yearlyBtn">Yearly</button>
+          </div>
+          <select id="monthSelector" class="form-select form-select-sm d-none">
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <option value="october">October</option>
+            <option value="november">November</option>
+            <option value="december">December</option>
+          </select>
         </div>
       </div>
-      <div class="card-body p-2" style="overflow-y: auto; max-height: 300px;">
+      <div class="card-body p-2">
         <div id="expenseBarChart"></div>
       </div>
     </div>
@@ -440,9 +453,8 @@
       </div>
       <div class="card-body d-flex flex-column justify-content-center align-items-center p-3">
         <div class="text-center">
-          <h3 class="text-primary mb-2" id="totalExpenseAmount">$2,170</h3>
-          <p class="text-muted mb-2 small">Total Amount This <span id="periodText">Year</span></p>
-
+          <h3 class="text-primary mb-2" id="totalExpenseAmount">-</h3>
+          <p class="text-muted mb-2 small">Total Amount <span id="periodText">This Year</span></p>
           <div class="row text-center">
             <div class="col-6">
               <div class="border-end">
@@ -465,9 +477,19 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const monthlyData = {
-    categories: ['Food', 'Transport', 'Shopping', 'Utilities'],
-    amounts: [500000, 300000, 200000, 150000]
+  const monthlyDataPerMonth = {
+    january: { categories: ['Food', 'Transport'], amounts: [300000, 150000] },
+    february: { categories: ['Food', 'Shopping'], amounts: [400000, 200000] },
+    march: { categories: ['Utilities', 'Food'], amounts: [100000, 250000] },
+    april: { categories: ['Transport', 'Entertainment'], amounts: [200000, 180000] },
+    may: { categories: ['Food', 'Transport'], amounts: [350000, 120000] },
+    june: { categories: ['Food', 'Shopping'], amounts: [500000, 200000] },
+    july: { categories: ['Utilities', 'Shopping'], amounts: [160000, 210000] },
+    august: { categories: ['Food', 'Transport'], amounts: [450000, 100000] },
+    september: { categories: ['Entertainment', 'Utilities'], amounts: [250000, 120000] },
+    october: { categories: ['Shopping', 'Transport'], amounts: [300000, 140000] },
+    november: { categories: ['Food', 'Utilities'], amounts: [420000, 110000] },
+    december: { categories: ['Transport', 'Food'], amounts: [180000, 280000] }
   };
 
   const yearlyData = {
@@ -475,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function () {
     amounts: [8000000, 7500000, 9000000, 6500000]
   };
 
-  let options = {
+  const chart = new ApexCharts(document.querySelector("#expenseBarChart"), {
     chart: {
       type: 'bar',
       height: 250
@@ -488,36 +510,57 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     series: [{
       name: 'Amount',
-      data: monthlyData.amounts
+      data: yearlyData.amounts
     }],
     xaxis: {
-      categories: monthlyData.categories,
+      categories: yearlyData.categories,
       labels: {
         style: { fontSize: '12px' }
       }
     }
-  };
+  });
 
-  const chart = new ApexCharts(document.querySelector("#expenseBarChart"), options);
   chart.render();
 
   document.getElementById("monthlyBtn").addEventListener("click", () => {
-    chart.updateOptions({
-      xaxis: { categories: monthlyData.categories },
-      series: [{ name: 'Amount', data: monthlyData.amounts }]
-    });
+    document.getElementById("monthSelector").classList.remove("d-none");
+    const selectedMonth = document.getElementById("monthSelector").value;
+    updateMonthlyChart(selectedMonth);
     toggleButtons('monthly');
-    document.getElementById("periodText").textContent = "Month";
   });
 
   document.getElementById("yearlyBtn").addEventListener("click", () => {
+    document.getElementById("monthSelector").classList.add("d-none");
     chart.updateOptions({
       xaxis: { categories: yearlyData.categories },
       series: [{ name: 'Amount', data: yearlyData.amounts }]
     });
     toggleButtons('yearly');
-    document.getElementById("periodText").textContent = "Year";
+    updateTotalExpense(yearlyData.amounts, "This Year");
   });
+
+  document.getElementById("monthSelector").addEventListener("change", function () {
+    const selectedMonth = this.value;
+    updateMonthlyChart(selectedMonth);
+  });
+
+  function updateMonthlyChart(month) {
+    const data = monthlyDataPerMonth[month];
+    if (data) {
+      chart.updateOptions({
+        xaxis: { categories: data.categories },
+        series: [{ name: 'Amount', data: data.amounts }]
+      });
+      const monthCapitalized = month.charAt(0).toUpperCase() + month.slice(1);
+      updateTotalExpense(data.amounts, monthCapitalized);
+    }
+  }
+
+  function updateTotalExpense(amounts, labelText) {
+    const total = amounts.reduce((sum, val) => sum + val, 0);
+    document.getElementById("totalExpenseAmount").textContent = `Rp ${total.toLocaleString('id-ID')}`;
+    document.getElementById("periodText").textContent = labelText;
+  }
 
   function toggleButtons(active) {
     const monthlyBtn = document.getElementById("monthlyBtn");
@@ -535,8 +578,12 @@ document.addEventListener('DOMContentLoaded', function () {
       monthlyBtn.classList.add("btn-outline-light");
     }
   }
+
+  // Init: set yearly total first
+  updateTotalExpense(yearlyData.amounts, "This Year");
 });
 </script>
+
 
           <div class="card mt-4">
             <div class="card-body">

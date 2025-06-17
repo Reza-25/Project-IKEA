@@ -409,12 +409,95 @@
               <h4>Expenses LIST</h4>
               <h6>Manage your purchases</h6>
             </div>
-            <div class="page-btn">
-              <a href="createexpense.php" class="btn btn-added"><img src="../assets/img/icons/plus.svg" class="me-2" alt="img" />Add New Expense</a>
-            </div>
           </div>
 
-          <div class="card">
+         <!-- LINE CHART SECTION -->
+<div class="row mt-4">
+  <!-- LINE CHART -->
+  <div class="col-md-8">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center py-2 px-3" style="background-color: rgb(100, 149, 237);">
+        <h6 class="card-title mb-0 text-white small">Expense List</h6>
+      </div>
+      <div class="card-body p-2">
+        <div id="expenseLineChart" style="height: 250px;"></div>
+        <div class="text-end mt-1">
+          <small class="text-muted fst-italic" style="font-size: 1rem;">Data for June 2025</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOTAL EXPENSE BOX -->
+  <div class="col-md-4">
+    <div class="card h-100">
+      <div class="card-header text-center text-white py-2" style="background-color: rgb(220, 53, 69);">
+        <h6 class="card-title mb-0 small">Total Expenses</h6>
+      </div>
+      <div class="card-body text-center p-3 d-flex flex-column justify-content-center">
+        <h3 class="text-primary mb-2" id="totalExpense">Rp 0</h3>
+        <p class="text-muted mb-2 small">Details:</p>
+        <ul class="list-unstyled text-start small px-4 mb-0" id="expenseBreakdown"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APEXCHARTS -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const lineChartData = {
+    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    amounts: [350000, 420000, 300000, 500000]
+  };
+
+  const total = lineChartData.amounts.reduce((sum, val) => sum + val, 0);
+  document.getElementById("totalExpense").textContent = "Rp " + total.toLocaleString();
+
+  const breakdownList = document.getElementById("expenseBreakdown");
+  breakdownList.innerHTML = "";
+  lineChartData.labels.forEach((label, i) => {
+    const amountFormatted = "Rp " + lineChartData.amounts[i].toLocaleString();
+    breakdownList.innerHTML += `<li><strong>${label}:</strong> ${amountFormatted}</li>`;
+  });
+
+  const options = {
+    chart: {
+      type: 'line',
+      height: 250,
+      toolbar: { show: false }
+    },
+    series: [{
+      name: 'Expenses',
+      data: lineChartData.amounts
+    }],
+    xaxis: {
+      categories: lineChartData.labels,
+      labels: { style: { fontSize: '12px' } }
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 2
+    },
+    markers: {
+      size: 4,
+      colors: ['#007bff'],
+      strokeWidth: 2
+    },
+    tooltip: {
+      y: {
+        formatter: val => "Rp " + val.toLocaleString()
+      }
+    }
+  };
+
+  const chart = new ApexCharts(document.querySelector("#expenseLineChart"), options);
+  chart.render();
+});
+</script>
+
+          <div class="card mt-4">
             <div class="card-body">
               <div class="table-top">
                 <div class="search-set">
