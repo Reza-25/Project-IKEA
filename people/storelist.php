@@ -223,13 +223,9 @@
                 </ul>
               </li>
               <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Sales</span> <span class="menu-arrow"></span></a>
+                <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../sales/saleslist.php">Sales List</a></li>
-                  <li><a href="../sales/pos.php">POS</a></li>
-                  <li><a href="../sales/pos.php">New Sales</a></li>
-                  <li><a href="../sales/salesreturnlist.php">Sales Return List</a></li>
-                  <li><a href="../sales/createsalesreturn.php">New Sales Return</a></li>
+                  <li><a href="../supplier/supplierlist.php">Supplier List</a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -275,14 +271,10 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="customerlist.php">Customer List</a></li>
-                  <li><a href="addcustomer.php">Add Customer </a></li>
-                  <li><a href="supplierlist.php">Supplier List</a></li>
-                  <li><a href="addsupplier.php">Add Supplier </a></li>
-                  <li><a href="userlist.php">User List</a></li>
-                  <li><a href="adduser.php">Add User</a></li>
-                  <li><a href="storelist.php" class="active">Store List</a></li>
-                  <li><a href="addstore.php">Add Store</a></li>
+                <li><a href="customerlist.php">Customer List</a></li>
+                <li><a href="supplierlist.php">Supplier List</a></li>
+                <li><a href="userlist.php">User List</a></li>
+                <li><a href="storelist.php">Store List</a></li>
                 </ul>
               </li>
               <li class="submenu">
