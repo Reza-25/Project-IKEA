@@ -263,7 +263,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                 <ul>
-                   <li><a href="customerlist.php">Customer List</a></li>
+                  <li><a href="customerlist.php">Customer List</a></li>
                   <li><a href="supplierlist.php">Supplier List</a></li>
                   <li><a href="userlist.php">User List</a></li>
                   <li><a href="storelist.php">Store List</a></li>
@@ -420,10 +420,10 @@
         <h6 class="card-title mb-0 text-white small">Expense Categories Chart</h6>
         <div class="d-flex align-items-center">
           <div class="btn-group btn-group-sm me-2" role="group">
-            <button type="button" class="btn btn-outline-light" id="monthlyBtn">Monthly</button>
-            <button type="button" class="btn btn-light" id="yearlyBtn">Yearly</button>
+            <button type="button" class="btn btn-outline-light rounded-pill" id="monthlyBtn">Monthly</button>
+            <button type="button" class="btn btn-light rounded-pill" id="yearlyBtn">Yearly</button>
           </div>
-          <select id="monthSelector" class="form-select form-select-sm d-none">
+          <select id="monthSelector" class="form-select form-select-sm d-none rounded-pill">
             <option value="january">January</option>
             <option value="february">February</option>
             <option value="march">March</option>

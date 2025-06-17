@@ -429,19 +429,24 @@
   </div>
 
   <!-- TOTAL EXPENSE BOX -->
-  <div class="col-md-4">
-    <div class="card h-100">
-      <div class="card-header text-center text-white py-2" style="background-color: rgb(220, 53, 69);">
-        <h6 class="card-title mb-0 small">Total Expenses</h6>
-      </div>
-      <div class="card-body text-center p-3 d-flex flex-column justify-content-center">
-        <h3 class="text-primary mb-2" id="totalExpense">Rp 0</h3>
-        <p class="text-muted mb-2 small">Details:</p>
-        <ul class="list-unstyled text-start small px-4 mb-0" id="expenseBreakdown"></ul>
-      </div>
+<div class="col-md-4">
+  <div class="card h-100 shadow rounded-4" style="background-color: #fffbea; border-left: 6px solid #f39c12;">
+    <div class="card-header text-center text-dark py-2 rounded-top-4" style="background-color: #f9e79f;">
+      <h6 class="card-title mb-0 fw-bold">🧾 Total Expenses</h6>
+    </div>
+    <div class="card-body text-center p-3 d-flex flex-column justify-content-center">
+      <h3 class="text-danger mb-2 fw-bold" id="totalExpense">Rp 0</h3>
+      <p class="text-muted mb-2 small fst-italic">Details:</p>
+      <ul class="list-unstyled text-center px-4 mb-0 fs-7 fw-semibold" id="expenseBreakdown">
+  <li>Week 1: Rp 500.000</li>
+  <li>Week 2: Rp 450.000</li>
+  <li>Week 3: Rp 600.000</li>
+  <li>Week 4: Rp 620.000</li>
+</ul> 
     </div>
   </div>
 </div>
+
 
 <!-- APEXCHARTS -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

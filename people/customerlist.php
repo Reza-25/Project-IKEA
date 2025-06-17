@@ -229,15 +229,8 @@
 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="../product/productlist.php">Product List</a></li>
-<li><a href="../product/addproduct.php">Add Product</a></li>
-<li><a href="../product/categorylist.php">Category List</a></li>
-<li><a href="../product/addcategory.php">Add Category</a></li>
-<li><a href="../product/subcategorylist.php">Sub Category List</a></li>
-<li><a href="../product/subaddcategory.php">Add Sub Category</a></li>
-<li><a href="../product/brandlist.php">Brand List</a></li>
-<li><a href="../product/addbrand.php">Add Brand</a></li>
-<li><a href="../product/importproduct.php">Import Products</a></li>
-<li><a href="../product/barcode.php">Print Barcode</a></li>
+                  <li><a href="../product/categorylist.php">Category List</a></li>
+                  <li><a href="../product/brandlist.php">Brand List</a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -258,7 +251,6 @@
 <a href="javascript:void(0);"><img src="../assets/img/icons/expense1.svg" alt="img"><span> Expense</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="../expense/expenselist.php">Expense List</a></li>
-<li><a href="../expense/createexpense.php">Add Expense</a></li>
 <li><a href="../expense/expensecategory.php">Expense Category</a></li>
 </ul>
 </li>
