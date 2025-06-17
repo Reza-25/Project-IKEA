@@ -215,11 +215,9 @@
                 </ul>
               </li>
               <li class="submenu">
-                <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img" /><span> Purchase</span> <span class="menu-arrow"></span></a>
+                <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img" /><span> Revenue</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="purchase/purchaselist.php">Purchase List</a></li>
-                  <li><a href="purchase/addpurchase.php">Add Purchase</a></li>
-                  <li><a href="purchase/importpurchase.php">Import Purchase</a></li>
+                  <li><a href="revenue/revenue.php">Revenue</a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -411,53 +409,70 @@
 
             <!-- End Total Purchase Due -->
 
-            <!-- Revenue, Suppliers, Product Sold, Budget Spent -->
+            <!-- Revenue, Suppliers, Product Sold, Budget Spent --> 
+            <div class="row justify-content-end">
+            <!-- Revenue -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <div class="dash-count">
-                <div class="dash-counts">
-                  <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
-                  <h5>Revenue</h5>
+              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count">
+                  <div class="dash-counts">
+                    <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
+                    <h5>Revenue</h5>
+                  </div>
+                  <div class="dash-imgs">
+                    <i data-feather="trending-up"></i>
+                  </div>
                 </div>
-                <div class="dash-imgs">
-                  <i data-feather="trending-up"></i>
-                </div>
-              </div>
+              </a>
             </div>
+
+            <!-- Suppliers -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <div class="dash-count das1">
-                <div class="dash-counts">
-                  <h4><span class="counters" data-count="1975"></span></h4>
-                  <h5>Suppliers</h5>
+              <a href="supplier/supplier.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das1">
+                  <div class="dash-counts">
+                    <h4><span class="counters" data-count="1975"></span></h4>
+                    <h5>Suppliers</h5>
+                  </div>
+                  <div class="dash-imgs">
+                    <i data-feather="user-check"></i>
+                  </div>
                 </div>
-                <div class="dash-imgs">
-                  <i data-feather="user-check"></i>
-                </div>
-              </div>
+              </a>
             </div>
+
+            <!-- Product Sold -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <div class="dash-count das2">
-                <div class="dash-counts">
-                  <h4><span class="counters" data-count="7863"></span></h4>
-                  <h5>Product Sold</h5>
+              <a href="productsold/productsold.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das2">
+                  <div class="dash-counts">
+                    <h4><span class="counters" data-count="7863"></span></h4>
+                    <h5>Product Sold</h5>
+                  </div>
+                  <div class="dash-imgs">
+                    <i data-feather="package"></i>
+                  </div>
                 </div>
-                <div class="dash-imgs">
-                  <i data-feather="package"></i>
-                </div>
-              </div>
+              </a>
             </div>
+
+            <!-- Budget Spent -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <div class="dash-count das3">
-                <div class="dash-counts">
-                  <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
-                  <h5>Budget Spent</h5>
+              <a href="budget/budget.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das3">
+                  <div class="dash-counts">
+                    <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
+                    <h5>Budget Spent</h5>
+                  </div>
+                  <div class="dash-imgs">
+                    <i data-feather="activity"></i>
+                  </div>
                 </div>
-                <div class="dash-imgs">
-                  <i data-feather="activity"></i>
-                </div>
-              </div>
+              </a>
             </div>
           </div>
-
+          <!-- END KOLOM  -->
+        
           <div class="row">
             <div class="col-lg-7 col-sm-12 col-12 d-flex">
               <div class="card flex-fill">
