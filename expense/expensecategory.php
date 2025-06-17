@@ -414,7 +414,131 @@
             </div>
           </div>
 
-          <div class="card">
+         <!-- CHART SECTION -->
+<div class="row mt-4">
+  <!-- BAR CHART -->
+  <div class="col-md-8">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center py-2 px-3" style="background-color: rgb(100, 149, 237);">
+        <h6 class="card-title mb-0 text-white small">Expense Categories Chart</h6>
+        <div class="btn-group btn-group-sm" role="group">
+          <button type="button" class="btn btn-outline-light" id="monthlyBtn">Monthly</button>
+          <button type="button" class="btn btn-light" id="yearlyBtn">Yearly</button>
+        </div>
+      </div>
+      <div class="card-body p-2" style="overflow-y: auto; max-height: 300px;">
+        <div id="expenseBarChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPENSE TOTAL CARD -->
+  <div class="col-md-4">
+    <div class="card h-100">
+      <div class="card-header text-center text-white py-2" style="background-color: rgb(220, 53, 69);">
+        <h6 class="card-title mb-0 small">Total Expenses</h6>
+      </div>
+      <div class="card-body d-flex flex-column justify-content-center align-items-center p-3">
+        <div class="text-center">
+          <h3 class="text-primary mb-2" id="totalExpenseAmount">$2,170</h3>
+          <p class="text-muted mb-2 small">Total Amount This <span id="periodText">Year</span></p>
+
+          <div class="row text-center">
+            <div class="col-6">
+              <div class="border-end">
+                <h6 class="text-success mb-1" id="activeCount">9</h6>
+                <small class="text-muted">Active</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <h6 class="text-danger mb-1" id="inactiveCount">3</h6>
+              <small class="text-muted">Inactive</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHART SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const monthlyData = {
+    categories: ['Food', 'Transport', 'Shopping', 'Utilities'],
+    amounts: [500000, 300000, 200000, 150000]
+  };
+
+  const yearlyData = {
+    categories: ['2022', '2023', '2024', '2025'],
+    amounts: [8000000, 7500000, 9000000, 6500000]
+  };
+
+  let options = {
+    chart: {
+      type: 'bar',
+      height: 250
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        barHeight: '50%'
+      }
+    },
+    series: [{
+      name: 'Amount',
+      data: monthlyData.amounts
+    }],
+    xaxis: {
+      categories: monthlyData.categories,
+      labels: {
+        style: { fontSize: '12px' }
+      }
+    }
+  };
+
+  const chart = new ApexCharts(document.querySelector("#expenseBarChart"), options);
+  chart.render();
+
+  document.getElementById("monthlyBtn").addEventListener("click", () => {
+    chart.updateOptions({
+      xaxis: { categories: monthlyData.categories },
+      series: [{ name: 'Amount', data: monthlyData.amounts }]
+    });
+    toggleButtons('monthly');
+    document.getElementById("periodText").textContent = "Month";
+  });
+
+  document.getElementById("yearlyBtn").addEventListener("click", () => {
+    chart.updateOptions({
+      xaxis: { categories: yearlyData.categories },
+      series: [{ name: 'Amount', data: yearlyData.amounts }]
+    });
+    toggleButtons('yearly');
+    document.getElementById("periodText").textContent = "Year";
+  });
+
+  function toggleButtons(active) {
+    const monthlyBtn = document.getElementById("monthlyBtn");
+    const yearlyBtn = document.getElementById("yearlyBtn");
+
+    if (active === 'monthly') {
+      monthlyBtn.classList.remove("btn-outline-light");
+      monthlyBtn.classList.add("btn-light");
+      yearlyBtn.classList.remove("btn-light");
+      yearlyBtn.classList.add("btn-outline-light");
+    } else {
+      yearlyBtn.classList.remove("btn-outline-light");
+      yearlyBtn.classList.add("btn-light");
+      monthlyBtn.classList.remove("btn-light");
+      monthlyBtn.classList.add("btn-outline-light");
+    }
+  }
+});
+</script>
+
+          <div class="card mt-4">
             <div class="card-body">
               <div class="table-top">
                 <div class="search-set">
