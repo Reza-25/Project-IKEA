@@ -290,13 +290,9 @@
 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img"><span> People</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="customerlist.php">Customer List</a></li>
-<li><a href="addcustomer.php">Add Customer </a></li>
 <li><a href="supplierlist.php">Supplier List</a></li>
-<li><a href="addsupplier.php">Add Supplier </a></li>
-<li><a href="userlist.php" class="active">User List</a></li>
-<li><a href="adduser.php">Add User</a></li>
+<li><a href="userlist.php">User List</a></li>
 <li><a href="storelist.php">Store List</a></li>
-<li><a href="addstore.php">Add Store</a></li>
 </ul>
 </li>
 <li class="submenu">
