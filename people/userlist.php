@@ -241,13 +241,9 @@
 </ul>
 </li>
 <li class="submenu">
-<a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img"><span> Sales</span> <span class="menu-arrow"></span></a>
+<a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img"><span> Supplier</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="../sales/saleslist.php">Sales List</a></li>
-<li><a href="../sales/pos.php">POS</a></li>
-<li><a href="../sales/pos.php">New Sales</a></li>
-<li><a href="../sales/salesreturnlist.php">Sales Return List</a></li>
-<li><a href="../sales/createsalesreturn.php">New Sales Return</a></li>
+<li><a href="../supplier/supplierlist.php">Supplier List</a></li>
 </ul>
 </li>
 <li class="submenu">
