@@ -226,9 +226,10 @@
 <li class="submenu">
 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
-<li><a href="product/productlist.php">Product List</a></li>
-<li><a href="product/categorylist.php">Category List</a></li>
-<li><a href="product/brandlist.php">Brand List</a></li>
+<li><a href="productsold.php">Product Sold</a></li>
+<li><a href="productlist.php">Product List</a></li>
+<li><a class="active" href="categorylist.php">Category List</a></li>
+<li><a href="brandlist.php">Brand List</a></li>
 </ul>
 </li>
 <li class="submenu">
@@ -425,105 +426,73 @@
 </div>
 <!-- SIDEBAR END -->
 
-
 <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
-<div class="content">
-<div class="page-header">
-<div class="page-title">
-<h4>Product Category list</h4>
-<h6>View/Search product Category</h6>
-</div>
-<div class="page-btn">
-<a href="addcategory.php" class="btn btn-added">
-<img src="../assets/img/icons/plus.svg" class="me-1" alt="img">Add Category
-</a>
-</div>
-</div>
+  <div class="content">
 
-<div class="card">
-<div class="card-body">
-<div class="table-top">
-<div class="search-set">
-<div class="search-path">
-<a class="btn btn-filter" id="filter_search">
-<img src="../assets/img/icons/filter.svg" alt="img">
-<span><img src="../assets/img/icons/closes.svg" alt="img"></span>
-</a>
-</div>
-<div class="search-input">
-<a class="btn btn-searchset"><img src="../assets/img/icons/search-white.svg" alt="img"></a>
-</div>
-</div>
-<div class="wordset">
-<ul>
-<li>
-<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="../assets/img/icons/pdf.svg" alt="img"></a>
-</li>
-<li>
-<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="../assets/img/icons/excel.svg" alt="img"></a>
-</li>
-<li>
-<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="../assets/img/icons/printer.svg" alt="img"></a>
-</li>
-</ul>
-</div>
-</div>
-<!-- BAGIAN ATAS END -->
-
-
-
-<!-- TABLE TOTAL CATEGORY, TOTAL PRODUK, UPCOMING CATEGORY & PRODUCT  -->
-<div class="row justify-content-end">
-  <!-- Total Category -->
-  <div class="col-lg-3 col-sm-6 col-12 d-flex">
-  <a href="productsold.php" class="w-100 text-decoration-none text-dark">
-    <div class="dash-count das2">
-      <div class="dash-counts">
-        <h4><span class="counters" data-count="21">2.1</span></h4>
-        <h5>Total Category</h5>
+  <div class="page-header">
+      <div class="page-title">
+        <h4>Product Category list</h4>
+        <h6>View/Search product Category</h6>
       </div>
-      <div class="dash-imgs">
-        <i data-feather="layers"></i>
+      <div class="page-btn">
+        <a href="addcategory.php" class="btn btn-added">
+          <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">Add Category
+        </a>
       </div>
     </div>
-  </a>
-</div>
 
-  <!-- Total Product -->
-  <div class="col-lg-3 col-sm-6 col-12 d-flex">
-  <a href="productsold.php" class="w-100 text-decoration-none text-dark">
-    <div class="dash-count das2">
-      <div class="dash-counts">
-        <h4><span class="counters" data-count="12000">12.000</span></h4>
-        <h5>Total Product</h5>
+    <!-- 🟡 Tambahan: DASHBOARD KATEGORI & PRODUK -->
+    <div class="row justify-content-end mb-4">
+      <!-- Total Category -->
+      <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <a href="productsold.php" class="w-100 text-decoration-none text-dark">
+          <div class="dash-count das2">
+            <div class="dash-counts">
+              <h4><span class="counters" data-count="21">2.1</span></h4>
+              <h5>Total Category</h5>
+            </div>
+            <div class="dash-imgs">
+              <i data-feather="layers"></i>
+            </div>
+          </div>
+        </a>
       </div>
-      <div class="dash-imgs">
-        <i data-feather="box"></i>
+
+      <!-- Total Product -->
+      <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <a href="productsold.php" class="w-100 text-decoration-none text-dark">
+          <div class="dash-count das2">
+            <div class="dash-counts">
+              <h4><span class="counters" data-count="12000">12.000</span></h4>
+              <h5>Total Product</h5>
+            </div>
+            <div class="dash-imgs">
+              <i data-feather="box"></i>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Upcoming -->
+      <div class="col-lg-4 col-sm-6 col-12 d-flex">
+        <a href="productsold.php" class="w-100 text-decoration-none text-dark">
+          <div class="dash-count das2" style="padding: 20px; background-color: #FFCC00; border-radius: 10px; color: black;">
+            <div class="dash-counts">
+              <h4>Upcoming Items</h4>
+              <p style="margin: 0; font-weight: bold;">📁 Category: <span class="counters" data-count="6">6</span></p>
+              <p style="margin: 0; font-weight: bold;">📦 Product: <span class="counters" data-count="376">376</span></p>
+            </div>
+            <div class="dash-imgs" style="margin-top: auto;">
+              <i data-feather="clock"></i>
+            </div>
+          </div>
+        </a>
       </div>
     </div>
-  </a>
-</div>
+    <!-- END DASHBOARD -->
 
-<!-- Up Coming Category & Product (Gabungan) -->
-<div class="col-lg-4 col-sm-6 col-12 d-flex">
-  <a href="productsold.php" class="w-100 text-decoration-none text-dark">
-    <div class="dash-count das2" style="padding: 20px; background-color: #FFCC00; border-radius: 10px; color: black;">
-      <div class="dash-counts">
-        <h4>Upcoming Items</h4>
-        <p style="margin: 0; font-weight: bold;">📁 Category: <span class="counters" data-count="6">6</span></p>
-        <p style="margin: 0; font-weight: bold;">📦 Product: <span class="counters" data-count="376">376</span></p>
-      </div>
-      <div class="dash-imgs" style="margin-top: auto;">
-        <i data-feather="clock"></i>
-      </div>
-    </div>
-  </a>
-</div>
-<!-- END -->
-
-
-<!-- CHART -->
+    <!-- CHART -->
 <!-- ROW CHART + CARD -->
 <div class="row mt-4">
   <!-- DONUT CHART KIRI -->
@@ -590,83 +559,113 @@
 
 <!-- END UPCOMING CARD KANAN -->    
 
-<!-- CDN APEXCHARTS -->
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <!-- CDN APEXCHARTS -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<!-- Chart Script -->
-<script>
-  const categoryLabels = [
-    "Furniture", "Lighting", "Storage", "Bedroom", "Living Room",
-    "Kitchen", "Dining", "Office", "Outdoor", "Textiles",
-    "Decoration", "Bathroom", "Children", "Appliances", "Rugs",
-    "Curtains", "Tableware", "Cookware", "Laundry", "Cleaning", "Pet"
-  ];
+  <!-- Chart Script -->
+  <script>
+    const categoryLabels = [
+      "Furniture", "Lighting", "Storage", "Bedroom", "Living Room",
+      "Kitchen", "Dining", "Office", "Outdoor", "Textiles",
+      "Decoration", "Bathroom", "Children", "Appliances", "Rugs",
+      "Curtains", "Tableware", "Cookware", "Laundry", "Cleaning", "Pet"
+    ];
 
-  const categoryValues = [
-    1200, 800, 950, 1000, 1100, 700, 600, 550, 400, 650,
-    300, 480, 500, 320, 430, 290, 510, 620, 230, 190, 100
-  ];
+    const categoryValues = [
+      1200, 800, 950, 1000, 1100, 700, 600, 550, 400, 650,
+      300, 480, 500, 320, 430, 290, 510, 620, 230, 190, 100
+    ];
 
-  // Warna RGB Merah, Biru, Hijau
- const rgbColors = [
-  "rgb(72, 61, 139)",    // dark slate blue
-  "rgb(100, 149, 237)",  // cornflower blue
-  "rgb(119, 136, 153)"   // light slate gray
-  ];
+    // Warna RGB Merah, Biru, Hijau
+  const rgbColors = [
+    "rgb(72, 61, 139)",    // dark slate blue
+    "rgb(100, 149, 237)",  // cornflower blue
+    "rgb(119, 136, 153)"   // light slate gray
+    ];
 
-  // Mengulang warna untuk setiap kategori
-  const repeatedColors = categoryLabels.map((_, i) => rgbColors[i % rgbColors.length]);
+    // Mengulang warna untuk setiap kategori
+    const repeatedColors = categoryLabels.map((_, i) => rgbColors[i % rgbColors.length]);
 
-  // Donut Chart
-  var donutOptions = {
-    chart: { type: 'donut' },
-    series: categoryValues,
-    labels: categoryLabels,
-    colors: repeatedColors,
-    title: {
-      // text: "Distribusi Produk per Kategori"
-    },
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: { width: 360 },
-        legend: { position: 'bottom' }
+    // Donut Chart
+    var donutOptions = {
+      chart: { type: 'donut' },
+      series: categoryValues,
+      labels: categoryLabels,
+      colors: repeatedColors,
+      title: {
+        // text: "Distribusi Produk per Kategori"
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: { width: 360 },
+          legend: { position: 'bottom' }
+        }
+      }]
+    };
+    var donutChart = new ApexCharts(document.querySelector("#donutChart"), donutOptions);
+    donutChart.render();
+
+    // Bar Chart
+    var barOptions = {
+      chart: {
+        type: 'bar',
+        height: 400
+      },
+      series: [{
+        name: "Jumlah Produk",
+        data: categoryValues
+      }],
+      colors: repeatedColors,
+      xaxis: {
+        categories: categoryLabels,
+        labels: { rotate: -45 }
+      },
+      title: {
+        text: "Jumlah Produk per Kategori",
+        align: 'center'
+      },
+      plotOptions: {
+        bar: {
+          distributed: true
+        }
       }
-    }]
-  };
-  var donutChart = new ApexCharts(document.querySelector("#donutChart"), donutOptions);
-  donutChart.render();
+    };
+    var barChart = new ApexCharts(document.querySelector("#barChart"), barOptions);
+    barChart.render();
+    </script>
 
-  // Bar Chart
-  var barOptions = {
-    chart: {
-      type: 'bar',
-      height: 400
-    },
-    series: [{
-      name: "Jumlah Produk",
-      data: categoryValues
-    }],
-    colors: repeatedColors,
-    xaxis: {
-      categories: categoryLabels,
-      labels: { rotate: -45 }
-    },
-    title: {
-      text: "Jumlah Produk per Kategori",
-      align: 'center'
-    },
-    plotOptions: {
-      bar: {
-        distributed: true
-      }
-    }
-  };
-  var barChart = new ApexCharts(document.querySelector("#barChart"), barOptions);
-  barChart.render();
-</script>
+    <!-- 👇 Bagian Search -->
+    <div class="card">
+      <div class="card-body">
+        <div class="table-top">
+          <div class="search-set">
+            <div class="search-path">
+              <a class="btn btn-filter" id="filter_search">
+                <img src="../assets/img/icons/filter.svg" alt="img">
+                <span><img src="../assets/img/icons/closes.svg" alt="img"></span>
+              </a>
+            </div>
+            <div class="search-input">
+              <a class="btn btn-searchset"><img src="../assets/img/icons/search-white.svg" alt="img"></a>
+            </div>
+          </div>
+          <div class="wordset">
+            <ul>
+              <li>
+                <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="../assets/img/icons/pdf.svg" alt="img"></a>
+              </li>
+              <li>
+                <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="../assets/img/icons/excel.svg" alt="img"></a>
+              </li>
+              <li>
+                <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="../assets/img/icons/printer.svg" alt="img"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
 
 <!-- CATEGORY PRODUCT -->
 <div class="card" id="filter_inputs">

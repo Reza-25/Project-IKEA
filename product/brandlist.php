@@ -208,6 +208,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img" /><span> Product</span> <span class="menu-arrow"></span></a>
                 <ul>
+                  <li><a href="productsold.php">Product Sold</a></li>
                   <li><a href="productlist.php">Product List</a></li>
                   <li><a href="categorylist.php">Category List</a></li>
                   <li><a href="brandlist.php" class="active">Brand List</a></li>
