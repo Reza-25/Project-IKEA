@@ -267,7 +267,7 @@
                   <li><a href="../return/purchasereturnlist.php">Purchase Return List</a></li>
                   <li><a href="../return/createpurchasereturn.php">Add Purchase Return </a></li>
                 </ul>
-              </li>
+              </li> 
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                 <ul>
