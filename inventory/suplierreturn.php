@@ -406,9 +406,6 @@
               <h4>Purchase Return List</h4>
               <h6>Manage your Returns</h6>
             </div>
-            <div class="page-btn">
-              <a href="createpurchasereturn.php" class="btn btn-added"> <img src="../assets/img/icons/plus.svg" alt="img" class="me-2" />Add Purchase Return </a>
-            </div>
           </div>
 
           <div class="card">
@@ -492,12 +489,11 @@
                       <th>Date</th>
                       <th>Supplier</th>
                       <th>Reference</th>
-                      <th>Status</th>
                       <th>Grand Total ($)</th>
                       <th>Paid ($)</th>
                       <th>Due ($)</th>
                       <th>Payment Status</th>
-                      <th>Action</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -516,19 +512,12 @@
                       <td>2/27/2022</td>
                       <td>Apex Computers</td>
                       <td>PT001</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
                       <td>550</td>
                       <td>120</td>
                       <td>550</td>
                       <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -545,19 +534,12 @@
                       <td>1/15/2022</td>
                       <td>Modern Automobile</td>
                       <td>PT002</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
                       <td>550</td>
                       <td>120</td>
                       <td>550</td>
                       <td><span class="badges bg-lightyellow">Partial</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -574,19 +556,12 @@
                       <td>3/24/2022</td>
                       <td>AIM Infotech</td>
                       <td>PT003</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
                       <td>210</td>
                       <td>120</td>
                       <td>210</td>
                       <td><span class="badges bg-lightred">Unpaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -603,19 +578,12 @@
                       <td>1/15/2022</td>
                       <td>Best Power Tools</td>
                       <td>PT004</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
                       <td>210</td>
                       <td>120</td>
                       <td>210</td>
                       <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -632,19 +600,12 @@
                       <td>1/15/2022</td>
                       <td>AIM Infotech</td>
                       <td>PT005</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
                       <td>210</td>
                       <td>120</td>
                       <td>210</td>
                       <td><span class="badges bg-lightred">UnPaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -661,19 +622,12 @@
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
                       <td>PT006</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
                       <td>210</td>
                       <td>120</td>
                       <td>210</td>
                       <td><span class="badges bg-lightgreen">paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -690,19 +644,12 @@
                       <td>1/15/2022</td>
                       <td>Apex Computers</td>
                       <td>PT007</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
                       <td>1000</td>
                       <td>500</td>
                       <td>1000</td>
                       <td><span class="badges bg-lightyellow">Partial</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -719,19 +666,12 @@
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
                       <td>PT008</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
                       <td>210</td>
                       <td>120</td>
                       <td>210</td>
                       <td><span class="badges bg-lightgreen">paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -748,19 +688,12 @@
                       <td>3/24/2022</td>
                       <td>Hatimi Hardware & Tools</td>
                       <td>PT009</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
                       <td>5500</td>
                       <td>550</td>
                       <td>5500</td>
                       <td><span class="badges bg-lightred">Unpaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -777,19 +710,12 @@
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
                       <td>PT0010</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
                       <td>2580</td>
                       <td>1250</td>
                       <td>2580</td>
                       <td><span class="badges bg-lightred">Unpaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+
                     </tr>
                     <tr>
                       <td>
@@ -806,19 +732,12 @@
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
                       <td>PT0011</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
                       <td>2580</td>
                       <td>1250</td>
                       <td>2580</td>
                       <td><span class="badges bg-lightred">Unpaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editpurchasereturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+
                     </tr>
                   </tbody>
                 </table>
