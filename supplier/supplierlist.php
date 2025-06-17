@@ -182,7 +182,7 @@
                   <span class="user-img"><img src="../assets/img/profiles/avator1.jpg" alt="" /> <span class="status online"></span></span>
                   <div class="profilesets">
                     <h6>John Doe</h6>
-                    <h5>Supplier</h5>
+                    <h5>Store</h5>
                   </div>
                 </div>
                 <hr class="m-0" />
@@ -228,13 +228,9 @@
                 </ul>
               </li>
               <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Sales</span> <span class="menu-arrow"></span></a>
+                <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="saleslist.php" class="active">Sales List</a></li>
-                  <li><a href="pos.php">POS</a></li>
-                  <li><a href="pos.php">New Sales</a></li>
-                  <li><a href="salesreturnlist.php">Sales Return List</a></li>
-                  <li><a href="createsalesreturns.php">New Sales Return</a></li>
+                  <li><a href="supplierlist.php" class="active">Supplier List</a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -430,9 +426,6 @@
               <h4>Supplier List</h4>
               <h6>Manage your supplier</h6>
             </div>
-            <div class="page-btn">
-              <a href="../add-sales.php" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img" class="me-1" />Add Sales</a>
-            </div>
           </div>
 
           <div class="card">
@@ -507,12 +500,12 @@
                       <th>Date</th>
                       <th>Customer Name</th>
                       <th>Reference</th>
-                      <th>Status</th>
-                      <th>Payment</th>
                       <th>Total</th>
                       <th>Paid</th>
                       <th>Due</th>
                       <th>Biller</th>
+                      <th>Status</th>
+                      <th>Payment</th>
                       <th class="text-center">Action</th>
                     </tr>
                   </thead>
@@ -527,34 +520,23 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0101</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td>0.00</td>
                       <td>0.00</td>
                       <td class="text-red">100.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightgreen">Completed</span></td>
+                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Supplier Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
                           </li>
                         </ul>
                       </td>
@@ -569,35 +551,24 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0102</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td>0.00</td>
                       <td>0.00</td>
                       <td class="text-red">100.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightgreen">Completed</span></td>
+                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -611,35 +582,24 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0103</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td>0.00</td>
                       <td class="text-green">100.00</td>
                       <td>0.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightgreen">Completed</span></td>
+                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -653,35 +613,24 @@
                       <td>Fred C. Rasmussen</td>
                       <td>19 Nov 2022</td>
                       <td>SL0104</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
                       <td>0.00</td>
                       <td class="text-green">100.00</td>
                       <td>0.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                      <td><span class="badges bg-lightred">Due</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -695,35 +644,24 @@
                       <td>Thomas M. Martin</td>
                       <td>19 Nov 2022</td>
                       <td>SL0105</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
                       <td>0.00</td>
                       <td>0.00</td>
                       <td class="text-green">100.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                      <td><span class="badges bg-lightred">Due</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -737,35 +675,24 @@
                       <td>Thomas M. Martin</td>
                       <td>19 Nov 2022</td>
                       <td>SL0106</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td>0.00</td>
                       <td>0.00</td>
                       <td class="text-red">100.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightgreen">Completed</span></td>
+                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -779,35 +706,24 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0107</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td>0.00</td>
                       <td>0.00</td>
                       <td class="text-red">100.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightgreen">Completed</span></td>
+                      <td><span class="badges bg-lightgreen">Paid</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -821,35 +737,24 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0108</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
                       <td>0.00</td>
                       <td class="text-green">100.00</td>
                       <td>0.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                      <td><span class="badges bg-lightred">Due</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -863,35 +768,24 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0109</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
                       <td>0.00</td>
                       <td class="text-green">100.00</td>
                       <td>0.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                      <td><span class="badges bg-lightred">Due</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -905,35 +799,24 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0110</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
                       <td>0.00</td>
                       <td class="text-green">100.00</td>
                       <td>0.00</td>
-                      <td>Supplier</td>
+                      <td>Store</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                      <td><span class="badges bg-lightred">Due</span></td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
@@ -947,35 +830,24 @@
                       <td>walk-in-customer</td>
                       <td>19 Nov 2022</td>
                       <td>SL0111</td>
+                      <td>0.00</td>
+                      <td>0.00</td>
+                      <td>0.00</td>
+                      <td>Store</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
                       <td><span class="badges bg-lightred">Due</span></td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td>Supplier</td>
                       <td class="text-center">
                         <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
                           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                         </a>
                         <ul class="dropdown-menu">
                           <li>
-                            <a href="../sales-details.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="../edit-sales.php" class="dropdown-item"><img src="../assets/img/icons/edit.svg" class="me-2" alt="img" />Edit Sale</a>
+                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
                           </li>
                           <li>
                             <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
                           </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#createpayment"><img src="../assets/img/icons/plus-circle.svg" class="me-2" alt="img" />Create Payment</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item"><img src="../assets/img/icons/download.svg" class="me-2" alt="img" />Download pdf</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item confirm-text"><img src="../assets/img/icons/delete1.svg" class="me-2" alt="img" />Delete Sale</a>
-                          </li>
+
                         </ul>
                       </td>
                     </tr>
