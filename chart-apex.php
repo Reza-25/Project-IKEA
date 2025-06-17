@@ -1,7 +1,7 @@
 <?php
 // --- Konfigurasi Gemini API ---
 // GANTI DENGAN API KEY GEMINI Anda
-$gemini_api_key = 'AIzaSyDlFjG6KMo3LMA_a2xqgGe3I13lLAasoeE'; // <<< GANTI INI
+$gemini_api_key = ''; // <<< GANTI INI
 $gemini_endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . $gemini_api_key;
 // --- Akhir Konfigurasi ---
 

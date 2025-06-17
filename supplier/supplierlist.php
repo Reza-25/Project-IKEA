@@ -257,11 +257,11 @@
                 </ul>
               </li>
               <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img" /><span> Transfer</span> <span class="menu-arrow"></span></a>
+                 <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img" /><span> Inventory</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="../transfer/transferlist.php">Transfer List</a></li>
-                  <li><a href="../transfer/addtransfer.php">Add Transfer </a></li>
-                  <li><a href="../transfer/importtransfer.php">Import Transfer </a></li>
+                <li><a href="../inventory/transferlist.php">Transfer List </a></li>
+                  <li><a href="../inventory/suplierreturn.php">Supplier Return </a></li>
+                  <li><a href="../inventory/customerreturn.php">Customer Return </a></li>
                 </ul>
               </li>
               <li class="submenu">
@@ -497,8 +497,8 @@
                           <span class="checkmarks"></span>
                         </label>
                       </th>
+                      <th>Supplier Name</th>
                       <th>Date</th>
-                      <th>Customer Name</th>
                       <th>Reference</th>
                       <th>Total</th>
                       <th>Paid</th>
@@ -517,7 +517,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0101</td>
                       <td>0.00</td>
@@ -548,7 +548,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0102</td>
                       <td>0.00</td>
@@ -579,7 +579,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0103</td>
                       <td>0.00</td>
@@ -703,7 +703,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0107</td>
                       <td>0.00</td>
@@ -734,7 +734,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0108</td>
                       <td>0.00</td>
@@ -765,7 +765,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0109</td>
                       <td>0.00</td>
@@ -796,7 +796,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0110</td>
                       <td>0.00</td>
@@ -827,7 +827,7 @@
                           <span class="checkmarks"></span>
                         </label>
                       </td>
-                      <td>walk-in-customer</td>
+                      <td>Delivery</td>
                       <td>19 Nov 2022</td>
                       <td>SL0111</td>
                       <td>0.00</td>

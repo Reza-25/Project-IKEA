@@ -37,7 +37,7 @@
 
     <div class="main-wrapper">
       <div class="header">
-        <div class="header-left active">
+        <div class="header-left DONE">
           <a href="index.html" class="logo">
             <img src="../assets/img/logo1.png" alt="" />
           </a>
@@ -232,7 +232,7 @@
               <li class="submenu">
                 <a href="javascript:void(0);"><img src="../assets/img/icons/expense1.svg" alt="img" /><span> Expense</span> <span class="menu-arrow"></span></a>
                 <ul>
-                  <li><a href="expenselist.php" class="active">Expense List</a></li>
+                  <li><a href="expenselist.php" class="DONE">Expense List</a></li>
                   <li><a href="expensecategory.php">Expense Category</a></li>
                 </ul>
               </li>
@@ -555,13 +555,6 @@ document.addEventListener('DOMContentLoaded', function () {
                       </div>
                     </div>
                     <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <select class="select">
-                          <option>Choose Status</option>
-                          <option>Complete</option>
-                          <option>Inprogress</option>
-                        </select>
-                      </div>
                     </div>
                     <div class="col-lg-1 col-sm-6 col-12 ms-auto">
                       <div class="form-group">
@@ -585,10 +578,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <th>Category name</th>
                       <th>Reference</th>
                       <th>Date</th>
-                      <th>Status</th>
                       <th>Amount</th>
                       <th>Description</th>
-                      <th>Action</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -602,17 +594,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Employee Benefits</td>
                       <td>PT001</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>120</td>
                       <td>Employee Vehicle</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -624,17 +608,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Foods & Snacks</td>
                       <td>PT002</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>250</td>
                       <td>Employee Foods</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -646,17 +622,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Entertainment</td>
                       <td>PT003</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightred">In Active</span></td>
                       <td>120</td>
                       <td>Office Vehicle</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">ON PROGRESS</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -668,17 +636,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Office Expenses & Postage</td>
                       <td>PT004</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>320</td>
                       <td>Employee Foods</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -690,17 +650,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Employee Benefits</td>
                       <td>PT005</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>250</td>
                       <td>Employee Vehicle</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -712,17 +664,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Foods & Snacks</td>
                       <td>PT006</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>250</td>
                       <td>Employee Foods</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -734,17 +678,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Entertainment</td>
                       <td>PT007</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightred">In Active</span></td>
                       <td>120</td>
                       <td>Office Vehicle</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">ON PROGRESS</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -756,17 +692,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Office Expenses & Postage</td>
                       <td>PT008</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>320</td>
                       <td>Employee Foods</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -778,17 +706,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Employee Benefits</td>
                       <td>PT009</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>120</td>
                       <td>Employee Vehicle</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -800,17 +720,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Foods & Snacks</td>
                       <td>PT010</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>250</td>
                       <td>Employee Foods</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -822,17 +734,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Entertainment</td>
                       <td>PT011</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightred">In Active</span></td>
                       <td>120</td>
                       <td>Office Vehicle</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightred">ON PROGRESS</span></td>
                     </tr>
                     <tr>
                       <td>
@@ -844,17 +748,9 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Office Expenses & Postage</td>
                       <td>PT012</td>
                       <td>19 Nov 2022</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>320</td>
                       <td>Employee Foods</td>
-                      <td>
-                        <a class="me-3" href="editexpense.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                   </tbody>
                 </table>
