@@ -119,14 +119,14 @@ function is_active($pages) {
                 <li class="submenu <?= (['newcountry.php', 'countrieslist.php', 'newstate.php', 'statelist.php']) ?>">
                     <a href="javascript:void(0);">
                         <img src="../assets/img/icons/places.svg" alt="img" />
-                        <span> Places</span> <span class="menu-arrow"></span>
+                        <span> Location</span> <span class="menu-arrow"></span>
                     </a>
                     <ul>
                         <li class="<?= (['countrieslist.php']) ?>">
-                            <a href="../places/countrieslist.php" class="<?= is_active(['countrieslist.php']) ?>">Countries list</a>
+                            <a href="../places/countrieslist.php" class="<?= is_active(['countrieslist.php']) ?>">Store Location</a>
                         </li>
                         <li class="<?= (['statelist.php']) ?>">
-                            <a href="../places/statelist.php" class="<?= is_active(['statelist.php']) ?>">State list</a>
+                            <a href="../places/statelist.php" class="<?= is_active(['statelist.php']) ?>">Inventory Location</a>
                         </li>
                     </ul>
                 </li>
