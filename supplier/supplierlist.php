@@ -35,8 +35,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     </div>
 
 <div class="main-wrapper">
-       <!-- Include sidebar -->
-     <?php include BASE_PATH . '../include/sidebar.php'; ?>
+<!-- Include sidebar -->
+<?php include BASE_PATH . '../include/sidebar.php'; ?>
 <div class="header">
 
 <div class="header-left active">

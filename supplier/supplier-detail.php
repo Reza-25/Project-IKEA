@@ -1,4 +1,7 @@
-﻿<!DOCTYPE php>
+﻿<?php
+require_once __DIR__ . '/../include/config.php'; // Import config.php
+?>
+<!DOCTYPE php>
 <php lang="en">
 <head>
 <meta charset="utf-8">
@@ -30,7 +33,8 @@
 </div>
 
 <div class="main-wrapper">
-
+<!-- Include sidebar -->
+<?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
 <div class="header">
 
 <div class="header-left active">
