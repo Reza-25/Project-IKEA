@@ -490,429 +490,372 @@
                 <table class="table datanew">
                   <thead>
                     <tr>
-                      <th>
-                        <label class="checkboxs">
-                          <input type="checkbox" id="select-all" />
-                          <span class="checkmarks"></span>
-                        </label>
+                      <th>NO
                       </th>
-                      <th>Product Name</th>
+                      <th>Category Name</th>
                       <th>Date</th>
-                      <th>Customer</th>
+                      <th>Branch</th>
+                      <th>Revund Total</th>
+                      <th>Percentage</th>
                       <th>Status</th>
-                      <th>Grand Total ($)</th>
-                      <th>Paid ($)</th>
-                      <th>Due ($)</th>
-                      <th>Payment Status</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        1
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product1.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Macbook pro</a>
+                        <a href="javascript:void(0);">Furniture</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Thomas</td>
+                      <td>Bogor</td>
+                      <td>1200</td>
+                      <td>10.1%</td>
                       <td><span class="badges bg-lightgreen">Received</span></td>
-                      <td>550</td>
-                      <td>120</td>
-                      <td>550</td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        2
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product2.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Orange</a>
+                        <a href="javascript:void(0);">Lighting</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Benjamin</td>
+                      <td>Jakarta Barat</td>
+                      <td>800</td>
+                      <td>6.7%</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>550</td>
-                      <td>120</td>
-                      <td>550</td>
-                      <td><span class="badges bg-lightred">Unpaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+                    
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        3
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product3.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Pineapple</a>
+                        <a href="javascript:void(0);">Storage</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>James</td>
+                      <td>Jakarta Timur</td>
+                      <td>950</td>
+                      <td>8.0%</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightred">Unpaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        4
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product4.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Strawberry</a>
+                        <a href="javascript:void(0);">Bedroom</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Bruklin</td>
+                      <td>Bandung</td>
+                      <td>1000</td>
+                      <td>8.4%</td>
                       <td><span class="badges bg-lightgreen">Received</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        5
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product5.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Avocat</a>
+                        <a href="javascript:void(0);">Living Room</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Beverly</td>
+                      <td>Bogor</td>
+                      <td>1100</td>
+                      <td>9.2%</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightred">UnPaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        6
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product6.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Macbook Pro</a>
+                        <a href="javascript:void(0);">Kitchen</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Best Power Tools</td>
+                      <td>Kuta</td>
+                      <td>700</td>
+                      <td>5.9%</td>
                       <td><span class="badges bg-lightgreen">Received</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightgreen">paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        7
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product7.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Apple Earpods</a>
+                        <a href="javascript:void(0);">Dining</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Apex Computers</td>
+                      <td>Bandung</td>
+                      <td>600</td>
+                      <td>5.0%</td>
                       <td><span class="badges bg-lightyellow">Ordered</span></td>
-                      <td>1000</td>
-                      <td>500</td>
-                      <td>1000</td>
-                      <td><span class="badges bg-lightyellow">Partial</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        8
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product1.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Macbook pro</a>
+                        <a href="javascript:void(0);">Office</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Thomas</td>
+                      <td>Bogor</td>
+                      <td>550</td>
+                      <td>4.6%</td>
                       <td><span class="badges bg-lightgreen">Received</span></td>
-                      <td>550</td>
-                      <td>120</td>
-                      <td>550</td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        9
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product2.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Orange</a>
+                        <a href="javascript:void(0);">Outdoor</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Benjamin</td>
+                      <td>Jakarta Barat</td>
+                      <td>400</td>
+                      <td>3.4%</td>
                       <td><span class="badges bg-lightyellow">Pending</span></td>
-                      <td>550</td>
-                      <td>120</td>
-                      <td>550</td>
-                      <td><span class="badges bg-lightyellow">Partial</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        10
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product3.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Pineapple</a>
+                        <a href="javascript:void(0);">Textiles</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>James</td>
+                      <td>Jakarta Timur</td>
+                      <td>650</td>
+                      <td>5.5%</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightred">Unpaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        11
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product4.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Strawberry</a>
+                        <a href="javascript:void(0);">Decoration</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Bruklin</td>
+                      <td>Bandung</td>
+                      <td>300</td>
+                      <td>1.9%</td>
                       <td><span class="badges bg-lightgreen">Received</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        12
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product5.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Avocat</a>
+                        <a href="javascript:void(0);">Bathroom</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Beverly</td>
+                      <td>Bogor</td>
+                      <td>480</td>
+                      <td>4.0%</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightred">UnPaid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        13
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product6.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Macbook Pro</a>
+                        <a href="javascript:void(0);">Children</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Best Power Tools</td>
+                      <td>Kuta</td>
+                      <td>500</td>
+                      <td>4.2%</td>
                       <td><span class="badges bg-lightgreen">Received</span></td>
-                      <td>210</td>
-                      <td>120</td>
-                      <td>210</td>
-                      <td><span class="badges bg-lightgreen">paid</span></td>
-                      <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
                     </tr>
+
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                      14
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
                           <img src="../assets/img/product/product7.jpg" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Apple Earpods</a>
+                        <a href="javascript:void(0);">Appliances</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>Apex Computers</td>
+                      <td>Bandung</td>
+                      <td>320</td>
+                      <td>1.9%</td>
                       <td><span class="badges bg-lightyellow">Ordered</span></td>
-                      <td>1000</td>
-                      <td>500</td>
-                      <td>1000</td>
-                      <td><span class="badges bg-lightyellow">Partial</span></td>
+                    </tr>
+
+                    <tr>
                       <td>
-                        <a class="me-3" href="../editsalesreturn.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
+                        15
                       </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product2.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Rugs</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>430</td>
+                      <td>3.6%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        16
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product7.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Curtains</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Timur</td>
+                      <td>290</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        17
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product6.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Tableware</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Tangerang</td>
+                      <td>510</td>
+                      <td>4.3%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        18
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product5.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Cookware</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>620</td>
+                      <td>5.2%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        19
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product4.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Laundry</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Timur</td>
+                      <td>230</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        20
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product3.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Cleaning</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>190</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        21
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product2.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Pet</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bandung</td>
+                      <td>100</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
                     </tr>
                   </tbody>
                 </table>

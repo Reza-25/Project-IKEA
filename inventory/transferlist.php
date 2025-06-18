@@ -411,7 +411,6 @@
               <h6>Transfer your stocks to one store another store.</h6>
             </div>
             <div class="page-btn">
-              <a href="addtransfer.php" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img" class="me-2" />Add Transfer</a>
             </div>
           </div>
 
@@ -481,298 +480,193 @@
                 <table class="table datanew">
                   <thead>
                     <tr>
-                      <th>
-                        <label class="checkboxs">
-                          <input type="checkbox" id="select-all" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </th>
+                      <th>No</th>
                       <th>Date</th>
                       <th>Reference</th>
-                      <th>From</th>
-                      <th>Paid</th>
-                      <th>items</th>
-                      <th>Grand total</th>
+                      <th>From Branch</th>
+                      <th>Items Total</th>
+                      <th>Money Spent</th>
                       <th>Status</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>1</td>
                       <td>19 Nov 2022</td>
                       <td>TR0101</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Tangerang</td>
+                      <td>10</td>
                       <td>1500.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>2</td>
                       <td>19 Nov 2022</td>
                       <td>TR0102</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Bogor</td>
+                      <td>20</td>
                       <td>45000.00</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightyellow">On Progress</span></td>                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>3</td>
                       <td>19 Nov 2022</td>
                       <td>TR0103</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Bandung</td>
+                      <td>15</td>
                       <td>2400.00</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightyellow">On Progress</span></td>                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>4</td>
                       <td>19 Nov 2022</td>
                       <td>TR0104</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Jakarta Timur</td>
+                      <td>34</td>
                       <td>2400.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>5</td>
                       <td>19 Nov 2022</td>
                       <td>TR0105</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Kuta</td>
+                      <td>56</td>
                       <td>2400.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>6</td>
                       <td>19 Nov 2022</td>
                       <td>TR0106</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Jakarta Barat</td>
+                      <td>23</td>
                       <td>8456.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>7</td>
                       <td>19 Nov 2022</td>
                       <td>TR0107</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Bogor</td>
+                      <td>33</td>
                       <td>150.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>8</td>
                       <td>19 Nov 2022</td>
                       <td>TR0108</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Bandung</td>
+                      <td>44</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>9</td>
                       <td>19 Nov 2022</td>
                       <td>TR0109</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Tangerang</td>
+                      <td>12</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>10</td>
                       <td>19 Nov 2022</td>
                       <td>TR01010</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Jakarta Timur</td>
+                      <td>33</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>11</td>
                       <td>19 Nov 2022</td>
                       <td>TR0111</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Kuta</td>
+                      <td>10</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
+                      <td>12</td>
                       <td>19 Nov 2022</td>
                       <td>TR0112</td>
-                      <td>Store1</td>
-                      <td>Store2</td>
-                      <td>10.00</td>
+                      <td>Jakarta Barat</td>
+                      <td>10</td>
                       <td>365.00</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td>
-                        <a class="me-3" href="edittransfer.php">
-                          <img src="../assets/img/icons/edit.svg" alt="img" />
-                        </a>
-                        <a class="me-3 confirm-text" href="javascript:void(0);">
-                          <img src="../assets/img/icons/delete.svg" alt="img" />
-                        </a>
-                      </td>
+                      <td><span class="badges bg-lightyellow">On Progress</span></td>
+                      
+                    </tr>
+                    <tr>
+                      <td>13</td>
+                      <td>19 Nov 2022</td>
+                      <td>TR0113</td>
+                      <td>Tangerang</td>
+                      <td>10</td>
+                      <td>365.00</td>
+                      <td><span class="badges bg-lightyellow">On Progress</span></td>
+                      
+                    </tr>
+                    <tr>
+                      <td>14</td>
+                      <td>19 Nov 2022</td>
+                      <td>TR0114</td>
+                      <td>Bogor</td>
+                      <td>10</td>
+                      <td>365.00</td>
+                      <td><span class="badges bg-lightyellow">On Progress</span></td>
+                      
+                    </tr>
+                    <tr>
+                      <td>15</td>
+                      <td>19 Nov 2022</td>
+                      <td>TR0115</td>
+                      <td>Bandung</td>
+                      <td>10</td>
+                      <td>365.00</td>
+                      <td><span class="badges bg-lightred">Not Started</span></td>
+                      
+                    </tr>
+                    <tr>
+                      <td>16</td>
+                      <td>19 Nov 2022</td>
+                      <td>TR0116</td>
+                      <td>Jakarta Timur</td>
+                      <td>32</td>
+                      <td>365.00</td>
+                      <td><span class="badges bg-lightred">Not Started</span></td>
+                      
+                    </tr>
+                    <tr>
+                      <td>17</td>
+                      <td>19 Nov 2022</td>
+                      <td>TR0117</td>
+                      <td>Kuta</td>
+                      <td>24</td>
+                      <td>365.00</td>
+                      <td><span class="badges bg-lightred">Not Started</span></td>
+                      
+                    </tr>
+                    <tr>
+                      <td>18</td>
+                      <td>19 Nov 2022</td>
+                      <td>TR0118</td>
+                      <td>Jakarta Barat</td>
+                      <td>10</td>
+                      <td>365.00</td>
+                      <td><span class="badges bg-lightred">Not Started</span></td>
+                      
                     </tr>
                   </tbody>
                 </table>
