@@ -50,7 +50,7 @@ function is_active($pages) {
                 </li>
                 
                 <!-- Product -->
-                <li class="submenu <?= (['productlist.php', 'categorylist.php', 'brandlist.php']) ?>">
+                <li class="submenu <?= (['productlist.php', 'categorylist.php', 'productlist.php', 'brandlist.php']) ?>">
                     <a href="javascript:void(0);">
                         <img src="../assets/img/icons/product.svg" alt="img" />
                         <span> Product</span> <span class="menu-arrow"></span>
@@ -106,12 +106,12 @@ function is_active($pages) {
                 </li>
                 
                 <!-- People -->
-                <li class="submenu <?= (['customerlist.php', 'addcustomer.php', 'supplierlist.php', 'addsupplier.php', 'userlist.php', 'adduser.php', 'storelist.php', 'addstore.php']) ?>">
+                <li class="submenu <?= (['managerslist.php', 'supplierlist.php', 'employeelist.php']) ?>">
                     <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li class="<?= (['customerlist.php']) ?>"><a href="../people/customerlist.php"class="<?= is_active(['customerlist.php']) ?>">Manager List</a></li>
+                        <li class="<?= (['managerslist.php']) ?>"><a href="../people/managerslist.php"class="<?= is_active(['managerslist.php']) ?>">Manager List</a></li>
                         <li class="<?= (['supplierlist.php']) ?>"><a href="../people/supplierlist.php"class="<?= is_active(['supplierlist.php']) ?>">Supplier List</a></li>
-                        <li class="<?= (['userlist.php']) ?>"><a href="../people/userlist.php"class="<?= is_active(['userlist.php']) ?>">Employee List</a></li>
+                        <li class="<?= (['employeelist.php']) ?>"><a href="../people/employeelist.php"class="<?= is_active(['employeelist.php']) ?>">Employee List</a></li>
                     </ul>
                 </li>
                 
