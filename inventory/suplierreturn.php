@@ -208,7 +208,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>Purchase Return List</h4>
+              <h4>Supplier Return List</h4>
               <h6>Manage your Returns</h6>
             </div>
           </div>
@@ -285,10 +285,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   <thead>
                     <tr>
                       <th>
-                        <label class="checkboxs">
-                          <input type="checkbox" id="select-all" />
-                          <span class="checkmarks"></span>
-                        </label>
+                       NO
                       </th>
                       <th>Image</th>
                       <th>Date</th>
@@ -304,10 +301,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   <tbody>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        1
                       </td>
                       <td>
                         <a class="product-img">
@@ -326,10 +320,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        2
                       </td>
                       <td>
                         <a class="product-img">
@@ -348,10 +339,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        3
                       </td>
                       <td>
                         <a class="product-img">
@@ -370,10 +358,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        4
                       </td>
                       <td>
                         <a class="product-img">
@@ -392,10 +377,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        5
                       </td>
                       <td>
                         <a class="product-img">
@@ -414,10 +396,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        6
                       </td>
                       <td>
                         <a class="product-img">
@@ -436,10 +415,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        7
                       </td>
                       <td>
                         <a class="product-img">
@@ -458,10 +434,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        8
                       </td>
                       <td>
                         <a class="product-img">
@@ -480,10 +453,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        9
                       </td>
                       <td>
                         <a class="product-img">
@@ -502,10 +472,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        9
                       </td>
                       <td>
                         <a class="product-img">
@@ -524,10 +491,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        10
                       </td>
                       <td>
                         <a class="product-img">
