@@ -290,6 +290,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <th>Image</th>
                       <th>Date</th>
                       <th>Supplier</th>
+                      <th>To Storage</th>
                       <th>Reference</th>
                       <th>Grand Total ($)</th>
                       <th>Paid ($)</th>
@@ -310,6 +311,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>2/27/2022</td>
                       <td>Apex Computers</td>
+                      <td>IKEA Alam Sutera</td>
                       <td>PT001</td>
                       <td>550</td>
                       <td>120</td>
@@ -329,6 +331,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>1/15/2022</td>
                       <td>Modern Automobile</td>
+                      <td>IKEA Sentul City</td>
                       <td>PT002</td>
                       <td>550</td>
                       <td>120</td>
@@ -348,6 +351,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>3/24/2022</td>
                       <td>AIM Infotech</td>
+                      <td>IKEA Jakarta Garden City</td>
                       <td>PT003</td>
                       <td>210</td>
                       <td>120</td>
@@ -367,6 +371,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>1/15/2022</td>
                       <td>Best Power Tools</td>
+                      <td>IKEA Sentul City</td>
                       <td>PT004</td>
                       <td>210</td>
                       <td>120</td>
@@ -386,6 +391,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>1/15/2022</td>
                       <td>AIM Infotech</td>
+                      <td>IKEA Kota Baru Parahyangan</td>
                       <td>PT005</td>
                       <td>210</td>
                       <td>120</td>
@@ -405,6 +411,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
+                      <td>IKEA Bali</td>
                       <td>PT006</td>
                       <td>210</td>
                       <td>120</td>
@@ -424,6 +431,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>1/15/2022</td>
                       <td>Apex Computers</td>
+                      <td>IKEA Sentul City</td>
                       <td>PT007</td>
                       <td>1000</td>
                       <td>500</td>
@@ -443,6 +451,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
+                      <td>IKEA Jakarta Garden City</td>
                       <td>PT008</td>
                       <td>210</td>
                       <td>120</td>
@@ -462,6 +471,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>3/24/2022</td>
                       <td>Hatimi Hardware & Tools</td>
+                      <td>IKEA Mal Taman Anggrek</td>
                       <td>PT009</td>
                       <td>5500</td>
                       <td>550</td>
@@ -481,6 +491,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
+                      <td>IKEA Sentul City</td>
                       <td>PT0010</td>
                       <td>2580</td>
                       <td>1250</td>
@@ -500,6 +511,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td>3/24/2022</td>
                       <td>Best Power Tools</td>
+                      <td>IKEA Bali</td>
                       <td>PT0011</td>
                       <td>2580</td>
                       <td>1250</td>
