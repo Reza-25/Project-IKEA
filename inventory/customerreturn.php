@@ -315,7 +315,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Furniture</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bogor</td>
+                      <td>IKEA Sentul City</td>
                       <td>Apex Computers</td>
                       <td>1200</td>
                       <td>10.1%</td>
@@ -333,7 +333,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Lighting</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Barat</td>
+                      <td>IKEA Mal Taman Anggrek</td>
                       <td>Modern Automobile</td>
                       <td>800</td>
                       <td>6.7%</td>
@@ -351,7 +351,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Storage</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Timur</td>
+                      <td>IKEA Jakarta Garden City</td>
                       <td>AIM Infotech</td>
                       <td>950</td>
                       <td>8.0%</td>
@@ -369,7 +369,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Bedroom</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bandung</td>
+                      <td>IKEA Kota Baru Parahyangan</td>
                       <td>Best Power Tools</td>
                       <td>1000</td>
                       <td>8.4%</td>
@@ -387,7 +387,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Living Room</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bogor</td>
+                      <td>IKEA Sentul City</td>
                       <td>AIM Infotech</td>
                       <td>1100</td>
                       <td>9.2%</td>
@@ -405,7 +405,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Kitchen</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Kuta</td>
+                      <td>IKEA Bali</td>
                       <td>Best Power Tools</td>
                       <td>700</td>
                       <td>5.9%</td>
@@ -423,7 +423,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Dining</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bandung</td>
+                      <td>IKEA Kota Baru Parahyangan</td>
                       <td>Apex Computers</td>
                       <td>600</td>
                       <td>5.0%</td>
@@ -441,7 +441,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Office</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bogor</td>
+                      <td>IKEA Sentul City</td>
                       <td>Best Power Tools</td>
                       <td>550</td>
                       <td>4.6%</td>
@@ -459,7 +459,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Outdoor</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Barat</td>
+                      <td>IKEA Mal Taman Anggrek</td>
                       <td>Hatimi Hardware & Tools</td>
                       <td>400</td>
                       <td>3.4%</td>
@@ -477,7 +477,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Textiles</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Timur</td>
+                      <td>IKEA Jakarta Garden City</td>
                       <td>Best Power Tools</td>
                       <td>650</td>
                       <td>5.5%</td>
@@ -495,7 +495,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Decoration</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bandung</td>
+                      <td>IKEA Kota Baru Parahyangan</td>
                       <td>Modern Automobile</td>
                       <td>300</td>
                       <td>1.9%</td>
@@ -513,7 +513,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Bathroom</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bogor</td>
+                      <td>IKEA Sentul City</td>
                       <td>Apex Computers</td>
                       <td>480</td>
                       <td>4.0%</td>
@@ -531,7 +531,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Children</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Kuta</td>
+                      <td>IKEA Bali</td>
                       <td>Modern Automobile</td>
                       <td>500</td>
                       <td>4.2%</td>
@@ -549,7 +549,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Appliances</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bandung</td>
+                      <td>IKEA Kota Baru Parahyangan</td>
                       <td>Modern Automobile</td>
                       <td>320</td>
                       <td>1.9%</td>
@@ -567,7 +567,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Rugs</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bogor</td>
+                      <td>IKEA Sentul City</td>
                       <td>Modern Automobile</td>
                       <td>430</td>
                       <td>3.6%</td>
@@ -585,7 +585,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Curtains</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Timur</td>
+                      <td>IKEA Jakarta Garden City</td>
                       <td>Best Power Tools</td>
                       <td>290</td>
                       <td>1.9%</td>
@@ -603,7 +603,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Tableware</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Tangerang</td>
+                      <td>IKEA Alam Sutera</td>
                       <td>AIM Infotech</td>
                       <td>510</td>
                       <td>4.3%</td>
@@ -621,7 +621,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Cookware</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bogor</td>
+                      <td>IKEA Sentul City</td>
                       <td>Hatimi Hardware & Tools</td>
                       <td>620</td>
                       <td>5.2%</td>
@@ -639,7 +639,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Laundry</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Timur</td>
+                      <td>IKEA Jakarta Garden City</td>
                       <td>Best Power Tools</td>
                       <td>230</td>
                       <td>1.9%</td>
@@ -657,7 +657,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Cleaning</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bogor</td>
+                      <td>IKEA Sentul City</td>
                       <td>Hatimi Hardware & Tools</td>
                       <td>190</td>
                       <td>1.9%</td>
@@ -675,7 +675,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="javascript:void(0);">Pet</a>
                       </td>
                       <td>19 Nov 2022</td>
-                      <td>IKEA Bandung</td>
+                      <td>IKEA Kota Baru Parahyangan</td>
                       <td>Modern Automobile</td>
                       <td>100</td>
                       <td>1.9%</td>
