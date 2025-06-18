@@ -667,6 +667,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
       </div>
     </div>
+    <!-- /Page Wrapper -->
+     
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
     <script src="../assets/js/jquery.slimscroll.min.js"></script>

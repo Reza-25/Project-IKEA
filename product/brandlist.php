@@ -200,6 +200,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
       </div>
 
+      <!-- LIST START -->
       <div class="page-wrapper">
         <div class="content">
           <div class="page-header">
@@ -357,7 +358,9 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
       </div>
     </div>
+    <!-- /LIST END -->
 
+    
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
     <script src="../assets/js/feather.min.js"></script>

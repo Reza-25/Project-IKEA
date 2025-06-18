@@ -456,414 +456,445 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           </div>
         </div>
 
-<!-- CATEGORY PRODUCT -->
-<div class="card" id="filter_inputs">
-<div class="card-body pb-0">
-<div class="row">
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<select class="select">
-<option>Choose Category</option>
-<option>Computers</option>
-</select>
-</div>
-</div>
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<select class="select">
-<option>Choose Sub Category</option>
-<option>Fruits</option>
-</select>
-</div>
-</div>
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<select class="select">
-<option>Choose Sub Brand</option>
-<option>Iphone</option>
-</select>
-</div>
-</div>
-<div class="col-lg-1 col-sm-6 col-12 ms-auto">
-<div class="form-group">
-<a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img"></a>
-</div>
-</div>
-</div>
-</div>
-</div>
+      <!-- CATEGORY PRODUCT -->
 
-<div class="table-responsive">
-<table class="table  datanew">
-<thead>
-<tr>
-<th>
-<label class="checkboxs">
-<input type="checkbox" id="select-all">
-<span class="checkmarks"></span>
-</label>
-</th>
-<th>Category name</th>
-<th>Category Code</th>
-<th>Description</th>
-<th>Created By</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Computers</a>
-</td>
-<td>CT001</td>
-<td>Computers Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Fruits</a>
-</td>
-<td>CT002</td>
-<td>Fruits Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Fruits</a>
-</td>
-<td>CT003</td>
-<td>Fruits Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Fruits</a>
-</td>
-<td>CT004</td>
-<td>Fruits Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT005</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT006</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT007</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT008</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT009</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT0010</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT008</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT009</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-<tr>
-<td>
-<label class="checkboxs">
-<input type="checkbox">
-<span class="checkmarks"></span>
-</label>
-</td>
-<td class="productimgname">
-<a href="javascript:void(0);" class="product-img">
-<img src="../assets/img/product/noimage.png" alt="product">
-</a>
-<a href="javascript:void(0);">Accessories</a>
-</td>
-<td>CT0010</td>
-<td>Accessories Description</td>
-<td>Admin</td>
-<td>
-<a class="me-3" href="editcategory.php">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-3 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+              <div class="card" id="filter_inputs">
+                <div class="card-body pb-0">
+                  <div class="row">
+                    <div class="col-lg-2 col-sm-6 col-12">
+                      <div class="form-group">
+                        <input type="text" class="datetimepicker cal-icon" placeholder="Choose Date" />
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-12">
+                      <div class="form-group">
+                        <input type="text" placeholder="Enter Reference" />
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-12">
+                      <div class="form-group">
+                        <select class="select">
+                          <option>Choose Category</option>
+                          <option>Computers</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-12">
+                      <div class="form-group">
+                        <select class="select">
+                          <option>Choose Sub Category</option>
+                          <option>Fruits</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-12">
+                      <div class="form-group">
+                        <select class="select">
+                          <option>Choose Sub Brand</option>
+                          <option>Iphone</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-6 col-12">
+                      <div class="form-group">
+                        <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img" /></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-</div>
-</div>
-</div>
+              <div class="table-responsive">
+                <table class="table datanew">
+                  <thead>
+                    <tr>
+                      <th>NO
+                      </th>
+                      <th>Category Name</th>
+                      <th>Date</th>
+                      <th>Branch</th>
+                      <th>Revund Total</th>
+                      <th>Percentage</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        1
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product1.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Furniture</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>1200</td>
+                      <td>10.1%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
 
+                    <tr>
+                      <td>
+                        2
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product2.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Lighting</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Barat</td>
+                      <td>800</td>
+                      <td>6.7%</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                    </tr>
+                    
+                    <tr>
+                      <td>
+                        3
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product3.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Storage</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Timur</td>
+                      <td>950</td>
+                      <td>8.0%</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                    </tr>
 
-<script src="../assets/js/jquery-3.6.0.min.js"></script>
+                    <tr>
+                      <td>
+                        4
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product4.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Bedroom</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bandung</td>
+                      <td>1000</td>
+                      <td>8.4%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
 
-<script src="../assets/js/feather.min.js"></script>
+                    <tr>
+                      <td>
+                        5
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product5.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Living Room</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>1100</td>
+                      <td>9.2%</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                    </tr>
 
-<script src="../assets/js/jquery.slimscroll.min.js"></script>
+                    <tr>
+                      <td>
+                        6
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product6.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Kitchen</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Kuta</td>
+                      <td>700</td>
+                      <td>5.9%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
 
-<script src="../assets/js/jquery.dataTables.min.js"></script>
-<script src="../assets/js/dataTables.bootstrap4.min.js"></script>
+                    <tr>
+                      <td>
+                        7
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product7.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Dining</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bandung</td>
+                      <td>600</td>
+                      <td>5.0%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+                    </tr>
 
-<script src="../assets/js/bootstrap.bundle.min.js"></script>
+                    <tr>
+                      <td>
+                        8
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product1.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Office</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>550</td>
+                      <td>4.6%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
 
-<script src="../assets/plugins/select2/js/select2.min.js"></script>
+                    <tr>
+                      <td>
+                        9
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product2.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Outdoor</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Barat</td>
+                      <td>400</td>
+                      <td>3.4%</td>
+                      <td><span class="badges bg-lightyellow">Pending</span></td>
+                    </tr>
 
-<script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
+                    <tr>
+                      <td>
+                        10
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product3.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Textiles</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Timur</td>
+                      <td>650</td>
+                      <td>5.5%</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                    </tr>
 
-<script src="../assets/js/script.js"></script>
+                    <tr>
+                      <td>
+                        11
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product4.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Decoration</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bandung</td>
+                      <td>300</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
 
-</body>
+                    <tr>
+                      <td>
+                        12
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product5.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Bathroom</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>480</td>
+                      <td>4.0%</td>
+                      <td><span class="badges bg-lightred">Pending</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        13
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product6.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Children</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Kuta</td>
+                      <td>500</td>
+                      <td>4.2%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                      14
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product7.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Appliances</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bandung</td>
+                      <td>320</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        15
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product2.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Rugs</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>430</td>
+                      <td>3.6%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        16
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product7.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Curtains</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Timur</td>
+                      <td>290</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        17
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product6.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Tableware</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Tangerang</td>
+                      <td>510</td>
+                      <td>4.3%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        18
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product5.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Cookware</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>620</td>
+                      <td>5.2%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        19
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product4.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Laundry</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Jakarta Timur</td>
+                      <td>230</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        20
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product3.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Cleaning</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bogor</td>
+                      <td>190</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightgreen">Received</span></td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        21
+                      </td>
+                      <td class="productimgname">
+                        <a href="javascript:void(0);" class="product-img">
+                          <img src="../assets/img/product/product2.jpg" alt="product" />
+                        </a>
+                        <a href="javascript:void(0);">Pet</a>
+                      </td>
+                      <td>19 Nov 2022</td>
+                      <td>Bandung</td>
+                      <td>100</td>
+                      <td>1.9%</td>
+                      <td><span class="badges bg-lightyellow">Ordered</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/feather.min.js"></script>
+    <script src="../assets/js/jquery.slimscroll.min.js"></script>
+    <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/moment.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../assets/plugins/select2/js/select2.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
+    <script src="../assets/js/script.js"></script>
+  </body>
 </html>
