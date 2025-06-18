@@ -225,9 +225,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <h4>Managers List</h4>
 <h6>Manage your Managers</h6>
 </div>
-<div class="page-btn">
-<a href="addcustomer.php" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img">Add Customer</a>
-</div>
 </div>
 
 <div class="card">

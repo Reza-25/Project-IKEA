@@ -209,9 +209,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <h4>Supplier List</h4>
               <h6>Manage your Supplier</h6>
             </div>
-            <div class="page-btn">
-              <a href="addsupplier.php" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img" />Add Supplier</a>
-            </div>
           </div>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">

@@ -225,9 +225,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <h4>Employee List</h4>
 <h6>Manage your Employee</h6>
 </div>
-<div class="page-btn">
-<a href="adduser.php" class="btn btn-added"><img src="../assets/img/icons/plus.svg" alt="img" class="me-2">Add User</a>
-</div>
 </div>
 
   <!-- DONUT & DETAIL KARYAWAN -->

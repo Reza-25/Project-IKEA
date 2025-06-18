@@ -208,7 +208,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>Purchase Return List</h4>
+              <h4>Supplier Return List</h4>
               <h6>Manage your Returns</h6>
             </div>
           </div>
