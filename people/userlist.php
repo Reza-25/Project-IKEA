@@ -432,6 +432,101 @@
 </div>
 </div>
 
+  <!-- DONUT & DETAIL KARYAWAN -->
+<div class="row mt-4">
+  <!-- Donut Chart Karyawan per Cabang -->
+  <div class="col-md-5">
+    <div class="card h-100">
+      <div class="card-header bg-primary text-white text-center py-2">
+        <h6 class="mb-0 small">Karyawan per Cabang</h6>
+      </div>
+      <div class="card-body d-flex flex-column justify-content-center align-items-center">
+        <div id="donutChartKaryawan"></div>
+        <div id="selectedCabangInfo" class="text-center mt-2" style="font-size: 14px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Karyawan dan List Detail -->
+  <div class="col-md-7">
+    <div class="card h-100">
+      <div class="card-header bg-success text-white text-center py-2">
+        <h6 class="mb-0 small">Total Karyawan & Detail Cabang</h6>
+      </div>
+      <div class="card-body">
+        <h3 class="text-center text-success mb-3" id="totalKaryawan">Total: -</h3>
+        <p class="text-muted small">Detail per Cabang:</p>
+        <ul id="listCabangKaryawan" class="list-group small"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ApexCharts CDN -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Data Hardcoded
+  const cabangData = [
+    { nama: "Jakarta", jumlah: 35 },
+    { nama: "Bandung", jumlah: 28 },
+    { nama: "Surabaya", jumlah: 22 },
+    { nama: "Yogyakarta", jumlah: 18 },
+    { nama: "Medan", jumlah: 25 }
+  ];
+
+  const labels = cabangData.map(c => c.nama);
+  const values = cabangData.map(c => c.jumlah);
+  const total = values.reduce((sum, val) => sum + val, 0);
+
+  // Update total karyawan
+  document.getElementById("totalKaryawan").textContent = `Total: ${total} Karyawan`;
+
+  // Update list cabang
+  const listContainer = document.getElementById("listCabangKaryawan");
+  cabangData.forEach(item => {
+    const li = document.createElement("li");
+    li.className = "list-group-item d-flex justify-content-between align-items-center";
+    li.textContent = item.nama;
+
+    const badge = document.createElement("span");
+    badge.className = "badge bg-primary rounded-pill";
+    badge.textContent = item.jumlah;
+    li.appendChild(badge);
+
+    listContainer.appendChild(li);
+  });
+
+  // Donut Chart config
+  const chart = new ApexCharts(document.querySelector("#donutChartKaryawan"), {
+    chart: {
+      type: 'donut',
+      height: 260,
+      events: {
+        dataPointSelection: function(event, chartContext, config) {
+          const index = config.dataPointIndex;
+          const cabang = labels[index];
+          const jumlah = values[index];
+          document.getElementById("selectedCabangInfo").textContent = `${cabang}: ${jumlah} karyawan`;
+        }
+      }
+    },
+    series: values,
+    labels: labels,
+    colors: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'],
+    dataLabels: {
+      enabled: false // label di dalam donat disembunyikan
+    },
+    legend: {
+      position: 'bottom'
+    }
+  });
+
+  chart.render();
+});
+</script>
+
 <!-- KPI Boxes -->
 <div class="container py-4">
   <div class="row justify-content-center text-center mb-4">
