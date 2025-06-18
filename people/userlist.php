@@ -268,7 +268,9 @@ document.addEventListener('DOMContentLoaded', function () {
     { nama: "Bandung", jumlah: 28 },
     { nama: "Surabaya", jumlah: 22 },
     { nama: "Yogyakarta", jumlah: 18 },
-    { nama: "Medan", jumlah: 25 }
+    { nama: "Medan", jumlah: 25 },
+    { nama: "Semarang", jumlah: 10 },
+    { nama: "Solo", jumlah: 55 }
   ];
 
   const labels = cabangData.map(c => c.nama);
@@ -309,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     series: values,
     labels: labels,
-    colors: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'],
+    colors: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#6f42c1', '#e83e8c'],
     dataLabels: {
       enabled: false // label di dalam donat disembunyikan
     },
