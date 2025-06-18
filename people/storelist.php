@@ -585,7 +585,7 @@ document.addEventListener('DOMContentLoaded', function () {
                           <span class="checkmarks"></span>
                         </label>
                       </th>
-                      <th>Store name</th>
+                      <th>Store Manager</th>
                       <th>Phone</th>
                       <th>email</th>
                       <th>Branch</th>
@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Thomas</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b3c7dbdcded2c0f3d6cbd2dec3dfd69dd0dcde">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>
+                      <td><a>Yogyakarta</a></td>
                     </tr>
                     <tr>
                       <td>
@@ -614,7 +614,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Benjamin</td>
                       <td>123-456-888</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c6f797f786361697e4c69746d617c6069226f6361">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Jakarta</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -625,7 +625,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>James</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4329222e263003263b222e332f266d202c2e">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Bandung</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -636,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Bruklin</td>
                       <td>123-456-888</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="701202051b1c191e301508111d001c155e131f1d">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Surabaya</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Franklin</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ca88afbcafb8a6b38aafb2aba7baa6afe4a9a5a7">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Aceh</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -658,7 +658,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>B. Huber</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="662e1304031426031e070b160a034805090b">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Bekasi</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -669,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Alwin</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a0c3d5d3d4cfcdc5d2e0c5d8c1cdd0ccc58ec3cfcd">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Makassar</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Fred john</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fc96939492bc99849d918c9099d29f9391">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Semarang</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Rasmussen</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d88ab9abb5adababbdb698bda0b9b5a8b4bdf6bbb7b5">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Banten</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -702,7 +702,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Grace</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e1829492958e8c8493a18499808c918d84cf828e8c">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Medan</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       <td>Rasmussen</td>
                       <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="277546544a525454424967425f464a574b420944484a">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Padang</a></td>                    </tr>
                     <tr>
                       <td>
                         <label class="checkboxs">
@@ -723,7 +723,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       </td>
                       <td>Grace</td>                      <td>+12163547758</td>
                       <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="11726462657e7c7463517469707c617d743f727e7c">[email&#160;protected]</a></td>
-                      <td><a>Branch</a></td>                    </tr>
+                      <td><a>Tanggerang</a></td>                    </tr>
                   </tbody>
                 </table>
               </div>

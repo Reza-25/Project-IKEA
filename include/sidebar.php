@@ -19,12 +19,12 @@ function is_active($pages) {
             <ul>
                 <!-- Dashboard -->
                 <li class="<?= is_active(['index.php']) ?>">
-                    <a href="<?= BASE_URL ?>/index.php"><img src="<?= BASE_URL ?>/assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
+                    <a href="<?= BASE_URL ?>/index.php"><img src="<?= BASE_URL ?>/../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
                 </li>
                 
                 <!-- Product -->
                 <li class="submenu <?= is_active(['productlist.php', 'categorylist.php', 'brandlist.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/product.svg" alt="img" /><span> Product</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/product.svg" alt="img" /><span> Product</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['productlist.php']) ?>"><a href="<?= BASE_URL ?>/product/productlist.php">Product List</a></li>
                         <li class="<?= is_active(['categorylist.php']) ?>"><a href="<?= BASE_URL ?>/product/categorylist.php">Category List</a></li>
@@ -34,7 +34,7 @@ function is_active($pages) {
                 
                 <!-- Supplier -->
                 <li class="submenu <?= is_active(['supplierlist.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['supplierlist.php']) ?>"><a href="<?= BASE_URL ?>/supplier/supplierlist.php">Supplier List</a></li>
                     </ul>
@@ -42,7 +42,7 @@ function is_active($pages) {
                 
                 <!-- Revenue -->
                 <li class="submenu <?= is_active(['revenue.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/purchase1.svg" alt="img" /><span> Revenue</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/purchase1.svg" alt="img" /><span> Revenue</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['revenue.php']) ?>"><a href="<?= BASE_URL ?>/revenue/revenue.php">Revenue</a></li>
                     </ul>
@@ -50,7 +50,7 @@ function is_active($pages) {
                 
                 <!-- Expense -->
                 <li class="submenu <?= is_active(['expenselist.php', 'createexpense.php', 'expensecategory.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/expense1.svg" alt="img" /><span> Expense</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/expense1.svg" alt="img" /><span> Expense</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['expenselist.php']) ?>"><a href="<?= BASE_URL ?>/expense/expenselist.php">Expense List</a></li>
                         <li class="<?= is_active(['createexpense.php']) ?>"><a href="<?= BASE_URL ?>/expense/createexpense.php">Add Expense</a></li>
@@ -60,7 +60,7 @@ function is_active($pages) {
                 
                 <!-- Quotation -->
                 <li class="submenu <?= is_active(['quotationList.php', 'addquotation.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/quotation1.svg" alt="img" /><span> Quotation</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/quotation1.svg" alt="img" /><span> Quotation</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['quotationList.php']) ?>"><a href="<?= BASE_URL ?>/quotation/quotationList.php">Quotation List</a></li>
                         <li class="<?= is_active(['addquotation.php']) ?>"><a href="<?= BASE_URL ?>/quotation/addquotation.php">Add Quotation</a></li>
@@ -69,7 +69,7 @@ function is_active($pages) {
                 
                 <!-- Inventory -->
                 <li class="submenu <?= is_active(['transferlist.php', 'suplierreturn.php', 'customerreturn.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/transfer1.svg" alt="img" /><span> Inventory</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/transfer1.svg" alt="img" /><span> Inventory</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['transferlist.php']) ?>"><a href="<?= BASE_URL ?>/inventory/transferlist.php">Transfer List</a></li>
                         <li class="<?= is_active(['suplierreturn.php']) ?>"><a href="<?= BASE_URL ?>/inventory/suplierreturn.php">Supplier Return</a></li>
@@ -79,7 +79,7 @@ function is_active($pages) {
                 
                 <!-- People -->
                 <li class="submenu <?= is_active(['customerlist.php', 'addcustomer.php', 'supplierlist.php', 'addsupplier.php', 'userlist.php', 'adduser.php', 'storelist.php', 'addstore.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['customerlist.php']) ?>"><a href="<?= BASE_URL ?>/people/customerlist.php">Customer List</a></li>
                         <li class="<?= is_active(['addcustomer.php']) ?>"><a href="<?= BASE_URL ?>/people/addcustomer.php">Add Customer</a></li>
@@ -94,7 +94,7 @@ function is_active($pages) {
                 
                 <!-- Places -->
                 <li class="submenu <?= is_active(['newcountry.php', 'countrieslist.php', 'newstate.php', 'statelist.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/places.svg" alt="img" /><span> Places</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/places.svg" alt="img" /><span> Places</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['newcountry.php']) ?>"><a href="<?= BASE_URL ?>/places/newcountry.php">New Country</a></li>
                         <li class="<?= is_active(['countrieslist.php']) ?>"><a href="<?= BASE_URL ?>/places/countrieslist.php">Countries list</a></li>
@@ -202,7 +202,7 @@ function is_active($pages) {
                 
                 <!-- Application -->
                 <li class="submenu <?= is_active(['chat.php', 'calendar.php', 'email.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/product.svg" alt="img" /><span> Application</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/product.svg" alt="img" /><span> Application</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['chat.php']) ?>"><a href="<?= BASE_URL ?>/chat.php">Chat</a></li>
                         <li class="<?= is_active(['calendar.php']) ?>"><a href="<?= BASE_URL ?>/calendar.php">Calendar</a></li>
@@ -212,7 +212,7 @@ function is_active($pages) {
                 
                 <!-- Report -->
                 <li class="submenu <?= is_active(['purchaseorderreport.php', 'inventoryreport.php', 'salesreport.php', 'invoicereport.php', 'purchasereport.php', 'supplierreport.php', 'customerreport.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/time.svg" alt="img" /><span> Report</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/time.svg" alt="img" /><span> Report</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['purchaseorderreport.php']) ?>"><a href="<?= BASE_URL ?>/purchaseorderreport.php">Purchase order report</a></li>
                         <li class="<?= is_active(['inventoryreport.php']) ?>"><a href="<?= BASE_URL ?>/inventoryreport.php">Inventory Report</a></li>
@@ -226,7 +226,7 @@ function is_active($pages) {
                 
                 <!-- Users -->
                 <li class="submenu <?= is_active(['newuser.php', 'userlists.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/users1.svg" alt="img" /><span> Users</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/users1.svg" alt="img" /><span> Users</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['newuser.php']) ?>"><a href="<?= BASE_URL ?>/newuser.php">New User </a></li>
                         <li class="<?= is_active(['userlists.php']) ?>"><a href="<?= BASE_URL ?>/userlists.php">Users List</a></li>
@@ -235,7 +235,7 @@ function is_active($pages) {
                 
                 <!-- Settings -->
                 <li class="submenu <?= is_active(['generalsettings.php', 'emailsettings.php', 'paymentsettings.php', 'currencysettings.php', 'grouppermissions.php', 'taxrates.php']) ?>">
-                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/assets/img/icons/settings.svg" alt="img" /><span> Settings</span> <span class="menu-arrow"></span></a>
+                    <a href="javascript:void(0);"><img src="<?= BASE_URL ?>/../assets/img/icons/settings.svg" alt="img" /><span> Settings</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= is_active(['generalsettings.php']) ?>"><a href="<?= BASE_URL ?>/generalsettings.php">General Settings</a></li>
                         <li class="<?= is_active(['emailsettings.php']) ?>"><a href="<?= BASE_URL ?>/emailsettings.php">Email Settings</a></li>
