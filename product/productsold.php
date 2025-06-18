@@ -28,8 +28,8 @@
    <style>
 
     a {
-  text-decoration: none !important;
-}
+    text-decoration: none !important;
+  }
 
   .ikea-header {
     background-color: #0051BA !important;
@@ -65,7 +65,44 @@
     color: white;
   }
 
+  <style>
+  .ikea-note-card {
+    background-color: #fffbea;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    border-left: 8px solid #FFCC00;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
   
+  #notesCarousel::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  #notesCarousel::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+  .note-card p {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .note-card strong {
+    font-size: 16px;
+  }
+
+  .card-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .card-body::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+
 </style>
 
 
@@ -486,22 +523,36 @@
       </div>
 
       <!-- Notes Section -->
-      <div class="col-md-4">
-        <div class="card border-info shadow-sm">
-          <div class="card-header bg-info text-white">
-            <strong>Catatan</strong>
-          </div>
-          <div class="card-body">
-            <ul id="notesList" class="list-unstyled">
-              <li>✅ Hanya kategori terbanyak ditampilkan</li>
-              <li>📊 Pilih bulan/tahun untuk melihat data</li>
-              <li>🎯 Fokus pada visualisasi yang informatif</li>
-            </ul>
-          </div>
+<div class="col-md-4">
+  <div class="card shadow-sm border-0" style="background-color: #fffbea; border-radius: 12px;">
+    <div class="card-header" style="background-color: #FFCC00; color: #000; font-weight: bold; border-radius: 12px 12px 0 0;">
+      Catatan
+    </div>
+    <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+      <div id="notesList">
+        <!-- Catatan default saat awal bisa dimasukkan jika ingin -->
+        <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+          <div class="fs-4 mb-1">✅</div>
+          <strong>Catatan</strong>
+          <p>Hanya kategori terbanyak ditampilkan</p>
+        </div>
+        <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+          <div class="fs-4 mb-1">📊</div>
+          <strong>Catatan</strong>
+          <p>Pilih bulan/tahun untuk melihat data</p>
+        </div>
+        <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+          <div class="fs-4 mb-1">🎯</div>
+          <strong>Catatan</strong>
+          <p>Fokus pada visualisasi yang informatif</p>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+      </div>
+
 
   <!-- Script -->
   <script>
@@ -537,14 +588,31 @@
     let mainChart;
 
     function updateNotes(type, title, total, jumlahKategori, rataRata) {
-      const notesList = document.getElementById("notesList");
-      notesList.innerHTML = `
-        <li>📅 Mode: ${type === 'bulan' ? 'Bulanan' : 'Tahunan'} - ${title}</li>
-        <li>🧾 Total Penjualan: <strong>${total}</strong> unit</li>
-        <li>📦 Jumlah Kategori Ditampilkan: <strong>${jumlahKategori}</strong></li>
-        <li>📈 Rata-rata per Kategori: <strong>${rataRata.toFixed(1)}</strong> unit</li>
-      `;
-    }
+  const notesList = document.getElementById("notesList");
+  notesList.innerHTML = `
+    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+      <div class="fs-4 mb-1">📅</div>
+      <strong>Mode Tampilan</strong>
+      <p>${type === 'bulan' ? 'Bulanan' : 'Tahunan'} - ${title}</p>
+    </div>
+    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+      <div class="fs-4 mb-1">🧾</div>
+      <strong>Total Penjualan</strong>
+      <p><strong>${total}</strong> unit</p>
+    </div>
+    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+      <div class="fs-4 mb-1">📦</div>
+      <strong>Jumlah Kategori</strong>
+      <p><strong>${jumlahKategori}</strong> kategori ditampilkan</p>
+    </div>
+    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+      <div class="fs-4 mb-1">📈</div>
+      <strong>Rata-rata Penjualan</strong>
+      <p><strong>${rataRata.toFixed(1)}</strong> unit per kategori</p>
+    </div>
+  `;
+}
+
 
     function renderMainChart(type = "bulan", index = 0, tahun = "2024") {
       const isBulan = type === "bulan";

@@ -40,7 +40,7 @@
 <div class="header">
 
 <div class="header-left active">
-<a href="index.php" class="logo">
+<a href="index.html" class="logo">
 <img src="../assets/img/logo1.png" alt="">
 </a>
 <a id="toggle_btn" href="javascript:void(0);">
@@ -223,14 +223,14 @@
 <div id="sidebar-menu" class="sidebar-menu">
 <ul>
 <li>
-<a href="../index.php"><img src="../assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
+<a href="../index.html"><img src="../assets/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
 </li>
 <li class="submenu">
 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="../product/productlist.php">Product List</a></li>
-                  <li><a href="../product/categorylist.php">Category List</a></li>
-                  <li><a href="../product/brandlist.php">Brand List</a></li>
+<li><a href="../product/categorylist.php">Category List</a></li>
+<li><a href="../product/brandlist.php">Brand List</a></li>
 </ul>
 </li>
 <li class="submenu">
