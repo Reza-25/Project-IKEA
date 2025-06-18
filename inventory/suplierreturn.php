@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +36,8 @@
     </div>
 
     <div class="main-wrapper">
+      <!-- Include sidebar -->
+      <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
       <div class="header">
         <div class="header-left active">
           <a href="index.php" class="logo">
