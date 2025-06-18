@@ -285,6 +285,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <th>Date</th>
                       <th>Reference</th>
                       <th>From Branch</th>
+                      <th>To Branch</th>
                       <th>Items Total</th>
                       <th>Money Spent</th>
                       <th>Status</th>
@@ -295,7 +296,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>1</td>
                       <td>19 Nov 2022</td>
                       <td>TR0101</td>
-                      <td>Tangerang</td>
+                      <td>IKEA Tangerang</td>
+                      <td>IKEA Jakarta Timur</td>
                       <td>10</td>
                       <td>1500.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
@@ -305,7 +307,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>2</td>
                       <td>19 Nov 2022</td>
                       <td>TR0102</td>
-                      <td>Bogor</td>
+                      <td>IKEA Bogor</td>
+                      <td>IKEA Kuta</td>
                       <td>20</td>
                       <td>45000.00</td>
                       <td><span class="badges bg-lightyellow">On Progress</span></td>                      
@@ -314,7 +317,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>3</td>
                       <td>19 Nov 2022</td>
                       <td>TR0103</td>
-                      <td>Bandung</td>
+                      <td>IKEA Bandung</td>
+                      <td>IKEA Jakarta Barat</td>
                       <td>15</td>
                       <td>2400.00</td>
                       <td><span class="badges bg-lightyellow">On Progress</span></td>                      
@@ -323,7 +327,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>4</td>
                       <td>19 Nov 2022</td>
                       <td>TR0104</td>
-                      <td>Jakarta Timur</td>
+                      <td>IKEA Jakarta Timur</td>
+                      <td>IKEA Tangerang</td>
                       <td>34</td>
                       <td>2400.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
@@ -333,7 +338,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>5</td>
                       <td>19 Nov 2022</td>
                       <td>TR0105</td>
-                      <td>Kuta</td>
+                      <td>IKEA Kuta</td>
+                      <td>IKEA Jakarta Timur</td>
                       <td>56</td>
                       <td>2400.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
@@ -343,7 +349,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>6</td>
                       <td>19 Nov 2022</td>
                       <td>TR0106</td>
-                      <td>Jakarta Barat</td>
+                      <td>IKEA Jakarta Barat</td>
+                      <td>IKEA Tangerang</td>
                       <td>23</td>
                       <td>8456.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
@@ -353,7 +360,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>7</td>
                       <td>19 Nov 2022</td>
                       <td>TR0107</td>
-                      <td>Bogor</td>
+                      <td>IKEA Bogor</td>
+                      <td>IKEA Jakarta Barat</td>
                       <td>33</td>
                       <td>150.00</td>
                       <td><span class="badges bg-lightgreen">Completed</span></td>
@@ -363,7 +371,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>8</td>
                       <td>19 Nov 2022</td>
                       <td>TR0108</td>
-                      <td>Bandung</td>
+                      <td>IKEA Bandung</td>
+                      <td>IKEA Jakarta Timur</td>
                       <td>44</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
@@ -373,7 +382,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>9</td>
                       <td>19 Nov 2022</td>
                       <td>TR0109</td>
-                      <td>Tangerang</td>
+                      <td>IKEA Tangerang</td>
+                      <td>IKEA Jakarta Timur</td>
                       <td>12</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
@@ -383,7 +393,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>10</td>
                       <td>19 Nov 2022</td>
                       <td>TR01010</td>
-                      <td>Jakarta Timur</td>
+                      <td>IKEA Jakarta Timur</td>
+                      <td>IKEA Bogor</td>
                       <td>33</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
@@ -393,7 +404,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>11</td>
                       <td>19 Nov 2022</td>
                       <td>TR0111</td>
-                      <td>Kuta</td>
+                      <td>IKEA Kuta</td>
+                      <td>IKEA Bandung</td>
                       <td>10</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Pending</span></td>
@@ -403,7 +415,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>12</td>
                       <td>19 Nov 2022</td>
                       <td>TR0112</td>
-                      <td>Jakarta Barat</td>
+                      <td>IKEA Jakarta Barat</td>
+                      <td>IKEA Kuta</td>
                       <td>10</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightyellow">On Progress</span></td>
@@ -413,7 +426,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>13</td>
                       <td>19 Nov 2022</td>
                       <td>TR0113</td>
-                      <td>Tangerang</td>
+                      <td>IKEA Tangerang</td>
+                      <td>IKEA Kuta</td>
                       <td>10</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightyellow">On Progress</span></td>
@@ -423,7 +437,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>14</td>
                       <td>19 Nov 2022</td>
                       <td>TR0114</td>
-                      <td>Bogor</td>
+                      <td>IKEA Bogor</td>
+                      <td>IKEA Bandung</td>
                       <td>10</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightyellow">On Progress</span></td>
@@ -433,7 +448,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>15</td>
                       <td>19 Nov 2022</td>
                       <td>TR0115</td>
-                      <td>Bandung</td>
+                      <td>IKEA Bandung</td>
+                      <td>IKEA Bogor</td>
                       <td>10</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Not Started</span></td>
@@ -443,7 +459,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>16</td>
                       <td>19 Nov 2022</td>
                       <td>TR0116</td>
-                      <td>Jakarta Timur</td>
+                      <td>IKEA Jakarta Timur</td>
+                      <td>IKEA Kuta</td>
                       <td>32</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Not Started</span></td>
@@ -453,7 +470,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>17</td>
                       <td>19 Nov 2022</td>
                       <td>TR0117</td>
-                      <td>Kuta</td>
+                      <td>IKEA Kuta</td>
+                      <td>IKEA Jakarta Timur</td>
                       <td>24</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Not Started</span></td>
@@ -463,7 +481,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>18</td>
                       <td>19 Nov 2022</td>
                       <td>TR0118</td>
-                      <td>Jakarta Barat</td>
+                      <td>IKEA Jakarta Barat</td>
+                      <td>IKEA Bogor</td>
                       <td>10</td>
                       <td>365.00</td>
                       <td><span class="badges bg-lightred">Not Started</span></td>
