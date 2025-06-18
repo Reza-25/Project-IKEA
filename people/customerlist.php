@@ -229,8 +229,8 @@
 <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img"><span> Product</span> <span class="menu-arrow"></span></a>
 <ul>
 <li><a href="../product/productlist.php">Product List</a></li>
-                  <li><a href="../product/categorylist.php">Category List</a></li>
-                  <li><a href="../product/brandlist.php">Brand List</a></li>
+<li><a href="../product/categorylist.php">Category List</a></li>
+<li><a href="../product/brandlist.php">Brand List</a></li>
 </ul>
 </li>
 <li class="submenu">
