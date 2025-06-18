@@ -34,7 +34,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       
       <div class="header">
         <div class="header-left active">
-          <!-- Perbaikan 2: Gunakan BASE_URL untuk link -->
           <a href="../index.php" class="logo">
             <img src="../assets/img/logo1.png" alt="" />
           </a>
@@ -203,10 +202,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   </thead>
                   <tbody>
                     <tr>
-                      <td class="text-bolds">Apex Computers</td>
+                      <td class="text-bolds">IKE Alam Sutera</td>
                       <td>PT001</td>
                       <td><span class="badges bg-lightgreen">Active</span></td>
-                      <td>210</td>
+                      <td><span style="color: #28a745; font-weight: bold;">+1.5%</span></td>
                       <td>
                         <!-- Perbaikan 4: Gunakan BASE_URL untuk link internal -->
                         <a href="../editpurchase.php">
@@ -214,7 +213,78 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         </a>
                       </td>
                     </tr>
-                    <!-- ... (baris tabel lainnya dengan pola yang sama) ... -->
+                    <tr>
+                      <td class="text-bolds">IKEA Sentul City</td>
+                      <td>PT001</td>
+                      <td><span class="badges bg-lightgreen">Active</span></td>
+                      <td><span style="color: #28a745; font-weight: bold;">+3.5%</td>
+                      <td>
+                        <!-- Perbaikan 4: Gunakan BASE_URL untuk link internal -->
+                        <a href="../editpurchase.php">
+                          <span class="badges bg-lightgreen">Detail</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-bolds">IKEA Kota Baru Parahyangan</td>
+                      <td>PT001</td>
+                      <td><span class="badges bg-lightgreen">Active</span></td>
+                      <td><span style="color: #28a745; font-weight: bold;">+1.5%</span></td>
+                      <td>
+                        <!-- Perbaikan 4: Gunakan BASE_URL untuk link internal -->
+                        <a href="../editpurchase.php">
+                          <span class="badges bg-lightgreen">Detail</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-bolds">IKEA Jakarta Garden City</td>
+                      <td>PT001</td>
+                      <td><span class="badges bg-lightgreen">Active</span></td>
+                      <td><span style="color: #dc3545; font-weight: bold;">-0.2%</span></td>
+                      <td>
+                        <!-- Perbaikan 4: Gunakan BASE_URL untuk link internal -->
+                        <a href="../editpurchase.php">
+                          <span class="badges bg-lightgreen">Detail</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-bolds">IKEA  Bali</td>
+                      <td>PT001</td>
+                      <td><span class="color: #28a745; font-weight: bold;">Active</span></td>
+                      <td><span style="color: #dc3545; font-weight: bold;">+1.5%</span></td>
+                      <td>
+                        <!-- Perbaikan 4: Gunakan BASE_URL untuk link internal -->
+                        <a href="../editpurchase.php">
+                          <span class="badges bg-lightgreen">Detail</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-bolds">IKEA Mal Taman Anggrek</td>
+                      <td>PT001</td>
+                      <td><span class="badges bg-lightgreen">Active</span></td>
+                      <td><span style="color: #28a745; font-weight: bold;">+2.0%</span></td>
+                      <td>
+                        <!-- Perbaikan 4: Gunakan BASE_URL untuk link internal -->
+                        <a href="../editpurchase.php">
+                          <span class="badges bg-lightgreen">Detail</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="text-bolds">IKEA Ciputra World Surabaya</td>
+                      <td>PT001</td>
+                      <td><span class="badges bg-lightgreen">InActive</span></td>
+                      <td><span style="color: #dc3545; font-weight: bold;">-1.0%</span></td>
+                      <td>
+                        <!-- Perbaikan 4: Gunakan BASE_URL untuk link internal -->
+                        <a href="../editpurchase.php">
+                          <span class="badges bg-lightgreen">Detail</span>
+                        </a>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
