@@ -264,13 +264,13 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 document.addEventListener('DOMContentLoaded', function () {
   // Data Hardcoded
   const cabangData = [
-    { nama: "Jakarta", jumlah: 35 },
-    { nama: "Bandung", jumlah: 28 },
-    { nama: "Surabaya", jumlah: 22 },
-    { nama: "Yogyakarta", jumlah: 18 },
-    { nama: "Medan", jumlah: 25 },
-    { nama: "Semarang", jumlah: 10 },
-    { nama: "Solo", jumlah: 55 }
+    { nama: "Alam Sutera", jumlah: 35 },
+    { nama: "Sentul City", jumlah: 28 },
+    { nama: "Kota Baru Parahyangan", jumlah: 22 },
+    { nama: "Surabaya", jumlah: 18 },
+    { nama: "Bali", jumlah: 25 },
+    { nama: "Jakarta Garden City", jumlah: 10 },
+    { nama: "Mal Taman Anggrek", jumlah: 55 }
   ];
 
   const labels = cabangData.map(c => c.nama);
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     series: values,
     labels: labels,
-    colors: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#6f42c1', '#e83e8c'],
+    colors: ['#483D8B', '#6495ED', '#778899', '#6A5ACD', '#708090', '#5F9EA0', '#A9A9A9', '#0051BA', '#FFCC00', '#e83e8c'],
     dataLabels: {
       enabled: false // label di dalam donat disembunyikan
     },
@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="card shadow-sm">
         <div class="card-body">
           <h6 class="text-muted">Cabang Terbaik</h6>
-          <h4 class="text-primary">Jakarta</h4>
+          <h4 class="text-primary">Alam Sutera </h4>
         </div>
       </div>
     </div>
@@ -435,7 +435,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="mb-1">Andi Saputra</h5>
-        <p class="text-muted mb-2">Sales Associate - Jakarta</p>
+        <p class="text-muted mb-2">Sales Associate - Alam Sutera (Tangerang)</p>
         <div class="row mb-2 small">
           <div class="col-4">Kehadiran</div>
           <div class="col-4">Pelayanan</div>
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="mb-1">Rina Pramesti</h5>
-        <p class="text-muted mb-2">Customer Service - Bandung</p>
+        <p class="text-muted mb-2">Customer Service - Sentul City (Bogor)</p>
         <div class="row mb-2 small">
           <div class="col-4">Kehadiran</div>
           <div class="col-4">Pelayanan</div>
@@ -477,7 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="mb-1">Dimas Wahyu</h5>
-        <p class="text-muted mb-2">Warehouse Staff - Surabaya</p>
+        <p class="text-muted mb-2">Warehouse Staff - Kota Baru Parahyangan (Bandung)</p>
         <div class="row mb-2 small">
           <div class="col-4">Kehadiran</div>
           <div class="col-4">Pelayanan</div>
@@ -498,7 +498,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="mb-1">Siska Lestari</h5>
-        <p class="text-muted mb-2">Cashier - Bekasi</p>
+        <p class="text-muted mb-2">Cashier - Bali</p>
         <div class="row mb-2 small">
           <div class="col-4">Kehadiran</div>
           <div class="col-4">Pelayanan</div>
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="card mb-3 shadow-sm">
       <div class="card-body">
         <h5 class="mb-1">Yudha Hermawan</h5>
-        <p class="text-muted mb-2">Delivery Driver - Tangerang</p>
+        <p class="text-muted mb-2">Delivery Driver - Surabaya</p>
         <div class="row mb-2 small">
           <div class="col-4">Kehadiran</div>
           <div class="col-4">Pelayanan</div>

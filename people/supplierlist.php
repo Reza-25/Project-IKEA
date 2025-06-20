@@ -236,7 +236,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   }
 
   .card-dark {
-    background-color: #212529;
+    background-color:rgb(74, 104, 134);
     color: white;
   }
 
@@ -255,11 +255,11 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           <h5 class="mb-3">Distribusi Supplier Berdasarkan Negara</h5>
           <canvas id="countryPieChart"></canvas>
           <div class="mt-3 d-flex justify-content-center flex-wrap gap-3">
-            <span style="color: #0d6efd;">■ Indonesia</span>
-            <span style="color: #198754;">■ China</span>
-            <span style="color: #ffc107;">■ Malaysia</span>
-            <span style="color: #dc3545;">■ Vietnam</span>
-            <span style="color: #6f42c1;">■ India</span>
+            <span style="color: #483D8B;">■ Indonesia</span>   <!-- Dark Slate Blue -->
+            <span style="color: #6495ED;">■ China</span>       <!-- Cornflower Blue -->
+            <span style="color: #778899;">■ Malaysia</span>    <!-- Light Slate Gray -->
+            <span style="color: #6A5ACD;">■ Vietnam</span>     <!-- Slate Blue -->
+            <span style="color: #708090;">■ India</span>       <!-- Slate Gray -->
           </div>
         </div>
       </div>
@@ -301,7 +301,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       labels: ['Indonesia', 'China', 'Malaysia', 'Vietnam', 'India'],
       datasets: [{
         data: [40, 30, 15, 10, 5],
-        backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#dc3545', '#6f42c1'],
+        backgroundColor: ['#483D8B', '#6495ED', '#778899', '#6A5ACD', '#708090'],
         borderWidth: 1
       }]
     },
@@ -313,8 +313,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     }
   });
 </script>
-
-
           <div class="card mt-4">
             <div class="card-body">
               <div class="table-top">
@@ -326,7 +324,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </a>
                   </div>
                   <div class="search-input">
-                    <a class="btn btn-searchset"><img src="../assets/img/icons/search-white.svg" alt="img" /></a>
+                    <a class="btn btn-searchset">
+                    <img src="../assets/img/icons/search-white.svg" alt="img" /></a>
                   </div>
                 </div>
                 <div class="wordset">
@@ -403,7 +402,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">
                         </a>
                         <a href="javascript:void(0);">Apex Computers</a>
                       </td>
@@ -421,7 +420,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">
                         </a>
                         <a href="javascript:void(0);">Modern Automobile</a>
                       </td>
@@ -439,7 +438,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">
                         </a>
                         <a href="javascript:void(0);">AIM Infotech</a>
                       </td>
@@ -457,7 +456,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">
                         </a>
                         <a href="javascript:void(0);">Best Power Tools</a>
                       </td>
@@ -475,7 +474,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">
                         </a>
                         <a href="javascript:void(0);">AIM Infotech</a>
                       </td>
@@ -493,7 +492,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">
                         </a>
                         <a href="javascript:void(0);">Best Power Tools</a>
                       </td>
@@ -511,7 +510,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product" />
                         </a>
                         <a href="javascript:void(0);">Apex Computers</a>
                       </td>
@@ -529,8 +528,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
-                        </a>
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">                        </a>
                         <a href="javascript:void(0);">Vinayak Tools</a>
                       </td>
                       <td>681</td>
@@ -547,8 +545,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
-                        </a>
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">                        </a>
                         <a href="javascript:void(0);">Best Power Tools</a>
                       </td>
                       <td>555</td>
@@ -565,7 +562,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product" />
                         </a>
                         <a href="javascript:void(0);">AIM Infotech</a>
                       </td>
@@ -583,8 +580,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
-                        </a>
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">                        </a>
                         <a href="javascript:void(0);">Best Power Tools</a>
                       </td>
                       <td>589</td>
@@ -601,7 +597,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product" />
                         </a>
                         <a href="javascript:void(0);">Apex Computers</a>
                       </td>
@@ -619,7 +615,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </td>
                       <td class="productimgname">
                         <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/noimage.png" alt="product" />
+                          <img src="../assets/img/customer/customer1.jpg" alt="product">
                         </a>
                         <a href="javascript:void(0);">Vinayak Tools</a>
                       </td>
