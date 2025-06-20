@@ -130,11 +130,11 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <th>
                         NO
                       </th>
-                      <th>Cabang</th>
-                      <th>Kode Toko</th>
+                      <th>Store ID</th>
+                      <th>Store</th>
                       <th>Status</th>
-                      <th>Keuntungan</th>
-                      <th>Rincian</th>
+                      <th>Profit</th>
+                      <th>Details</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -142,8 +142,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         1
                       </td>
-                      <td class="text-bolds">IKEA Alam Sutera</td>
                       <td>PT001</td>
+                      <td class="text-bolds">IKEA Alam Sutera</td>
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td><span style="color: #28a745; font-weight: bold;">+1.5%<i data-feather="trending-up"></i></span></td>
                       <td><a href="../editpurchase.php">
@@ -155,8 +155,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         2
                       </td>
-                      <td class="text-bolds">IKEA Sentul City</td>
                       <td>PT002</td>
+                      <td class="text-bolds">IKEA Sentul City</td>
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td><span style="color: #28a745; font-weight: bold;">+3.5%<i data-feather="trending-up"></i></span></td>
                       <td><a href="../editpurchase.php">
@@ -168,8 +168,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         3
                       </td>
-                      <td class="text-bolds">IKEA Kota Baru Parahyangan</td>
                       <td>PT003</td>
+                      <td class="text-bolds">IKEA Kota Baru Parahyangan</td>
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td><span style="color: #28a745; font-weight: bold;">+1.5%<i data-feather="trending-up"></i></span></td>
                       <td><a href="../editpurchase.php">
@@ -181,8 +181,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         4
                       </td>
-                      <td class="text-bolds">IKEA Jakarta Garden City</td>
                       <td>PT004</td>
+                      <td class="text-bolds">IKEA Jakarta Garden City</td>
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td><span style="color: #dc3545; font-weight: bold;">-0.2%<i data-feather="trending-down"></i></span></td>
                       <td><a href="../editpurchase.php">
@@ -194,8 +194,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         5
                       </td>
-                      <td class="text-bolds">IKEA  Bali</td>
                       <td>PT005</td>
+                      <td class="text-bolds">IKEA  Bali</td>
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td><span style="color: #dc3545; font-weight: bold;">+1.5%<i data-feather="trending-down"></i></span></td>
                       <td><a href="../editpurchase.php">
@@ -207,8 +207,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         6
                       </td>
-                      <td class="text-bolds">IKEA Mal Taman Anggrek</td>
                       <td>PT006</td>
+                      <td class="text-bolds">IKEA Mal Taman Anggrek</td>
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td><span style="color: #28a745; font-weight: bold;">+2.0%<i data-feather="trending-up"></i></span></td>
                       <td><a href="../editpurchase.php">
@@ -221,8 +221,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         7
                       </td>
-                      <td class="text-bolds">IKEA Ciputra World Surabaya</td>
-                      <td>PT007</td>
+                      <td class="text-bolds">PT007</td>
+                      <td >IKEA Ciputra World Surabaya</td>
                       <td><span class="badges bg-lightred">InActive</span></td>
                       <td><span style="color: #dc3545; font-weight: bold;">-1.0%<i data-feather="trending-down"></i></span></td>
                       <td><a href="../editpurchase.php">

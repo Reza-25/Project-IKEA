@@ -65,7 +65,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     color: white;
   }
 
-  <style>
+  style
   .ikea-note-card {
     background-color: #fffbea;
     border: none;
@@ -111,7 +111,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <div id="global-loader">
       <div class="whirly-loader"></div>
     </div>
-    <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+    
     <div class="main-wrapper">
         <!-- Include sidebar -->
        <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
@@ -120,9 +120,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
      <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
   <div class="content">
-
+  
   <div class="page-header">
       <div class="page-title">
+  <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
         <h4>Product Sold</h4>
         <h6>View/Search product Category</h6>
       </div>

@@ -33,7 +33,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <div class="whirly-loader"> </div>
 </div>
 
-<?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+
 <div class="main-wrapper">
 <!-- Include sidebar -->
 <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
@@ -43,8 +43,9 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
   <div class="content">
-
+  
   <div class="page-header">
+  <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
       <div class="page-title">
         <h4>Product Category list</h4>
         <h6>View/Search product Category</h6>

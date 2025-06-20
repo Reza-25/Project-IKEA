@@ -27,7 +27,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       <div class="whirly-loader"></div>
     </div>
 
-    <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+    
     <div class="main-wrapper">
       <!-- Include sidebar -->
       <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
@@ -35,6 +35,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       
       <!-- Page Wrapper -->
       <div class="page-wrapper">
+      <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
         <div class="content">
           <div class="page-header">
             <div class="page-title">
