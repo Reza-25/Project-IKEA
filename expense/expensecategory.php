@@ -55,7 +55,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   <!-- BAR CHART -->
   <div class="col-md-8">
     <div class="card h-100">
-      <div class="card-header d-flex justify-content-between align-items-center py-2 px-3" style="background-color: rgb(100, 149, 237);">
+      <div class="card-header d-flex justify-content-between align-items-center py-2 px-3" style="background-color: rgb(64, 90, 138);">
         <h6 class="card-title mb-0 text-white small">Expense Categories Chart</h6>
         <div class="d-flex align-items-center">
           <div class="btn-group btn-group-sm me-2" role="group">
@@ -87,7 +87,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   <!-- EXPENSE TOTAL CARD -->
   <div class="col-md-4">
     <div class="card h-100">
-      <div class="card-header text-center text-white py-2" style="background-color: rgb(220, 53, 69);">
+      <div class="card-header text-center text-white py-2" style="background-color: rgb(53, 53, 220);">
         <h6 class="card-title mb-0 small">Total Expenses</h6>
       </div>
       <div class="card-body d-flex flex-column justify-content-center align-items-center p-3">
@@ -296,188 +296,123 @@ document.addEventListener('DOMContentLoaded', function () {
                 <table class="table datanew">
                   <thead>
                     <tr>
-                      <th>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </th>
-                      <th>Date</th>
+                      <th>No</th>
                       <th>Category name</th>
+                      <th>Date</th>
                       <th>Reference</th>
-                      <th>Status</th>
                       <th>Amount</th>
                       <th>Description</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>2/27/2022-2/04/2022</td>
+                      <td>1</td>
                       <td>Employee Benefits</td>
+                      <td>2/27/2022-2/04/2022</td>
                       <td>PT001</td>
-                      <td><span class="badges bg-lightgreen">DONE</span></td>
                       <td>120</td>
                       <td>Employee Vehicle</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>1/15/2022-3/16/2022</td>
+                      <td>2</td>
                       <td>Foods & Snacks</td>
+                      <td>1/15/2022-3/16/2022</td>
                       <td>PT002</td>
-                      <td><span class="badges bg-lightgreen">DONE</span></td>
                       <td>250</td>
                       <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>3/24/2022-4/24/2022</td>
+                      <td>3</td>
                       <td>Entertainment</td>
+                      <td>3/24/2022-4/24/2022</td>
                       <td>PT003</td>
-                      <td><span class="badges bg-lightred">ON PROGRESS</span></td>
                       <td>120</td>
                       <td>Office Vehicle</td>
+                      <td><span class="badges bg-lightred">ON PROGRESS</span></td>
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>1/15/2022-3/16/2022</td>
+                      <td>4</td>
                       <td>Office Expenses & Postage</td>
+                      <td>1/15/2022-3/16/2022</td>
                       <td>PT004</td>
-                      <td><span class="badges bg-lightgreen">DONE</span></td>
                       <td>320</td>
                       <td>Employee Foods</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>2/27/2022-2/04/2022</td>
-                      <td>Employee Benefits</td>
-                      <td>PT005</td>
                       <td><span class="badges bg-lightgreen">DONE</span></td>
-                      <td>250</td>
-                      <td>Employee Vehicle</td>
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>1/15/2022-3/16/2022</td>
-                      <td>Foods & Snacks</td>
-                      <td>PT006</td>
-                      <td><span class="badges bg-lightgreen">DONE</span></td>
-                      <td>250</td>
-                      <td>Employee Foods</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>3/24/2022-4/24/2022</td>
-                      <td>Entertainment</td>
-                      <td>PT007</td>
-                      <td><span class="badges bg-lightred">ON PROGRESS</span></td>
-                      <td>120</td>
-                      <td>Office Vehicle</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>1/15/2022-3/16/2022</td>
+                      <td>5</td>
                       <td>Office Expenses & Postage</td>
-                      <td>PT008</td>
-                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
                       <td>320</td>
                       <td>Employee Foods</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>2/27/2022-2/04/2022</td>
-                      <td>Employee Benefits</td>
-                      <td>PT009</td>
                       <td><span class="badges bg-lightgreen">DONE</span></td>
-                      <td>120</td>
-                      <td>Employee Vehicle</td>
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>1/15/2022-3/16/2022</td>
-                      <td>Foods & Snacks</td>
-                      <td>PT010</td>
-                      <td><span class="badges bg-lightgreen">DONE</span></td>
-                      <td>250</td>
-                      <td>Employee Foods</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>3/24/2022-4/24/2022</td>
-                      <td>Entertainment</td>
-                      <td>PT011</td>
-                      <td><span class="badges bg-lightred">ON PROGRESS</span></td>
-                      <td>120</td>
-                      <td>Office Vehicle</td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>1/15/2022-3/16/2022</td>
+                      <td>6</td>
                       <td>Office Expenses & Postage</td>
-                      <td>PT012</td>
-                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
                       <td>320</td>
                       <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                    </tr>
+                    <tr>
+                      <td>7</td>
+                      <td>Office Expenses & Postage</td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
+                      <td>320</td>
+                      <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                    </tr>
+                    <tr>
+                      <td>8</td>
+                      <td>Office Expenses & Postage</td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
+                      <td>320</td>
+                      <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                    </tr>
+                    <tr>
+                      <td>9</td>
+                      <td>Office Expenses & Postage</td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
+                      <td>320</td>
+                      <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                    </tr>
+                    <tr>
+                      <td>10</td>
+                      <td>Office Expenses & Postage</td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
+                      <td>320</td>
+                      <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                    </tr>
+                    <tr>
+                      <td>11</td>
+                      <td>Office Expenses & Postage</td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
+                      <td>320</td>
+                      <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
+                    </tr>
+                    <tr>
+                      <td>12</td>
+                      <td>Office Expenses & Postage</td>
+                      <td>1/15/2022-3/16/2022</td>
+                      <td>PT004</td>
+                      <td>320</td>
+                      <td>Employee Foods</td>
+                      <td><span class="badges bg-lightgreen">DONE</span></td>
                     </tr>
                   </tbody>
                 </table>
