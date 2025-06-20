@@ -9,6 +9,12 @@
 <link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css" />
 </head>
 
+    <style>
+        .header {
+    background-color: #001F3F !important; /* biru donker */
+    }
+    </style>
+
 <div class="header">
     <div class="header-left active">
         <a href="../index.html" class="logo">
