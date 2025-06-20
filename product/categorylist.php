@@ -457,432 +457,163 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
 
       <!-- CATEGORY PRODUCT -->
-
-              <div class="card" id="filter_inputs">
-                <div class="card-body pb-0">
-                  <div class="row">
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" class="datetimepicker cal-icon" placeholder="Choose Date" />
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" placeholder="Enter Reference" />
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <select class="select">
-                          <option>Choose Category</option>
-                          <option>Computers</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <select class="select">
-                          <option>Choose Sub Category</option>
-                          <option>Fruits</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <select class="select">
-                          <option>Choose Sub Brand</option>
-                          <option>Iphone</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img" /></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="table-responsive">
-                <table class="table datanew">
-                  <thead>
-                    <tr>
-                      <th>NO
-                      </th>
-                      <th>Category Name</th>
-                      <th>Date</th>
-                      <th>Branch</th>
-                      <th>Revund Total</th>
-                      <th>Percentage</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        1
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product1.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Furniture</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bogor</td>
-                      <td>1200</td>
-                      <td>10.1%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        2
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Lighting</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Jakarta Barat</td>
-                      <td>800</td>
-                      <td>6.7%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-                    
-                    <tr>
-                      <td>
-                        3
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product3.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Storage</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Jakarta Timur</td>
-                      <td>950</td>
-                      <td>8.0%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        4
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product4.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Bedroom</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bandung</td>
-                      <td>1000</td>
-                      <td>8.4%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        5
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product5.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Living Room</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bogor</td>
-                      <td>1100</td>
-                      <td>9.2%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        6
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product6.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Kitchen</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Kuta</td>
-                      <td>700</td>
-                      <td>5.9%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        7
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product7.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Dining</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bandung</td>
-                      <td>600</td>
-                      <td>5.0%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        8
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product1.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Office</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bogor</td>
-                      <td>550</td>
-                      <td>4.6%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        9
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Outdoor</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Jakarta Barat</td>
-                      <td>400</td>
-                      <td>3.4%</td>
-                      <td><span class="badges bg-lightyellow">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        10
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product3.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Textiles</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Jakarta Timur</td>
-                      <td>650</td>
-                      <td>5.5%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        11
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product4.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Decoration</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bandung</td>
-                      <td>300</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        12
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product5.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Bathroom</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bogor</td>
-                      <td>480</td>
-                      <td>4.0%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        13
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product6.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Children</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Kuta</td>
-                      <td>500</td>
-                      <td>4.2%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                      14
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product7.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Appliances</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bandung</td>
-                      <td>320</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        15
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Rugs</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bogor</td>
-                      <td>430</td>
-                      <td>3.6%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        16
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product7.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Curtains</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Jakarta Timur</td>
-                      <td>290</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        17
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product6.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Tableware</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Tangerang</td>
-                      <td>510</td>
-                      <td>4.3%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        18
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product5.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Cookware</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bogor</td>
-                      <td>620</td>
-                      <td>5.2%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        19
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product4.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Laundry</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Jakarta Timur</td>
-                      <td>230</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        20
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product3.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Cleaning</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bogor</td>
-                      <td>190</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        21
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Pet</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>Bandung</td>
-                      <td>100</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+<div class="card" id="filter_inputs">
+  <div class="card-body pb-0">
+    <div class="row">
+      <div class="col-lg-2 col-sm-6 col-12">
+        <div class="form-group">
+          <input type="text" class="datetimepicker cal-icon" placeholder="Choose Date" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-6 col-12">
+        <div class="form-group">
+          <input type="text" placeholder="Enter Reference" />
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-6 col-12">
+        <div class="form-group">
+          <select class="select">
+            <option>Choose Category</option>
+            <option>Computers</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-6 col-12">
+        <div class="form-group">
+          <select class="select">
+            <option>Choose Sub Category</option>
+            <option>Fruits</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-6 col-12">
+        <div class="form-group">
+          <select class="select">
+            <option>Choose Sub Brand</option>
+            <option>Iphone</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-6 col-12">
+        <div class="form-group">
+          <a class="btn btn-filters ms-auto">
+            <img src="../assets/img/icons/search-whites.svg" alt="img" />
+          </a>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Tambahan CSS untuk kolom sempit -->
+<style>
+  th.total-col, td.total-col,
+  th.detail-col, td.detail-col {
+    white-space: nowrap;
+    width: 1%;
+    text-align: center;
+  }
+
+  
+</style>
+
+<!-- Modal Detail -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+        <div class="modal-header text-white" style="background-color: #ff9f43;">
+        <h5 class="modal-title">Category Detail</h5>
+        <button type="button" class="btn btn-sm text-white bg-danger border-0" data-bs-dismiss="modal" aria-label="Close" style="padding: 4px 8px; border-radius: 4px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x" viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul id="modalContent" class="list-group"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tabel Kategori -->
+<div class="table-responsive mt-4">
+  <table class="table datanew table-bordered">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Image/Icon</th>
+        <th>Category ID</th>
+        <th>Category Name</th>
+        <th>Description</th>
+        <th class="total-col">Total Products</th>
+        <th class="detail-col">View Detail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <script>
+        const categoryData = [
+          ["CAT-01", "Furniture", "Furnitur rumah", 1200, "01 Jan 2022", "Admin A", "19 Nov 2022", "Active", "product1.jpg", "-", 89],
+          ["CAT-02", "Lighting", "Pencahayaan rumah modern", 800, "10 Jan 2022", "Admin B", "15 Nov 2022", "Inactive", "product2.jpg", "Furniture", 78],
+          ["CAT-03", "Storage", "Lemari dan rak serbaguna", 950, "20 Jan 2022", "Admin C", "10 Nov 2022", "Pending", "product3.jpg", "Furniture", 70],
+          ["CAT-04", "Bedroom", "Perlengkapan kamar tidur", 1000, "01 Feb 2022", "Admin D", "12 Nov 2022", "Active", "product4.jpg", "Furniture", 82],
+          ["CAT-05", "Living Room", "Dekorasi dan sofa ruang tamu", 1100, "05 Feb 2022", "Admin E", "19 Nov 2022", "Pending", "product5.jpg", "Furniture", 85],
+          ["CAT-06", "Kitchen", "Peralatan dapur modern", 700, "10 Feb 2022", "Admin F", "22 Nov 2022", "Active", "product6.jpg", "Dining", 68],
+          ["CAT-07", "Dining", "Meja makan dan aksesoris", 600, "15 Feb 2022", "Admin G", "25 Nov 2022", "Ordered", "product7.jpg", "Kitchen", 62],
+          ["CAT-08", "Office", "Furniture kantor fungsional", 550, "20 Feb 2022", "Admin H", "28 Nov 2022", "Active", "product1.jpg", "Furniture", 60],
+          ["CAT-09", "Outdoor", "Furniture dan dekorasi luar ruangan", 400, "01 Mar 2022", "Admin I", "02 Dec 2022", "Pending", "product2.jpg", "Furniture", 58],
+          ["CAT-10", "Textiles", "Tekstil dan karpet rumah", 650, "05 Mar 2022", "Admin J", "05 Dec 2022", "Pending", "product3.jpg", "Living Room", 66],
+          ["CAT-11", "Decoration", "Hiasan dan ornamen", 300, "10 Mar 2022", "Admin K", "10 Dec 2022", "Active", "product4.jpg", "Living Room", 52],
+          ["CAT-12", "Bathroom", "Perlengkapan kamar mandi", 480, "15 Mar 2022", "Admin L", "13 Dec 2022", "Pending", "product5.jpg", "-", 57],
+          ["CAT-13", "Children", "Produk anak-anak", 500, "20 Mar 2022", "Admin M", "15 Dec 2022", "Active", "product6.jpg", "-", 59],
+          ["CAT-14", "Appliances", "Peralatan rumah tangga", 320, "25 Mar 2022", "Admin N", "18 Dec 2022", "Ordered", "product7.jpg", "Kitchen", 49],
+          ["CAT-15", "Rugs", "Karpet berbagai ukuran", 430, "01 Apr 2022", "Admin O", "20 Dec 2022", "Active", "product2.jpg", "Textiles", 53],
+          ["CAT-16", "Curtains", "Gorden dan tirai rumah", 290, "05 Apr 2022", "Admin P", "23 Dec 2022", "Ordered", "product7.jpg", "Textiles", 47],
+          ["CAT-17", "Tableware", "Peralatan makan", 510, "10 Apr 2022", "Admin Q", "26 Dec 2022", "Active", "product6.jpg", "Kitchen", 60],
+          ["CAT-18", "Cookware", "Peralatan masak", 620, "15 Apr 2022", "Admin R", "29 Dec 2022", "Active", "product5.jpg", "Kitchen", 63],
+          ["CAT-19", "Laundry", "Alat bantu cuci", 230, "20 Apr 2022", "Admin S", "02 Jan 2023", "Ordered", "product4.jpg", "Bathroom", 40],
+          ["CAT-20", "Cleaning", "Produk kebersihan", 190, "25 Apr 2022", "Admin T", "04 Jan 2023", "Active", "product3.jpg", "Bathroom", 38],
+          ["CAT-21", "Pet", "Produk untuk hewan peliharaan", 100, "30 Apr 2022", "Admin U", "07 Jan 2023", "Ordered", "product2.jpg", "-", 36]
+        ];
+
+        function showDetail(index) {
+          const data = categoryData[index];
+          const content = `
+            <li class="list-group-item"><strong>Created Date:</strong> ${data[4]}</li>
+            <li class="list-group-item"><strong>Created By:</strong> ${data[5]}</li>
+            <li class="list-group-item"><strong>Updated Date:</strong> ${data[6]}</li>
+            <li class="list-group-item"><strong>Status:</strong> ${data[7]}</li>
+            <li class="list-group-item"><strong>Parent Category:</strong> ${data[9]}</li>
+            <li class="list-group-item"><strong>Popularity Index:</strong> ${data[10]}</li>
+          `;
+          document.getElementById("modalContent").innerHTML = content;
+          const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+          modal.show();
+        }
+
+        categoryData.forEach((item, index) => {
+          document.write(`
+            <tr>
+              <td>${index + 1}</td>
+              <td><img src="../assets/img/product/${item[8]}" width="40" alt="icon"></td>
+              <td>${item[0]}</td>
+              <td>${item[1]}</td>
+              <td>${item[2]}</td>
+              <td class="total-col">${item[3]}</td>
+              <td class="detail-col">
+                <button class="btn btn-sm btn-primary" onclick="showDetail(${index})">View Detail</button>
+              </td>
+            </tr>
+          `);
+        });
+      </script>
+    </tbody>
+  </table>
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
