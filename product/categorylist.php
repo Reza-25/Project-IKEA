@@ -30,6 +30,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 </head>
 <body>
 <div id="global-loader">
+
 <div class="whirly-loader"> </div>
 </div>
 
@@ -43,9 +44,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
   <div class="content">
-  
+    <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
   <div class="page-header">
-  <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
       <div class="page-title">
         <h4>Product Category list</h4>
         <h6>View/Search product Category</h6>
