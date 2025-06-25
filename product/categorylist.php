@@ -340,14 +340,18 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     text-align: center;
   }
 
+  .modal-content {
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
   
 </style>
 
 <!-- Modal Detail -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-        <div class="modal-header text-white" style="background-color: #ff9f43;">
+    <div class="modal-content shadow-lg border-0" style="border-radius: 12px;">
+      <div class="modal-header text-white" style="background-color: #ff9f43; border-top-left-radius: 12px; border-top-right-radius: 12px;">
         <h5 class="modal-title">Category Detail</h5>
         <button type="button" class="btn btn-sm text-white bg-danger border-0" data-bs-dismiss="modal" aria-label="Close" style="padding: 4px 8px; border-radius: 4px;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-x" viewBox="0 0 16 16">
@@ -355,12 +359,50 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           </svg>
         </button>
       </div>
-      <div class="modal-body">
-        <ul id="modalContent" class="list-group"></ul>
+
+      <div class="modal-body" style="background-color: #fdfdfd; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+        <div class="row">
+          <!-- Panel Kiri - Category Information -->
+          <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 h-100 rounded-3" style="background-color: #e3f2fd;">
+              <div class="card-body p-3">
+                <h6 class="fw-bold text-center mb-3 fs-5 text-dark">Category Information</h6>
+                <ul id="modalContent" class="list-group fs-6 mb-0"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel Kanan - Top Products -->
+          <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-0 h-100 rounded-3" style="background-color: #fff9e6;">
+              <div class="card-body p-3">
+                <h6 class="fw-bold text-center mb-3 fs-5 text-dark">Top 5 Popular Products</h6>
+                <div class="table-responsive">
+                  <table class="table table-sm table-bordered mb-0 small">
+                    <thead class="table-light text-center">
+                      <tr style="font-size: 13px;">
+                        <th style="width: 10%;">No</th>
+                        <th style="width: 55%;">Product</th>
+                        <th style="width: 35%;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="topProductTable" class="text-center">
+                      <!-- Akan diisi oleh JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Row -->
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+
+
 
 <!-- Tabel Kategori -->
 <div class="table-responsive mt-4">
@@ -402,21 +444,40 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           ["CAT-21", "Pet", "Produk untuk hewan peliharaan", 100, "30 Apr 2022", "Admin U", "07 Jan 2023", "Ordered", "product2.jpg", "-", 36]
         ];
 
-        function showDetail(index) {
-          const data = categoryData[index];
-          const content = `
-            <li class="list-group-item"><strong>Created Date:</strong> ${data[4]}</li>
-            <li class="list-group-item"><strong>Created By:</strong> ${data[5]}</li>
-            <li class="list-group-item"><strong>Updated Date:</strong> ${data[6]}</li>
-            <li class="list-group-item"><strong>Status:</strong> ${data[7]}</li>
-            <li class="list-group-item"><strong>Parent Category:</strong> ${data[9]}</li>
-            <li class="list-group-item"><strong>Popularity Index:</strong> ${data[10]}</li>
-          `;
-          document.getElementById("modalContent").innerHTML = content;
-          const modal = new bootstrap.Modal(document.getElementById('detailModal'));
-          modal.show();
-        }
+  function showDetail(index) {
+    const data = categoryData[index];
+    const content = `
+      <li class="list-group-item"><strong>Created Date:</strong> ${data[4]}</li>
+      <li class="list-group-item"><strong>Created By:</strong> ${data[5]}</li>
+      <li class="list-group-item"><strong>Updated Date:</strong> ${data[6]}</li>
+      <li class="list-group-item"><strong>Status:</strong> ${data[7]}</li>
+      <li class="list-group-item"><strong>Parent Category:</strong> ${data[9]}</li>
+      <li class="list-group-item"><strong>Popularity Index:</strong> ${data[10]}</li>
+    `;
+    document.getElementById("modalContent").innerHTML = content;
 
+    // Dummy 5 Produk Populer
+    const topProducts = [
+      "Smart Sofa", "LED Lamp", "Eco Dining Set", "Minimalist Desk", "Smart Drawer"
+    ];
+    let productRows = "";
+    topProducts.forEach((p, i) => {
+      productRows += `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${p}</td>
+          <td><a href="../product-details.php" class="btn btn-sm btn-outline-primary">View</a></td>
+        </tr>
+      `;
+    });
+    document.getElementById("topProductTable").innerHTML = productRows;
+
+    const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+    modal.show();
+  }
+
+
+        // Render data ke tabel utama
         categoryData.forEach((item, index) => {
           document.write(`
             <tr>
@@ -439,8 +500,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
 <!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
