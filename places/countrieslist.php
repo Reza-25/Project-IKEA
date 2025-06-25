@@ -123,8 +123,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <th>Land Area</th>
                       <th>Establish</th>
                       <th>Status</th>
-                      <th>Payment</th>
-                      <th class="text-center">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -132,339 +130,62 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>
                         1
                       </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0101</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Supplier Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-                          </li>
-                        </ul>
-                      </td>
+                      <td>STR001</td>
+                      <td>IKEA Alam Sutera</td>
+                      <td> Jl. Jalur Sutera Boulevard No.45, Alam Sutera</td>
+                      <td>Tangerang (Banten)</td>
+                      <td>(021) 12345678</td>
+                      <td>35.000 m²</td>
+                      <td>2014</td>
+                      <td><span class="badges bg-lightgreen">Open</span></td>
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        2
                       </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0102</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
+                      <td>STR001</td>
+                      <td>IKEA Sentul City</td>
+                      <td>Jl. MH Thamrin, Sentul City</td>
+                      <td>Bogor (Jawa Barat)</td>
+                      <td>(021) 12345678</td>
+                      <td>36.000 m²</td>
+                      <td>2021</td>
+                      <td><span class="badges bg-lightgreen">Open</span></td>
                     </tr>
                     <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                        3
                       </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0103</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
+                      <td>STR001</td>
+                      <td>IKEA Kota Baru Parahyangan</td>
+                      <td>Jl. Parahyangan KM 3</td>
+                      <td>Bandung Barat (Jawa Barat)</td>
+                      <td>(022) 34567890</td>
+                      <td>33.000 m²</td>
+                      <td>2021</td>
+                      <td><span class="badges bg-lightgreen">Open</span></td>
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Fred C. Rasmussen</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0104</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
+                      <td>4</td>
+                      <td>STR001</td>
+                      <td>IKEA Jakarta Garden City</td>
+                      <td>JGC, Cakung</td>
+                      <td> Jakarta Timur (Jakarta)</td>
+                      <td> (021) 45678901</td>
+                      <td>39.000 m²</td>
+                      <td>2021</td>
+                      <td><span class="badges bg-lightgreen">Open</span></td>
                     </tr>
                     <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Thomas M. Martin</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0105</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Thomas M. Martin</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0106</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0107</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0108</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0109</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0110</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0111</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
+                      <td>5</td>
+                      <td>STR001</td>
+                      <td>IKEA Bali</td>
+                      <td>Sunset Road, Kuta</td>
+                      <td>Badung (Bali)</td>
+                      <td>-</td>
+                      <td>-</td>
+                      <td>2025</td>
+                      <td><span class="badges bg-lightred">InProgress</span></td>
                     </tr>
                   </tbody>
                 </table>

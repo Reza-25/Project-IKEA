@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+
 ?>
 
 <!DOCTYPE html>
@@ -119,11 +120,12 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
      <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
+<?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
   <div class="content">
   
   <div class="page-header">
       <div class="page-title">
-  <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+
         <h4>Product Sold</h4>
         <h6>View/Search product Category</h6>
       </div>
