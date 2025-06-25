@@ -1,11 +1,10 @@
 <?php
 // --- Konfigurasi Gemini API ---
-// Masukkan API Key Gemini di sini (hardcoded)
-$gemini_api_key = ''; // <--- Ganti dengan API key kamu
+$gemini_api_key = 'AIzaSyC-XR77mldEzqu5cWH_UK77LHrywEO6ddM'; // <--- Ganti dengan API key kamu
 $gemini_endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . $gemini_api_key;
 // --- Akhir Konfigurasi ---
 
-session_start();
+
 
 if (!isset($_SESSION['ai_chat'])) {
     $_SESSION['ai_chat'] = [];
@@ -16,7 +15,6 @@ $error_message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
     $user_prompt = trim($_POST['prompt']);
-    // Simpan prompt user ke session
     $_SESSION['ai_chat'][] = ['role' => 'user', 'text' => $user_prompt];
 
     $api_request_body = json_encode([
@@ -57,9 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
     }
     curl_close($ch);
 
-    $_SESSION['ai_popup_open'] = true; // <-- Tambahkan ini
-    // Agar window tidak menutup, gunakan redirect ke diri sendiri dengan anchor agar tetap terbuka
-    header("Location: " . $_SERVER['PHP_SELF']);
+    $_SESSION['ai_popup_open'] = true;
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'analysis_result' => $analysis_result,
+        'error_message' => $error_message
+    ]);
     exit;
 }
 ?>
@@ -90,9 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
             <?php endif; ?>
         </div>
     </div>
-    <form class="ai-footer" id="aiForm" method="post" action="">
+    <form class="ai-footer" id="aiForm" method="post" action="javascript:void(0);">
         <input type="text" name="prompt" id="aiPromptInput" placeholder="Type your message..." autocomplete="off" required />
-        <button type="submit" class="send-btn">Send</button>
+        <button type="button" class="send-btn" id="sendButton">Send</button>
     </form>
 </div>
 
@@ -213,7 +216,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
     const aiPromptInput = document.getElementById('aiPromptInput');
     const aiChatBody = document.getElementById('aiChatBody');
 
-    // Buka popup jika session PHP menyuruh buka
     <?php if (!empty($_SESSION['ai_popup_open'])): ?>
         aiPopup.classList.add('show');
         setTimeout(() => {
@@ -232,7 +234,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
         }
     });
 
-    // Tutup popup jika klik di luar window
     document.addEventListener('click', function(e) {
         if (
             aiPopup.classList.contains('show') &&
@@ -243,24 +244,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
         }
     });
 
-    // Event delegation: tutup popup jika klik bubble chat (user/ai)
     document.getElementById('aiChatMessages').addEventListener('click', function(e) {
         if (e.target.classList.contains('ai-message')) {
             aiPopup.classList.remove('show');
         }
     });
 
-    // Prevent form submit on empty input
     document.getElementById('aiForm').addEventListener('submit', function(e) {
         if (!aiPromptInput.value.trim()) {
             e.preventDefault();
         }
     });
 
-    // Auto-scroll to bottom after submit (for PHP reload)
     window.addEventListener('DOMContentLoaded', function() {
         if (aiPopup.classList.contains('show')) {
             aiChatBody.scrollTop = aiChatBody.scrollHeight;
         }
+    });
+
+    document.getElementById('sendButton').addEventListener('click', function() {
+    const promptInput = document.getElementById('aiPromptInput');
+    const chatMessages = document.getElementById('aiChatMessages');
+
+    if (promptInput.value.trim() === '') return; // Jangan kirim jika input kosong
+
+    const userMessage = promptInput.value.trim();
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../include/ai.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Tambahkan pesan user ke chat
+            const userBubble = document.createElement('div');
+            userBubble.className = 'ai-message user';
+            userBubble.textContent = userMessage;
+            chatMessages.appendChild(userBubble);
+
+            // Tambahkan respons AI ke chat
+            const response = JSON.parse(xhr.responseText);
+            const aiBubble = document.createElement('div');
+            aiBubble.className = 'ai-message ai';
+            aiBubble.textContent = response.analysis_result || 'No response from AI.';
+            chatMessages.appendChild(aiBubble);
+
+            // Scroll ke bawah
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        } else {
+            alert('Error: ' + xhr.statusText);
+        }
+    };
+    xhr.send('prompt=' + encodeURIComponent(userMessage));
+    promptInput.value = ''; // Kosongkan input
+    aiChatBody.scrollTop = aiChatBody.scrollHeight; // Scroll ke bawah
     });
 </script>
