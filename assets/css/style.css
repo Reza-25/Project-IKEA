@@ -3837,6 +3837,7 @@ div#global-loader .whirly-loader:not(:required) {
   line-height: 40px;
   border-radius: 5px;
 }
+/*Penting*/
 .select2-container--default .select2-selection--single .select2-selection__arrow {
   height: 40px;
   right: 6px;
@@ -3845,7 +3846,7 @@ div#global-loader .whirly-loader:not(:required) {
   position: absolute;
   top: 50%;
   left: 50%;
-  border-color: #637381;
+  border-color: #4d9add;
   border-style: solid;
   border-width: 0 2px 2px 0;
   padding: 3px;
@@ -3904,10 +3905,11 @@ span.select2-container.select2-container--default.select2-container--open {
     width: 100%;
   }
 }
+/* Penting */
 .sidebar .slimScrollDiv {
   width: 260px !important;
   overflow: visible !important;
-  background: #fff;
+  background: linear-gradient(to bottom, #0e3259, #00A3E0);
 }
 @media (max-width: 575px) {
   .sidebar .slimScrollDiv {
@@ -3931,11 +3933,14 @@ span.select2-container.select2-container--default.select2-container--open {
 .sidebar .sidebar-menu > ul > li > a svg {
   width: 18px;
 }
+/*Penting*/
 .sidebar .sidebar-menu > ul > li > a img {
   width: 18px;
+  filter: brightness(0) invert(1);
 }
+/*Penting*/
 .sidebar .sidebar-menu > ul > li > a:hover {
-  background: #1b2850;
+  background: #3486de7a;
   color: #fff;
   border-radius: 5px;
 }
@@ -3946,7 +3951,7 @@ span.select2-container.select2-container--default.select2-container--open {
   color: #fff;
 }
 .sidebar .sidebar-menu > ul > li > a.active {
-  background: #1b2850;
+  background: #3486de7a;
   color: #fff;
   border-radius: 5px;
 }
@@ -3960,7 +3965,7 @@ span.select2-container.select2-container--default.select2-container--open {
   margin-left: 10px;
   font-size: 15px;
   font-weight: 500;
-  color: #637381;
+  color: #ffffff;
 }
 .sidebar .sidebar-menu > ul > li > a .menu-arrow {
   display: inline-block;
@@ -3990,17 +3995,19 @@ span.select2-container.select2-container--default.select2-container--open {
   -ms-transform: rotate(90deg);
 }
 .sidebar .sidebar-menu > ul > li.active a {
-  background: #1b2850;
+  background: #2377C3;
   border-radius: 5px;
 }
 .sidebar .sidebar-menu > ul > li.active a img {
   filter: brightness(0) invert(1);
 }
+/* Penting */
 .sidebar .sidebar-menu > ul > li.active a span {
   color: #fff;
 }
+/* Penting */
 .sidebar .sidebar-menu > ul > li.submenu ul {
-  background: #fafbfe;
+  background: #3486de7a;
   border-radius: 5px;
   padding: 10px 0;
   display: none;
@@ -4008,7 +4015,7 @@ span.select2-container.select2-container--default.select2-container--open {
 .sidebar .sidebar-menu > ul > li.submenu ul li a {
   font-weight: 500;
   font-size: 14px;
-  color: #212b36;
+  color: #ffffff;
   position: relative;
   display: block;
   padding: 8px 8px 8px 40px;
@@ -4281,6 +4288,7 @@ span.select2-container.select2-container--default.select2-container--open {
 .mini-sidebar.expand-menu .active.subdrop ~ ul {
   display: block !important;
 }
+/*Penting*/
 .active.subdrop ~ ul {
   display: block !important;
 }
