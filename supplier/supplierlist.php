@@ -28,6 +28,213 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
 
     <link rel="stylesheet" href="../assets/css/style.css" />
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+        
+        .main-content {
+            padding: 2rem;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .metric-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #003d7a;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-change {
+            font-size: 0.85rem;
+            color: #28a745;
+        }
+        
+        .metric-change.negative {
+            color: #dc3545;
+        }
+        
+        .chart-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #003d7a;
+        }
+        
+        .chart {
+            height: 300px;
+            display: flex;
+            align-items: end;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, #003d7a, #0066cc);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .chart-bar:hover {
+            background: linear-gradient(to top, #ffda1a, #ffd700);
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .orders-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        
+        .orders-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .orders-table th {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .orders-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .orders-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .status-shipped {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-delivered {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .performance-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .performance-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #28a745;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .performance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
   </head>
   <body>
     <div id="global-loader">
@@ -42,6 +249,124 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
       <div class="page-wrapper">
         <div class="content">
+                  <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Total Procurement Value</div>
+                <div class="metric-value">€4.78M</div>
+                <div class="metric-change">↗ 3.5% from last quarter</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Active Suppliers</div>
+                <div class="metric-value">248</div>
+                <div class="metric-change">↗ 2.1% from last quarter</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">New Suppliers</div>
+                <div class="metric-value">32</div>
+                <div class="metric-change">↗ 4.3% from last quarter</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title">Sustainability Score</div>
+                <div class="metric-value">87%</div>
+                <div class="metric-change">↗ 1.8% from last quarter</div>
+            </div>
+        </div>
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3 class="chart-title">Monthly Procurement Value</h3>
+            </div>
+            <div class="chart">
+                <div class="chart-bar" style="height: 60%">
+                    <div class="chart-label">Jan</div>
+                </div>
+                <div class="chart-bar" style="height: 45%">
+                    <div class="chart-label">Feb</div>
+                </div>
+                <div class="chart-bar" style="height: 80%">
+                    <div class="chart-label">Mar</div>
+                </div>
+                <div class="chart-bar" style="height: 55%">
+                    <div class="chart-label">Apr</div>
+                </div>
+                <div class="chart-bar" style="height: 100%">
+                    <div class="chart-label">May</div>
+                </div>
+                <div class="chart-bar" style="height: 35%">
+                    <div class="chart-label">Jun</div>
+                </div>
+            </div>
+        </div>
+        <div class="performance-grid">
+            <div class="performance-card">
+                <div class="metric-title">On-time Delivery Rate</div>
+                <div class="performance-value">98.2%</div>
+                <div class="metric-change">↗ 1.2% improvement from last quarter</div>
+            </div>
+            <div class="performance-card">
+                <div class="metric-title">Quality Acceptance Rate</div>
+                <div class="performance-value">95.7%</div>
+                <div class="metric-change">↗ 0.8% improvement from last quarter</div>
+            </div>
+        </div>
+        <div class="orders-section">
+            <div class="orders-header">
+                <h3 class="chart-title">Recent Orders</h3>
+            </div>
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Product Category</th>
+                        <th>Supplier Name</th>
+                        <th>Order ID</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sofas & Armchairs</strong></td>
+                        <td>Nordic Furnishings AB</td>
+                        <td>#IKEA-SUP-78945</td>
+                        <td>250 units</td>
+                        <td>€127,500</td>
+                        <td><span class="status-badge status-shipped">Shipped</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Storage Solutions</strong></td>
+                        <td>Baltic Woodworks Ltd</td>
+                        <td>#IKEA-SUP-78946</td>
+                        <td>1,200 units</td>
+                        <td>€89,400</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Lighting</strong></td>
+                        <td>Scandinavian Lights Co</td>
+                        <td>#IKEA-SUP-78947</td>
+                        <td>500 units</td>
+                        <td>€45,000</td>
+                        <td><span class="status-badge status-delivered">Delivered</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kitchen Accessories</strong></td>
+                        <td>Finnish Design House</td>
+                        <td>#IKEA-SUP-78948</td>
+                        <td>800 units</td>
+                        <td>€32,000</td>
+                        <td><span class="status-badge status-shipped">Shipped</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Textiles & Rugs</strong></td>
+                        <td>Swedish Textile Mills</td>
+                        <td>#IKEA-SUP-78949</td>
+                        <td>2,000 units</td>
+                        <td>€156,000</td>
+                        <td><span class="status-badge status-processing">Processing</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
           <div class="page-header">
             <div class="page-title">
               <h4>Supplier List</h4>
@@ -674,5 +999,51 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
 
     <script src="../assets/js/script.js"></script>
+    <script> 
+            // Interactive chart hover effects
+        document.querySelectorAll('.chart-bar').forEach(bar => {
+            bar.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            
+            bar.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+        
+        // Metric cards animation on scroll
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.metric-card, .performance-card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Initialize card animations
+        document.querySelectorAll('.metric-card, .performance-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+        
+        // Table row hover effects
+        document.querySelectorAll('.orders-table tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f8f9fa';
+                this.style.cursor = 'pointer';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+    </script>
   </body>
 </html>
