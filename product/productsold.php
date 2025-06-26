@@ -103,6 +103,87 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     border-radius: 4px;
   }
 
+/* Reset semua background jadi putih & style dasar kolom */
+.das1, .das2, .das3, .das4 {
+  background: white !important;
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Struktur utama card */
+.dash-count {
+  padding: 24px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Efek saat hover */
+.dash-count:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+/* Penyesuaian tampilan angka dan label */
+.dash-counts h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.dash-counts h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 4px;
+  color: #6c757d;
+}
+
+/* Gaya icon kanan */
+.dash-imgs i {
+  font-size: 32px;
+}
+
+/* Kolom 1 - Biru Laut */
+.das1 {
+  border-left: 6px solid #1a5ea7;
+}
+.das1 * {
+  color: #1a5ea7 !important;
+}
+
+/* Kolom 2 - Ungu */
+.das2 {
+  border-left: 6px solid #751e8d;
+}
+.das2 * {
+  color: #751e8d !important;
+}
+
+/* Kolom 3 - Kuning/Oranye */
+.das3 {
+  border-left: 6px solid #e78001;
+}
+.das3 * {
+  color: #e78001 !important;
+}
+
+/* Kolom 4 - Tosca */
+.das4 {
+  border-left: 6px solid #018679;
+}
+.das4 * {
+  color: #018679 !important;
+}
 
 </style>
 
@@ -117,6 +198,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         <!-- Include sidebar -->
        <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
      
+    
+
 
      <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
@@ -125,7 +208,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   
   <div class="page-header">
       <div class="page-title">
-
         <h4>Product Sold</h4>
         <h6>View/Search product Category</h6>
       </div>
@@ -154,6 +236,74 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
               </div>
     <!-- BAGIAN ATAS END-->
+
+<!-- Revenue, Suppliers, Product Sold, Budget Spent -->
+<div class="row justify-content-end">
+  <!-- Revenue -->
+  <div class="col-lg-3 col-sm-6 col-12 d-flex">
+    <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+      <div class="dash-count das1">
+        <div class="dash-counts">
+          <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
+          <h5>Revenue</h5>
+          <h2 class="stat-change">+9% from last year</h2>
+        </div>
+        <div class="dash-imgs">
+          <i data-feather="trending-up"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Suppliers -->
+  <div class="col-lg-3 col-sm-6 col-12 d-flex">
+    <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
+      <div class="dash-count das2">
+        <div class="dash-counts">
+          <h4><span class="counters" data-count="1975">1,975</span></h4>
+          <h5>Suppliers</h5>
+          <h2 class="stat-change">+2% from last year</h2>
+        </div>
+        <div class="dash-imgs">
+          <i data-feather="user-check"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Product Sold -->
+  <div class="col-lg-3 col-sm-6 col-12 d-flex">
+    <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
+      <div class="dash-count das3">
+        <div class="dash-counts">
+          <h4><span class="counters" data-count="7863">7,863</span></h4>
+          <h5>Product Sold</h5>
+          <h2 class="stat-change">+15% from last year</h2>
+        </div>
+        <div class="dash-imgs">
+          <i data-feather="package"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Budget Spent -->
+  <div class="col-lg-3 col-sm-6 col-12 d-flex">
+    <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
+      <div class="dash-count das4">
+        <div class="dash-counts">
+          <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
+          <h5>Budget Spent</h5>
+          <h2 class="stat-change">+6% from last year</h2>
+        </div>
+        <div class="dash-imgs">
+          <i data-feather="activity"></i>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+<!-- END KOLOM -->
 
  <div class="container mt-5">
     <div class="row">

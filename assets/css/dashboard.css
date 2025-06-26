@@ -1,0 +1,530 @@
+
+  
+  body {
+    background-color: #f8f9fa !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    color: #333 !important;
+  }
+
+.dash-count {
+  color: white !important;
+  border-radius: 15px !important;
+  padding: 20px !important;
+  box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 2px 8px rgba(0,0,0,0.10) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s;
+}
+
+.dash-count:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 16px 40px rgba(33, 150, 243, 0.22), 0 4px 16px rgba(0,0,0,0.12) !important;
+}
+
+  .das1 {
+    background: linear-gradient(135deg, #26c6da 0%, #1a5ea7 100%) !important;
+  }
+  .das2 {
+    background: linear-gradient(135deg, #d05ce4 0%, #751e8d 100%) !important;
+  }
+  .das3 {
+    background: linear-gradient(135deg, #ffb443 0%, #e78001 100%) !important;
+  }
+  .das4 {
+    background: linear-gradient(135deg, #36e2d1 0%, #018679 100%) !important;
+  }
+
+
+  .dash-imgs i {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 24px;
+    color: white;
+  }
+
+  .card {
+    border-radius: 15px !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+  }
+
+  .card-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .table th {
+    background-color: #0047AB !important;
+    color: white !important;
+  }
+
+  .productimgname a {
+    color: #0047AB !important;
+    font-weight: 500;
+  }
+
+  .d-flex.align-items-center.p-4.rounded.shadow-sm {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    border-left: 6px solid #2196f3 !important;
+  }
+
+  .d-flex.align-items-center.p-4 h4,
+  .d-flex.align-items-center.p-4 p {
+    color: #0d47a1 !important;
+  }
+ canvas#salesChart {
+  padding-bottom: 0 !important;
+  margin-bottom: -5px;
+  }
+
+  .icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .bg-light-primary {
+    background-color: #e0f0ff;
+  }
+  .text-primary {
+    color: #3a8dde;
+  }
+  .bg-primary {
+    background-color: #3a8dde;
+  }
+
+  .bg-light-purple {
+    background-color: #f3e8fd;
+  }
+  .text-purple {
+    color: #a14fd5;
+  }
+  .bg-purple {
+    background-color: #a14fd5;
+  }
+
+  .bg-light-success {
+    background-color: #d9f7f0;
+  }
+  .text-success {
+    color: #20c997;
+  }
+  .bg-success {
+    background-color: #20c997;
+  }
+
+  .bg-light-info {
+    background-color: #daf1f8;
+  }
+  .text-info {
+    color: #159cb0;
+  }
+  .bg-info {
+    background-color: #159cb0;
+  }
+
+  .number-badge {
+    background-color: #eee;
+    color: #555;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .bg-light-primary { background-color: #e0f0ff; }
+  .text-primary { color: #3a8dde; }
+  .bg-primary { background-color: #3a8dde; }
+
+  .bg-light-purple { background-color: #f3e8fd; }
+  .text-purple { color: #a14fd5; }
+  .bg-purple { background-color: #a14fd5; }
+
+  .bg-light-success { background-color: #d9f7f0; }
+  .text-success { color: #20c997; }
+  .bg-success { background-color: #20c997; }
+
+  .bg-light-info { background-color: #daf1f8; }
+  .text-info { color: #17a2b8; }
+  .bg-info { background-color: #159cb0; }
+
+  .animated-progress .progress-bar {
+    width: 0%;
+    transition: width 1s ease-in-out;
+  }
+  /* Gaya kartu sapaan */
+  .greeting-card {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border-left: 6px solid #2196f3;
+    transition: all 0.3s ease;
+  }
+
+  .greeting-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(33, 150, 243, 0.2);
+  }
+
+  /* Lingkaran ikon */
+  .icon-circle {
+    background-color: #fff3cd;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ikon warna kuning */
+  .icon-yellow {
+    color: #ffc107;
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Warna teks utama */
+  .text-primary-dark {
+    color: #0d47a1;
+  }
+
+  /* Efek saat hover */
+  .animate-on-hover {
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .animate-on-hover:hover {
+    background: linear-gradient(135deg, #dbeeff, #b3d9f9);
+  }
+  
+/* <!-- css dri ringkasan smpe performance --> */
+  .progress-bar {
+    animation: loadBar 2s ease-in-out forwards;
+    background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+    background-size: 1rem 1rem;
+  }
+
+  @keyframes loadBar {
+    from { width: 0; }
+  }
+
+  .goal-simple {
+    background-color: #e7f1ff;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .goal-simple h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0d6efd;
+    margin-bottom: 0.25rem;
+    line-height: 1;
+  }
+
+  .goal-simple p {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0a58ca;
+    margin-bottom: 0;
+  }
+
+  .goal-simple:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px rgba(13, 110, 253, 0.2);
+}
+
+/* <!-- Top Products Component --> */
+  .product-progress-item .price-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.9rem;
+    margin-top: 4px;
+  }
+  .product-progress-item .price-info strong {
+    font-size: 1.1rem;
+    color: #343a40;
+  }
+  .product-progress-item .price-info .growth {
+    font-size: 0.85rem;
+    color: #28a745;
+  }
+  .product-progress-item .progress {
+    height: 6px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 0.3rem;
+  }
+  .product-progress-item .progress-bar {
+    border-radius: 10px;
+    transition: width 0.6s ease;
+  }
+  /* <!-- Top Products Component --> */
+
+  .card-header.gradient-bg {
+    background: linear-gradient(135deg, #5dade2 0%, #1a5ea7 100%);
+    color: white;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  .table-responsive table tbody tr:hover {
+    background-color: #f5faff;
+    transition: 0.3s ease;
+    cursor: pointer;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Terapkan animasi hover dan active untuk semua container */
+.card,
+.greeting-card,
+.goal-simple {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover: naik dan bayangan */
+.card:hover,
+.greeting-card:hover,
+.goal-simple:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Klik: animasi kecil saat ditekan */
+.card:active,
+.greeting-card:active,
+.goal-simple:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* .sidebar .sidebar-menu {
+  background: linear-gradient(to bottom, #19589b, #00A3E0) !important;
+} */
+
+/* --- Gabungan CSAT & Traffic Source --- */
+.card .d-flex.align-items-stretch > .flex-fill {
+  min-width: 0;
+}
+@media (max-width: 991px) {
+  .card.d-flex.flex-row.align-items-stretch {
+    flex-direction: column !important;
+  }
+  .card.d-flex.flex-row.align-items-stretch > .flex-fill {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    border-right: none !important;
+  }
+  .card.d-flex.flex-row.align-items-stretch > .flex-fill:last-child {
+    border-bottom: none;
+  }
+  .d-none.d-md-block[style*="background"] {
+    display: none !important;
+  }
+}
+.calendar-container {
+  background: #fffde7;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.07);
+}
+#simpleCalendar {
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+#simpleCalendar table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+#simpleCalendar th {
+  color: #b48a00;
+  font-weight: 600;
+  padding: 4px 0;
+}
+#simpleCalendar td {
+  padding: 4px 0;
+  border-radius: 6px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+#simpleCalendar td.today {
+  background: #ffe082;
+  color: #b48a00;
+  font-weight: bold;
+}
+#simpleCalendar td:hover {
+  background: #fff9c4;
+}
+#simpleCalendar td.inactive {
+  color: #ccc;
+  background: none;
+  cursor: default;
+}
+.csat-vertical {
+  flex-direction: column !important;
+  align-items: stretch !important;
+  text-align: center;
+  justify-content: center;
+  min-height: 220px;
+  gap: 0.5rem;
+}
+.csat-vertical > .me-3 {
+  margin-right: 0 !important;
+  margin-bottom: 10px !important;
+  display: flex;
+  justify-content: center;
+}
+.csat-vertical > div:not(:first-child) {
+  margin-left: 0 !important;
+}
+
+/* Kalender & Aktivitas Card */
+.ikea-calendar-card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+}
+.ikea-calendar-card h6 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1c1c1e;
+  margin-bottom: 1rem;
+}
+.ikea-calendar-card .form-control {
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  font-size: 0.9rem;
+  padding: 0.6rem 0.9rem;
+}
+.ikea-calendar-card .bg-info,
+.ikea-calendar-card .bg-warning,
+.ikea-calendar-card .bg-primary,
+.ikea-calendar-card .bg-danger {
+  border-radius: 10px;
+  font-size: 0.88rem;
+  padding: 12px 14px;
+}
+.ikea-calendar-card .badge {
+  font-size: 0.7rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.ikea-calendar-card .list-group-item {
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+.ikea-calendar-card .text-muted {
+  font-size: 0.75rem;
+  color: #6c757d !important;
+}
+.ikea-calendar-card .rounded-circle {
+  object-fit: cover;
+  border: 2px solid #eee;
+}
+.ikea-calendar-card input[type="text"]::placeholder {
+  color: #999;
+  font-style: italic;
+}
+.ikea-calendar-card .flatpickr-calendar {
+  border-radius: 12px;
+  font-size: 14px;
+}
+@media (max-width: 991px) {
+  .ikea-calendar-card {
+    margin-top: 16px;
+  }
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  .card-header {
+  padding: 16px 24px;
+  background: linear-gradient(90deg, #42a5f5, #1a5ea7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+
+  .card-header h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #fff;
+  }
+
+  .card-header a {
+    font-size: 13px;
+    color: #0d47a1;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .leaflet-popup-content {
+    font-size: 14px;
+  }
+
+  .leaflet-container {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+/* Custom tweaks */
+.row.mb-4 {
+  margin-bottom: 16px !important;
+}
+
+/* Card hover shadow improvements */
+.card, .dashboard-card, .ikea-calendar-card {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+}
+
+.card:hover, .dashboard-card:hover, .ikea-calendar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.ikea-calendar-card,
+.dashboard-card {
+  box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 2px 8px rgba(0,0,0,0.08) !important;
+  border-radius: 18px !important;
+  transition: box-shadow 0.3s;
+}
+
