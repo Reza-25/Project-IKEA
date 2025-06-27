@@ -307,7 +307,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     <h2 class="stat-change">+15% from last year</h2>
                   </div>
                   <div class="icon-box bg-merah">
-                    <i class="fa fa-exclamation-triangle"></i>
+                    <i class="fa fa-trophy"></i>
                   </div>
                 </div>
               </a>
