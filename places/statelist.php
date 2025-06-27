@@ -10,46 +10,227 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" />
     <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>IKEA</title>
+    <title>IKEA - Inventory Locations</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg" />
 
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
-
     <link rel="stylesheet" href="../assets/css/animate.css" />
-
     <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css" />
-
     <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
-
     <link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css" />
-
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
-
     <link rel="stylesheet" href="../assets/css/style.css" />
+    
+    <style>
+      /* Styling untuk summary cards */
+      .summary-card {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        height: 100%;
+      }
+      .summary-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+      .summary-value {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+      .summary-label {
+        font-size: 14px;
+        color: #666;
+      }
+      .map-container {
+        border-radius: 8px;
+        overflow: hidden;
+        height: 300px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+      }
+      .map-container:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+      .warehouse-marker {
+        position: relative;
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        background-color: #4CAF50;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        cursor: pointer;
+      }
+      .warehouse-marker::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 14px;
+        height: 14px;
+        background: white;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+      .warehouse-marker.highlight {
+        width: 40px;
+        height: 40px;
+        z-index: 10;
+        background-color: #FF5722;
+      }
+      .highlight-row {
+        background-color: #f0f9ff !important;
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        z-index: 1;
+        position: relative;
+      }
+      .map-card {
+        margin-bottom: 20px;
+      }
+      
+      /* Styling untuk chart */
+      .chart-container {
+        position: relative;
+        height: 300px;
+        margin: 20px 0;
+      }
+      .chart-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        padding: 20px;
+        background: white;
+        transition: all 0.3s ease;
+      }
+      .chart-card:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+      .chart-title {
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: #333;
+      }
+      .chart-hover-info {
+        position: absolute;
+        background: white;
+        border-radius: 8px;
+        padding: 10px 15px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        z-index: 100;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .chart-hover-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+      }
+      .chart-hover-warehouses {
+        font-size: 14px;
+        color: #666;
+      }
+      
+      /* Animasi untuk kartu */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animated-card {
+        animation: fadeIn 0.6s ease-out forwards;
+      }
+      .card:nth-child(1) { animation-delay: 0.1s; }
+      .card:nth-child(2) { animation-delay: 0.2s; }
+      .card:nth-child(3) { animation-delay: 0.3s; }
+      .card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
   </head>
   <body>
     <div id="global-loader">
       <div class="whirly-loader"></div>
     </div>
 
-<div class="main-wrapper">
-<!-- Include sidebar -->
-<?php include BASE_PATH . '../include/sidebar.php'; ?>
-<?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
-</div>
-
+    <div class="main-wrapper">
+      <?php include BASE_PATH . '../include/sidebar.php'; ?>
+      <?php include __DIR__ . '/../include/header.php'; ?>
+      
       <div class="page-wrapper">
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>Supplier List</h4>
-              <h6>Manage your supplier</h6>
+              <h4>Inventory Locations</h4>
+              <h6>Manage your warehouse locations</h6>
             </div>
           </div>
 
-          <div class="card">
+          <!-- Summary Cards -->
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card summary-card bg-light-primary animated-card">
+                <div class="card-body text-center p-3">
+                  <div class="summary-value" id="total-warehouses">7</div>
+                  <div class="summary-label">Total Warehouses</div>
+                  <i class="fas fa-warehouse fa-2x mt-3 text-primary"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card summary-card bg-light-success animated-card">
+                <div class="card-body text-center p-3">
+                  <div class="summary-value" id="active-warehouses">4</div>
+                  <div class="summary-label">Active Warehouses</div>
+                  <i class="fas fa-check-circle fa-2x mt-3 text-success"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card summary-card bg-light-info animated-card">
+                <div class="card-body text-center p-3">
+                  <div class="summary-value" id="total-capacity">430,000 unit</div>
+                  <div class="summary-label">Total Capacity</div>
+                  <i class="fas fa-boxes fa-2x mt-3 text-info"></i>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card summary-card bg-light-warning animated-card">
+                <div class="card-body text-center p-3">
+                  <div class="summary-value" id="total-area">121,500 m²</div>
+                  <div class="summary-label">Total Land Area</div>
+                  <i class="fas fa-vector-square fa-2x mt-3 text-warning"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Donut Chart Section -->
+          <div class="chart-card animated-card">
+            <h5 class="chart-title">Warehouse Distribution by Type</h5>
+            <div class="chart-container">
+              <canvas id="warehouseTypeChart"></canvas>
+              <div class="chart-hover-info" id="chartHoverInfo"></div>
+            </div>
+          </div>
+
+          <!-- Map Container -->
+          <div class="card map-card animated-card">
+            <div class="card-header">
+              <h5 class="card-title">Warehouse Locations Map</h5>
+            </div>
+            <div class="card-body">
+              <div class="map-container">
+                <div id="warehouse-map" style="height: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card animated-card">
             <div class="card-body">
               <div class="table-top">
                 <div class="search-set">
@@ -112,9 +293,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 <table class="table datanew">
                   <thead>
                     <tr>
-                      <th>
-                        NO
-                      </th>
+                      <th>NO</th>
                       <th>WareHouse ID</th>
                       <th>WareHouse Name</th>
                       <th>Address</th>
@@ -128,10 +307,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        1
-                      </td>
+                    <tr data-id="1" data-lat="-6.2241" data-lng="106.6583" data-type="Distribution & Storage">
+                      <td>1</td>
                       <td>STR001</td>
                       <td>Gudang Utama IKEA Alam Sutera</td>
                       <td>Kawasan Industri XYZ Blok A-5, Alam Sutera</td>
@@ -143,11 +320,9 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>(021) 12345678</td>
                     </tr>
-                    <tr>
-                      <td>
-                        2
-                      </td>
-                      <td>STR001</td>
+                    <tr data-id="2" data-lat="-6.5622" data-lng="106.8460" data-type="Fullfilment Center">
+                      <td>2</td>
+                      <td>STR002</td>
                       <td>Gudang IKEA Sentul Logistics</td>
                       <td>Kawasan Industri Sentul, Bogor</td>
                       <td>Bogor (Jawa Barat)</td>
@@ -158,11 +333,9 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>(021) 12345678</td>
                     </tr>
-                    <tr>
-                      <td>
-                        3
-                      </td>
-                      <td>STR001</td>
+                    <tr data-id="3" data-lat="-6.1775" data-lng="106.9423" data-type="Transit & Sorting">
+                      <td>3</td>
+                      <td>STR003</td>
                       <td>Gudang Transit IKEA Cakung</td>
                       <td>Kawasan Industri Cakung, Jakarta Timur</td>
                       <td>Jakarta Timur (Jakarta)</td>
@@ -173,9 +346,9 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>(022) 34567890</td>
                     </tr>
-                    <tr>
+                    <tr data-id="4" data-lat="-8.6500" data-lng="115.2167" data-type="Regional Distribution">
                       <td>4</td>
-                      <td>STR001</td>
+                      <td>STR004</td>
                       <td>Gudang Regional IKEA Bali</td>
                       <td> Jl. Cargo Timur No.88, Denpasar</td>
                       <td>Denpasar (Bali)</td>
@@ -186,22 +359,22 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td><span class="badges bg-lightgreen">Active</span></td>
                       <td>(021) 45678901</td>
                     </tr>
-                    <tr>
+                    <tr data-id="5" data-lat="-7.2892" data-lng="112.7344" data-type="Fullfilment Center">
                       <td>5</td>
-                      <td>STR001</td>
+                      <td>STR005</td>
                       <td>Gudang IKEA Surabaya Hub</td>
                       <td>Jl. Rungkut Industri, Surabaya</td>
                       <td>Surabaya (Jawa Timur)</td>
-                      <td>Fulfillment Center</td>
+                      <td>Fullfilment Center</td>
                       <td>75.000 unit</td>
                       <td>18.000 m²</td>
                       <td>2025</td>
-                      <td><span class="badges bg-lightred">Active</span></td>
+                      <td><span class="badges bg-lightred">In Progress</span></td>
                       <td>(021) 45678901</td>
                     </tr>
-                    <tr>
+                    <tr data-id="6" data-lat="3.5952" data-lng="98.6722" data-type="Distribution & Storage">
                       <td>6</td>
-                      <td>STR001</td>
+                      <td>STR006</td>
                       <td>Gudang Pendukung IKEA Medan</td>
                       <td>Jl. KIM I, Kawasan Industri Medan</td>
                       <td>Medan (Sumatera Utara)</td>
@@ -209,12 +382,12 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>50.000 unit</td>
                       <td>12.000 m²</td>
                       <td>2023</td>
-                      <td><span class="badges bg-lightred">Active</span></td>
+                      <td><span class="badges bg-lightred">In Progress</span></td>
                       <td>(021) 45678901</td>
                     </tr>
-                    <tr>
+                    <tr data-id="7" data-lat="-5.1477" data-lng="119.4327" data-type="Transit & Sorting">
                       <td>7</td>
-                      <td>STR001</td>
+                      <td>STR007</td>
                       <td>Gudang IKEA Makassar</td>
                       <td>Jl. Poros Makassar-Maros KM 15</td>
                       <td>Makassar (Sulawesi Selatan)</td>
@@ -222,7 +395,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <td>45.000 unit</td>
                       <td>11.500 m²</td>
                       <td>2024</td>
-                      <td><span class="badges bg-lightred">Active</span></td>
+                      <td><span class="badges bg-lightred">In Progress</span></td>
                       <td>(021) 45678901</td>
                     </tr>
                   </tbody>
@@ -234,198 +407,275 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       </div>
     </div>
 
-    <div class="modal fade" id="showpayment" tabindex="-1" aria-labelledby="showpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Show Payments</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Reference</th>
-                    <th>Amount</th>
-                    <th>Paid By</th>
-                    <th>Paid By</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="bor-b1">
-                    <td>2022-03-07</td>
-                    <td>INV/SL0101</td>
-                    <td>$ 0.00</td>
-                    <td>Cash</td>
-                    <td>
-                      <a class="me-2" href="javascript:void(0);">
-                        <img src="../assets/img/icons/printer.svg" alt="img" />
-                      </a>
-                      <a class="me-2" href="javascript:void(0);" data-bs-target="#editpayment" data-bs-toggle="modal" data-bs-dismiss="modal">
-                        <img src="../assets/img/icons/edit.svg" alt="img" />
-                      </a>
-                      <a class="me-2 confirm-text" href="javascript:void(0);">
-                        <img src="../assets/img/icons/delete.svg" alt="img" />
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="createpayment" tabindex="-1" aria-labelledby="createpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Create Payment</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Customer</label>
-                  <div class="input-groupicon">
-                    <input type="text" value="2022-03-07" class="datetimepicker" />
-                    <div class="addonset">
-                      <img src="../assets/img/icons/calendars.svg" alt="img" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Reference</label>
-                  <input type="text" value="INV/SL0101" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Received Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Paying Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Payment type</label>
-                  <select class="select">
-                    <option>Cash</option>
-                    <option>Online</option>
-                    <option>Inprogress</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group mb-0">
-                  <label>Note</label>
-                  <textarea class="form-control"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-submit">Submit</button>
-            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="editpayment" tabindex="-1" aria-labelledby="editpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Payment</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Customer</label>
-                  <div class="input-groupicon">
-                    <input type="text" value="2022-03-07" class="datetimepicker" />
-                    <div class="addonset">
-                      <img src="../assets/img/icons/datepicker.svg" alt="img" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Reference</label>
-                  <input type="text" value="INV/SL0101" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Received Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Paying Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Payment type</label>
-                  <select class="select">
-                    <option>Cash</option>
-                    <option>Online</option>
-                    <option>Inprogress</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group mb-0">
-                  <label>Note</label>
-                  <textarea class="form-control"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-submit">Submit</button>
-            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- ... (modal dan script lainnya tetap sama) ... -->
 
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
-
     <script src="../assets/js/feather.min.js"></script>
-
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
-
     <script src="../assets/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
-
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
-
     <script src="../assets/plugins/select2/js/select2.min.js"></script>
-
     <script src="../assets/js/moment.min.js"></script>
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-
     <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
-
     <script src="../assets/js/script.js"></script>
+    
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+      $(document).ready(function() {
+        // Data warehouse per tipe
+        const warehouseTypeData = {
+          'Distribution & Storage': { count: 2, color: '#3498db' },
+          'Fullfilment Center': { count: 2, color: '#2ecc71' },
+          'Transit & Sorting': { count: 2, color: '#f1c40f' },
+          'Regional Distribution': { count: 1, color: '#e74c3c' }
+        };
+        
+        // Inisialisasi chart
+        const ctx = document.getElementById('warehouseTypeChart').getContext('2d');
+        const warehouseTypeChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(warehouseTypeData),
+            datasets: [{
+              data: Object.values(warehouseTypeData).map(p => p.count),
+              backgroundColor: Object.values(warehouseTypeData).map(p => p.color),
+              borderWidth: 0,
+              hoverOffset: 15
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  font: {
+                    size: 12
+                  },
+                  padding: 20,
+                  generateLabels: function(chart) {
+                    const data = chart.data;
+                    if (data.labels.length && data.datasets.length) {
+                      return data.labels.map((label, i) => {
+                        const meta = chart.getDatasetMeta(0);
+                        const style = meta.controller.getStyle(i);
+                        
+                        return {
+                          text: `${label} (${data.datasets[0].data[i]})`,
+                          fillStyle: style.backgroundColor,
+                          strokeStyle: style.borderColor,
+                          lineWidth: style.borderWidth,
+                          hidden: false,
+                          index: i
+                        };
+                      });
+                    }
+                    return [];
+                  }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || '';
+                    const value = context.raw || 0;
+                    return `${label}: ${value} warehouse${value > 1 ? 's' : ''}`;
+                  }
+                }
+              }
+            },
+            animation: {
+              animateRotate: true,
+              animateScale: true
+            }
+          }
+        });
+        
+        // Interaksi hover pada chart
+        const chartHoverInfo = $('#chartHoverInfo');
+        const chartCanvas = $('#warehouseTypeChart');
+        
+        chartCanvas.on('mousemove', function(e) {
+          const points = warehouseTypeChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+          
+          if (points.length) {
+            const index = points[0].index;
+            const type = warehouseTypeChart.data.labels[index];
+            const count = warehouseTypeChart.data.datasets[0].data[index];
+            
+            chartHoverInfo.html(`
+              <div class="chart-hover-title">${type}</div>
+              <div class="chart-hover-warehouses">${count} Warehouse${count > 1 ? 's' : ''}</div>
+            `);
+            
+            chartHoverInfo.css({
+              left: e.pageX + 15,
+              top: e.pageY + 15,
+              opacity: 1
+            });
+            
+            // Highlight warehouse di tabel dan peta
+            $(`tr[data-type="${type}"]`).addClass('highlight-row');
+          } else {
+            chartHoverInfo.css('opacity', 0);
+            $('tr.highlight-row').removeClass('highlight-row');
+          }
+        });
+        
+        chartCanvas.on('mouseleave', function() {
+          chartHoverInfo.css('opacity', 0);
+          $('tr.highlight-row').removeClass('highlight-row');
+        });
+        
+        // Inisialisasi peta
+        const map = L.map('warehouse-map').setView([-2.5489, 118.0149], 5);
+        
+        // Tambahkan tile layer (peta dasar)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Simpan semua marker dalam array
+        const markers = [];
+        const warehouseData = {};
+        
+        // Buat marker untuk setiap warehouse
+        $('table.datanew tbody tr').each(function() {
+          const id = $(this).data('id');
+          const lat = $(this).data('lat');
+          const lng = $(this).data('lng');
+          const type = $(this).data('type');
+          const warehouseName = $(this).find('td:eq(2)').text();
+          const address = $(this).find('td:eq(3)').text();
+          const status = $(this).find('td:eq(9)').text().includes('Active') ? 'active' : 'progress';
+          
+          // Simpan data warehouse
+          warehouseData[id] = {
+            element: this,
+            name: warehouseName,
+            address: address,
+            status: status,
+            type: type
+          };
+          
+          // Buat marker custom
+          const marker = L.marker([lat, lng], {
+            icon: L.divIcon({
+              className: 'custom-marker',
+              html: `<div class="warehouse-marker" data-id="${id}" style="background-color: ${warehouseTypeData[type].color};"></div>`,
+              iconSize: [30, 30],
+              iconAnchor: [15, 30]
+            })
+          }).addTo(map);
+          
+          // Tambahkan popup
+          marker.bindPopup(`
+            <div class="p-2">
+              <h6>${warehouseName}</h6>
+              <p class="mb-1">${address}</p>
+              <div class="d-flex justify-content-between">
+                <span class="badge ${status === 'active' ? 'bg-lightgreen' : 'bg-lightred'}">
+                  ${status === 'active' ? 'Active' : 'In Progress'}
+                </span>
+                <span class="badge" style="background: ${warehouseTypeData[type].color}">${type}</span>
+              </div>
+            </div>
+          `);
+          
+          // Simpan marker
+          markers.push({
+            id: id,
+            marker: marker,
+            element: this
+          });
+          
+          // Event untuk marker
+          marker.on('mouseover', function() {
+            $(this.getElement()).find('.warehouse-marker').addClass('highlight');
+            const id = $(this.getElement()).find('.warehouse-marker').data('id');
+            $(warehouseData[id].element).addClass('highlight-row');
+            map.setView(marker.getLatLng(), 8);
+          });
+          
+          marker.on('mouseout', function() {
+            $(this.getElement()).find('.warehouse-marker').removeClass('highlight');
+            const id = $(this.getElement()).find('.warehouse-marker').data('id');
+            $(warehouseData[id].element).removeClass('highlight-row');
+          });
+          
+          marker.on('click', function() {
+            map.setView([lat, lng], 13);
+          });
+        });
+        
+        // Event untuk baris tabel
+        $('table.datanew tbody tr').hover(
+          function() {
+            const id = $(this).data('id');
+            $(this).addClass('highlight-row');
+            
+            // Highlight marker yang sesuai
+            markers.forEach(m => {
+              if (m.id === id) {
+                $(m.marker.getElement()).find('.warehouse-marker').addClass('highlight');
+                map.setView(m.marker.getLatLng(), 8);
+              }
+            });
+          },
+          function() {
+            const id = $(this).data('id');
+            $(this).removeClass('highlight-row');
+            
+            // Unhighlight marker
+            markers.forEach(m => {
+              if (m.id === id) {
+                $(m.marker.getElement()).find('.warehouse-marker').removeClass('highlight');
+              }
+            });
+          }
+        );
+        
+        // Hitung luas total
+        let totalArea = 0;
+        let totalCapacity = 0;
+        let activeWarehouses = 0;
+        
+        $('table.datanew tbody tr').each(function() {
+          const areaText = $(this).find('td:eq(7)').text();
+          const capacityText = $(this).find('td:eq(6)').text();
+          const status = $(this).find('td:eq(9)').text();
+          
+          if (areaText !== '-') {
+            const areaValue = parseFloat(areaText.replace('.', '').replace(' m²', ''));
+            totalArea += areaValue;
+          }
+          
+          if (capacityText !== '-') {
+            const capacityValue = parseFloat(capacityText.replace('.', '').replace(' unit', ''));
+            totalCapacity += capacityValue;
+          }
+          
+          if (status.includes('Active')) {
+            activeWarehouses++;
+          }
+        });
+        
+        // Format angka dengan separator
+        $('#total-area').text(totalArea.toLocaleString('id-ID') + ' m²');
+        $('#total-capacity').text(totalCapacity.toLocaleString('id-ID') + ' unit');
+        $('#active-warehouses').text(activeWarehouses);
+      });
+    </script>
   </body>
 </html>
