@@ -1,5 +1,5 @@
 <?php
-session_start(); // Pastikan session_start() ada di awal
+
 
 // --- Konfigurasi Gemini API ---
 $gemini_api_key = 'AIzaSyC-XR77mldEzqu5cWH_UK77LHrywEO6ddM'; // <--- Ganti dengan API key kamu
