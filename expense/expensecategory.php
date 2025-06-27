@@ -980,8 +980,263 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         <div id="expenseBarChart" style="min-height:320px;"></div>
       </div>
     </div>
-  </div>
+    <!-- Cards-container DIPINDAH ke sini, di luar card chart, tapi tetap dalam col-md-8 -->
+    <div class="cards-container" style="flex: 0 0 70%; max-width: 100%; margin-top: 18px;">
+      <div id="cardsView" class="categories-grid" style="grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <!-- Card 1 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h5 class="category-title">Supplies</h5>
+            <div class="status-indicator">
+              <div class="status-dot safe"></div>
+              <span class="status-text">On Track</span>
+            </div>
+          </div>
+          <div class="amount-info">
+            <div class="amount-main">Rp 45.000.000</div>
+            <div class="amount-budget">Budget: Rp 50.000.000</div>
+          </div>
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-label">Budget Terpakai</span>
+              <span class="progress-percentage">90.0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill safe" style="width: 90%"></div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">45</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">32</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">13</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
+            </div>
+          </div>
+          <button class="view-all-btn" onclick="showCategoryDetails('Supplies')">
+            <span>👁️</span>
+            VIEW ALL
+          </button>
+        </div>
 
+        <!-- Card 2 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h5 class="category-title">Utilities</h5>
+            <div class="status-indicator">
+              <div class="status-dot safe"></div>
+              <span class="status-text">On Track</span>
+            </div>
+          </div>
+          <div class="amount-info">
+            <div class="amount-main">Rp 25.000.000</div>
+            <div class="amount-budget">Budget: Rp 30.000.000</div>
+          </div>
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-label">Budget Terpakai</span>
+              <span class="progress-percentage">83.3%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill safe" style="width: 83.3%"></div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">12</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">9</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">3</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
+            </div>
+          </div>
+          <button class="view-all-btn" onclick="showCategoryDetails('Utilities')">
+            <span>👁️</span>
+            VIEW ALL
+          </button>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h5 class="category-title">Transport</h5>
+            <div class="status-indicator">
+              <div class="status-dot safe"></div>
+              <span class="status-text">On Track</span>
+            </div>
+          </div>
+          <div class="amount-info">
+            <div class="amount-main">Rp 18.000.000</div>
+            <div class="amount-budget">Budget: Rp 25.000.000</div>
+          </div>
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-label">Budget Terpakai</span>
+              <span class="progress-percentage">72.0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill safe" style="width: 72%"></div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">18</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">12</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">6</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
+            </div>
+          </div>
+          <button class="view-all-btn" onclick="showCategoryDetails('Transport')">
+            <span>👁️</span>
+            VIEW ALL
+          </button>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h5 class="category-title">Employee</h5>
+            <div class="status-indicator">
+              <div class="status-dot warning"></div>
+              <span class="status-text">Near Limit</span>
+            </div>
+          </div>
+          <div class="amount-info">
+            <div class="amount-main">Rp 95.000.000</div>
+            <div class="amount-budget">Budget: Rp 100.000.000</div>
+          </div>
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-label">Budget Terpakai</span>
+              <span class="progress-percentage">95.0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill warning" style="width: 95%"></div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">30</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">22</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">8</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
+            </div>
+          </div>
+          <button class="view-all-btn" onclick="showCategoryDetails('Employee')">
+            <span>👁️</span>
+            VIEW ALL
+          </button>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h5 class="category-title">Technology</h5>
+            <div class="status-indicator">
+              <div class="status-dot safe"></div>
+              <span class="status-text">On Track</span>
+            </div>
+          </div>
+          <div class="amount-info">
+            <div class="amount-main">Rp 60.000.000</div>
+            <div class="amount-budget">Budget: Rp 80.000.000</div>
+          </div>
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-label">Budget Terpakai</span>
+              <span class="progress-percentage">75.0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill safe" style="width: 75%"></div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">15</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">11</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">4</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
+            </div>
+          </div>
+          <button class="view-all-btn" onclick="showCategoryDetails('Technology')">
+            <span>👁️</span>
+            VIEW ALL
+          </button>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="category-card">
+          <div class="category-header">
+            <h5 class="category-title">Marketing</h5>
+            <div class="status-indicator">
+              <div class="status-dot safe"></div>
+              <span class="status-text">On Track</span>
+            </div>
+          </div>
+          <div class="amount-info">
+            <div class="amount-main">Rp 35.000.000</div>
+            <div class="amount-budget">Budget: Rp 40.000.000</div>
+          </div>
+          <div class="progress-section">
+            <div class="progress-header">
+              <span class="progress-label">Budget Terpakai</span>
+              <span class="progress-percentage">87.5%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill safe" style="width: 87.5%"></div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">20</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">15</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
+            </div>
+            <div style="text-align:center; flex:1;">
+              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">5</div>
+              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
+            </div>
+          </div>
+          <button class="view-all-btn" onclick="showCategoryDetails('Marketing')">
+            <span>👁️</span>
+            VIEW ALL
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- SUMMARY (30%) -->
   <div class="col-md-4" style="flex:1;max-width:30%;">
     <!-- DETAIL EXPENSE DULU -->
@@ -1057,7 +1312,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <!-- Department Spending Breakdown -->
     <div class="card shadow-sm" style="border-radius:22px; background:#fff; padding:0 0 18px 0; margin-top:18px;">
       <div style="background:linear-gradient(90deg,#0d47a1 0%,#66bfff 100%); border-radius:22px 22px 0 0; padding:14px 22px;">
-        <span style="color:#fff; font-weight:600; font-size:15px;">Department Spending Breakdown</span>
+        <span style="color:#fff; font-weight:600; font-size:15px;">Department Spending</span>
       </div>
       <div style="padding:18px 18px 0 18px;">
         <div style="display:flex; flex-direction:column; gap:16px;">
@@ -1280,265 +1535,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
           <!-- END CHART SECTION -->
-
-          <!-- Cards View - Menggantikan Tabel -->
-                <div class="main-container" style="display: flex; gap: px; align-items: flex-start; margin-top: 30px;">
-  <!-- KIRI: Cards Grid (70%) -->
-  <div class="cards-container" style="flex: 0 0 70%; max-width: 70%;">
-    <div id="cardsView" class="categories-grid" style="grid-template-columns: repeat(3, 1fr); gap: 16px;">
-      <!-- Card 1 -->
-      <div class="category-card">
-        <div class="category-header">
-          <h5 class="category-title">Supplies</h5>
-          <div class="status-indicator">
-            <div class="status-dot safe"></div>
-            <span class="status-text">On Track</span>
-          </div>
-        </div>
-        <div class="amount-info">
-          <div class="amount-main">Rp 45.000.000</div>
-          <div class="amount-budget">Budget: Rp 50.000.000</div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header">
-            <span class="progress-label">Budget Terpakai</span>
-            <span class="progress-percentage">90.0%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill safe" style="width: 90%"></div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">45</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">32</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">13</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-          </div>
-        </div>
-        <button class="view-all-btn" onclick="showCategoryDetails('Supplies')">
-          <span>👁️</span>
-          VIEW ALL
-        </button>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="category-card">
-        <div class="category-header">
-          <h5 class="category-title">Utilities</h5>
-          <div class="status-indicator">
-            <div class="status-dot safe"></div>
-            <span class="status-text">On Track</span>
-          </div>
-        </div>
-        <div class="amount-info">
-          <div class="amount-main">Rp 25.000.000</div>
-          <div class="amount-budget">Budget: Rp 30.000.000</div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header">
-            <span class="progress-label">Budget Terpakai</span>
-            <span class="progress-percentage">83.3%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill safe" style="width: 83.3%"></div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">12</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">9</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">3</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-          </div>
-        </div>
-        <button class="view-all-btn" onclick="showCategoryDetails('Utilities')">
-          <span>👁️</span>
-          VIEW ALL
-        </button>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="category-card">
-        <div class="category-header">
-          <h5 class="category-title">Transport</h5>
-          <div class="status-indicator">
-            <div class="status-dot safe"></div>
-            <span class="status-text">On Track</span>
-          </div>
-        </div>
-        <div class="amount-info">
-          <div class="amount-main">Rp 18.000.000</div>
-          <div class="amount-budget">Budget: Rp 25.000.000</div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header">
-            <span class="progress-label">Budget Terpakai</span>
-            <span class="progress-percentage">72.0%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill safe" style="width: 72%"></div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">18</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">12</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">6</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-          </div>
-        </div>
-        <button class="view-all-btn" onclick="showCategoryDetails('Transport')">
-          <span>👁️</span>
-          VIEW ALL
-        </button>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="category-card">
-        <div class="category-header">
-          <h5 class="category-title">Employee</h5>
-          <div class="status-indicator">
-            <div class="status-dot warning"></div>
-            <span class="status-text">Near Limit</span>
-          </div>
-        </div>
-        <div class="amount-info">
-          <div class="amount-main">Rp 95.000.000</div>
-          <div class="amount-budget">Budget: Rp 100.000.000</div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header">
-            <span class="progress-label">Budget Terpakai</span>
-            <span class="progress-percentage">95.0%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill warning" style="width: 95%"></div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">30</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">22</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">8</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-          </div>
-        </div>
-        <button class="view-all-btn" onclick="showCategoryDetails('Employee')">
-          <span>👁️</span>
-          VIEW ALL
-        </button>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="category-card">
-        <div class="category-header">
-          <h5 class="category-title">Technology</h5>
-          <div class="status-indicator">
-            <div class="status-dot safe"></div>
-            <span class="status-text">On Track</span>
-          </div>
-        </div>
-        <div class="amount-info">
-          <div class="amount-main">Rp 60.000.000</div>
-          <div class="amount-budget">Budget: Rp 80.000.000</div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header">
-            <span class="progress-label">Budget Terpakai</span>
-            <span class="progress-percentage">75.0%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill safe" style="width: 75%"></div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">15</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">11</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">4</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-          </div>
-        </div>
-        <button class="view-all-btn" onclick="showCategoryDetails('Technology')">
-          <span>👁️</span>
-          VIEW ALL
-        </button>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="category-card">
-        <div class="category-header">
-          <h5 class="category-title">Marketing</h5>
-          <div class="status-indicator">
-            <div class="status-dot safe"></div>
-            <span class="status-text">On Track</span>
-          </div>
-        </div>
-        <div class="amount-info">
-          <div class="amount-main">Rp 35.000.000</div>
-          <div class="amount-budget">Budget: Rp 40.000.000</div>
-        </div>
-        <div class="progress-section">
-          <div class="progress-header">
-            <span class="progress-label">Budget Terpakai</span>
-            <span class="progress-percentage">87.5%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill safe" style="width: 87.5%"></div>
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">20</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">15</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-          </div>
-          <div style="text-align:center; flex:1;">
-            <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">5</div>
-            <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-          </div>
-        </div>
-        <button class="view-all-btn" onclick="showCategoryDetails('Marketing')">
-          <span>👁️</span>
-          VIEW ALL
-        </button>
-      </div>
-    </div>
-  </div>
   
     <!-- Tambahkan modal setelah cardsView, sebelum </body> -->
 <div class="modal fade" id="categoryListModal" tabindex="-1" aria-labelledby="categoryListModalLabel" aria-hidden="true">
