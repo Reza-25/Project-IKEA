@@ -2996,26 +2996,56 @@ table.dataTable > thead .sorting_desc_disabled:before {
 div.dataTables_wrapper div.dataTables_info {
   padding-top: 23px;
 }
+
+/*Penting*/
 .header {
   background: #ff9f43;
-  background: #fff;
-  border-bottom: 1px solid transparent;
+  background: #F8F9FA;
   height: 60px;
   z-index: 999;
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
-  -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
-  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 .header:hover .top-nav-search form .form-control {
   border: 1px solid #f1f1f1;
 }
+.sidebar-search-wrapper {
+  position: absolute;
+  top: 20px;
+  left: 290px; /* Sesuaikan lebar sidebar */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.sidebar-search {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 200px;
+  transition: all 0.3s;
+}
+
+.sidebar-search:focus {
+  outline: none;
+  border-color: #0058a3;
+  box-shadow: 0 0 5px rgba(0, 88, 163, 0.3);
+}
+
+.search-btn {
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 .header .searchinputs {
   position: absolute;
-  top: -80px;
+  top: -2.5px;
   -webkit-transition: all 0.2s ease;
   -ms-transition: all 0.2s ease;
   transition: all 0.2s ease;
@@ -3040,6 +3070,7 @@ div.dataTables_wrapper div.dataTables_info {
   }
 }
 .header .header-left {
+  background: linear-gradient(to bottom,rgb(10, 35, 61), #0e3259) !important;
   float: left;
   height: 60px;
   position: relative;
@@ -3050,7 +3081,6 @@ div.dataTables_wrapper div.dataTables_info {
   -webkit-transition: all 0.2s ease;
   -ms-transition: all 0.2s ease;
   transition: all 0.2s ease;
-  border-right: 1px solid #e8ebed;
 }
 .header .header-left .logo {
   display: inline-block;
@@ -3713,31 +3743,6 @@ hr {
 .user-menu.nav > li.flag-nav .dropdown-menu a img {
   width: auto;
 }
-.searchinputs {
-  padding: 0 15px;
-  position: relative;
-}
-.searchinputs input {
-  width: 230px;
-  height: 35px;
-  border: 1px solid rgba(145, 158, 171, 0.32);
-  padding: 0 40px 0 8px;
-  border-radius: 5px;
-  position: relative;
-  top: 4px;
-  right: 24px;
-}
-.searchinputs .search-addon span {
-  background: #ff9f43;
-  width: 27px;
-  height: 27px;
-  z-index: 9;
-  border-radius: 5px;
-  cursor: pointer;
-  position: absolute;
-  top: 8px;
-  right: 43px;
-}
 div#global-loader {
   background: #fff;
   position: fixed;
@@ -3877,7 +3882,6 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 .sidebar {
   background-color: transparent;
-  border-right: 1px solid transparent;
   margin-top: 0;
   z-index: 1001;
   position: fixed;
@@ -3887,7 +3891,6 @@ span.select2-container.select2-container--default.select2-container--open {
   -webkit-transition: all 0.2s ease;
   -ms-transition: all 0.2s ease;
   transition: all 0.2s ease;
-  border-right: 1px solid #e8ebed;
   width: 260px;
 }
 @media (max-width: 991px) {
@@ -3940,7 +3943,7 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 /*Penting*/
 .sidebar .sidebar-menu > ul > li > a:hover {
-  background: #3486de7a;
+  background: #3486de1a;
   color: #fff;
   border-radius: 5px;
 }
@@ -3951,7 +3954,7 @@ span.select2-container.select2-container--default.select2-container--open {
   color: #fff;
 }
 .sidebar .sidebar-menu > ul > li > a.active {
-  background: #3486de7a;
+  background: #3486de1a;
   color: #fff;
   border-radius: 5px;
 }
@@ -4007,7 +4010,7 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 /* Penting */
 .sidebar .sidebar-menu > ul > li.submenu ul {
-  background: #3486de7a;
+  background: #3486de38;
   border-radius: 5px;
   padding: 10px 0;
   display: none;

@@ -13,370 +13,310 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <title>IKEA</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg" />
-
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
-
-    <link rel="stylesheet" href="../assets/css/animate.css" />
-
-    <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css" />
-
     <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
-
+    <link rel="stylesheet" href="../assets/css/animate.css" />
+    <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css" />
     <link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css" />
-
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
-
     <link rel="stylesheet" href="../assets/css/style.css" />
-        <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #f5f5f5;
-            color: #1a1a1a;
-        }
-        
-        .main-content {
-            padding: 2rem;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .metric-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-4px);
-        }
-        
-        .metric-title {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #003d7a;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-change {
-            font-size: 0.85rem;
-            color: #28a745;
-        }
-        
-        .metric-change.negative {
-            color: #dc3545;
-        }
-        
-        .chart-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-        
-        .chart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .chart-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #003d7a;
-        }
-        
-        .chart {
-            height: 300px;
-            display: flex;
-            align-items: end;
-            gap: 1rem;
-            padding: 1rem 0;
-        }
-        
-        .chart-bar {
-            flex: 1;
-            background: linear-gradient(to top, #003d7a, #0066cc);
-            border-radius: 8px 8px 0 0;
-            position: relative;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .chart-bar:hover {
-            background: linear-gradient(to top, #ffda1a, #ffd700);
-        }
-        
-        .chart-label {
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: #666;
-        }
-        
-        .orders-section {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-        }
-        
-        .orders-header {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .orders-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .orders-table th {
-            text-align: left;
-            padding: 1rem;
-            border-bottom: 2px solid #f0f0f0;
-            color: #666;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .orders-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        
-        .orders-table tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-align: center;
-            min-width: 80px;
-        }
-        
-        .status-shipped {
-            background: #d4edda;
-            color: #155724;
-        }
-        
-        .status-processing {
-            background: #fff3cd;
-            color: #856404;
-        }
-        
-        .status-delivered {
-            background: #cce5ff;
-            color: #004085;
-        }
-        
-        .performance-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .performance-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            text-align: center;
-        }
-        
-        .performance-value {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #28a745;
-            margin: 1rem 0;
-        }
-        
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0;
-                padding: 1rem;
-            }
-            
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .performance-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+<style>
+      .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 30px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 20px;
+        transition: all 0.3s ease;
+      }
+      
+      .chart-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      }
+      
+      .dashboard-mini {
+        height: 150px;
+      }
+      
+      .mini-chart-container {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .mini-chart-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      }
+      
+      .mini-chart-value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      
+      .mini-chart-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+      
+      .profit-positive {
+        color: #28a745;
+      }
+      
+      .profit-negative {
+        color: #dc3545;
+      }
+      
+      .chart-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+      }
+      
+      .table-hover-effect {
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+      }
+      
+      .table-hover-effect:hover {
+        transform: translateX(5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        background-color: #f8f9ff;
+        border-left: 3px solid #667eea;
+      }
+      
+      .mature-table {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border: none;
+      }
+      
+      .mature-table .table {
+        margin: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+      
+      .mature-table thead th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 18px 15px;
+        border: none;
+        position: relative;
+      }
+      
+      .mature-table thead th:first-child {
+        border-top-left-radius: 12px;
+      }
+      
+      .mature-table thead th:last-child {
+        border-top-right-radius: 12px;
+      }
+      
+      .mature-table tbody td {
+        padding: 16px 15px;
+        border-bottom: 1px solid #e9ecef;
+        font-size: 0.9rem;
+        vertical-align: middle;
+        border-left: none;
+        border-right: none;
+      }
+      
+      .mature-table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      
+      .mature-table tbody tr:nth-child(even) {
+        background-color: #fafbfc;
+      }
+      
+      .store-id {
+        font-family: 'Courier New', monospace;
+        background: #f1f3f4;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: 600;
+        color: #5f6368;
+        font-size: 0.8rem;
+      }
+      
+      .store-name {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.95rem;
+      }
+      
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none;
+      }
+      
+      .status-active {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+      }
+      .status-pending {
+        background: linear-gradient(135deg, #c08124, #bec920);
+        color: white;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+      }
+      
+      
+      .status-inactive {
+        background: linear-gradient(135deg, #dc3545, #e74c3c);
+        color: white;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+      }
+      
+      .profit-cell {
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      
+      .profit-positive {
+        color: #28a745;
+      }
+      
+      .profit-negative {
+        color: #dc3545;
+      }
+      
+      .profit-icon {
+        width: 16px;
+        height: 16px;
+      }
+      
+      .detail-btn {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: 0 2px 10px rgba(79, 172, 254, 0.3);
+      }
+      
+      .detail-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        color: white;
+        text-decoration: none;
+      }
+      
+      .row-number {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 0.85rem;
+        margin: 0 auto;
+      }
+</style>
   </head>
   <body>
     <div id="global-loader">
       <div class="whirly-loader"></div>
     </div>
-
-<div class="main-wrapper">
-<!-- Include sidebar -->
-<?php include BASE_PATH . '../include/sidebar.php'; ?>
-<?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
-</div>
-
+    <?php include __DIR__ . '/../include/header.php'; ?>
+    <div class="main-wrapper">
+    <?php include BASE_PATH . '/include/sidebar.php'; ?>
+      
       <div class="page-wrapper">
+      <?php include __DIR__ . '/../include/ai.php'; ?>
         <div class="content">
-                  <div class="metrics-grid">
-            <div class="metric-card">
-                <div class="metric-title">Total Procurement Value</div>
-                <div class="metric-value">€4.78M</div>
-                <div class="metric-change">↗ 3.5% from last quarter</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">Active Suppliers</div>
-                <div class="metric-value">248</div>
-                <div class="metric-change">↗ 2.1% from last quarter</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">New Suppliers</div>
-                <div class="metric-value">32</div>
-                <div class="metric-change">↗ 4.3% from last quarter</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-title">Sustainability Score</div>
-                <div class="metric-value">87%</div>
-                <div class="metric-change">↗ 1.8% from last quarter</div>
-            </div>
-        </div>
-        <div class="chart-container">
-            <div class="chart-header">
-                <h3 class="chart-title">Monthly Procurement Value</h3>
-            </div>
-            <div class="chart">
-                <div class="chart-bar" style="height: 60%">
-                    <div class="chart-label">Jan</div>
-                </div>
-                <div class="chart-bar" style="height: 45%">
-                    <div class="chart-label">Feb</div>
-                </div>
-                <div class="chart-bar" style="height: 80%">
-                    <div class="chart-label">Mar</div>
-                </div>
-                <div class="chart-bar" style="height: 55%">
-                    <div class="chart-label">Apr</div>
-                </div>
-                <div class="chart-bar" style="height: 100%">
-                    <div class="chart-label">May</div>
-                </div>
-                <div class="chart-bar" style="height: 35%">
-                    <div class="chart-label">Jun</div>
-                </div>
-            </div>
-        </div>
-        <div class="performance-grid">
-            <div class="performance-card">
-                <div class="metric-title">On-time Delivery Rate</div>
-                <div class="performance-value">98.2%</div>
-                <div class="metric-change">↗ 1.2% improvement from last quarter</div>
-            </div>
-            <div class="performance-card">
-                <div class="metric-title">Quality Acceptance Rate</div>
-                <div class="performance-value">95.7%</div>
-                <div class="metric-change">↗ 0.8% improvement from last quarter</div>
-            </div>
-        </div>
-        <div class="orders-section">
-            <div class="orders-header">
-                <h3 class="chart-title">Recent Orders</h3>
-            </div>
-            <table class="orders-table">
-                <thead>
-                    <tr>
-                        <th>Product Category</th>
-                        <th>Supplier Name</th>
-                        <th>Order ID</th>
-                        <th>Quantity</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Sofas & Armchairs</strong></td>
-                        <td>Nordic Furnishings AB</td>
-                        <td>#IKEA-SUP-78945</td>
-                        <td>250 units</td>
-                        <td>€127,500</td>
-                        <td><span class="status-badge status-shipped">Shipped</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Storage Solutions</strong></td>
-                        <td>Baltic Woodworks Ltd</td>
-                        <td>#IKEA-SUP-78946</td>
-                        <td>1,200 units</td>
-                        <td>€89,400</td>
-                        <td><span class="status-badge status-processing">Processing</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Lighting</strong></td>
-                        <td>Scandinavian Lights Co</td>
-                        <td>#IKEA-SUP-78947</td>
-                        <td>500 units</td>
-                        <td>€45,000</td>
-                        <td><span class="status-badge status-delivered">Delivered</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Kitchen Accessories</strong></td>
-                        <td>Finnish Design House</td>
-                        <td>#IKEA-SUP-78948</td>
-                        <td>800 units</td>
-                        <td>€32,000</td>
-                        <td><span class="status-badge status-shipped">Shipped</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Textiles & Rugs</strong></td>
-                        <td>Swedish Textile Mills</td>
-                        <td>#IKEA-SUP-78949</td>
-                        <td>2,000 units</td>
-                        <td>€156,000</td>
-                        <td><span class="status-badge status-processing">Processing</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
           <div class="page-header">
             <div class="page-title">
-              <h4>Supplier List</h4>
-              <h6>Manage your supplier</h6>
+              <h4>SUPPLIER LIST</h4>
+              <h6>Monitor your supplier transactions</h6>
             </div>
           </div>
 
-          <div class="card">
-            <div class="card-body">
-              <div class="table-top">
+          <!-- Dashboard Mini Charts -->
+          <div class="row mb-4">
+            <div class="col-lg-3 col-sm-6">
+              <div class="mini-chart-container">
+                <div class="mini-chart-value">4.78M</div>
+                <div class="mini-chart-label">Total Procurement Value</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+              <div class="mini-chart-container" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="mini-chart-value">248</div>
+                <div class="mini-chart-label">PROCESSING Suppliers</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+              <div class="mini-chart-container" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="mini-chart-value">32</div>
+                <div class="mini-chart-label">New Suppliers</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+              <div class="mini-chart-container" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <div class="mini-chart-value">87%</div>
+                <div class="mini-chart-label">Sustainability Score</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="row mb-4">
+            <!-- Bar Chart - Top 5 Suppliers -->
+            <div class="col-lg-8">
+              <div class="chart-container">
+                <div class="chart-title">Top 5 Performing Suppliers</div>
+                <canvas id="barChart"></canvas>
+              </div>
+            </div>
+            
+            <!-- Line Chart - Monthly Trend -->
+            <div class="col-lg-4">
+              <div class="chart-container">
+                <div class="chart-title">Monthly Procurement Trend</div>
+                <canvas id="lineChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mature-table">
+            <div class="card-body" style="padding: 0;">
+              <div class="table-top" style="padding: 20px 20px 0 20px;">
                 <div class="search-set">
                   <div class="search-path">
                     <a class="btn btn-filter" id="filter_search">
@@ -403,28 +343,44 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
               </div>
 
-              <div class="card" id="filter_inputs">
-                <div class="card-body pb-0">
+              <div class="card" id="filter_inputs" style="margin: 20px;">
+                <div class="card-body pb-0" style="background: #f8f9fa; border-radius: 8px;">
                   <div class="row">
-                    <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="col-lg col-sm-6 col-12">
                       <div class="form-group">
-                        <input type="text" placeholder="Enter Name" />
+                        <input type="text" class="datetimepicker cal-icon" placeholder="Choose Date" />
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="col-lg col-sm-6 col-12">
                       <div class="form-group">
-                        <input type="text" placeholder="Enter Reference No" />
+                        <input type="text" placeholder="Enter Reference" />
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="col-lg col-sm-6 col-12">
                       <div class="form-group">
                         <select class="select">
-                          <option>Completed</option>
-                          <option>Paid</option>
+                          <option>Choose Supplier</option>
+                          <option>Supplier</option>
                         </select>
                       </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="col-lg col-sm-6 col-12">
+                      <div class="form-group">
+                        <select class="select">
+                          <option>Choose Status</option>
+                          <option>Inprogress</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg col-sm-6 col-12">
+                      <div class="form-group">
+                        <select class="select">
+                          <option>Choose Payment Status</option>
+                          <option>Payment Status</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-1 col-sm-6 col-12">
                       <div class="form-group">
                         <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img" /></a>
                       </div>
@@ -433,368 +389,124 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
               </div>
 
-              <div class="table-responsive">
+              <div class="table-responsive" style="padding: 0 20px 20px 20px;">
                 <table class="table datanew">
+                    <h2>RECENT ORDERS</h2>
                   <thead>
                     <tr>
-                      <th>
-                        <label class="checkboxs">
-                          <input type="checkbox" id="select-all" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </th>
-                      <th>Supplier Name</th>
-                      <th>Date</th>
-                      <th>Reference</th>
-                      <th>Total</th>
-                      <th>Paid</th>
-                      <th>Due</th>
-                      <th>Biller</th>
+                      <th>NO</th>
+                      <th>DATE</th>
+                      <th>Store ID</th>
+                      <th>Store</th>
                       <th>Status</th>
-                      <th>Payment</th>
-                      <th class="text-center">Action</th>
+                      <th>TOTAL</th>
+                      <th>Details</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
+                    <tr class="table-hover-effect">
+                      <td><div class="row-number">1</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT001</span></td>
+                      <td><span class="store-name">Nordic Furnishings AB</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                          250
                       </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0101</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
                         </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Supplier Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-                          </li>
-                        </ul>
                       </td>
                     </tr>
-                    <tr>
+                    <tr class="table-hover-effect">
+                      <td><div class="row-number">2</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT002</span></td>
+                      <td><span class="store-name">Baltic Woodworks Ltd</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                          100
                       </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0102</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
                         </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
                       </td>
                     </tr>
-                    <tr>
+                    <tr class="table-hover-effect">
+                      <td><div class="row-number">3</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT003</span></td>
+                      <td><span class="store-name">Scandinavian Lights Co</span></td>
+                      <td><span class="status-badge status-active">SHIPPED</span></td>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                          250
                       </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0103</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
                         </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
                       </td>
                     </tr>
-                    <tr>
+                    <tr class="table-hover-effect">
+                      <td><div class="row-number">4</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT004</span></td>
+                      <td><span class="store-name">Finnish Design House</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                          130
                       </td>
-                      <td>Fred C. Rasmussen</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0104</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
                         </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
                       </td>
                     </tr>
-                    <tr>
+                    <tr class="table-hover-effect">
+                      <td><div class="row-number">5</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT005</span></td>
+                      <td><span class="store-name">Swedish Textile Mills</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                          250
                       </td>
-                      <td>Thomas M. Martin</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0105</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
                         </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
                       </td>
                     </tr>
-                    <tr>
+                    <tr class="table-hover-effect">
+                      <td><div class="row-number">6</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT006</span></td>
+                      <td><span class="store-name">Scandinavian Lights Co</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                          200
                       </td>
-                      <td>Thomas M. Martin</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0106</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
                         </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
                       </td>
                     </tr>
-                    <tr>
+                    <tr class="table-hover-effect">
+                      <td><div class="row-number">7</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT007</span></td>
+                      <td><span class="store-name">Nordic Furnishings AB</span></td>
+                      <td><span class="status-badge status-inactive">Delivered</span></td>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
+                          210
                       </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0107</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td class="text-red">100.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightgreen">Completed</span></td>
-                      <td><span class="badges bg-lightgreen">Paid</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
                       <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0108</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
                         </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0109</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0110</td>
-                      <td>0.00</td>
-                      <td class="text-green">100.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td>Delivery</td>
-                      <td>19 Nov 2022</td>
-                      <td>SL0111</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td>0.00</td>
-                      <td>Store</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                      <td><span class="badges bg-lightred">Due</span></td>
-                      <td class="text-center">
-                        <a class="action-set" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="true">
-                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a href="supplier-detail.php" class="dropdown-item"><img src="../assets/img/icons/eye1.svg" class="me-2" alt="img" />Sale Detail</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#showpayment"><img src="../assets/img/icons/dollar-square.svg" class="me-2" alt="img" />Show Payments</a>
-                          </li>
-
-                        </ul>
                       </td>
                     </tr>
                   </tbody>
@@ -806,244 +518,175 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       </div>
     </div>
 
-    <div class="modal fade" id="showpayment" tabindex="-1" aria-labelledby="showpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Show Payments</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Reference</th>
-                    <th>Amount</th>
-                    <th>Paid By</th>
-                    <th>Paid By</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="bor-b1">
-                    <td>2022-03-07</td>
-                    <td>INV/SL0101</td>
-                    <td>$ 0.00</td>
-                    <td>Cash</td>
-                    <td>
-                      <a class="me-2" href="javascript:void(0);">
-                        <img src="../assets/img/icons/printer.svg" alt="img" />
-                      </a>
-                      <a class="me-2" href="javascript:void(0);" data-bs-target="#editpayment" data-bs-toggle="modal" data-bs-dismiss="modal">
-                        <img src="../assets/img/icons/edit.svg" alt="img" />
-                      </a>
-                      <a class="me-2 confirm-text" href="javascript:void(0);">
-                        <img src="../assets/img/icons/delete.svg" alt="img" />
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="createpayment" tabindex="-1" aria-labelledby="createpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Create Payment</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Customer</label>
-                  <div class="input-groupicon">
-                    <input type="text" value="2022-03-07" class="datetimepicker" />
-                    <div class="addonset">
-                      <img src="../assets/img/icons/calendars.svg" alt="img" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Reference</label>
-                  <input type="text" value="INV/SL0101" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Received Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Paying Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Payment type</label>
-                  <select class="select">
-                    <option>Cash</option>
-                    <option>Online</option>
-                    <option>Inprogress</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group mb-0">
-                  <label>Note</label>
-                  <textarea class="form-control"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-submit">Submit</button>
-            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="editpayment" tabindex="-1" aria-labelledby="editpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Payment</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Customer</label>
-                  <div class="input-groupicon">
-                    <input type="text" value="2022-03-07" class="datetimepicker" />
-                    <div class="addonset">
-                      <img src="../assets/img/icons/datepicker.svg" alt="img" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Reference</label>
-                  <input type="text" value="INV/SL0101" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Received Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Paying Amount</label>
-                  <input type="text" value="0.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Payment type</label>
-                  <select class="select">
-                    <option>Cash</option>
-                    <option>Online</option>
-                    <option>Inprogress</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group mb-0">
-                  <label>Note</label>
-                  <textarea class="form-control"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-submit">Submit</button>
-            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
-
     <script src="../assets/js/feather.min.js"></script>
-
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
-
     <script src="../assets/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
-
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
-
-    <script src="../assets/plugins/select2/js/select2.min.js"></script>
-
     <script src="../assets/js/moment.min.js"></script>
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-
+    <script src="../assets/plugins/select2/js/select2.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
-
     <script src="../assets/js/script.js"></script>
-    <script> 
-            // Interactive chart hover effects
-        document.querySelectorAll('.chart-bar').forEach(bar => {
-            bar.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.05)';
-            });
-            
-            bar.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1)';
-            });
-        });
-        
-        // Metric cards animation on scroll
-        function animateOnScroll() {
-            const cards = document.querySelectorAll('.metric-card, .performance-card');
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
+    
+    <script>
+      // Data untuk charts berdasarkan tabel
+      const storeData = {
+        stores: ['Nordic Furnishings AB', 'Scandinavian Lights Co', 'Swedish Textile Mills', 'Baltic Woodworks Ltd', 'Baltic Woodworks Ltd'],
+        profits: [3.5, 2.0, 1.5, 1.5, 1.5],
+        colors: ['#28a745', '#17a2b8', '#ffc107', '#fd7e14', '#6f42c1']
+      };
+
+      // Bar Chart - Top 5 Stores
+      const barCtx = document.getElementById('barChart').getContext('2d');
+      const barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: storeData.stores,
+          datasets: [{
+            label: 'Profit (%)',
+            data: storeData.profits,
+            backgroundColor: storeData.colors,
+            borderColor: storeData.colors,
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Profit: +${context.parsed.y}%`;
                 }
-            });
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 4,
+              ticks: {
+                callback: function(value) {
+                  return '+' + value + '%';
+                }
+              },
+              grid: {
+                color: 'rgba(0,0,0,0.1)'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          },
+          animation: {
+            duration: 2000,
+            easing: 'easeInOutQuart'
+          }
         }
-        
-        // Initialize card animations
-        document.querySelectorAll('.metric-card, .performance-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        });
-        
-        window.addEventListener('scroll', animateOnScroll);
-        window.addEventListener('load', animateOnScroll);
-        
-        // Table row hover effects
-        document.querySelectorAll('.orders-table tbody tr').forEach(row => {
-            row.addEventListener('mouseenter', function() {
-                this.style.backgroundColor = '#f8f9fa';
-                this.style.cursor = 'pointer';
-            });
+      });
+
+      // Line Chart - Monthly Trend
+      const lineCtx = document.getElementById('lineChart').getContext('2d');
+      const lineChart = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+          datasets: [{
+            label: 'Average Profit',
+            data: [1.2, 1.8, 2.1, 1.5, 2.3, 1.7],
+            borderColor: '#667eea',
+            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointBackgroundColor: '#667eea',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Profit: +${context.parsed.y}%`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 3,
+              ticks: {
+                callback: function(value) {
+                  return '+' + value + '%';
+                }
+              },
+              grid: {
+                color: 'rgba(0,0,0,0.1)'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          },
+          animation: {
+            duration: 2000,
+            easing: 'easeInOutQuart'
+          }
+        }
+      });
+
+      // Animasi untuk mini dashboard cards
+      document.addEventListener('DOMContentLoaded', function() {
+        const miniCharts = document.querySelectorAll('.mini-chart-container');
+        miniCharts.forEach((chart, index) => {
+          setTimeout(() => {
+            chart.style.opacity = '0';
+            chart.style.transform = 'translateY(20px)';
+            chart.style.transition = 'all 0.6s ease';
             
-            row.addEventListener('mouseleave', function() {
-                this.style.backgroundColor = '';
-            });
+            setTimeout(() => {
+              chart.style.opacity = '1';
+              chart.style.transform = 'translateY(0)';
+            }, 100);
+          }, index * 200);
         });
+      });
+
+      // Refresh charts setiap 30 detik dengan data random (simulasi real-time)
+      setInterval(() => {
+        // Update line chart dengan data baru
+        const newData = lineChart.data.datasets[0].data;
+        newData.push((Math.random() * 2 + 1).toFixed(1));
+        newData.shift();
+        
+        lineChart.data.labels.push(new Date().toLocaleTimeString().slice(0,5));
+        lineChart.data.labels.shift();
+        
+        lineChart.update('none');
+      }, 30000);
     </script>
   </body>
 </html>

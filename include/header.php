@@ -10,8 +10,8 @@
 </head>
 
     <style>
-        .header {
-    background-color: #001F3F !important; /* biru donker */
+        .header .header-left .active {
+    background: linear-gradient(to bottom,rgb(10, 35, 61), #0e3259) !important;
     }
     </style>
 
@@ -32,24 +32,6 @@
     </a>
 
     <ul class="nav user-menu">
-        <!-- Search -->
-        <li class="nav-item">
-            <div class="top-nav-search">
-                <a href="javascript:void(0);" class="responsive-search">
-                    <i class="fa fa-search"></i>
-                </a>
-                <form action="#">
-                    <div class="searchinputs">
-                        <input type="text" placeholder="Search Here ..." />
-                        <div class="search-addon">
-                            <span><img src="../assets/img/icons/closes.svg" alt="img" /></span>
-                        </div>
-                    </div>
-                    <a class="btn" id="searchdiv"><img src="../assets/img/icons/search.svg" alt="img" /></a>
-                </form>
-            </div>
-        </li>
-
         <!-- Language Dropdown -->
         <li class="nav-item dropdown has-arrow flag-nav">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
