@@ -24,10 +24,11 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <link href="../assets/css/style.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
    <style>
 
+  
     a {
     text-decoration: none !important;
   }
@@ -229,6 +230,213 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
 }
 
+  body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      padding: 30px;
+      color: #333;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .filter-container {
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .dashboard {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .chart-container, .notes-container {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .chart-container:hover,
+    .notes-container:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .chart-container {
+      flex: 0 0 64%;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      min-width: 300px;
+    }
+
+    .notes-container {
+      flex: 0 0 33%;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .note-title {
+      font-size: 15px;
+      color: white;
+      margin-bottom: 15px;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 10px 15px;
+      background: linear-gradient(135deg, #0d6efd, #66bfff);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .note-title i {
+      font-size: 16px;
+    }
+
+    .note-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-left: 4px solid transparent;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .note-line:hover {
+      background-color: #f0f4ff;
+    }
+
+    .note-line.active {
+      border-left: 4px solid #0d6efd;
+      background-color: #eaf3ff;
+    }
+
+    .note-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .bg-blue { background-color: #0d6efd; }
+    .bg-green { background-color: #28a745; }
+    .bg-orange { background-color: #fd7e14; }
+    .bg-purple { background-color: #6f42c1; }
+
+    .note-text {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+    }
+
+    .note-label {
+      color: #555;
+      font-size: 14px;
+    }
+
+    .note-value {
+      font-size: 15px;
+      font-weight: 600;
+      color: #0d6efd;
+    }
+
+    @media (max-width: 768px) {
+      .chart-container, .notes-container {
+        flex: 100%;
+      }
+    }
+
+   .chart-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px 24px;
+  position: relative;
+  flex: 0 0 64%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 300px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  letter-spacing: 0.3px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.chart-select {
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.chart-notes-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.chart-wrapper {
+  flex: 0 0 55%;   /* Lebih kecil dari sebelumnya */
+  min-width: 260px;
+  max-width: 55%;
+  padding: 18px 16px;
+}
+
+.notes-container {
+  flex: 0 0 40%;   /* Lebar notes lebih besar sedikit */
+  min-width: 200px;
+  max-width: 40%;
+  padding: 18px 16px;
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 900px) {
+  .chart-notes-row {
+    flex-direction: column;
+  }
+  .chart-wrapper, .notes-container {
+    max-width: 100%;
+    flex: 100%;
+  }
+}
 
 </style>
 
@@ -331,231 +539,178 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           </div>
           <!-- END KOLOM  -->
 
- <div class="container mt-5">
-    <div class="row">
-      <!-- Chart Section -->
-      <div class="col-md-8">
-        <div class="card shadow-sm">
-          <div class="card-header ikea-header text-white d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="mb-0">Grafik Produk Terjual Terbanyak</h5>
-              <small>Bulan-Tahun</small>
-            </div>
-            <div class="d-flex gap-2">
-              <!-- Dropdown Bulan -->
-              <select id="bulanSelect" class="ikea-select">
-                <option value="0">Jan</option>
-                <option value="1">Feb</option>
-                <option value="2">Mar</option>
-                <option value="3">Apr</option>
-                <option value="4">Mei</option>
-                <option value="5">Jun</option>
-              </select>
+    <!-- Chart & Notes Row -->
+<div class="chart-notes-row" style="display: flex; gap: 20px;">
+  <!-- Chart Wrapper -->
+<div class="chart-wrapper">
+  <div class="chart-header">
+    <div class="chart-title">Total Product Sold per Bulan</div>
+    <select id="tahun" class="chart-select">
+      <option value="2023">2023</option>
+      <option value="2024">2024</option>
+      <option value="2025" selected>2025</option>
+    </select>
+  </div>
+  <!-- PENTING: canvas tetap id="chartProduk" -->
+  <div style="position: relative; height: 320px;">
+    <canvas id="chartProduk"></canvas>
+  </div>
+</div>
 
-              <!-- Dropdown Tahun -->
-             <select id="tahunSelect" class="ikea-select">
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-            </select>
-            </div>
-          </div>
-          <div class="card-body">
-            <div id="mainChart"></div>
-          </div>
+<!-- Notes -->
+<div class="notes-container">
+      <div class="note-title">Detail Produk: <span id="selectedMonth">Jan</span></div>
+
+      <div class="note-line">
+        <div class="note-icon bg-blue"><i class="fas fa-box"></i></div>
+        <div class="note-text">
+          <div class="note-label">Total Product Sold</div>
+          <div class="note-value" id="totalSold">-</div>
         </div>
       </div>
 
-      <!-- Notes Section -->
-<div class="col-md-4">
-  <div class="card shadow-sm border-0" style="background-color: #fffbea; border-radius: 12px;">
-    <div class="card-header" style="background-color: #FFCC00; color: #000; font-weight: bold; border-radius: 12px 12px 0 0;">
-      Catatan
-    </div>
-    <div class="card-body" style="max-height: 400px; overflow-y: auto;">
-      <div id="notesList">
-        <!-- Catatan default saat awal bisa dimasukkan jika ingin -->
-        <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-          <div class="fs-4 mb-1">✅</div>
-          <strong>Catatan</strong>
-          <p>Hanya kategori terbanyak ditampilkan</p>
+      <div class="note-line">
+        <div class="note-icon bg-green"><i class="fas fa-tags"></i></div>
+        <div class="note-text">
+          <div class="note-label">Top Category</div>
+          <div class="note-value" id="topCategory">-</div>
         </div>
-        <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-          <div class="fs-4 mb-1">📊</div>
-          <strong>Catatan</strong>
-          <p>Pilih bulan/tahun untuk melihat data</p>
+      </div>
+
+      <div class="note-line">
+        <div class="note-icon bg-orange"><i class="fas fa-star"></i></div>
+        <div class="note-text">
+          <div class="note-label">Top Selling Product</div>
+          <div class="note-value" id="topProduct">-</div>
         </div>
-        <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-          <div class="fs-4 mb-1">🎯</div>
-          <strong>Catatan</strong>
-          <p>Fokus pada visualisasi yang informatif</p>
+      </div>
+
+      <div class="note-line">
+        <div class="note-icon bg-purple"><i class="fas fa-chart-line"></i></div>
+        <div class="note-text">
+          <div class="note-label">Average Sales</div>
+          <div class="note-value" id="avgSold">-</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-      </div>
-
-
-  <!-- Script -->
   <script>
-    const dataBulananTahun = {
-      "2022": [
-        { name: "Jan", data: [120, 80, 0, 0, 0] },
-        { name: "Feb", data: [200, 0, 40, 0, 0] },
-        { name: "Mar", data: [220, 100, 20, 80, 0] },
-        { name: "Apr", data: [150, 0, 0, 60, 70] },
-        { name: "Mei", data: [180, 0, 0, 0, 30] },
-        { name: "Jun", data: [250, 100, 10, 70, 5] }
-      ],
-      "2023": [
-        { name: "Jan", data: [180, 100, 0, 0, 0] },
-        { name: "Feb", data: [260, 0, 60, 0, 0] },
-        { name: "Mar", data: [300, 120, 40, 90, 0] },
-        { name: "Apr", data: [180, 0, 0, 80, 90] },
-        { name: "Mei", data: [240, 0, 0, 0, 40] },
-        { name: "Jun", data: [400, 110, 15, 80, 8] }
-      ],
-      "2024": [
-        { name: "Jan", data: [300, 120, 0, 0, 0] },
-        { name: "Feb", data: [400, 0, 90, 0, 0] },
-        { name: "Mar", data: [450, 150, 60, 100, 0] },
-        { name: "Apr", data: [200, 0, 0, 90, 100] },
-        { name: "Mei", data: [320, 0, 0, 0, 50] },
-        { name: "Jun", data: [500, 130, 20, 90, 10] }
-      ]
+    const bulanListFull = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    const bulanShort = [
+      "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
+      "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+    ];
+
+    const produkList = ["Meja", "Kursi", "Lampu", "Sofa", "TV", "Lemari", "AC", "Kipas"];
+    const kategoriMap = {
+      "Meja": "Furniture", "Kursi": "Furniture", "Sofa": "Furniture", "Lemari": "Furniture",
+      "Lampu": "Elektronik", "TV": "Elektronik", "AC": "Elektronik", "Kipas": "Elektronik"
     };
 
-    const categories = ["Furniture", "Lighting", "Textile", "Storage", "Kitchen"];
-    const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun"];
-    let mainChart;
+    const dataTahun = {};
 
-    function updateNotes(type, title, total, jumlahKategori, rataRata) {
-  const notesList = document.getElementById("notesList");
-  notesList.innerHTML = `
-    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-      <div class="fs-4 mb-1">📅</div>
-      <strong>Mode Tampilan</strong>
-      <p>${type === 'bulan' ? 'Bulanan' : 'Tahunan'} - ${title}</p>
-    </div>
-    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-      <div class="fs-4 mb-1">🧾</div>
-      <strong>Total Penjualan</strong>
-      <p><strong>${total}</strong> unit</p>
-    </div>
-    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-      <div class="fs-4 mb-1">📦</div>
-      <strong>Jumlah Kategori</strong>
-      <p><strong>${jumlahKategori}</strong> kategori ditampilkan</p>
-    </div>
-    <div class="note-card mb-3 p-3" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-      <div class="fs-4 mb-1">📈</div>
-      <strong>Rata-rata Penjualan</strong>
-      <p><strong>${rataRata.toFixed(1)}</strong> unit per kategori</p>
-    </div>
-  `;
-}
-
-
-    function renderMainChart(type = "bulan", index = 0, tahun = "2024") {
-      const isBulan = type === "bulan";
-      const series = dataBulananTahun[tahun];
-      const rawData = isBulan
-        ? series[index].data
-        : categories.map((_, i) => series.reduce((sum, s) => sum + s.data[i], 0));
-
-      const sortedIndexes = rawData.map((v, i) => [v, i])
-        .filter(([v]) => v > 0)
-        .sort((a, b) => b[0] - a[0])
-        .slice(0, 6);
-
-      const sortedCategories = sortedIndexes.map(i => categories[i[1]]);
-      const sortedData = sortedIndexes.map(i => i[0]);
-      const total = rawData.reduce((sum, val) => sum + val, 0);
-      const rataRata = sortedData.length ? (total / sortedData.length) : 0;
-
-      const titleText = isBulan
-        ? `Penjualan Produk Bulan ${months[index]} ${tahun}`
-        : `Penjualan Produk Tahun ${tahun}`;
-
-      const options = {
-        chart: {
-          type: 'bar',
-          height: 340,
-          animations: { easing: 'easeinout', speed: 500 }
-        },
-        plotOptions: {
-          bar: {
-            horizontal: true,
-            borderRadius: 4,
-            barHeight: '55%'
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          style: { fontSize: '12px' }
-        },
-        series: [{
-          name: isBulan ? months[index] : "Total per Tahun",
-          data: sortedData
-        }],
-        xaxis: {
-          categories: sortedCategories,
-          title: { text: "Jumlah Terjual" }
-        },
-        colors: ['#003366'],
-        title: {
-          text: titleText,
-          align: 'left',
-          style: { fontSize: '16px', fontWeight: 'bold' }
-        },
-        tooltip: { theme: 'light' }
-      };
-
-      if (mainChart) {
-        mainChart.updateOptions(options);
-      } else {
-        mainChart = new ApexCharts(document.querySelector("#mainChart"), options);
-        mainChart.render();
-      }
-
-      updateNotes(type, isBulan ? `${months[index]} ${tahun}` : `${tahun}`, total, sortedData.length, rataRata);
+    for (let tahun = 2023; tahun <= 2025; tahun++) {
+      dataTahun[tahun] = bulanListFull.map((bulan, i) => {
+        const total = Math.floor(Math.random() * 500) + 100;
+        const topProduct = produkList[Math.floor(Math.random() * produkList.length)];
+        const topCategory = kategoriMap[topProduct];
+        const avg = Math.floor(total / 3);
+        return {
+          bulan: bulanShort[i],
+          totalSold: total,
+          topProduct,
+          topCategory,
+          avgSold: avg
+        };
+      });
     }
 
-    const bulanSelect = document.getElementById("bulanSelect");
-    const tahunSelect = document.getElementById("tahunSelect");
+    let chart;
+    const ctx = document.getElementById('chartProduk').getContext('2d');
 
-    renderMainChart("bulan", 0, tahunSelect.value);
 
-    bulanSelect.addEventListener("change", function () {
-      renderMainChart("bulan", parseInt(this.value), tahunSelect.value);
-    });
+    function renderChart(data, tahun) {
+      const labels = data.map(item => item.bulan);
+      const values = data.map(item => item.totalSold);
 
-    tahunSelect.addEventListener("change", function () {
-      bulanSelect.value = "0";
-      renderMainChart("tahun", 0, this.value);
-    });
+      if (chart) chart.destroy();
+
+      // Gradasi biru tua ke biru muda
+      const gradient = ctx.createLinearGradient(0, 0, 0, 320);
+      gradient.addColorStop(0, "#0d47a1");   // Biru tua (atas)
+      gradient.addColorStop(1, "#66bfff");   // Biru muda (bawah)
+
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: `Total Produk Terjual - ${tahun}`,
+            data: values,
+            backgroundColor: gradient,
+            borderRadius: 6,
+            barThickness: 30
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: {
+            duration: 1700,
+            easing: 'easeOut'
+          },
+          onClick: (evt, elements) => {
+            if (elements.length > 0) {
+              const i = elements[0].index;
+              updateNotes(data[i]);
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: "#666", font: { size: 12 } },
+              grid: { color: "#eee" }
+            },
+            x: {
+              ticks: { color: "#444", font: { size: 12 } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+
+      updateNotes(data[0]);
+    }
+
+    function updateNotes(item) {
+      const tahun = document.getElementById("tahun").value;
+      document.getElementById("selectedMonth").textContent = item.bulan + ' - ' + tahun;
+      document.getElementById("totalSold").textContent = item.totalSold;
+      document.getElementById("topCategory").textContent = item.topCategory;
+      document.getElementById("topProduct").textContent = item.topProduct;
+      document.getElementById("avgSold").textContent = item.avgSold;
+    }
+
+    function loadData() {
+      const tahun = document.getElementById("tahun").value;
+      const data = dataTahun[tahun];
+      renderChart(data, tahun);
+    }
+
+    document.getElementById("tahun").addEventListener("change", loadData);
+    window.onload = loadData;
   </script>
 
-   <div class="card">
-            <div class="card-body">
-              <div class="table-top">
-                <div class="wordset">
-                  <ul>
-                    <li>
-                      <a data-bs-placement="top" data-bs-toggle="tooltip" title="pdf"><img alt="img" src="../assets/img/icons/pdf.svg" /></a>
-                    </li>
-                    <li>
-                      <a data-bs-placement="top" data-bs-toggle="tooltip" title="excel"><img alt="img" src="../assets/img/icons/excel.svg" /></a>
-                    </li>
-                    <li>
-                      <a data-bs-placement="top" data-bs-toggle="tooltip" title="print"><img alt="img" src="../assets/img/icons/printer.svg" /></a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-    <!-- BAGIAN ATAS END-->
+ 
 
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
