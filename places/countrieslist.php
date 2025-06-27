@@ -220,18 +220,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
               </div>
             </div>
-            
-            <!-- Map Container -->
-            <div class="card map-card">
-              <div class="card-header">
-                <h5 class="card-title">Store Locations Map</h5>
-              </div>
-              <div class="card-body">
-                <div class="map-container">
-                  <div id="store-map" style="height: 100%;"></div>
-                </div>
-              </div>
-            </div>
 
             <!-- Donut Chart Section -->
             <div class="chart-card">
@@ -242,6 +230,17 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               </div>
             </div>
           </div>
+          <!-- Map Container -->
+          <div class="card map-card">
+              <div class="card-header">
+                <h5 class="card-title">Store Locations Map</h5>
+              </div>
+              <div class="card-body">
+                <div class="map-container">
+                  <div id="store-map" style="height: 100%;"></div>
+                </div>
+              </div>
+            </div>
           
           <div class="store-table-container">
             <div class="card">
