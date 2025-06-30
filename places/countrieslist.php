@@ -32,36 +32,123 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         margin-bottom: 20px;
         padding-bottom: 10px;
       }
-      .summary-card {
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+      .leaflet-control-attribution {
+        display: none !important; /* Sembunyikan watermark */
+      }
+
+      .leaflet-control {
+        display: none !important; /* Sembunyikan semua kontrol */
+      }
+      
+      /* Gaya kartu ringkasan baru sesuai index.php */
+      .dash-count {
+        color: white !important;
+        border-radius: 15px !important;
+        padding: 20px !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+        transition: transform 0.3s ease;
         height: 100%;
       }
-      .summary-card:hover {
+      .dash-count:hover {
         transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       }
-      .summary-value {
+      .das1 {
+        background: linear-gradient(135deg, #26c6da 0%, #1a5ea7 100%) !important;
+      }
+      .das2 {
+        background: linear-gradient(135deg, #d05ce4 0%, #751e8d 100%) !important;
+      }
+      .das3 {
+        background: linear-gradient(135deg, #ffb443 0%, #e78001 100%) !important;
+      }
+      .das4 {
+        background: linear-gradient(135deg, #36e2d1 0%, #018679 100%) !important;
+      }
+      
+      .dash-counts {
+        margin-bottom: 10px;
+      }
+      .dash-count h4 {
         font-size: 24px;
         font-weight: 700;
         margin-bottom: 5px;
       }
-      .summary-label {
+      .dash-count h5 {
         font-size: 14px;
-        color: #666;
+        color: rgba(255,255,255,0.9);
       }
-      .map-container {
-        border-radius: 8px;
-        overflow: hidden;
-        height: 300px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      
+      /* Chart Container Styling */
+      .chart-container {
+        position: relative;
+        height: 350px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        padding: 20px;
         transition: all 0.3s ease;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+        margin-top: 30px;
+        align-items: center;
       }
-      .map-container:hover {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+      .chart-container canvas {
+        width: 100%;
+        height: auto;
+        max-width: 380px;
+        max-height: 280px;
       }
+      
+      .chart-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      }
+      
+      .chart-title {
+        font-size: 1.0rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+        text-align: center;
+      }
+      
+      /* Map Container Styling */
+      .map-container-wrapper {
+        position: relative;
+        height: 350px;
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        margin-top: 30px;
+        overflow: hidden;
+      }
+      
+      .map-container-wrapper:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      }
+      
+      .map-header {
+        padding: 20px 20px 10px 20px;
+        background: #fff;
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      .map-header h5 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        color: #333;
+      }
+      
+      .map-container {
+        height: 280px;
+        width: 100%;
+      }
+      
+      /* Store Marker Styling */
       .store-marker {
         position: relative;
         display: inline-block;
@@ -90,39 +177,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         z-index: 10;
         background-color: #FF5722;
       }
-      .highlight-row {
-        background-color: #f0f9ff !important;
-        transform: scale(1.01);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        z-index: 1;
-        position: relative;
-      }
-      .map-card {
-        margin-bottom: 20px;
-      }
       
-      /* Styling untuk chart */
-      .chart-container {
-        position: relative;
-        height: 300px;
-        margin: 20px 0;
-      }
-      .chart-card {
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        padding: 20px;
-        background: white;
-        transition: all 0.3s ease;
-      }
-      .chart-card:hover {
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      }
-      .chart-title {
-        text-align: center;
-        margin-bottom: 15px;
-        font-weight: 600;
-        color: #333;
-      }
+      /* Chart Hover Info */
       .chart-hover-info {
         position: absolute;
         background: white;
@@ -144,13 +200,25 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         color: #666;
       }
       
-      /* Styling tambahan */
+      /* Table Styling */
+      .highlight-row {
+        background-color: #f0f9ff !important;
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        z-index: 1;
+        position: relative;
+      }
+      
       .store-table-container {
         margin-top: 30px;
       }
       .page-title h4 {
         color: #0051BA;
         font-weight: 700;
+      }
+      .page-title h6 {
+        color: #666;
+        font-size: 14px;
       }
       .badges.bg-lightgreen {
         background-color: #d4edda !important;
@@ -159,6 +227,147 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       .badges.bg-lightred {
         background-color: #f8d7da !important;
         color: #721c24;
+      }
+      
+      /* Gaya header tabel baru */
+      .card-header.gradient-bg {
+        background: linear-gradient(135deg, #5dade2 0%, #1a5ea7 100%);
+        color: white;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+      }
+      
+      .table th {
+        background-color: #0047AB !important;
+        color: white !important;
+      }
+      
+      .table-responsive table tbody tr:hover {
+        background-color: #f5faff;
+        transition: 0.3s ease;
+        cursor: pointer;
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 991px) {
+        .chart-container {
+          margin-bottom: 20px;
+        }
+        .map-container-wrapper {
+          margin-bottom: 20px;
+        }
+      }
+
+      /* Style untuk modal */
+      .modal-content {
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      
+      .modal-header {
+        background: linear-gradient(135deg, #ff9f43 0%, #ff7b00 100%);
+        color: white;
+        border-top-left-radius: 12px !important;
+        border-top-right-radius: 12px !important;
+        padding: 15px 20px;
+      }
+      
+      .modal-title {
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+      
+      .modal-body {
+        padding: 20px;
+      }
+      
+      .detail-container {
+        display: flex;
+        gap: 20px;
+      }
+      
+      .store-details {
+        flex: 1;
+        min-width: 300px;
+      }
+      
+      .map-preview {
+        flex: 1;
+        min-width: 300px;
+        height: 300px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+      
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      .detail-label {
+        font-weight: 600;
+        color: #495057;
+        flex: 0 0 40%;
+      }
+      
+      .detail-value {
+        flex: 0 0 60%;
+        color: #212529;
+        text-align: right;
+      }
+      
+      .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+      
+      .status-active {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      
+      .status-inprogress {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+      
+      .store-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0051BA;
+        margin-bottom: 5px;
+      }
+      
+      .store-id {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        display: block;
+      }
+      
+      .store-address {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+      }
+      
+      @media (max-width: 768px) {
+        .detail-container {
+          flex-direction: column;
+        }
+        
+        .map-preview {
+          height: 250px;
+        }
       }
     </style>
   </head>
@@ -181,66 +390,86 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           </div>
           
           <div class="info-container">
-            <!-- Summary Cards -->
+            <!-- Summary Cards - Diubah sesuai index.php -->
             <div class="row">
               <div class="col-md-3">
-                <div class="card summary-card bg-light-primary">
-                  <div class="card-body text-center p-3">
-                    <div class="summary-value" id="total-stores">5</div>
-                    <div class="summary-label">Total Stores</div>
-                    <i class="fas fa-store fa-2x mt-3 text-success"></i>
+                <a href="#" class="text-decoration-none">
+                  <div class="dash-count das1">
+                    <div class="dash-counts">
+                      <h4 id="total-stores">5</h4>
+                      <h5>Total Stores</h5>
+                    </div>
+                    <div class="dash-imgs">
+                      <i class="fas fa-store fa-2x"></i>
+                    </div>
                   </div>
-                </div>
+                </a>
               </div>
               <div class="col-md-3">
-                <div class="card summary-card bg-light-success">
-                  <div class="card-body text-center p-3">
-                    <div class="summary-value" id="active-stores">4</div>
-                    <div class="summary-label">Active Stores</div>
-                    <i class="fas fa-check-circle fa-2x mt-3 text-success"></i>
+                <a href="#" class="text-decoration-none">
+                  <div class="dash-count das2">
+                    <div class="dash-counts">
+                      <h4 id="active-stores">4</h4>
+                      <h5>Active Stores</h5>
+                    </div>
+                    <div class="dash-imgs">
+                      <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
                   </div>
-                </div>
+                </a>
               </div>
               <div class="col-md-3">
-                <div class="card summary-card bg-light-warning">
-                  <div class="card-body text-center p-3">
-                    <div class="summary-value" id="inprogress-stores">1</div>
-                    <div class="summary-label">In Progress</div>
-                    <i class="fas fa-hard-hat fa-2x mt-3 text-warning"></i>
+                <a href="#" class="text-decoration-none">
+                  <div class="dash-count das3">
+                    <div class="dash-counts">
+                      <h4 id="inprogress-stores">1</h4>
+                      <h5>In Progress</h5>
+                    </div>
+                    <div class="dash-imgs">
+                      <i class="fas fa-hard-hat fa-2x"></i>
+                    </div>
                   </div>
-                </div>
+                </a>
               </div>
               <div class="col-md-3">
-                <div class="card summary-card bg-light-info">
-                  <div class="card-body text-center p-3">
-                    <div class="summary-value" id="total-area">143,000 m²</div>
-                    <div class="summary-label">Total Area</div>
-                    <i class="fas fa-vector-square fa-2x mt-3 text-info"></i>
+                <a href="#" class="text-decoration-none">
+                  <div class="dash-count das4">
+                    <div class="dash-counts">
+                      <h4 id="total-area">143,000 m²</h4>
+                      <h5>Total Area</h5>
+                    </div>
+                    <div class="dash-imgs">
+                      <i class="fas fa-vector-square fa-2x"></i>
+                    </div>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
 
-            <!-- Donut Chart Section -->
-            <div class="chart-card">
-              <h5 class="chart-title">Store Distribution by Province</h5>
-              <div class="chart-container">
-                <canvas id="provinceChart"></canvas>
-                <div class="chart-hover-info" id="chartHoverInfo"></div>
+            <!-- Charts and Map Row -->
+            <div class="row mb-4">
+              <!-- Donut Chart -->
+              <div class="col-lg-5">
+                <div class="chart-container">
+                  <div class="chart-title">Store Distribution by Province</div>
+                  <canvas id="provinceChart"></canvas>
+                  <div class="chart-hover-info" id="chartHoverInfo"></div>
+                </div>
               </div>
-            </div>
-          </div>
-          <!-- Map Container -->
-          <div class="card map-card">
-              <div class="card-header">
-                <h5 class="card-title">Store Locations Map</h5>
-              </div>
-              <div class="card-body">
-                <div class="map-container">
-                  <div id="store-map" style="height: 100%;"></div>
+              
+              <!-- Map Container -->
+              <div class="col-lg-7">
+                <div class="map-container-wrapper">
+                  <div class="map-header">
+                    <h5>Store Locations Map</h5>
+                  </div>
+                  <div class="map-container">
+                    <div id="store-map" style="height: 100%;"></div>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
           
           <div class="store-table-container">
             <div class="card">
@@ -311,11 +540,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <th>Store ID</th>
                         <th>Store Name</th>
                         <th>Address</th>
-                        <th>City</th>
-                        <th>Telephone</th>
-                        <th>Land Area</th>
-                        <th>Establish</th>
-                        <th>Status</th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -324,61 +549,110 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <td>STR001</td>
                         <td>IKEA Alam Sutera</td>
                         <td>Jl. Jalur Sutera Boulevard No.45, Alam Sutera</td>
-                        <td>Tangerang (Banten)</td>
-                        <td>(021) 12345678</td>
-                        <td>35.000 m²</td>
-                        <td>2014</td>
-                        <td><span class="badges bg-lightgreen">Open</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(1)">View Detail</button>
+                        </td>
                       </tr>
                       <tr data-id="2" data-lat="-6.5622" data-lng="106.8460" data-province="Jawa Barat">
                         <td>2</td>
                         <td>STR002</td>
                         <td>IKEA Sentul City</td>
                         <td>Jl. MH Thamrin, Sentul City</td>
-                        <td>Bogor (Jawa Barat)</td>
-                        <td>(021) 12345678</td>
-                        <td>36.000 m²</td>
-                        <td>2021</td>
-                        <td><span class="badges bg-lightgreen">Open</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(2)">View Detail</button>
+                        </td>
                       </tr>
                       <tr data-id="3" data-lat="-6.8512" data-lng="107.5328" data-province="Jawa Barat">
                         <td>3</td>
                         <td>STR003</td>
                         <td>IKEA Kota Baru Parahyangan</td>
                         <td>Jl. Parahyangan KM 3</td>
-                        <td>Bandung Barat (Jawa Barat)</td>
-                        <td>(022) 34567890</td>
-                        <td>33.000 m²</td>
-                        <td>2021</td>
-                        <td><span class="badges bg-lightgreen">Open</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(3)">View Detail</button>
+                        </td>
                       </tr>
                       <tr data-id="4" data-lat="-6.1775" data-lng="106.9423" data-province="DKI Jakarta">
                         <td>4</td>
                         <td>STR004</td>
                         <td>IKEA Jakarta Garden City</td>
                         <td>JGC, Cakung</td>
-                        <td>Jakarta Timur (Jakarta)</td>
-                        <td>(021) 45678901</td>
-                        <td>39.000 m²</td>
-                        <td>2021</td>
-                        <td><span class="badges bg-lightgreen">Open</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(4)">View Detail</button>
+                        </td>
                       </tr>
                       <tr data-id="5" data-lat="-8.7075" data-lng="115.1720" data-province="Bali">
                         <td>5</td>
                         <td>STR005</td>
                         <td>IKEA Bali</td>
                         <td>Sunset Road, Kuta</td>
-                        <td>Badung (Bali)</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>2025</td>
-                        <td><span class="badges bg-lightred">InProgress</span></td>
+                        <td>
+                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(5)">View Detail</button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store Detail Modal -->
+    <div class="modal fade" id="storeDetailModal" tabindex="-1" aria-labelledby="storeDetailModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="storeDetailModalLabel">Store Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="detail-container">
+              <div class="store-details">
+                <div class="store-name" id="detail-store-name">-</div>
+                <span class="store-id" id="detail-store-id">-</span>
+                
+                <div class="store-address" id="detail-store-address">-</div>
+                
+                <div class="detail-item">
+                  <div class="detail-label">City:</div>
+                  <div class="detail-value" id="detail-city">-</div>
+                </div>
+                
+                <div class="detail-item">
+                  <div class="detail-label">Telephone:</div>
+                  <div class="detail-value" id="detail-telephone">-</div>
+                </div>
+                
+                <div class="detail-item">
+                  <div class="detail-label">Land Area:</div>
+                  <div class="detail-value" id="detail-land-area">-</div>
+                </div>
+                
+                <div class="detail-item">
+                  <div class="detail-label">Establish:</div>
+                  <div class="detail-value" id="detail-establish">-</div>
+                </div>
+                
+                <div class="detail-item">
+                  <div class="detail-label">Status:</div>
+                  <div class="detail-value" id="detail-status">-</div>
+                </div>
+                
+                <div class="detail-item">
+                  <div class="detail-label">Province:</div>
+                  <div class="detail-value" id="detail-province">-</div>
+                </div>
+              </div>
+              
+              <div class="map-preview" id="map-preview">
+                <!-- Map preview will be inserted here -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -404,234 +678,341 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
-      $(document).ready(function() {
-        // Data toko per provinsi
-        const provinceData = {
-          'Banten': { count: 1, color: '#3498db' },
-          'Jawa Barat': { count: 2, color: '#2ecc71' },
-          'DKI Jakarta': { count: 1, color: '#f1c40f' },
-          'Bali': { count: 1, color: '#e74c3c' }
-        };
-        
-        // Inisialisasi chart
-        const ctx = document.getElementById('provinceChart').getContext('2d');
-        const provinceChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: Object.keys(provinceData),
-            datasets: [{
-              data: Object.values(provinceData).map(p => p.count),
-              backgroundColor: Object.values(provinceData).map(p => p.color),
-              borderWidth: 0,
-              hoverOffset: 15
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '70%',
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: {
-                  font: {
-                    size: 12
-                  },
-                  padding: 20,
-                  generateLabels: function(chart) {
-                    const data = chart.data;
-                    if (data.labels.length && data.datasets.length) {
-                      return data.labels.map((label, i) => {
-                        const meta = chart.getDatasetMeta(0);
-                        const style = meta.controller.getStyle(i);
-                        
-                        return {
-                          text: `${label} (${data.datasets[0].data[i]})`,
-                          fillStyle: style.backgroundColor,
-                          strokeStyle: style.borderColor,
-                          lineWidth: style.borderWidth,
-                          hidden: false,
-                          index: i
-                        };
-                      });
-                    }
-                    return [];
+      // Data toko per provinsi
+      const provinceData = {
+        'Banten': { count: 1, color: '#3498db' },
+        'Jawa Barat': { count: 2, color: '#2ecc71' },
+        'DKI Jakarta': { count: 1, color: '#f1c40f' },
+        'Bali': { count: 1, color: '#e74c3c' }
+      };
+      
+      // Data toko lengkap untuk modal detail
+      const storeDetailData = {
+        1: {
+          name: "IKEA Alam Sutera",
+          id: "STR001",
+          city: "Tangerang (Banten)",
+          telephone: "(021) 12345678",
+          landArea: "35.000 m²",
+          establish: "2014",
+          status: "Open",
+          province: "Banten",
+          address: "Jl. Jalur Sutera Boulevard No.45, Alam Sutera",
+          lat: -6.2241,
+          lng: 106.6583
+        },
+        2: {
+          name: "IKEA Sentul City",
+          id: "STR002",
+          city: "Bogor (Jawa Barat)",
+          telephone: "(021) 12345678",
+          landArea: "36.000 m²",
+          establish: "2021",
+          status: "Open",
+          province: "Jawa Barat",
+          address: "Jl. MH Thamrin, Sentul City",
+          lat: -6.5622,
+          lng: 106.8460
+        },
+        3: {
+          name: "IKEA Kota Baru Parahyangan",
+          id: "STR003",
+          city: "Bandung Barat (Jawa Barat)",
+          telephone: "(022) 34567890",
+          landArea: "33.000 m²",
+          establish: "2021",
+          status: "Open",
+          province: "Jawa Barat",
+          address: "Jl. Parahyangan KM 3",
+          lat: -6.8512,
+          lng: 107.5328
+        },
+        4: {
+          name: "IKEA Jakarta Garden City",
+          id: "STR004",
+          city: "Jakarta Timur (Jakarta)",
+          telephone: "(021) 45678901",
+          landArea: "39.000 m²",
+          establish: "2021",
+          status: "Open",
+          province: "DKI Jakarta",
+          address: "JGC, Cakung",
+          lat: -6.1775,
+          lng: 106.9423
+        },
+        5: {
+          name: "IKEA Bali",
+          id: "STR005",
+          city: "Badung (Bali)",
+          telephone: "-",
+          landArea: "-",
+          establish: "2025",
+          status: "InProgress",
+          province: "Bali",
+          address: "Sunset Road, Kuta",
+          lat: -8.7075,
+          lng: 115.1720
+        }
+      };
+
+      // Inisialisasi chart
+      const ctx = document.getElementById('provinceChart').getContext('2d');
+      const provinceChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(provinceData),
+          datasets: [{
+            data: Object.values(provinceData).map(p => p.count),
+            backgroundColor: Object.values(provinceData).map(p => p.color),
+            borderWidth: 0,
+            hoverOffset: 15
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          cutout: '65%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 11
+                },
+                padding: 15,
+                generateLabels: function(chart) {
+                  const data = chart.data;
+                  if (data.labels.length && data.datasets.length) {
+                    return data.labels.map((label, i) => {
+                      const meta = chart.getDatasetMeta(0);
+                      const style = meta.controller.getStyle(i);
+                      
+                      return {
+                        text: `${label} (${data.datasets[0].data[i]})`,
+                        fillStyle: style.backgroundColor,
+                        strokeStyle: style.borderColor,
+                        lineWidth: style.borderWidth,
+                        hidden: false,
+                        index: i
+                      };
+                    });
                   }
-                }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    const label = context.label || '';
-                    const value = context.raw || 0;
-                    return `${label}: ${value} store${value > 1 ? 's' : ''}`;
-                  }
+                  return [];
                 }
               }
             },
-            animation: {
-              animateRotate: true,
-              animateScale: true
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const label = context.label || '';
+                  const value = context.raw || 0;
+                  return `${label}: ${value} store${value > 1 ? 's' : ''}`;
+                }
+              }
             }
+          },
+          animation: {
+            animateRotate: true,
+            animateScale: true,
+            duration: 2000,
+            easing: 'easeInOutQuart'
           }
-        });
+        }
+      });
+      
+      // Interaksi hover pada chart
+      const chartHoverInfo = $('#chartHoverInfo');
+      const chartCanvas = $('#provinceChart');
+      
+      chartCanvas.on('mousemove', function(e) {
+        const points = provinceChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
         
-        // Interaksi hover pada chart
-        const chartHoverInfo = $('#chartHoverInfo');
-        const chartCanvas = $('#provinceChart');
-        
-        chartCanvas.on('mousemove', function(e) {
-          const points = provinceChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+        if (points.length) {
+          const index = points[0].index;
+          const province = provinceChart.data.labels[index];
+          const count = provinceChart.data.datasets[0].data[index];
           
-          if (points.length) {
-            const index = points[0].index;
-            const province = provinceChart.data.labels[index];
-            const count = provinceChart.data.datasets[0].data[index];
-            
-            chartHoverInfo.html(`
-              <div class="chart-hover-title">${province}</div>
-              <div class="chart-hover-stores">${count} Store${count > 1 ? 's' : ''}</div>
-            `);
-            
-            chartHoverInfo.css({
-              left: e.pageX + 15,
-              top: e.pageY + 15,
-              opacity: 1
-            });
-            
-            // Highlight toko di tabel dan peta
-            $(`tr[data-province="${province}"]`).addClass('highlight-row');
-          } else {
-            chartHoverInfo.css('opacity', 0);
-            $('tr.highlight-row').removeClass('highlight-row');
-          }
-        });
-        
-        chartCanvas.on('mouseleave', function() {
-          chartHoverInfo.css('opacity', 0);
-          $('tr.highlight-row').removeClass('highlight-row');
-        });
-        
-        // Inisialisasi peta
-        const map = L.map('store-map').setView([-6.1754, 106.8272], 5);
-        
-        // Tambahkan tile layer (peta dasar)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        // Simpan semua marker dalam array
-        const markers = [];
-        const storeData = {};
-        
-        // Buat marker untuk setiap toko
-        $('table.datanew tbody tr').each(function() {
-          const id = $(this).data('id');
-          const lat = $(this).data('lat');
-          const lng = $(this).data('lng');
-          const province = $(this).data('province');
-          const storeName = $(this).find('td:eq(2)').text();
-          const address = $(this).find('td:eq(3)').text();
-          const status = $(this).find('td:eq(8)').text().includes('Open') ? 'open' : 'progress';
-          
-          // Simpan data toko
-          storeData[id] = {
-            element: this,
-            name: storeName,
-            address: address,
-            status: status,
-            province: province
-          };
-          
-          // Buat marker custom
-          const marker = L.marker([lat, lng], {
-            icon: L.divIcon({
-              className: 'custom-marker',
-              html: `<div class="store-marker" data-id="${id}" style="background-color: ${provinceData[province].color};"></div>`,
-              iconSize: [24, 24],
-              iconAnchor: [12, 24]
-            })
-          }).addTo(map);
-          
-          // Tambahkan popup
-          marker.bindPopup(`
-            <div class="p-2">
-              <h6>${storeName}</h6>
-              <p class="mb-1">${address}</p>
-              <div class="d-flex justify-content-between">
-                <span class="badge ${status === 'open' ? 'bg-lightgreen' : 'bg-lightred'}">
-                  ${status === 'open' ? 'Open' : 'In Progress'}
-                </span>
-                <span class="badge" style="background: ${provinceData[province].color}">${province}</span>
-              </div>
-            </div>
+          chartHoverInfo.html(`
+            <div class="chart-hover-title">${province}</div>
+            <div class="chart-hover-stores">${count} Store${count > 1 ? 's' : ''}</div>
           `);
           
-          // Simpan marker
-          markers.push({
-            id: id,
-            marker: marker,
-            element: this
+          chartHoverInfo.css({
+            left: e.pageX + 15,
+            top: e.pageY + 15,
+            opacity: 1
           });
           
-          // Event untuk marker
-          marker.on('mouseover', function() {
-            $(this.getElement()).find('.store-marker').addClass('highlight');
-            const id = $(this.getElement()).find('.store-marker').data('id');
-            $(storeData[id].element).addClass('highlight-row');
-          });
-          
-          marker.on('mouseout', function() {
-            $(this.getElement()).find('.store-marker').removeClass('highlight');
-            const id = $(this.getElement()).find('.store-marker').data('id');
-            $(storeData[id].element).removeClass('highlight-row');
-          });
-          
-          marker.on('click', function() {
-            map.setView([lat, lng], 13);
-          });
+          // Highlight toko di tabel dan peta
+          $(`tr[data-province="${province}"]`).addClass('highlight-row');
+        } else {
+          chartHoverInfo.css('opacity', 0);
+          $('tr.highlight-row').removeClass('highlight-row');
+        }
+      });
+      
+      chartCanvas.on('mouseleave', function() {
+        chartHoverInfo.css('opacity', 0);
+        $('tr.highlight-row').removeClass('highlight-row');
+      });
+      
+      // Inisialisasi peta
+      const map = L.map('store-map').setView([-6.1754, 106.8272], 5);
+      
+      // Tambahkan tile layer (peta dasar)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      
+      // Simpan semua marker dalam array
+      const markers = [];
+      
+      // Buat marker untuk setiap toko
+      $('table.datanew tbody tr').each(function() {
+        const id = $(this).data('id');
+        const lat = $(this).data('lat');
+        const lng = $(this).data('lng');
+        const province = $(this).data('province');
+        const storeName = $(this).find('td:eq(2)').text();
+        const address = $(this).find('td:eq(3)').text();
+        const status = storeDetailData[id].status === 'Open' ? 'open' : 'progress';
+        
+        // Buat marker custom
+        const marker = L.marker([lat, lng], {
+          icon: L.divIcon({
+            className: 'custom-marker',
+            html: `<div class="store-marker" data-id="${id}" style="background-color: ${provinceData[province].color};"></div>`,
+            iconSize: [24, 24],
+            iconAnchor: [12, 24]
+          })
+        }).addTo(map);
+        
+        // Tambahkan popup
+        marker.bindPopup(`
+          <div class="p-2">
+            <h6>${storeName}</h6>
+            <p class="mb-1">${address}</p>
+            <div class="d-flex justify-content-between">
+              <span class="badge ${status === 'open' ? 'bg-lightgreen' : 'bg-lightred'}">
+                ${status === 'open' ? 'Open' : 'In Progress'}
+              </span>
+              <span class="badge" style="background: ${provinceData[province].color}">${province}</span>
+            </div>
+          </div>
+        `);
+        
+        // Simpan marker
+        markers.push({
+          id: id,
+          marker: marker,
+          element: this
         });
         
-        // Event untuk baris tabel
-        $('table.datanew tbody tr').hover(
-          function() {
-            const id = $(this).data('id');
-            $(this).addClass('highlight-row');
-            
-            // Highlight marker yang sesuai
-            markers.forEach(m => {
-              if (m.id === id) {
-                $(m.marker.getElement()).find('.store-marker').addClass('highlight');
-                map.setView(m.marker.getLatLng(), 13);
-              }
-            });
-          },
-          function() {
-            const id = $(this).data('id');
-            $(this).removeClass('highlight-row');
-            
-            // Unhighlight marker
-            markers.forEach(m => {
-              if (m.id === id) {
-                $(m.marker.getElement()).find('.store-marker').removeClass('highlight');
-              }
-            });
-          }
-        );
+        // Event untuk marker
+        marker.on('mouseover', function() {
+          $(this.getElement()).find('.store-marker').addClass('highlight');
+          const id = $(this.getElement()).find('.store-marker').data('id');
+          $(storeDetailData[id].element).addClass('highlight-row');
+        });
         
-        // Hitung luas total
-        let totalArea = 0;
-        $('table.datanew tbody tr').each(function() {
-          const areaText = $(this).find('td:eq(6)').text();
-          if (areaText !== '-') {
-            const areaValue = parseFloat(areaText.replace('.', '').replace(' m²', ''));
+        marker.on('mouseout', function() {
+          $(this.getElement()).find('.store-marker').removeClass('highlight');
+          const id = $(this.getElement()).find('.store-marker').data('id');
+          $(storeDetailData[id].element).removeClass('highlight-row');
+        });
+        
+        marker.on('click', function() {
+          map.setView([lat, lng], 13);
+        });
+      });
+      
+      // Event untuk baris tabel
+      $('table.datanew tbody tr').hover(
+        function() {
+          const id = $(this).data('id');
+          $(this).addClass('highlight-row');
+          
+          // Highlight marker yang sesuai
+          markers.forEach(m => {
+            if (m.id === id) {
+              $(m.marker.getElement()).find('.store-marker').addClass('highlight');
+              map.setView(m.marker.getLatLng(), 13);
+            }
+          });
+        },
+        function() {
+          const id = $(this).data('id');
+          $(this).removeClass('highlight-row');
+          
+          // Unhighlight marker
+          markers.forEach(m => {
+            if (m.id === id) {
+              $(m.marker.getElement()).find('.store-marker').removeClass('highlight');
+            }
+          });
+        }
+      );
+      
+      // Hitung luas total
+      let totalArea = 0;
+      $('table.datanew tbody tr').each(function() {
+        const id = $(this).data('id');
+        const areaText = storeDetailData[id].landArea;
+        if (areaText !== '-') {
+          const areaValue = parseFloat(areaText.replace('.', '').replace(' m²', ''));
+          if (!isNaN(areaValue)) {
             totalArea += areaValue;
           }
+        }
+      });
+      
+      // Format angka dengan separator
+      $('#total-area').text(totalArea.toLocaleString('id-ID') + ' m²');
+      
+      // Fungsi untuk menampilkan detail toko di modal
+      function showStoreDetail(storeId) {
+        const store = storeDetailData[storeId];
+        
+        // Update modal content
+        document.getElementById('detail-store-name').textContent = store.name;
+        document.getElementById('detail-store-id').textContent = store.id;
+        document.getElementById('detail-store-address').textContent = store.address;
+        document.getElementById('detail-city').textContent = store.city;
+        document.getElementById('detail-telephone').textContent = store.telephone;
+        document.getElementById('detail-land-area').textContent = store.landArea;
+        document.getElementById('detail-establish').textContent = store.establish;
+        document.getElementById('detail-status').innerHTML = 
+          store.status === 'Open' ? 
+          '<span class="status-badge status-active">Open</span>' : 
+          '<span class="status-badge status-inprogress">InProgress</span>';
+        document.getElementById('detail-province').textContent = store.province;
+        
+        // Create mini map preview
+        const mapPreviewDiv = document.getElementById('map-preview');
+        mapPreviewDiv.innerHTML = '<div id="mini-map" style="height: 100%; width: 100%;"></div>';
+        
+        // Initialize mini map
+        const miniMap = L.map('mini-map').setView([store.lat, store.lng], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(miniMap);
+        
+        // Add marker to mini map
+        const customIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `<div class="store-marker" style="background-color: ${provinceData[store.province].color};"></div>`,
+          iconSize: [24, 24],
+          iconAnchor: [12, 24]
         });
         
-        // Format angka dengan separator
-        $('#total-area').text(totalArea.toLocaleString('id-ID') + ' m²');
-      });
+        L.marker([store.lat, store.lng], {icon: customIcon}).addTo(miniMap)
+          .bindPopup(`<b>${store.name}</b><br>${store.address}`)
+          .openPopup();
+        
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('storeDetailModal'));
+        modal.show();
+      }
     </script>
   </body>
 </html>
