@@ -24,7 +24,12 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <link href="../assets/css/style.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+
 
 
    <style>
@@ -229,214 +234,98 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 .bg-merah {
   background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
 }
-
-  body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f6f8;
-      padding: 30px;
-      color: #333;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #2c3e50;
-    }
-
-    .filter-container {
-      margin-bottom: 20px;
-    }
-
-    select {
-      padding: 8px 12px;
-      font-size: 14px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .dashboard {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .chart-container, .notes-container {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .chart-container:hover,
-    .notes-container:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    .chart-container {
-      flex: 0 0 64%;
-      background: #fff;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      min-width: 300px;
-    }
-
-    .notes-container {
-      flex: 0 0 33%;
-      background: #fff;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      min-width: 260px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .note-title {
-      font-size: 15px;
-      color: white;
-      margin-bottom: 15px;
-      font-weight: 600;
-      border-radius: 10px;
-      padding: 10px 15px;
-      background: linear-gradient(135deg, #0d6efd, #66bfff);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .note-title i {
-      font-size: 16px;
-    }
-
-    .note-line {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-left: 4px solid transparent;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .note-line:hover {
-      background-color: #f0f4ff;
-    }
-
-    .note-line.active {
-      border-left: 4px solid #0d6efd;
-      background-color: #eaf3ff;
-    }
-
-    .note-icon {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      color: #fff;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
-
-    .bg-blue { background-color: #0d6efd; }
-    .bg-green { background-color: #28a745; }
-    .bg-orange { background-color: #fd7e14; }
-    .bg-purple { background-color: #6f42c1; }
-
-    .note-text {
-      display: flex;
-      justify-content: space-between;
-      flex: 1;
-    }
-
-    .note-label {
-      color: #555;
-      font-size: 14px;
-    }
-
-    .note-value {
-      font-size: 15px;
-      font-weight: 600;
-      color: #0d6efd;
-    }
-
-    @media (max-width: 768px) {
-      .chart-container, .notes-container {
-        flex: 100%;
-      }
-    }
-
-   .chart-wrapper {
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  padding: 20px 24px;
-  position: relative;
-  flex: 0 0 64%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  min-width: 300px;
-}
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.chart-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #2c3e50;
-  letter-spacing: 0.3px;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.chart-select {
-  font-size: 13px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.chart-notes-row {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-}
-
-.chart-wrapper {
-  flex: 0 0 55%;   /* Lebih kecil dari sebelumnya */
-  min-width: 260px;
-  max-width: 55%;
-  padding: 18px 16px;
-}
-
-.notes-container {
-  flex: 0 0 40%;   /* Lebar notes lebih besar sedikit */
-  min-width: 200px;
-  max-width: 40%;
-  padding: 18px 16px;
-}
-
-/* Responsive: stack on mobile */
-@media (max-width: 900px) {
-  .chart-notes-row {
-    flex-direction: column;
+ body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6f8;
+    padding: 30px;
+    color: #333;
   }
-  .chart-wrapper, .notes-container {
-    max-width: 100%;
-    flex: 100%;
+  .section {
+    display: flex;
+    justify-content: center;
   }
-}
+  .table-wrapper {
+    width: 100%;
+    max-width: 1100px;
+  }
+  .table-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #0d6efd;
+  }
+  .table-comparison {
+    background: #fff;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    width: 100%;
+    display: flex;
+    gap: 24px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .table-box {
+    flex: 1;
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .table-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+  .chart-container {
+    height: 160px;
+    margin-bottom: 20px;
+  }
+  .divider {
+    width: 2px;
+    background: linear-gradient(to bottom, #cfd8dc, #90a4ae, #cfd8dc);
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    font-size: 14px;
+  }
+  thead th {
+    text-align: left;
+    padding: 12px 16px;
+    background: #f0f4f8;
+    color: #1e293b;
+    font-weight: 600;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  tbody td {
+    background: #ffffff;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    transition: background 0.3s ease;
+  }
+  tbody tr {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  }
+  tbody tr:hover td {
+    background-color: #f1f5f9;
+  }
+  .highlight {
+    background-color: #d2e3fc !important;
+    font-weight: bold;
+  }
+  .caption-icon {
+    margin-right: 8px;
+    color: #0d6efd;
+  }
+  .category-icon {
+    margin-right: 6px;
+  }
 
   </style>
 
@@ -556,177 +445,146 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               </a>
             </div>
           </div>
-          <!-- END KOLOM  -->
 
- <!-- Chart & Notes Row -->
-<div class="chart-notes-row" style="display: flex; gap: 20px;">
-  <!-- Chart Wrapper -->
-<div class="chart-wrapper">
-  <div class="chart-header">
-    <div class="chart-title">Total Product Sold per Bulan</div>
-    <select id="tahun" class="chart-select">
-      <option value="2023">2023</option>
-      <option value="2024">2024</option>
-      <option value="2025" selected>2025</option>
-    </select>
-  </div>
-  <!-- PENTING: canvas tetap id="chartProduk" -->
-  <div style="position: relative; height: 320px;">
-    <canvas id="chartProduk"></canvas>
-  </div>
-</div>
-
-<!-- Notes -->
-<div class="notes-container">
-      <div class="note-title">Detail Produk: <span id="selectedMonth">Jan</span></div>
-
-      <div class="note-line">
-        <div class="note-icon bg-blue"><i class="fas fa-box"></i></div>
-        <div class="note-text">
-          <div class="note-label">Total Product Sold</div>
-          <div class="note-value" id="totalSold">-</div>
+   <div class="section">
+    <div class="table-wrapper">
+      <div class="table-title"></div>
+      <div class="table-comparison">
+        <div class="table-box">
+          <div class="chart-container">
+            <canvas id="donutTerbanyak"></canvas>
+          </div>
+          <table id="tableTerbanyak">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Kategori</th>
+                <th>Produk</th>
+                <th>Terjual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Sofa Minimalis</td><td>250</td></tr>
+              <tr><td>2</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Meja Kayu</td><td>210</td></tr>
+              <tr><td>3</td><td><i class="fas fa-tv category-icon"></i>Elektronik</td><td>TV LED 50"</td><td>180</td></tr>
+              <tr><td>4</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Kursi Kantor</td><td>160</td></tr>
+              <tr><td>5</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Lemari Sliding</td><td>150</td></tr>
+            </tbody>
+          </table>
         </div>
-      </div>
 
-      <div class="note-line">
-        <div class="note-icon bg-green"><i class="fas fa-tags"></i></div>
-        <div class="note-text">
-          <div class="note-label">Top Category</div>
-          <div class="note-value" id="topCategory">-</div>
-        </div>
-      </div>
+        <div class="divider"></div>
 
-      <div class="note-line">
-        <div class="note-icon bg-orange"><i class="fas fa-star"></i></div>
-        <div class="note-text">
-          <div class="note-label">Top Selling Product</div>
-          <div class="note-value" id="topProduct">-</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-purple"><i class="fas fa-chart-line"></i></div>
-        <div class="note-text">
-          <div class="note-label">Average Sales</div>
-          <div class="note-value" id="avgSold">-</div>
+        <div class="table-box">
+          <div class="chart-container">
+            <canvas id="donutTersedikit"></canvas>
+          </div>
+          <table id="tableTersedikit">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Kategori</th>
+                <th>Produk</th>
+                <th>Terjual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td><i class="fas fa-brush category-icon"></i>Dekorasi</td><td>Rak Dinding</td><td>30</td></tr>
+              <tr><td>2</td><td><i class="fas fa-lightbulb category-icon"></i>Dekorasi</td><td>Lampu Gantung</td><td>35</td></tr>
+              <tr><td>3</td><td><i class="fas fa-rug category-icon"></i>Dekorasi</td><td>Karpet Bulat</td><td>38</td></tr>
+              <tr><td>4</td><td><i class="fas fa-mirror category-icon"></i>Dekorasi</td><td>Cermin Hias</td><td>40</td></tr>
+              <tr><td>5</td><td><i class="fas fa-clock category-icon"></i>Dekorasi</td><td>Jam Dinding</td><td>42</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-</div>
 
   <script>
-    const bulanListFull = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
-
-    const bulanShort = [
-      "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
-      "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
-    ];
-
-    const produkList = ["Meja", "Kursi", "Lampu", "Sofa", "TV", "Lemari", "AC", "Kipas"];
-    const kategoriMap = {
-      "Meja": "Furniture", "Kursi": "Furniture", "Sofa": "Furniture", "Lemari": "Furniture",
-      "Lampu": "Elektronik", "TV": "Elektronik", "AC": "Elektronik", "Kipas": "Elektronik"
-    };
-
-    const dataTahun = {};
-
-    for (let tahun = 2023; tahun <= 2025; tahun++) {
-      dataTahun[tahun] = bulanListFull.map((bulan, i) => {
-        const total = Math.floor(Math.random() * 500) + 100;
-        const topProduct = produkList[Math.floor(Math.random() * produkList.length)];
-        const topCategory = kategoriMap[topProduct];
-        const avg = Math.floor(total / 3);
-        return {
-          bulan: bulanShort[i],
-          totalSold: total,
-          topProduct,
-          topCategory,
-          avgSold: avg
-        };
+    function highlightRow(tableId, index) {
+      const table = document.getElementById(tableId);
+      const rows = table.querySelectorAll("tbody tr");
+      rows.forEach((row, i) => {
+        row.classList.toggle("highlight", i === index);
       });
     }
 
-    let chart;
-    const ctx = document.getElementById('chartProduk').getContext('2d');
-
-
-    function renderChart(data, tahun) {
-      const labels = data.map(item => item.bulan);
-      const values = data.map(item => item.totalSold);
-
-      if (chart) chart.destroy();
-
-      // Gradasi biru tua ke biru muda
-      const gradient = ctx.createLinearGradient(0, 0, 0, 320);
-      gradient.addColorStop(0, "#0d47a1");   // Biru tua (atas)
-      gradient.addColorStop(1, "#66bfff");   // Biru muda (bawah)
-
-      chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: `Total Produk Terjual - ${tahun}`,
-            data: values,
-            backgroundColor: gradient,
-            borderRadius: 6,
-            barThickness: 30
-          }]
+    new Chart(document.getElementById('donutTerbanyak'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Sofa Minimalis', 'Meja Kayu', 'TV LED 50"', 'Kursi Kantor', 'Lemari Sliding'],
+        datasets: [{
+          data: [250, 210, 180, 160, 150],
+          backgroundColor: ['#3a8dde','#a14fd5','#20c997','#17a2b8','#ffb443'],
+          borderWidth: 1   
+        }]
+      },
+      options: {
+        animation: {
+          animateScale: true,
+          duration: 4000, // Animasi lebih pelan (2 detik)
+          easing: 'easeOutQuart'
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          animation: {
-            duration: 1700,
-            easing: 'easeOut'
-          },
-          onClick: (evt, elements) => {
-            if (elements.length > 0) {
-              const i = elements[0].index;
-              updateNotes(data[i]);
-            }
-          },
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { color: "#666", font: { size: 12 } },
-              grid: { color: "#eee" }
-            },
-            x: {
-              ticks: { color: "#444", font: { size: 12 } },
-              grid: { display: false }
-            }
+        plugins: {
+          legend: { position: 'bottom' },
+          title: {
+            display: true,
+            text: 'Produk Terbanyak Terjual',
+            align: 'center',
+            font: { size: 16, weight: 'bold' },
+            color: '#0d6efd',
+            padding: { top: 10, bottom: 10 }
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            highlightRow('tableTerbanyak', index);
           }
         }
-      });
+      }
+    });
 
-      updateNotes(data[0]);
-    }
-
-    function updateNotes(item) {
-      const tahun = document.getElementById("tahun").value;
-      document.getElementById("selectedMonth").textContent = item.bulan + ' - ' + tahun;
-      document.getElementById("totalSold").textContent = item.totalSold;
-      document.getElementById("topCategory").textContent = item.topCategory;
-      document.getElementById("topProduct").textContent = item.topProduct;
-      document.getElementById("avgSold").textContent = item.avgSold;
-    }
-
-    function loadData() {
-      const tahun = document.getElementById("tahun").value;
-      const data = dataTahun[tahun];
-      renderChart(data, tahun);
-    }
-
-    document.getElementById("tahun").addEventListener("change", loadData);
-    window.onload = loadData;
+    new Chart(document.getElementById('donutTersedikit'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Rak Dinding', 'Lampu Gantung', 'Karpet Bulat', 'Cermin Hias', 'Jam Dinding'],
+        datasets: [{
+          data: [30, 35, 38, 40, 42],
+          backgroundColor: ['#3a8dde','#a14fd5','#20c997','#17a2b8','#ffb443'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        animation: {
+          animateScale: true,
+          duration: 4000, // Animasi lebih pelan (2 detik)
+          easing: 'easeOutQuart'
+        },
+        plugins: {
+          legend: { position: 'bottom' },
+          title: {
+            display: true,
+            text: 'Produk Tersedikit Terjual',
+            align: 'center',
+            font: { size: 16, weight: 'bold' },
+            color: '#0d6efd',
+            padding: { top: 10, bottom: 10 }
+          }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        onClick: (evt, elements) => {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            highlightRow('tableTersedikit', index);
+          }
+        }
+      }
+    });
   </script>
 
  <script src="../assets/js/jquery-3.6.0.min.js"></script>
