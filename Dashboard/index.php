@@ -2,982 +2,148 @@
 require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-    <meta name="description" content="POS - Bootstrap Admin Template" />
-    <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive" />
-    <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>IKEA</title>
-
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg" />
-
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
-
-    <link rel="stylesheet" href="../assets/css/animate.css" />
-
-    <link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css" />
-
-    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
-
-   <link rel="stylesheet" href="../assets/css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
-<style>
-  
-  body {
-    background-color: #f8f9fa !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    color: #333 !important;
-  }
-
-  .dash-count {
-    color: white !important;
-    border-radius: 15px !important;
-    padding: 20px !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-    transition: transform 0.3s ease;
-  }
-
-  .dash-count:hover {
-    transform: translateY(-5px);
-  }
-
-  .das1 {
-    background: linear-gradient(135deg, #26c6da 0%, #1a5ea7 100%) !important;
-  }
-  .das2 {
-    background: linear-gradient(135deg, #d05ce4 0%, #751e8d 100%) !important;
-  }
-  .das3 {
-    background: linear-gradient(135deg, #ffb443 0%, #e78001 100%) !important;
-  }
-  .das4 {
-    background: linear-gradient(135deg, #36e2d1 0%, #018679 100%) !important;
-  }
-
-
-  .dash-imgs i {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 24px;
-    color: white;
-  }
-
-  .card {
-    border-radius: 15px !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-  }
-
-  .card-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-  }
-
-  .table th {
-    background-color: #0047AB !important;
-    color: white !important;
-  }
-
-  .productimgname a {
-    color: #0047AB !important;
-    font-weight: 500;
-  }
-
-  .d-flex.align-items-center.p-4.rounded.shadow-sm {
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
-    border-left: 6px solid #2196f3 !important;
-  }
-
-  .d-flex.align-items-center.p-4 h4,
-  .d-flex.align-items-center.p-4 p {
-    color: #0d47a1 !important;
-  }
- canvas#salesChart {
-  padding-bottom: 0 !important;
-  margin-bottom: -5px;
-  }
-
-  .icon-wrapper {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-
-  .bg-light-primary {
-    background-color: #e0f0ff;
-  }
-  .text-primary {
-    color: #3a8dde;
-  }
-  .bg-primary {
-    background-color: #3a8dde;
-  }
-
-  .bg-light-purple {
-    background-color: #f3e8fd;
-  }
-  .text-purple {
-    color: #a14fd5;
-  }
-  .bg-purple {
-    background-color: #a14fd5;
-  }
-
-  .bg-light-success {
-    background-color: #d9f7f0;
-  }
-  .text-success {
-    color: #20c997;
-  }
-  .bg-success {
-    background-color: #20c997;
-  }
-
-  .bg-light-info {
-    background-color: #daf1f8;
-  }
-  .text-info {
-    color: #17a2b8;
-  }
-  .bg-info {
-    background-color: #17a2b8;
-  }
-
-  .number-badge {
-    background-color: #eee;
-    color: #555;
-    font-weight: bold;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-
-  .icon-wrapper {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-  }
-
-  .bg-light-primary { background-color: #e0f0ff; }
-  .text-primary { color: #3a8dde; }
-  .bg-primary { background-color: #3a8dde; }
-
-  .bg-light-purple { background-color: #f3e8fd; }
-  .text-purple { color: #a14fd5; }
-  .bg-purple { background-color: #a14fd5; }
-
-  .bg-light-success { background-color: #d9f7f0; }
-  .text-success { color: #20c997; }
-  .bg-success { background-color: #20c997; }
-
-  .bg-light-info { background-color: #daf1f8; }
-  .text-info { color: #17a2b8; }
-  .bg-info { background-color: #17a2b8; }
-
-  .animated-progress .progress-bar {
-    width: 0%;
-    transition: width 1s ease-in-out;
-  }
-  /* Gaya kartu sapaan */
-  .greeting-card {
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-    border-left: 6px solid #2196f3;
-    transition: all 0.3s ease;
-  }
-
-  .greeting-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 15px rgba(33, 150, 243, 0.2);
-  }
-
-  /* Lingkaran ikon */
-  .icon-circle {
-    background-color: #fff3cd;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Ikon warna kuning */
-  .icon-yellow {
-    color: #ffc107;
-    width: 32px;
-    height: 32px;
-  }
-
-  /* Warna teks utama */
-  .text-primary-dark {
-    color: #0d47a1;
-  }
-
-  /* Efek saat hover */
-  .animate-on-hover {
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-
-  .animate-on-hover:hover {
-    background: linear-gradient(135deg, #dbeeff, #b3d9f9);
-  }
-  
-/* <!-- css dri ringkasan smpe performance --> */
-  .progress-bar {
-    animation: loadBar 2s ease-in-out forwards;
-    background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
-    background-size: 1rem 1rem;
-  }
-
-  @keyframes loadBar {
-    from { width: 0; }
-  }
-
-  .goal-simple {
-    background-color: #e7f1ff;
-    border-radius: 0.75rem;
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .goal-simple h1 {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #0d6efd;
-    margin-bottom: 0.25rem;
-    line-height: 1;
-  }
-
-  .goal-simple p {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #0a58ca;
-    margin-bottom: 0;
-  }
-
-  .goal-simple:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(13, 110, 253, 0.2);
-}
-
-/* <!-- Top Products Component --> */
-  .product-progress-item .price-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: 0.9rem;
-    margin-top: 4px;
-  }
-  .product-progress-item .price-info strong {
-    font-size: 1.1rem;
-    color: #343a40;
-  }
-  .product-progress-item .price-info .growth {
-    font-size: 0.85rem;
-    color: #28a745;
-  }
-  .product-progress-item .progress {
-    height: 6px;
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 0.3rem;
-  }
-  .product-progress-item .progress-bar {
-    border-radius: 10px;
-    transition: width 0.6s ease;
-  }
-  /* <!-- Top Products Component --> */
-
-  .card-header.gradient-bg {
-    background: linear-gradient(135deg, #5dade2 0%, #1a5ea7 100%);
-    color: white;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-    animation: fadeIn 1s ease-in-out;
-  }
-
-  .table-responsive table tbody tr:hover {
-    background-color: #f5faff;
-    transition: 0.3s ease;
-    cursor: pointer;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  /* Terapkan animasi hover dan active untuk semua container */
-.card,
-.greeting-card,
-.goal-simple {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-/* Hover: naik dan bayangan */
-.card:hover,
-.greeting-card:hover,
-.goal-simple:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
-}
-
-/* Klik: animasi kecil saat ditekan */
-.card:active,
-.greeting-card:active,
-.goal-simple:active {
-  transform: translateY(1px) scale(0.98);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* .sidebar .sidebar-menu {
-  background: linear-gradient(to bottom, #19589b, #00A3E0) !important;
-} */
-
-/* CSS untuk Sidebar Kanan Atas */
-#side-panel {
-  position: fixed;
-  top: 50%;
-  right: 0;
-  width: 50px;             /* Lebar normal */
-  height: 290px;
-  background-color: #f1f3f4;
-  border-left: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translateY(-50%);
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-  transition: width 0.3s ease;
-  z-index: 1000;
-
-}
-
-/* Wrapper ikon */
-#icons-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-}
-
-.icon {
-  cursor: pointer;
-  font-size: 20px;
-  transition: transform 0.2s;
-}
-.icon:hover { transform: scale(1.2); }
-.plus-icon { margin-top: auto; font-size: 22px; }
-
-#side-panel .icon {
-  cursor: pointer;
-  font-size: 20px;
-  user-select: none;
-  transition: transform 0.2s;
-}
-
-#side-panel .icon:hover {
-  transform: scale(1.2);
-}
-
-#side-panel .plus-icon {
-  margin-top: auto;
-  font-size: 22px;
-}
-
-#side-panel.collapsed {
-  transform: translateY(-50%);
-  width: 0;
-  overflow: visible;     /* <— biar tombol toggle tetap terlihat */
-  padding: 10px 0;
-}
-
-#toggle-btn {
-  position: absolute;
-  top: 10px;
-  left: -20px;     /* 20px ke kiri dari sisi panel */
-  cursor: pointer;
-  font-size: 14px;
-  background: #e0e0e0;
-  border-radius: 3px;
-  width: 20px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
-  user-select: none;
-  transition: transform 0.3s ease;
-}
-
-
-#side-panel.collapsed {
-  width: 0;  /* cukup untuk toggle */
-}
-#side-panel.collapsed #icons-wrapper {
-  display: none;
-}
-
-#side-panel.collapsed #toggle-btn {
-  transform: rotate(180deg);
-}
-
-#popup-container {
-  position: fixed;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-  padding: 15px;
-  border-radius: 8px;
-  z-index: 2000;
-  min-width: 200px;
-}
-
-#popup-container.hidden {
-  display: none;
-}
-
-.popup-content {
-  position: relative;
-}
-
-.popup-content .close-btn {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background: #f44336;
-  color: white;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 22px;
-}
-
-</style>
-
-
-</head>
-  <body>
-    <div id="global-loader">
-      <div class="whirly-loader"></div>
-    </div>
-
-    <div class="main-wrapper">
-    <?php include __DIR__ . '/../include/ai.php'; ?> <!-- Import AI -->
-      <div class="header">
-        <div class="header-left active">
-          <a href="index.php" class="logo">
-            <img src="../assets/img/logo1.png" alt="" />
-          </a>
-
-          <a id="toggle_btn" href="javascript:void(0);"> </a>
-        </div>
-
-        <a id="mobile_btn" class="mobile_btn" href="#sidebar">
-          <span class="bar-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </a>
-
-        <ul class="nav user-menu">
-          <li class="nav-item">
-            <div class="top-nav-search">
-              <a href="javascript:void(0);" class="responsive-search">
-                <i class="fa fa-search"></i>
-              </a>
-              <form action="#">
-                <div class="searchinputs">
-                  <input type="text" placeholder="Search Here ..." />
-                  <div class="search-addon">
-                    <span><img src="assets/img/icons/closes.svg" alt="img" /></span>
-                  </div>
-                </div>
-                <a class="btn" id="searchdiv"><img src="../assets/img/icons/search.svg" alt="img" /></a>
-              </form>
-            </div>
-          </li>
-
-          <li class="nav-item dropdown has-arrow flag-nav">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
-              <img src="assets/img/flags/us1.png" alt="" height="20" />
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a href="javascript:void(0);" class="dropdown-item"> <img src="../assets/img/flags/us.png" alt="" height="16" /> English </a>
-              <a href="javascript:void(0);" class="dropdown-item"> <img src="../assets/img/flags/id.png" alt="" height="16" /> Indonesian </a>
-              <a href="javascript:void(0);" class="dropdown-item"> <img src="../assets/img/flags/es.png" alt="" height="16" /> Spanish </a>
-              <a href="javascript:void(0);" class="dropdown-item"> <img src="../assets/img/flags/de.png" alt="" height="16" /> German </a>
-            </div>
-          </li>
-
-          <li class="nav-item dropdown">
-            <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"> <img src="../assets/img/icons/notification-bing.svg" alt="img" /> <span class="badge rounded-pill">4</span> </a>
-            <div class="dropdown-menu notifications">
-              <div class="topnav-dropdown-header">
-                <span class="notification-title">Notifications</span>
-                <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-              </div>
-              <div class="noti-content">
-                <ul class="notification-list">
-                  <li class="notification-message">
-                    <a href="../activities.php">
-                      <div class="media d-flex">
-                        <span class="avatar flex-shrink-0">
-                          <img alt="" src="../assets/img/profiles/avatar-02.jpg" />
-                        </span>
-                        <div class="media-body flex-grow-1">
-                          <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-                          <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="notification-message">
-                    <a href="../activities.php">
-                      <div class="media d-flex">
-                        <span class="avatar flex-shrink-0">
-                          <img alt="" src="../assets/img/profiles/avatar-03.jpg" />
-                        </span>
-                        <div class="media-body flex-grow-1">
-                          <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                          <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="notification-message">
-                    <a href="../activities.php">
-                      <div class="media d-flex">
-                        <span class="avatar flex-shrink-0">
-                          <img alt="" src="../assets/img/profiles/avatar-06.jpg" />
-                        </span>
-                        <div class="media-body flex-grow-1">
-                          <p class="noti-details">
-                            <span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project
-                            <span class="noti-title">Doctor available module</span>
-                          </p>
-                          <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="notification-message">
-                    <a href="../activities.php">
-                      <div class="media d-flex">
-                        <span class="avatar flex-shrink-0">
-                          <img alt="" src="../assets/img/profiles/avatar-17.jpg" />
-                        </span>
-                        <div class="media-body flex-grow-1">
-                          <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-                          <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li class="notification-message">
-                    <a href="../activities.php">
-                      <div class="media d-flex">
-                        <span class="avatar flex-shrink-0">
-                          <img alt="" src="../assets/img/profiles/avatar-13.jpg" />
-                        </span>
-                        <div class="media-body flex-grow-1">
-                          <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-                          <p class="noti-time"><span class="notification-time">2 days ago</span></p>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="topnav-dropdown-footer">
-                <a href="../activities.php">View all Notifications</a>
-              </div>
-            </div>
-          </li>
-
-          <li class="nav-item dropdown has-arrow main-drop">
-            <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-              <span class="user-img"><img src="../assets/img/profiles/avator1.jpg" alt="" /> <span class="status online"></span></span>
-            </a>
-            <div class="dropdown-menu menu-drop-user">
-              <div class="profilename">
-                <div class="profileset">
-                  <span class="user-img"><img src="../assets/img/profiles/avator1.jpg" alt="" /> <span class="status online"></span></span>
-                  <div class="profilesets">
-                    <h6>John Doe</h6>
-                    <h5>Admin</h5>
-                  </div>
-                </div>
-                <hr class="m-0" />
-                <a class="dropdown-item" href="../profile.php"> <i class="me-2" data-feather="user"></i> My Profile</a>
-                <a class="dropdown-item" href="../generalsettings.php"><i class="me-2" data-feather="settings"></i>Settings</a>
-                <hr class="m-0" />
-                <a class="dropdown-item logout pb-0" href="../signin.php"><img src="../assets/img/icons/log-out.svg" class="me-2" alt="img" />Logout</a>
-              </div>
-            </div>
-          </li>
-        </ul>
-
-        <div class="dropdown mobile-user-menu">
-          <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="../profile.php">My Profile</a>
-            <a class="dropdown-item" href="../generalsettings.php">Settings</a>
-            <a class="dropdown-item" href="../signin.php">Logout</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sidebar Kanan -->
-  <div id="side-panel">
-  <!-- Tombol Toggle -->
-  <div id="toggle-btn" onclick="togglePanel()">«</div>
-
-  <!-- Wrapper ikon yang akan disembunyikan/ditampilkan -->
-  <div id="icons-wrapper">
-    <div class="icon" onclick="showPopup('calendar')">📅</div>
-    <div class="icon" onclick="showPopup('note')">📝</div>
-    <div class="icon" onclick="showPopup('task')">✅</div>
-    <div class="icon" onclick="showPopup('chat')">💬</div>
-    <div class="icon" onclick="showPopup('gmail')">✉️</div>
-    <div class="icon plus-icon" onclick="showPopup('addon')">➕</div>
-  </div>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport"/>
+<meta content="POS - Bootstrap Admin Template" name="description"/>
+<meta content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive" name="keywords"/>
+<meta content="Dreamguys - Bootstrap Admin Template" name="author"/>
+<meta content="noindex, nofollow" name="robots"/>
+<title>IKEA</title>
+<link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon"/>
+<link href="../assets/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="../assets/css/animate.css" rel="stylesheet"/>
+<link href="../assets/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
+<link href="../assets/plugins/fontawesome/css/fontawesome.min.css" rel="stylesheet"/>
+<link href="../assets/plugins/fontawesome/css/all.min.css" rel="stylesheet"/>
+<link href="../assets/css/style.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+</link><link href="assets/css/dashboard.css" rel="stylesheet"/></head>
+<body>
+<div id="global-loader">
+<div class="whirly-loader"></div>
 </div>
+<div class="main-wrapper">
+<?php
+include __DIR__ . '/../include/sidepanel.php';
+?>
 
-
-      <div class="sidebar" id="sidebar">
-        <div class="sidebar-inner slimscroll">
-          <div id="sidebar-menu" class="sidebar-menu">
-            <ul>
-              <li class="active">
-                <a href="index.php"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/product.svg" alt="img" /><span> Product</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="../product/productsold.php">Product Sold</a></li>
-                  <li><a href="../product/categorylist.php">Category List</a></li>
-                  <li><a href="../product/productlist.php">Product List</a></li>
-                  <li><a href="../product/brandlist.php">Brand List</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="../supplier/supplierlist.php">Supplier List</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/purchase1.svg" alt="img" /><span> Revenue</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="../revenue/revenue.php">Revenue</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/expense1.svg" alt="img" /><span> Expense</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="../expense/expenselist.php">Expense List</a></li>
-                  <li><a href="../expense/expensecategory.php">Expense Category</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/quotation1.svg" alt="img" /><span> Quotation</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="../quotation/quotationList.php">Quotation List</a></li>
-                  <li><a href="../quotation/addquotation.php">Add Quotation</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img" /><span> Inventory</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="../inventory/transferlist.php">Transfer List</a></li>
-                  <li><a href="../inventory/suplierreturn.php">Supplier Return </a></li>
-                  <li><a href="../inventory/customerreturn.php">Customer Return </a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/users1.svg" alt="img" /><span> People</span> <span class="menu-arrow"></span></a>
-                <ul>
-                 <li><a href="../people/customerlist.php">Customer List</a></li>
-                  <li><a href="../people/supplierlist.php">Supplier List</a></li>
-                  <li><a href="../people/userlist.php">User List</a></li>
-                  <li><a href="../people/storelist.php">Store List</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="../assets/img/icons/places.svg" alt="img" /><span> Places</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="../places/countrieslist.php">Countries list</a></li>
-                  <li><a href="../places/statelist.php">State list</a></li>
-                </ul>
-              </li>
-              <li>
-                <a href="components.php"><i data-feather="layers"></i><span> Components</span> </a>
-              </li>
-              <li>
-                <a href="blankpage.php"><i data-feather="file"></i><span> Blank Page</span> </a>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><i data-feather="alert-octagon"></i> <span> Error Pages </span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="error-404.php">404 Error </a></li>
-                  <li><a href="error-500.php">500 Error </a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><i data-feather="box"></i> <span>Elements </span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="sweetalerts.php">Sweet Alerts</a></li>
-                  <li><a href="tooltip.php">Tooltip</a></li>
-                  <li><a href="popover.php">Popover</a></li>
-                  <li><a href="ribbon.php">Ribbon</a></li>
-                  <li><a href="clipboard.php">Clipboard</a></li>
-                  <li><a href="drag-drop.php">Drag & Drop</a></li>
-                  <li><a href="rangeslider.php">Range Slider</a></li>
-                  <li><a href="rating.php">Rating</a></li>
-                  <li><a href="toastr.php">Toastr</a></li>
-                  <li><a href="text-editor.php">Text Editor</a></li>
-                  <li><a href="counter.php">Counter</a></li>
-                  <li><a href="scrollbar.php">Scrollbar</a></li>
-                  <li><a href="spinner.php">Spinner</a></li>
-                  <li><a href="notification.php">Notification</a></li>
-                  <li><a href="lightbox.php">Lightbox</a></li>
-                  <li><a href="stickynote.php">Sticky Note</a></li>
-                  <li><a href="timeline.php">Timeline</a></li>
-                  <li><a href="form-wizard.php">Form Wizard</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><i data-feather="bar-chart-2"></i> <span> Charts </span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="chart-apex.php">Apex Charts</a></li>
-                  <li><a href="chart-js.php">Chart Js</a></li>
-                  <li><a href="chart-morris.php">Morris Charts</a></li>
-                  <li><a href="chart-flot.php">Flot Charts</a></li>
-                  <li><a href="chart-peity.php">Peity Charts</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><i data-feather="award"></i><span> Icons </span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="icon-fontawesome.php">Fontawesome Icons</a></li>
-                  <li><a href="icon-feather.php">Feather Icons</a></li>
-                  <li><a href="icon-ionic.php">Ionic Icons</a></li>
-                  <li><a href="icon-material.php">Material Icons</a></li>
-                  <li><a href="icon-pe7.php">Pe7 Icons</a></li>
-                  <li><a href="icon-simpleline.php">Simpleline Icons</a></li>
-                  <li><a href="icon-themify.php">Themify Icons</a></li>
-                  <li><a href="icon-weather.php">Weather Icons</a></li>
-                  <li><a href="icon-typicon.php">Typicon Icons</a></li>
-                  <li><a href="icon-flag.php">Flag Icons</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><i data-feather="columns"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="form-basic-inputs.php">Basic Inputs </a></li>
-                  <li><a href="form-input-groups.php">Input Groups </a></li>
-                  <li><a href="form-horizontal.php">Horizontal Form </a></li>
-                  <li><a href="form-vertical.php"> Vertical Form </a></li>
-                  <li><a href="form-mask.php">Form Mask </a></li>
-                  <li><a href="form-validation.php">Form Validation </a></li>
-                  <li><a href="form-select2.php">Form Select2 </a></li>
-                  <li><a href="form-fileupload.php">File Upload </a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><i data-feather="layout"></i> <span> Table </span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="tables-basic.php">Basic Tables </a></li>
-                  <li><a href="data-tables.php">Data Table </a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img" /><span> Application</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="chat.php">Chat</a></li>
-                  <li><a href="calendar.php">Calendar</a></li>
-                  <li><a href="email.php">Email</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="assets/img/icons/time.svg" alt="img" /><span> Report</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="purchaseorderreport.php">Purchase order report</a></li>
-                  <li><a href="inventoryreport.php">Inventory Report</a></li>
-                  <li><a href="salesreport.php">Sales Report</a></li>
-                  <li><a href="invoicereport.php">Invoice Report</a></li>
-                  <li><a href="purchasereport.php">Purchase Report</a></li>
-                  <li><a href="supplierreport.php">Supplier Report</a></li>
-                  <li><a href="customerreport.php">Customer Report</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="assets/img/icons/users1.svg" alt="img" /><span> Users</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="newuser.php">New User </a></li>
-                  <li><a href="userlists.php">Users List</a></li>
-                </ul>
-              </li>
-              <li class="submenu">
-                <a href="javascript:void(0);"><img src="assets/img/icons/settings.svg" alt="img" /><span> Settings</span> <span class="menu-arrow"></span></a>
-                <ul>
-                  <li><a href="generalsettings.php">General Settings</a></li>
-                  <li><a href="emailsettings.php">Email Settings</a></li>
-                  <li><a href="paymentsettings.php">Payment Settings</a></li>
-                  <li><a href="currencysettings.php">Currency Settings</a></li>
-                  <li><a href="grouppermissions.php">Group Permissions</a></li>
-                  <li><a href="taxrates.php">Tax Rates</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="page-wrapper">
-        <div class="content">
-          <div class="row">
-          <div class="col-lg-12 col-12 mb-4">
-            <div class="greeting-card d-flex align-items-center p-4 shadow-sm rounded animate-on-hover">
-                <div class="me-3 flex-shrink-0 icon-circle">
-                <i data-feather="sun" class="icon-yellow"></i>
-                </div>
-                <div>
-                <h4 class="mb-1 text-primary-dark">Good Morning, Mrs. Bintang! 👋</h4>
-                <p class="mb-0 text-primary-dark">
+<?php include __DIR__ . '/../include/header.php'; ?>
+<?php include BASE_PATH . '/include/sidebar.php'; ?>
+<?php include __DIR__ . '/../include/ai.php'; ?>
+<div class="page-wrapper">
+<div class="content">
+<div class="row">
+<div class="col-lg-12 col-12 mb-4">
+<div class="greeting-card d-flex align-items-center p-4 shadow-sm rounded animate-on-hover">
+<div class="me-3 flex-shrink-0 icon-circle">
+<i class="icon-yellow" data-feather="sun"></i>
+</div>
+<div>
+<h4 class="mb-1 text-primary-dark">Good Morning, Mrs. Bintang! 👋</h4>
+<p class="mb-0 text-primary-dark">
                     Today, you have <strong>3 tasks</strong> and <strong>5 notifications</strong> that need your attention.
                 </p>
-                </div>
-            </div>
-            </div>
-
-        <script src="https://unpkg.com/feather-icons"></script>
-            <script>
+</div>
+</div>
+</div>
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
             feather.replace();
             </script>
-
-
-
-            <!-- End Total Purchase Due -->
-
-            <!-- Revenue, Suppliers, Product Sold, Budget Spent --> 
-            <div class="row justify-content-end">
-            <!-- Revenue -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das1">
-                  <div class="dash-counts">
-                    <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
-                    <h5>Revenue</h5>
-                    <h2 class="stat-change" style="font-size: 11px; font-weight: normal; margin-top: 4px;">+9% from last year</h2>
-                  </div>
-                  <div class="dash-imgs">
-                    <i data-feather="trending-up"></i>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Suppliers -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das2">
-                  <div class="dash-counts">
-                    <h4><span class="counters" data-count="1975"></span></h4>
-                    <h5>Suppliers</h5>
-                    <h2 class="stat-change" style="font-size: 11px; font-weight: normal; margin-top: 4px;">+2% from last year</h2>
-                  </div>
-                  <div class="dash-imgs">
-                    <i data-feather="user-check"></i>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Product Sold -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das3">
-                  <div class="dash-counts">
-                    <h4><span class="counters" data-count="7863"></span></h4>
-                    <h5>Product Sold</h5>
-                    <h2 class="stat-change" style="font-size: 11px; font-weight: normal; margin-top: 4px;">+15% from last year</h2>
-                  </div>
-                  <div class="dash-imgs">
-                    <i data-feather="package"></i>
-                  </div>
-                </div>
-              </a>
-            </div>
-
-            <!-- Budget Spent -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das4">
-                  <div class="dash-counts">
-                    <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
-                    <h5>Budget Spent</h5>
-                   <h2 class="stat-change" style="font-size: 11px; font-weight: normal; margin-top: 4px;">+6% from last year</h2>
-                  </div>
-                  <div class="dash-imgs">
-                    <i data-feather="activity"></i>
-                  </div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <!-- END KOLOM  -->
-        
-          <!-- CHART Revenue vs Expense -->
-    <div class="row">         
-    <div class="col-lg-7 col-sm-12 col-12 d-flex">
-    <div class="card flex-fill">
-        <div class="card-header pb-0 d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0">Revenue vs Expense</h5>
-        <div class="dropdown ms-auto">
-            <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="yearDropdown" data-bs-toggle="dropdown">
+<!-- End Total Purchase Due -->
+<!-- Revenue, Suppliers, Product Sold, Budget Spent -->
+<div class="row justify-content-end">
+<!-- Revenue -->
+<div class="col-lg-3 col-sm-6 col-12 d-flex">
+<a class="w-100 text-decoration-none text-dark" href="../revenue/revenue.php">
+<div class="dash-count das1">
+<div class="dash-counts">
+<h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
+<h5>Revenue</h5>
+<h2 style="font-size: 11px; font-weight: normal; margin-top: 4px;">+9% from last year</h2>
+</div>
+<div class="dash-imgs">
+<i data-feather="trending-up"></i>
+</div>
+</div>
+</a>
+</div>
+<!-- Suppliers -->
+<div class="col-lg-3 col-sm-6 col-12 d-flex">
+<a class="w-100 text-decoration-none text-dark" href="../people/supplierlist.php">
+<div class="dash-count das2">
+<div class="dash-counts">
+<h4><span class="counters" data-count="1975"></span></h4>
+<h5>Suppliers</h5>
+<h2 style="font-size: 11px; font-weight: normal; margin-top: 4px;">+2% from last year</h2>
+</div>
+<div class="dash-imgs">
+<i data-feather="user-check"></i>
+</div>
+</div>
+</a>
+</div>
+<!-- Product Sold -->
+<div class="col-lg-3 col-sm-6 col-12 d-flex">
+<a class="w-100 text-decoration-none text-dark" href="../product/productsold.php">
+<div class="dash-count das3">
+<div class="dash-counts">
+<h4><span class="counters" data-count="7863"></span></h4>
+<h5>Product Sold</h5>
+<h2 style="font-size: 11px; font-weight: normal; margin-top: 4px;">+15% from last year</h2>
+</div>
+<div class="dash-imgs">
+<i data-feather="package"></i>
+</div>
+</div>
+</a>
+</div>
+<!-- Budget Spent -->
+<div class="col-lg-3 col-sm-6 col-12 d-flex">
+<a class="w-100 text-decoration-none text-dark" href="../expense/expensecategory.php">
+<div class="dash-count das4">
+<div class="dash-counts">
+<h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
+<h5>Budget Spent</h5>
+<h2 style="font-size: 11px; font-weight: normal; margin-top: 4px;">+6% from last year</h2>
+</div>
+<div class="dash-imgs">
+<i data-feather="activity"></i>
+</div>
+</div>
+</a>
+</div>
+</div>
+<!-- END KOLOM  -->
+<!-- CHART Revenue vs Expense -->
+<div class="row">
+<div class="col-lg-7 col-sm-12 col-12 d-flex">
+<div class="card flex-fill">
+<div class="card-header pb-0 d-flex justify-content-between align-items-center">
+<h5 class="card-title mb-0">Revenue vs Expense</h5>
+<div class="dropdown ms-auto">
+<button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" id="yearDropdown" type="button">
             2025
             </button>
-            <ul class="dropdown-menu" aria-labelledby="yearDropdown">
-            <li><a class="dropdown-item year-option" href="#" data-year="2025">2025</a></li>
-            <li><a class="dropdown-item year-option" href="#" data-year="2024">2024</a></li>
-            <li><a class="dropdown-item year-option" href="#" data-year="2023">2023</a></li>
-            </ul>
-        </div>
-        </div>
-        <div class="card-body" style="height: 300px;">
-        <canvas id="salesChart"></canvas>
-        </div>
-    </div>
-    </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
+<ul aria-labelledby="yearDropdown" class="dropdown-menu">
+<li><a class="dropdown-item year-option" data-year="2025" href="#">2025</a></li>
+<li><a class="dropdown-item year-option" data-year="2024" href="#">2024</a></li>
+<li><a class="dropdown-item year-option" data-year="2023" href="#">2023</a></li>
+</ul>
+</div>
+</div>
+<div class="card-body" style="height: 300px;">
+<canvas id="salesChart"></canvas>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
     // DATA TAHUNAN DENGAN PERUBAHAN DRASTIS YANG BERBEDA
     const chartData = {
         '2025': {
@@ -1081,183 +247,178 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         });
     });
     </script>
-          <!-- END CHART Revenue vs Expense -->
-
-
-
- <!-- TOP PRODUCTS -->
+<!-- END CHART Revenue vs Expense -->
+<!-- TOP PRODUCTS -->
 <div class="col-lg-5 col-sm-12 col-12 d-flex">
-  <div class="card flex-fill">
-    <div class="card-header pb-0">
-      <ul class="nav nav-tabs card-header-tabs" id="topTabs" role="tablist">
-        <li class="nav-item">
-          <button class="nav-link active" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button" role="tab">Top Categories Products</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab">Top Products</button>
-        </li>
-      </ul>
-    </div>
-    <div class="card-body tab-content" id="topTabsContent">
-      <!-- Top Category Tab -->
-      <div class="tab-pane fade show active" id="products" role="tabpanel">
-        <div class="product-progress-list">
-          <div class="product-progress-item d-flex align-items-center mb-4">
-            <div class="number-badge">1</div>
-            <div class="icon-wrapper bg-light-primary text-primary ms-2 me-3">
-              <i class="fas fa-home"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">Furniture</span>
-              </div>
-              <div class="price-info">
-                <strong>5070 Pieces </strong>
-                <span class="text-primary">+24%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-primary" style="width: 85%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="product-progress-item d-flex align-items-center mb-4">
-            <div class="number-badge">2</div>
-            <div class="icon-wrapper bg-light-purple text-purple ms-2 me-3">
-              <i class="fas fa-bed"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">Bedroom</span>
-              </div>
-              <div class="price-info">
-                <strong>3880 Pieces</strong>
-                <span class="text-purple">+18%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-purple" style="width: 72%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="product-progress-item d-flex align-items-center mb-4">
-            <div class="number-badge">3</div>
-            <div class="icon-wrapper bg-light-success text-success ms-2 me-3">
-              <i class="fas fa-utensils"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">Kitchen</span>
-              </div>
-              <div class="price-info">
-                <strong>3020 Pieces</strong>
-                <span class="text-success">+12%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-success" style="width: 65%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="product-progress-item d-flex align-items-center">
-            <div class="number-badge">4</div>
-            <div class="icon-wrapper bg-light-info text-info ms-2 me-3">
-              <i class="fas fas fa-shower"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">Bathroom</span>
-              </div>
-              <div class="price-info">
-                <strong>2050 Pieces</strong>
-                <span class="text-info">+9%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-info" style="width: 58%;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Top Categories Tab -->
-      <div class="tab-pane fade" id="categories" role="tabpanel">
-        <div class="product-progress-list">
-          <div class="product-progress-item d-flex align-items-center mb-4">
-            <div class="number-badge">1</div>
-            <div class="icon-wrapper bg-light-primary text-primary ms-2 me-3">
-              <i class="fas fa-couch"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">KIVIK Sofa</span>
-              </div>
-              <div class="price-info">
-              <strong>Rp 7,5 JT</strong>
-              <span class="text-primary">+33%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-primary" style="width: 88%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="product-progress-item d-flex align-items-center mb-4">
-            <div class="number-badge">2</div>
-            <div class="icon-wrapper bg-light-purple text-purple ms-2 me-3">
-              <i class="fas fa-lightbulb"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">MALM Bed Frame</span>
-              </div>
-              <div class="price-info">
-              <strong>Rp 10,5 JT</strong>
-               <span class="text-purple">+26%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-purple" style="width: 76%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="product-progress-item d-flex align-items-center mb-4">
-            <div class="number-badge">3</div>
-            <div class="icon-wrapper bg-light-success text-success ms-2 me-3">
-              <i class="fas fa-blender"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">METOD Cabinet</span>
-              </div>
-              <div class="price-info">
-              <strong>Rp 17,5 JT</strong>
-              <span class="text-success">+19%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-success" style="width: 69%;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="product-progress-item d-flex align-items-center">
-            <div class="number-badge">4</div>
-            <div class="icon-wrapper bg-light-info text-info ms-2 me-3">
-              <i class="fas fa-bath"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="d-flex justify-content-between">
-                <span class="fw-semibold">BROGRUND Shower Set</span>
-              </div>
-              <div class="price-info">
-              <strong>Rp 9,5 JT</strong>
-              <span class="text-info">+17%</span>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-info" style="width: 60%;"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="card flex-fill">
+<div class="card-header pb-0">
+<ul class="nav nav-tabs card-header-tabs" id="topTabs" role="tablist">
+<li class="nav-item">
+<button class="nav-link active" data-bs-target="#products" data-bs-toggle="tab" id="products-tab" role="tab" type="button">Top Categories Products</button>
+</li>
+<li class="nav-item">
+<button class="nav-link" data-bs-target="#categories" data-bs-toggle="tab" id="categories-tab" role="tab" type="button">Top Products</button>
+</li>
+</ul>
 </div>
-
-
+<div class="card-body tab-content" id="topTabsContent">
+<!-- Top Category Tab -->
+<div class="tab-pane fade show active" id="products" role="tabpanel">
+<div class="product-progress-list">
+<div class="product-progress-item d-flex align-items-center mb-4">
+<div class="number-badge">1</div>
+<div class="icon-wrapper bg-light-primary text-primary ms-2 me-3">
+<i class="fas fa-home"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">Furniture</span>
+</div>
+<div class="price-info">
+<strong>5070 Pieces </strong>
+<span class="text-primary">+24%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-primary" style="width: 85%;"></div>
+</div>
+</div>
+</div>
+<div class="product-progress-item d-flex align-items-center mb-4">
+<div class="number-badge">2</div>
+<div class="icon-wrapper bg-light-purple text-purple ms-2 me-3">
+<i class="fas fa-bed"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">Bedroom</span>
+</div>
+<div class="price-info">
+<strong>3880 Pieces</strong>
+<span class="text-purple">+18%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-purple" style="width: 72%;"></div>
+</div>
+</div>
+</div>
+<div class="product-progress-item d-flex align-items-center mb-4">
+<div class="number-badge">3</div>
+<div class="icon-wrapper bg-light-success text-success ms-2 me-3">
+<i class="fas fa-utensils"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">Kitchen</span>
+</div>
+<div class="price-info">
+<strong>3020 Pieces</strong>
+<span class="text-success">+12%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-success" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<div class="product-progress-item d-flex align-items-center">
+<div class="number-badge">4</div>
+<div class="icon-wrapper bg-light-info text-info ms-2 me-3">
+<i class="fas fas fa-shower"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">Bathroom</span>
+</div>
+<div class="price-info">
+<strong>2050 Pieces</strong>
+<span class="text-info">+9%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-info" style="width: 58%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Top Categories Tab -->
+<div class="tab-pane fade" id="categories" role="tabpanel">
+<div class="product-progress-list">
+<div class="product-progress-item d-flex align-items-center mb-4">
+<div class="number-badge">1</div>
+<div class="icon-wrapper bg-light-primary text-primary ms-2 me-3">
+<i class="fas fa-couch"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">KIVIK Sofa</span>
+</div>
+<div class="price-info">
+<strong>Rp 7,5 JT</strong>
+<span class="text-primary">+33%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-primary" style="width: 88%;"></div>
+</div>
+</div>
+</div>
+<div class="product-progress-item d-flex align-items-center mb-4">
+<div class="number-badge">2</div>
+<div class="icon-wrapper bg-light-purple text-purple ms-2 me-3">
+<i class="fas fa-lightbulb"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">MALM Bed Frame</span>
+</div>
+<div class="price-info">
+<strong>Rp 10,5 JT</strong>
+<span class="text-purple">+26%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-purple" style="width: 76%;"></div>
+</div>
+</div>
+</div>
+<div class="product-progress-item d-flex align-items-center mb-4">
+<div class="number-badge">3</div>
+<div class="icon-wrapper bg-light-success text-success ms-2 me-3">
+<i class="fas fa-blender"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">METOD Cabinet</span>
+</div>
+<div class="price-info">
+<strong>Rp 17,5 JT</strong>
+<span class="text-success">+19%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-success" style="width: 69%;"></div>
+</div>
+</div>
+</div>
+<div class="product-progress-item d-flex align-items-center">
+<div class="number-badge">4</div>
+<div class="icon-wrapper bg-light-info text-info ms-2 me-3">
+<i class="fas fa-bath"></i>
+</div>
+<div class="flex-grow-1">
+<div class="d-flex justify-content-between">
+<span class="fw-semibold">BROGRUND Shower Set</span>
+</div>
+<div class="price-info">
+<strong>Rp 9,5 JT</strong>
+<span class="text-info">+17%</span>
+</div>
+<div class="progress">
+<div class="progress-bar bg-info" style="width: 60%;"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.animated-progress').forEach(function (progress) {
@@ -1269,135 +430,350 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     });
   });
 </script>
-
-
-<div class="row mb-4">
-  <!-- Ringkasan Penjualan Harian -->
-  <div class="col-lg-8">
-    <div class="card shadow-sm">
-      <div class="card-header d-flex justify-content-between align-items-center gradient-bg">
-        <div>
-          <h6 class="mb-0 fw-bold">Ringkasan Penjualan Hari Ini / Minggu Ini</h6>
-          <small class="text-light">Data real-time dari sistem penjualan</small>
-        </div>
-        <div>
-          <i class="fas fa-chart-line fa-lg text-white"></i>
-        </div>
-      </div>
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table mb-0">
-            <thead class="bg-info-subtle text-info">
-              <tr>
-                <th>Ringkasan Harian</th>
-                <th>Nilai</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>Jumlah Pesanan Hari Ini</td><td class="fw-bold text-primary">1.236</td></tr>
-              <tr><td>Total Pendapatan Hari Ini</td><td class="fw-bold text-success">Rp 1,1 Miliar</td></tr>
-              <tr><td>Produk Terlaris Hari Ini</td><td class="fw-bold">KIVIK Sofa</td></tr>
-              <tr><td>Kota dengan Pesanan Terbanyak</td><td class="fw-bold">Jakarta</td></tr>
-              <tr><td>Channel Terbesar (Offline/Online)</td><td class="fw-bold text-info">Online (58%)</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Performance Metrics -->
-  <div class="col-lg-4">
-    <div class="card p-4">
-      <h6 class="fw-bold mb-3">Performance Metrics</h6>
-
-      <div class="mb-3">
-        <div class="d-flex justify-content-between">
-          <span>Inventory Turnover</span>
-          <span class="text-primary">78%</span>
-        </div>
-        <div class="progress" style="height: 6px;">
-          <div class="progress-bar bg-primary" style="width: 78%;"></div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="d-flex justify-content-between">
-          <span>Customer Retention</span>
-          <span class="text-purple">65%</span>
-        </div>
-        <div class="progress" style="height: 6px;">
-          <div class="progress-bar" style="width: 65%; background-color: #a14fd5;"></div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="d-flex justify-content-between">
-          <span>Store Efficiency</span>
-          <span class="text-success">92%</span>
-        </div>
-        <div class="progress" style="height: 6px;">
-          <div class="progress-bar bg-success" style="width: 92%;"></div>
-        </div>
-      </div>
-
-      <div class="mb-3">
-        <div class="d-flex justify-content-between">
-          <span>Online Sales Growth</span>
-          <span class="text-info">45%</span>
-        </div>
-        <div class="progress" style="height: 6px;">
-          <div class="progress-bar bg-info" style="width: 45%;"></div>
-        </div>
-      </div>
-
-      <!-- Goal Completion Simple -->
-      <div class="goal-simple">
-        <h1>75%</h1>
-        <p>🎯 Goal Completed</p>
-      </div>
-
-    </div>
-  </div>
+<div class="row mb-4" style="margin-bottom: 16px !important;">
+<!-- Ringkasan Penjualan Harian -->
+<div class="col-lg-8">
+<div class="card shadow-sm">
+<div class="card-header d-flex justify-content-between align-items-center gradient-bg">
+<div>
+<h6 class="mb-0 fw-bold">Ringkasan Penjualan Hari Ini / Minggu Ini</h6>
+<small class="text-light">Data real-time dari sistem penjualan</small>
+</div>
+<div>
+<i class="fas fa-chart-line fa-lg text-white"></i>
+</div>
+</div>
+<div class="card-body p-0">
+<div class="table-responsive">
+<table class="table mb-0">
+<thead class="bg-info-subtle text-info">
+<tr>
+<th>Ringkasan Harian</th>
+<th>Nilai</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Jumlah Pesanan Hari Ini</td><td class="fw-bold text-primary">1.236</td></tr>
+<tr><td>Total Pendapatan Hari Ini</td><td class="fw-bold text-success">Rp 1,1 Miliar</td></tr>
+<tr><td>Produk Terlaris Hari Ini</td><td class="fw-bold">KIVIK Sofa</td></tr>
+<tr><td>Kota dengan Pesanan Terbanyak</td><td class="fw-bold">Jakarta</td></tr>
+<tr><td>Channel Terbesar (Offline/Online)</td><td class="fw-bold text-info">Online (58%)</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Performance Metrics -->
+<div class="col-lg-4">
+<div class="card p-4">
+<h6 class="fw-bold mb-3">Performance Metrics</h6>
+<div class="mb-3">
+<div class="d-flex justify-content-between">
+<span>Inventory Turnover</span>
+<span class="text-primary">78%</span>
+</div>
+<div class="progress" style="height: 6px;">
+<div class="progress-bar bg-primary" style="width: 78%;"></div>
+</div>
+</div>
+<div class="mb-3">
+<div class="d-flex justify-content-between">
+<span>Customer Retention</span>
+<span class="text-purple">65%</span>
+</div>
+<div class="progress" style="height: 6px;">
+<div class="progress-bar" style="width: 65%; background-color: #a14fd5;"></div>
+</div>
+</div>
+<div class="mb-3">
+<div class="d-flex justify-content-between">
+<span>Store Efficiency</span>
+<span class="text-success">92%</span>
+</div>
+<div class="progress" style="height: 6px;">
+<div class="progress-bar bg-success" style="width: 92%;"></div>
+</div>
+</div>
+<div class="mb-3">
+<div class="d-flex justify-content-between">
+<span>Online Sales Growth</span>
+<span class="text-info">45%</span>
+</div>
+<div class="progress" style="height: 6px;">
+<div class="progress-bar bg-info" style="width: 45%;"></div>
+</div>
+</div>
+<!-- Goal Completion Simple -->
+<div class="goal-simple">
+<h1>75%</h1>
+<p>🎯 Goal Completed</p>
+</div>
+</div>
+</div>
 </div>
 <!-- IKEA Executive Dashboard End -->
+<!-- ...existing code... -->
+<div class="row mb-4" style="margin-top: -16px !important;">
+<!-- Kontainer Gabungan CSAT & Traffic Source -->
+<div class="col-lg-8 col-md-12 mb-4">
+<div class="card shadow d-flex flex-row align-items-stretch" style="min-height: 260px;">
+<!-- Customer Satisfaction -->
+<div class="flex-fill d-flex align-items-center px-4 py-3 csat-vertical" style="min-width:0;">
+<div class="me-3 flex-shrink-0">
+<canvas height="50" id="csatDonut" width="50"></canvas>
+</div>
+<div>
+<h6 class="fw-bold mb-1 text-primary">Customer Satisfaction</h6>
+<div class="mb-1">
+<span class="fs-3 fw-bold text-primary">4.5/5</span>
+<span class="text-warning ms-2" style="font-size: 1.3rem;">
+<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+</span>
+</div>
+<div class="mb-1">
+<span class="fw-semibold">Feedback:</span>
+<span class="text-success">4.5/5</span>
+</div>
+<div class="mb-1">
+<span class="fw-semibold">Bintang Produk:</span>
+<span class="text-warning">12.350</span>
+</div>
+<div class="mb-1">
+<span class="fw-semibold">Komplain vs Pembelian:</span>
+<span class="text-danger">120</span> / <span class="text-success">7.863</span>
+</div>
+<small class="text-muted">Tingkat kepuasan tinggi, komplain &lt;2%</small>
+</div>
+</div>
+<!-- Garis Vertikal -->
+<div class="d-none d-md-block" style="width:1px; background:rgba(0,0,0,0.08); margin:24px 0;"></div>
+<!-- Traffic Source -->
+<div class="flex-fill d-flex align-items-center px-4 py-3 csat-vertical" style="min-width:0;">
+<div class="me-3 flex-shrink-0">
+<canvas height="50" id="trafficDonut" width="50"></canvas>
+</div>
+<div>
+<h6 class="fw-bold mb-1 text-purple">Traffic Source</h6>
+<div class="mb-2">
+<div class="d-flex justify-content-between">
+<span>SEO</span>
+<span class="text-primary">3.2% CR</span>
+</div>
+<div class="progress mb-1" style="height: 5px;">
+<div class="progress-bar bg-primary" style="width: 60%"></div>
+</div>
+<div class="d-flex justify-content-between">
+<span>Instagram</span>
+<span class="text-purple">2.7% CR</span>
+</div>
+<div class="progress mb-1" style="height: 5px;">
+<div class="progress-bar" style="width: 45%; background-color: #751e8d;"></div>
+</div>
+<div class="d-flex justify-content-between">
+<span>Tiktok</span>
+<span class="text-success">4.1% CR</span>
+</div>
+<div class="progress mb-1" style="height: 5px;">
+<div class="progress-bar bg-success" style="width: 70%"></div>
+</div>
+<div class="d-flex justify-content-between">
+<span>Email</span>
+<span class="text-info">1.8% CR</span>
+</div>
+<div class="progress" style="height: 5px;">
+<div class="progress-bar bg-info" style="width: 30%"></div>
+</div>
+</div>
+<small class="text-muted">Produk terlaris dari IG: KIVIK Sofa</small>
+</div>
+</div>
+</div>
+<!-- PETA IKEA Langsung di bawah kontainer CSAT & Traffic Source -->
+<div style="margin-top: 24px;">
+<div class="dashboard-card" style="background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);">
+<div class="card-header">
+<h2>Lokasi Toko IKEA</h2>
+<a href="#" onclick="zoomOut()">Lihat Semua</a>
+</div>
+<div id="map" style="height: 260px;"></div>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const csatCtx = document.getElementById('csatDonut').getContext('2d');
+  const trafficCtx = document.getElementById('trafficDonut').getContext('2d');
 
+  new Chart(csatCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Puas', 'Tidak Puas'],
+      datasets: [{
+        data: [90, 10],
+        backgroundColor: ['#3a8dde', '#eee'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: false,
+      maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      }
+    }
+  });
 
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <script src="../assets/js/feather.min.js"></script>
-    
-    <script src="../assets/js/jquery.slimscroll.min.js"></script>
-
-    <script src="../assets/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
-
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
-
-   
-    <script src="../assets/js/script.js"></script>
-    <script>
-function showPopup(type) {
-  const popup = document.getElementById('popup-container');
-  const title = document.getElementById('popup-title');
-  const panel = document.getElementById('side-panel');
-
-  const panelRect = panel.getBoundingClientRect();
-  popup.style.top  = `${panelRect.top + (panelRect.height / 2) - (popup.offsetHeight/2)}px`;
-  popup.style.left = `${panelRect.left - (popup.offsetWidth || 220) - 10}px`;
-
-  title.textContent = type;
-  popup.classList.remove('hidden');
-}
-
-function closePopup() {
-  document.getElementById('popup-container').classList.add('hidden');
-}
-
-function togglePanel() {
-  document.getElementById('side-panel').classList.toggle('collapsed');
-}
+  new Chart(trafficCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['SEO', 'IG', 'Tiktok', 'Email'],
+      datasets: [{
+        data: [30, 25, 35, 10],
+        backgroundColor: ['#3a8dde', '#a14fd5', '#20c997', '#17a2b8'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: false,
+      maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      }
+    }
+  });
+});
 </script>
+<!-- Flatpickr CSS di head -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+<!-- Kalender & Aktivitas -->
+<div class="col-lg-4 col-md-12 mb-4">
+<div class="ikea-calendar-card shadow-sm p-4 mb-2">
+<div class="d-flex justify-content-between align-items-center mb-3">
+<h6 class="fw-bold mb-0 text-dark">Kalender Kegiatan</h6>
+<button class="btn btn-sm btn-outline-secondary" id="openCalendarBtn" type="button">
+<i class="fas fa-calendar-alt"></i>
+</button>
+</div>
+<input class="form-control mb-3" id="calendarPicker" placeholder="Pilih Tanggal" type="text"/>
+<!-- Jadwal Hari Ini -->
+<div class="mb-3">
+<div class="mb-2">
+<strong class="text-muted">09:00</strong>
+<div class="bg-primary text-white p-2 rounded d-flex justify-content-between align-items-center">
+<span><i class="fas fa-boxes me-2"></i>Stok Opname Gudang Sentul</span>
+<span class="badge bg-light text-dark">Inventaris</span>
+</div>
+</div>
+<div class="mb-2">
+<strong class="text-muted">11:00</strong>
+<div class="bg-info text-white p-2 rounded d-flex justify-content-between align-items-center">
+<span><i class="fas fa-truck me-2"></i>Monitoring Pengiriman Jakarta</span>
+<span class="badge bg-light text-dark">Distribusi</span>
+</div>
+</div>
+<div class="mb-2">
+<strong class="text-muted">14:00</strong>
+<div class="bg-warning text-white p-2 rounded d-flex justify-content-between align-items-center">
+<span><i class="fas fa-users me-2"></i>Evaluasi Staff Gudang</span>
+<span class="badge bg-light text-dark">HR</span>
+</div>
+</div>
+</div>
+<!-- Aktivitas Terbaru -->
+<h6 class="fw-bold mb-3 text-dark">Aktivitas Terbaru</h6>
+<ul class="list-group list-group-flush">
+<li class="list-group-item px-0 d-flex flex-column">
+<div class="d-flex align-items-center mb-1">
+<img class="rounded-circle me-2" height="28" src="https://i.pravatar.cc/28?img=12" width="28"/>
+<div>
+<strong>Yusuf M.</strong> mengunggah laporan persediaan.
+              <div class="text-muted small">Hari ini, 08:45</div>
+</div>
+</div>
+<div class="bg-light p-2 rounded d-flex justify-content-between align-items-center">
+<span>Inventaris Gudang #Q4-2025</span>
+<span class="badge bg-primary text-white">Laporan</span>
+</div>
+</li>
+<li class="list-group-item px-0 d-flex flex-column">
+<div class="d-flex align-items-center">
+<img class="rounded-circle me-2" height="28" src="https://i.pravatar.cc/28?img=32" width="28"/>
+<div>
+<strong>Linda R.</strong> menyelesaikan evaluasi tim distribusi.
+              <div class="text-muted small">Kemarin, 17:20</div>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</link></div>
+<!-- Flatpickr JS sebelum penutup body -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  // Inisialisasi Flatpickr
+  const calendarInstance = flatpickr("#calendarPicker", {
+    dateFormat: "Y-m-d",
+    defaultDate: "today",
+    altInput: true,
+    altFormat: "l, d M Y",
+    allowInput: false,
+    monthSelectorType: 'dropdown',
+    yearSelectorType: 'dropdown'
+  });
 
-  </body>
+  // Buka kalender saat tombol ditekan
+  document.getElementById('openCalendarBtn').addEventListener('click', function () {
+    calendarInstance.open();
+  });
+</script>
+<!-- Tambahkan di akhir halaman sebelum </body> jika belum ada -->
+<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const map = L.map('map').setView([-2.5, 118], 5.2);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    minZoom: 4,
+    maxZoom: 18
+  }).addTo(map);
+
+  const tokoIKEA = [
+    { nama: "IKEA Alam Sutera", lokasi: [-6.2246, 106.6529], alamat: "Alam Sutera, Tangerang" },
+    { nama: "IKEA Sentul City", lokasi: [-6.5315, 106.8650], alamat: "Sentul City, Bogor" },
+    { nama: "IKEA Jakarta Garden City", lokasi: [-6.1913, 106.9517], alamat: "Cakung, Jakarta Timur" },
+    { nama: "IKEA Mal Taman Anggrek", lokasi: [-6.1788, 106.7902], alamat: "Grogol, Jakarta Barat" },
+    { nama: "IKEA Surabaya", lokasi: [-7.2903, 112.7275], alamat: "Galaxy Mall, Surabaya" },
+    { nama: "IKEA Bandung", lokasi: [-6.9167, 107.6000], alamat: "Soekarno-Hatta, Bandung" },
+    { nama: "IKEA Bali", lokasi: [-8.7922, 115.2248], alamat: "Ngurah Rai, Badung" }
+  ];
+
+  tokoIKEA.forEach(toko => {
+    L.circleMarker(toko.lokasi, {
+      radius: 8,
+      color: "#c62828",
+      fillColor: "#e53935",
+      fillOpacity: 0.9
+    })
+    .addTo(map)
+    .bindPopup(`<strong>${toko.nama}</strong><br>${toko.alamat}`);
+  });
+
+  function zoomOut() {
+    map.setView([-2.5, 118], 5.2);
+  }
+</script>
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+<script src="../assets/js/feather.min.js"></script>
+<script src="../assets/js/jquery.slimscroll.min.js"></script>
+<script src="../assets/js/jquery.dataTables.min.js"></script>
+<script src="../assets/js/dataTables.bootstrap4.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/script.js"></script>
+</div></div></div></div></div></body>
 </html>
