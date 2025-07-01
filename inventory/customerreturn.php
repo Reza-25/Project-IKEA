@@ -6,29 +6,222 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-    <meta name="description" content="POS - Bootstrap Admin Template" />
-    <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" />
-    <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>IKEA</title>
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="POS - Bootstrap Admin Template" name="description" />
+    <meta content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" name="keywords" />
+    <meta content="Dreamguys - Bootstrap Admin Template" name="author" />
+    <meta content="noindex, nofollow" name="robots" />
+    <title>IKEA - Customer Returns</title>
+    <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/animate.css" rel="stylesheet" />
+    <link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="../assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <link href="../assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="../assets/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg" />
+    <style>
+      a {
+        text-decoration: none !important;
+      }
 
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+      .ikea-header {
+        background-color: #0051BA !important;
+      }
 
-    <link rel="stylesheet" href="../assets/css/bootstrap-datetimepicker.min.css" />
+      /* Dashboard Card Styles */
+      .das1, .das2, .das3, .das4 {
+        background: white !important;
+        border-radius: 20px;
+        padding: 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      }
 
-    <link rel="stylesheet" href="../assets/css/animate.css" />
+      .dash-count {
+        padding: 24px;
+        border-radius: 20px;
+        background-color: white;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-    <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css" />
+      .dash-count:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+        background-color: #f9f9f9;
+      }
 
-    <link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css" />
+      .dash-counts h4 {
+        font-size: 24px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      
+      .dash-counts h5 {
+        font-size: 14px;
+        margin: 0;
+      }
+      
+      .stat-change {
+        font-size: 11px;
+        font-weight: normal;
+        margin-top: 4px;
+        color: #6c757d;
+      }
 
-    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css" />
+      /* Color Themes */
+      .das1 { border-top: 6px solid #1a5ea7; }
+      .das1 * { color: #1a5ea7 !important; }
+      
+      .das2 { border-top: 6px solid #751e8d; }
+      .das2 * { color: #751e8d !important; }
+      
+      .das3 { border-top: 6px solid #e78001; }
+      .das3 * { color: #e78001 !important; }
+      
+      .das4 { border-top: 6px solid #018679; }
+      .das4 * { color: #018679 !important; }
 
-    <link rel="stylesheet" href="../assets/css/style.css" />
+      .stat-change {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+        display: inline-block;
+        padding: 3px 6px;
+        border-radius: 12px;
+        font-weight: 600;
+      }
+
+      .icon-box {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+        transition: box-shadow 0.2s, transform 0.2s;
+        cursor: pointer;
+      }
+      
+      .icon-box i {
+        color: #ffffff !important;
+        font-size: 16px;
+      }
+      
+      .bg-ungu {
+        background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+      }
+      
+      .bg-biru {
+        background: linear-gradient(135deg, #a259c6 0%, #6d28d9 100%);
+      }
+      
+      .bg-hijau {
+        background: linear-gradient(135deg,rgb(89, 236, 222) 0%, #018679 100%);
+      }
+      
+      .bg-merah {
+        background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
+      }
+
+      /* Table Styles */
+      .mature-table {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border: none;
+      }
+      
+      .mature-table .table {
+        margin: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+      
+      .mature-table thead th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 18px 15px;
+        border: none;
+      }
+      
+      .mature-table tbody td {
+        padding: 16px 15px;
+        border-bottom: 1px solid #e9ecef;
+        font-size: 0.9rem;
+        vertical-align: middle;
+      }
+
+      .product-img img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      
+      .status-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .bg-lightgreen {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+      }
+      
+      .bg-lightyellow {
+        background: linear-gradient(135deg, #ffc107, #ff9800);
+        color: white;
+      }
+      
+      .bg-lightred {
+        background: linear-gradient(135deg, #dc3545, #e74c3c);
+        color: white;
+      }
+
+      /* Chart Styles */
+      .chart-container {
+        position: relative;
+        height: 350px;
+        background: #fff;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+      }
+
+      .chart-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .chart-container {
+          height: 300px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="global-loader">
@@ -36,21 +229,103 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     </div>
 
     <div class="main-wrapper">
-      <!-- Include sidebar -->
-      <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
-      <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+      <?php include BASE_PATH . '/include/sidebar.php'; ?>
+      <?php include __DIR__ . '/../include/header.php'; ?>
 
-      <!-- Page Wrapper -->
       <div class="page-wrapper">
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>Sales Return List</h4>
-              <h6>Manage your Returns</h6>
+              <h4>Customer Return List</h4>
+              <h6>Manage your customer returns</h6>
+            </div>
+            <div class="page-btn">
+              <a href="addreturn.php" class="btn btn-added">
+                <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">New Return
+              </a>
             </div>
           </div>
 
-          <div class="card">
+          <!-- Dashboard Cards -->
+          <div class="row justify-content-end">
+            <!-- Total Returns -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <div class="dash-count das1">
+                <div class="dash-counts">
+                  <h4><span class="counters" data-count="215">215</span></h4>
+                  <h5>Total Returns</h5>
+                  <h2 class="stat-change">+15% from last month</h2>
+                </div>
+                <div class="icon-box bg-ungu">
+                  <i class="fa fa-undo"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Total Refund Value -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <div class="dash-count das2">
+                <div class="dash-counts">
+                  <h4>$<span class="counters" data-count="12450">12,450</span></h4>
+                  <h5>Total Refund Value</h5>
+                  <h2 class="stat-change">+8% from last month</h2>
+                </div>
+                <div class="icon-box bg-biru">
+                  <i class="fa fa-dollar-sign"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Avg. Return Rate -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <div class="dash-count das3">
+                <div class="dash-counts">
+                  <h4><span class="counters" data-count="6.8">6.8</span>%</h4>
+                  <h5>Avg. Return Rate</h5>
+                  <h2 class="stat-change">-1.2% from last month</h2>
+                </div>
+                <div class="icon-box bg-merah">
+                  <i class="fa fa-percentage"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Top Return Category -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <div class="dash-count das4">
+                <div class="dash-counts">
+                  <h4><span class="counters" data-count="42">42</span></h4>
+                  <h5>Top Category</h5>
+                  <h2 class="stat-change">Furniture</h2>
+                </div>
+                <div class="icon-box bg-hijau">
+                  <i class="fa fa-couch"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="row mb-4">
+            <!-- Monthly Returns Chart -->
+            <div class="col-lg-8">
+              <div class="chart-container">
+                <div class="chart-title">Monthly Returns Value</div>
+                <canvas id="returnsChart"></canvas>
+              </div>
+            </div>
+            
+            <!-- Returns by Category -->
+            <div class="col-lg-4">
+              <div class="chart-container">
+                <div class="chart-title">Returns by Category</div>
+                <canvas id="categoryChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Returns List Table -->
+          <div class="card mature-table">
             <div class="card-body">
               <div class="table-top">
                 <div class="search-set">
@@ -60,8 +335,9 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       <span><img src="../assets/img/icons/closes.svg" alt="img" /></span>
                     </a>
                   </div>
-                  <div class="search-input">
-                    <a class="btn btn-searchset"><img src="../assets/img/icons/search-white.svg" alt="img" /></a>
+                  <div class="search-input">                    <a class="btn btn-searchset">
+                      <img src="../assets/img/icons/search-white.svg" alt="img" />
+                    </a>
                   </div>
                 </div>
                 <div class="wordset">
@@ -79,445 +355,59 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
               </div>
 
-              <div class="card" id="filter_inputs">
-                <div class="card-body pb-0">
-                  <div class="row">
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" class="datetimepicker cal-icon" placeholder="Choose Date" />
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" placeholder="Enter Reference" />
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <select class="select">
-                          <option>Choose Customer</option>
-                          <option>Customer</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <select class="select">
-                          <option>Choose Status</option>
-                          <option>Inprogress</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <select class="select">
-                          <option>Choose Payment Status</option>
-                          <option>Payment Status</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img" /></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               <div class="table-responsive">
                 <table class="table datanew">
                   <thead>
                     <tr>
-                      <th>NO
-                      </th>
-                      <th>Category Name</th>
+                      <th>NO</th>
+                      <th>Category</th>
                       <th>Date</th>
                       <th>Branch</th>
                       <th>Supplier</th>
-                      <th>Revund Total</th>
+                      <th>Refund Total</th>
                       <th>Percentage</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        1
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product1.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Furniture</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Sentul City</td>
-                      <td>Apex Computers</td>
-                      <td>1200</td>
-                      <td>10.1%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        2
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Lighting</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Mal Taman Anggrek</td>
-                      <td>Modern Automobile</td>
-                      <td>800</td>
-                      <td>6.7%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
+                    <?php 
+                    $categories = ['Furniture', 'Lighting', 'Storage', 'Bedroom', 'Living Room', 'Kitchen', 'Dining', 'Office', 'Outdoor', 'Textiles', 'Decoration', 'Bathroom', 'Children', 'Appliances', 'Rugs', 'Curtains', 'Tableware', 'Cookware', 'Laundry', 'Cleaning', 'Pet'];
+                    $branches = ['IKEA Alam Sutera', 'IKEA Sentul City', 'IKEA Jakarta Garden City', 'IKEA Kota Baru Parahyangan', 'IKEA Bali', 'IKEA Mal Taman Anggrek'];
+                    $suppliers = ['Apex Computers', 'Modern Automobile', 'AIM Infotech', 'Best Power Tools', 'Hatimi Hardware & Tools'];
+                    $products = ['product1.jpg', 'product2.jpg', 'product3.jpg', 'product4.jpg', 'product5.jpg', 'product6.jpg', 'product7.jpg', 'product8.jpg', 'product9.jpg', 'product10.jpg'];
                     
+                    for($i=1; $i<=21; $i++): 
+                      $status = ['Received', 'Ordered', 'Pending'][rand(0,2)];
+                      $total = rand(100, 1200);
+                      $percentage = number_format(($total/12000)*100, 1);
+                    ?>
                     <tr>
-                      <td>
-                        3
-                      </td>
+                      <td><?= $i ?></td>
                       <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product3.jpg" alt="product" />
+                        <a class="product-img">
+                          <img src="../assets/img/product/<?= $products[rand(0,9)] ?>" alt="product" />
                         </a>
-                        <a href="javascript:void(0);">Storage</a>
+                        <a><?= $categories[rand(0,20)] ?></a>
                       </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Garden City</td>
-                      <td>AIM Infotech</td>
-                      <td>950</td>
-                      <td>8.0%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-
-                    <tr>
+                      <td><?= rand(1,12).'/'.rand(1,28).'/2022' ?></td>
+                      <td><?= $branches[rand(0,5)] ?></td>
+                      <td><?= $suppliers[rand(0,4)] ?></td>
+                      <td>$<?= number_format($total, 2) ?></td>
+                      <td><?= $percentage ?>%</td>
                       <td>
-                        4
+                        <span class="badges <?= 
+                          $status == 'Received' ? 'bg-lightgreen' : 
+                          ($status == 'Ordered' ? 'bg-lightyellow' : 'bg-lightred') 
+                        ?>"><?= $status ?></span>
                       </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product4.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Bedroom</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Kota Baru Parahyangan</td>
-                      <td>Best Power Tools</td>
-                      <td>1000</td>
-                      <td>8.4%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
                       <td>
-                        5
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product5.jpg" alt="product" />
+                        <a class="btn btn-sm btn-outline-primary" href="editreturn.php?id=<?= $i ?>">
+                          <i class="fas fa-edit"></i>
                         </a>
-                        <a href="javascript:void(0);">Living Room</a>
                       </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Sentul City</td>
-                      <td>AIM Infotech</td>
-                      <td>1100</td>
-                      <td>9.2%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
                     </tr>
-
-                    <tr>
-                      <td>
-                        6
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product6.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Kitchen</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Bali</td>
-                      <td>Best Power Tools</td>
-                      <td>700</td>
-                      <td>5.9%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        7
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product7.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Dining</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Kota Baru Parahyangan</td>
-                      <td>Apex Computers</td>
-                      <td>600</td>
-                      <td>5.0%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        8
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product1.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Office</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Sentul City</td>
-                      <td>Best Power Tools</td>
-                      <td>550</td>
-                      <td>4.6%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        9
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Outdoor</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Mal Taman Anggrek</td>
-                      <td>Hatimi Hardware & Tools</td>
-                      <td>400</td>
-                      <td>3.4%</td>
-                      <td><span class="badges bg-lightyellow">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        10
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product3.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Textiles</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Garden City</td>
-                      <td>Best Power Tools</td>
-                      <td>650</td>
-                      <td>5.5%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        11
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product4.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Decoration</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Kota Baru Parahyangan</td>
-                      <td>Modern Automobile</td>
-                      <td>300</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        12
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product5.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Bathroom</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Sentul City</td>
-                      <td>Apex Computers</td>
-                      <td>480</td>
-                      <td>4.0%</td>
-                      <td><span class="badges bg-lightred">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        13
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product6.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Children</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Bali</td>
-                      <td>Modern Automobile</td>
-                      <td>500</td>
-                      <td>4.2%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                      14
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product7.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Appliances</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Kota Baru Parahyangan</td>
-                      <td>Modern Automobile</td>
-                      <td>320</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        15
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Rugs</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Sentul City</td>
-                      <td>Modern Automobile</td>
-                      <td>430</td>
-                      <td>3.6%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        16
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product7.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Curtains</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Garden City</td>
-                      <td>Best Power Tools</td>
-                      <td>290</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        17
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product6.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Tableware</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Alam Sutera</td>
-                      <td>AIM Infotech</td>
-                      <td>510</td>
-                      <td>4.3%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        18
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product5.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Cookware</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Sentul City</td>
-                      <td>Hatimi Hardware & Tools</td>
-                      <td>620</td>
-                      <td>5.2%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        19
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product4.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Laundry</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Jakarta Garden City</td>
-                      <td>Best Power Tools</td>
-                      <td>230</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        20
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product3.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Cleaning</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Sentul City</td>
-                      <td>Hatimi Hardware & Tools</td>
-                      <td>190</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightgreen">Received</span></td>
-                    </tr>
-
-                    <tr>
-                      <td>
-                        21
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/product/product2.jpg" alt="product" />
-                        </a>
-                        <a href="javascript:void(0);">Pet</a>
-                      </td>
-                      <td>19 Nov 2022</td>
-                      <td>IKEA Kota Baru Parahyangan</td>
-                      <td>Modern Automobile</td>
-                      <td>100</td>
-                      <td>1.9%</td>
-                      <td><span class="badges bg-lightyellow">Ordered</span></td>
-                    </tr>
+                    <?php endfor; ?>
                   </tbody>
                 </table>
               </div>
@@ -539,5 +429,104 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
     <script src="../assets/js/script.js"></script>
+
+    <script>
+      // Returns Volume Chart
+      const returnsCtx = document.getElementById('returnsChart').getContext('2d');
+      const returnsChart = new Chart(returnsCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [{
+            label: 'Return Value ($)',
+            data: [850, 1200, 950, 1400, 1100, 1300, 1500, 1250, 1600, 1800, 2100, 2400],
+            backgroundColor: '#1a5ea7',
+            borderRadius: 6,
+            barThickness: 20
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: '#eee'
+              },
+              ticks: {
+                color: '#666',
+                callback: function(value) {
+                  return '$' + value;
+                }
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: '#444'
+              }
+            }
+          }
+        }
+      });
+
+      // Category Distribution Chart
+      const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+      const categoryChart = new Chart(categoryCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Furniture', 'Lighting', 'Storage', 'Bedroom', 'Kitchen', 'Others'],
+          datasets: [{
+            data: [42, 18, 15, 12, 8, 5],
+            backgroundColor: [
+              '#1a5ea7',
+              '#751e8d',
+              '#e78001',
+              '#018679',
+              '#dc3545',
+              '#6c757d'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          },
+          cutout: '70%'
+        }
+      });
+
+      // Counter Animation
+      $(document).ready(function() {
+        $('.counters').each(function() {
+          $(this).prop('Counter', 0).animate({
+            Counter: $(this).text()
+          }, {
+            duration: 2000,
+            easing: 'swing',
+            step: function(now) {
+              if($(this).data('count').toString().includes('.')) {
+                $(this).text(now.toFixed(1));
+              } else {
+                $(this).text(Math.ceil(now));
+              }
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
