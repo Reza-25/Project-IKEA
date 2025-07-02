@@ -46,7 +46,7 @@ function is_active($pages) {
             <ul>
                 <!-- Dashboard -->
                 <li class="<?= (['index.php']) ?>">
-                    <a href="index.php"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
+                    <a href="../Dashboard/index.php"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
                 </li>
                 
                 <!-- Product -->
