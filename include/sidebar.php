@@ -45,8 +45,8 @@ function is_active($pages) {
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <!-- Dashboard -->
-                <li class="<?= (['index.html']) ?>">
-                    <a href="../index.html"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
+                <li class="<?= (['index.php']) ?>">
+                    <a href="index.php"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
                 </li>
                 
                 <!-- Product -->
