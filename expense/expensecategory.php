@@ -1314,7 +1314,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       <div style="background:linear-gradient(90deg,#0d47a1 0%,#66bfff 100%); border-radius:22px 22px 0 0; padding:14px 22px;">
         <span style="color:#fff; font-weight:600; font-size:15px;">Department Spending</span>
       </div>
-      <div style="padding:18px 18px 0 18px;">
+      <!-- Tambahkan style agar tinggi tetap dan scroll jika overflow -->
+      <div style="padding:18px 18px 0 18px; max-height:370px; overflow-y:auto;">
         <div style="display:flex; flex-direction:column; gap:16px;">
           <!-- Logistik -->
           <div>
@@ -1373,6 +1374,22 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           </div>
         </div>
         <!-- Insight Card -->
+        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
+          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
+          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
+          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
+          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
+          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
+          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
+          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
+          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
+        </div>
         <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
           <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
           <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
