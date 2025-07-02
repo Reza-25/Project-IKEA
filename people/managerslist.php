@@ -29,6 +29,133 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
 
 <link rel="stylesheet" href="../assets/css/style.css">
+<style>
+/* Reset semua background jadi putih & style dasar kolom */
+.das1, .das2, .das3, .das4 {
+  background: white !important;
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Struktur utama card */
+.dash-count {
+  padding: 24px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Efek saat hover */
+.dash-count:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+/* Penyesuaian tampilan angka dan label */
+.dash-counts h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.dash-counts h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 4px;
+  color: #6c757d;
+}
+
+/* Gaya icon kanan */
+.dash-imgs i {
+  font-size: 32px;
+}
+
+/* Kolom 1 - Biru Laut */
+.das1 {
+  border-top: 6px solid #1a5ea7;
+}
+.das1 * {
+  color: #1a5ea7 !important;
+}
+
+/* Kolom 2 - Ungu */
+.das2 {
+  border-top: 6px solid #751e8d;
+}
+.das2 * {
+  color: #751e8d !important;
+}
+
+/* Kolom 3 - Kuning/Oranye */
+.das3 {
+  border-top: 6px solid #e78001;
+}
+.das3 * {
+  color: #e78001 !important;
+}
+
+/* Kolom 4 - Tosca */
+.das4 {
+  border-top: 6px solid #018679;
+}
+.das4 * {
+  color: #018679 !important;
+}
+
+.stat-change {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;         /* Warna teks */
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Icon Box Style */
+.icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.icon-box i {
+  color: #ffffff !important;
+  font-size: 16 px;
+}
+/* Efek hover dan active */
+.icon-box:hover,
+.icon-box:active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  transform: scale(1.08);
+}
+.bg-ungu {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+}
+.bg-biru {
+  background: linear-gradient(135deg, #a259c6 0%, #6d28d9 100%);
+}
+.bg-hijau {
+  background: linear-gradient(135deg,rgb(89, 236, 222) 0%, #018679 100%);
+}
+.bg-merah {
+  background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
+}
+  </style>
 </head>
 <body>
 <div id="global-loader">
@@ -51,6 +178,74 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <h6>Manage your Managers</h6>
 </div>
 </div>
+
+<!-- Total Expenses, Top Category, Top Expense, Avg Daily Expense -->
+          <div class="row justify-content-end">
+            <!-- Total Product Sold -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das1">
+                  <div class="dash-counts">
+                    <h4><span class="counters" data-count="7"></span></h4>
+                    <h5>Total Managers</h5>
+                    <h2 class="stat-change">Keep up the good work</h2>
+                    </div>
+                    <div class="icon-box bg-ungu">
+                      <i class="fa fa-box"></i>
+                    </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Most Popular Category -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das2">
+                  <div class="dash-counts">
+                    <h4>Putri A.</h4>
+                    <h5>Most Active Manager</h5>
+                  <h2 class="stat-change">+10% from last week</h2>
+                </div>
+                <div class="icon-box bg-biru">
+                  <i class="fa fa-couch"></i>
+                </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Top-Selling Product -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das3">
+                  <div class="dash-counts">
+                    <h4><span class="counters" data-count="3"></span></h4>
+                    <h5>Pending Tasks</h5>
+                    <h2 class="stat-change">+2 dari minggu lalu</h2>
+                  </div>
+                  <div class="icon-box bg-merah">
+                    <i class="fa fa-exclamation-triangle"></i>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Average Product Sales -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das4">
+                  <div class="dash-counts">
+                    <h4>2.3 days</h4>
+                    <h5>Avg. Task Completion</h5>
+                   <h2 class="stat-change">-0.5 days faster</h2>
+                    </div>
+                    <div class="icon-box bg-hijau">
+                      <i class="fa fa-chart-line"></i>
+                    </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <!-- END KOLOM  -->
 
 <div class="card">
 <div class="card-body">
@@ -141,7 +336,7 @@ NO
 <td>001</td>
 <td>+12163547758 </td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1165797e7c7062517469707c617d743f727e7c">[email&#160;protected]</a></td>
-<td>Tangerang</td>
+<td>Alam Sutera (Tangerang)</td>
 </tr>
 
 <tr>
@@ -157,8 +352,23 @@ NO
 <td>002</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dcbfa9afa8b3b1b9ae9cb9a4bdb1acb0b9f2bfb3b1">[email&#160;protected]</a></td>
-<td>Bogor</td>
+<td>Sentul City (Bogor)</td>
 </tr>
+
+<tr>
+<td>
+3
+</td>
+<td class="productimgname">
+<a href="javascript:void(0);" class="product-img">
+<img src="../assets/img/customer/customer3.jpg" alt="product">
+</a>
+<a href="javascript:void(0);">Putri</a>
+</td>
+<td>003</td>
+<td>123-456-880</td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aeccdcdbc5c2c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</a></td>
+<td>Jakarta Garden City</td>
 
 <tr>
 <td>
@@ -170,10 +380,10 @@ NO
 </a>
 <a href="javascript:void(0);">James</a>
 </td>
-<td>003</td>
+<td>004</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6d0e181e190200081f2d08150c001d0108430e0200">[email&#160;protected]</a></td>
-<td>Bandung</td>
+<td>Kota Baru Parahyangan (Bandung)</td>
 </tr>
 
 <tr>
@@ -189,7 +399,7 @@ NO
 <td>005</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aeccdcdbc5c2c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</a></td>
-<td>Jakarta Timur</td>
+<td>Surabaya</td>
 
 </tr>
 <tr>
@@ -203,7 +413,7 @@ NO
 <td>006</td>
 <td>+12163547758 </td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0143647764736d78416479606c716d642f626e6c">[email&#160;protected]</a></td>
-<td>Kuta</td>
+<td>Bali</td>
 </tr>
 
 <tr>
@@ -217,7 +427,7 @@ NO
 <td>007</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e8a09d8a8d9aa88d90898598848dc68b8785">[email&#160;protected]</a></td>
-<td>Jakarta Barat</td>
+<td>Jakarta Garden City</td>
 </tr>
 </tbody>
 </table>

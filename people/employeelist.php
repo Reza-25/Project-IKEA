@@ -153,39 +153,119 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="container py-4">
   <div class="row justify-content-center text-center mb-4">
     <div class="col-md-3 mb-2">
-      <div class="card shadow-sm">
+      <div class="kpi-card">
         <div class="card-body">
-          <h6 class="text-muted">Cabang Terbaik</h6>
-          <h4 class="text-primary">Alam Sutera </h4>
+          <div class="kpi-label">Cabang Terbaik</div>
+          <div class="kpi-count text-primary">Alam Sutera</div>
         </div>
       </div>
     </div>
     <div class="col-md-3 mb-2">
-      <div class="card shadow-sm">
+      <div class="kpi-card">
         <div class="card-body">
-          <h6 class="text-muted">Karyawan Terbaik</h6>
-          <h4 class="text-success">Andi Saputra</h4>
+          <div class="kpi-label">Karyawan Terbaik</div>
+          <div class="kpi-count text-success">Andi Saputra</div>
         </div>
       </div>
     </div>
     <div class="col-md-3 mb-2">
-      <div class="card shadow-sm">
+      <div class="kpi-card">
         <div class="card-body">
-          <h6 class="text-muted">Total User</h6>
-          <h4>87</h4>
+          <div class="kpi-label">Total User</div>
+          <div class="kpi-count counters text-dark" data-count="87">0</div>
         </div>
       </div>
     </div>
     <div class="col-md-3 mb-2">
-      <div class="card shadow-sm">
+      <div class="kpi-card">
         <div class="card-body">
-          <h6 class="text-muted">Rata-rata Poin</h6>
-          <h4>82.3</h4>
+          <div class="kpi-label">Rata-rata Poin</div>
+          <div class="kpi-count counters text-warning" data-count="82.3">0</div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<style>
+.kpi-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(44,62,80,0.10), 0 1.5px 6px rgba(44,62,80,0.07);
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  margin-bottom: 0;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.kpi-card:hover {
+  transform: translateY(-4px) scale(1.025);
+  box-shadow: 0 8px 32px rgba(44,62,80,0.13), 0 2px 8px rgba(44,62,80,0.08);
+  background: #f8fafc;
+}
+.kpi-card .card-body {
+  padding: 18px 8px;
+}
+.kpi-count {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+  margin-top: 6px;
+  margin-bottom: 0;
+  word-break: break-word;
+}
+.kpi-label {
+  font-size: 1rem;
+  color: #6c757d;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+@media (max-width: 991px) {
+  .kpi-card { min-height: 110px; }
+  .kpi-count { font-size: 1.2rem; }
+  .kpi-label { font-size: 0.95rem; }
+}
+</style>
+
+<script>
+// Animasi masuk KPI card
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.kpi-card').forEach(function(card, i) {
+    setTimeout(function() {
+      card.style.opacity = 1;
+      card.style.transform = 'translateY(0)';
+    }, 100 + i * 120);
+  });
+
+  // Count up animation untuk angka
+  document.querySelectorAll('.counters').forEach(function(el) {
+    const target = parseFloat(el.getAttribute('data-count'));
+    let current = 0;
+    const duration = 1000;
+    const stepTime = 18;
+    const steps = Math.ceil(duration / stepTime);
+    let step = 0;
+    function updateCounter() {
+      step++;
+      let val = target;
+      if (step < steps) {
+        val = target * (step / steps);
+        if (target % 1 === 0) val = Math.floor(val);
+        else val = val.toFixed(1);
+      }
+      el.textContent = val;
+      if (step < steps) setTimeout(updateCounter, stepTime);
+    }
+    updateCounter();
+  });
+});
+</script>
 
 <div class="card mt-4">
 <div class="card-body">
