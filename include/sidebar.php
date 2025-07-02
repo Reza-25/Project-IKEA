@@ -75,7 +75,7 @@ function is_active($pages) {
                 <li class="submenu <?= (['supplierlist.php']) ?>">
                     <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li class="<?= (['supplierlist.php']) ?>"><a href="../supplier/supplierlist.php"class="<?= is_active(['supplier.php']) ?>">Supplier List</a></li>
+                        <li class="<?= (['supplierlist.php']) ?>"><a href="../supplier/supplierlist.php"class="<?= is_active(['supplier.php']) ?>">Supplier</a></li>
                     </ul>
                 </li>
                 
