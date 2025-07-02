@@ -247,7 +247,113 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           </div>
           <!-- END KOLOM  -->
 
-<div class="card">
+          <!-- CHART SECTION -->
+<div class="row mt-4" style="gap:24px;">
+  <!-- CHART (70%) -->
+  <div class="col-md-8" style="flex:0 0 70%;max-width:70%;">
+    <div class="card shadow-sm" style="border-radius:18px; padding:24px 24px 18px 24px; background:#fff;">
+      <!-- Mulai container: judul + tab + chart -->
+      <div>
+        <h5 class="mb-0 fw-bold" style="color:#2266d1;">Statistik Interaksi Manager</h5>
+        <ul class="nav nav-pills mt-3 mb-3" id="chartTab" style="gap:6px;">
+          <li class="nav-item">
+            <button class="nav-link active" id="bar-tab" data-bs-toggle="pill" data-chart="bar" type="button" style="border-radius:8px 0 0 8px;">Bar</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" id="line-tab" data-bs-toggle="pill" data-chart="line" type="button">Line</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link" id="pie-tab" data-bs-toggle="pill" data-chart="pie" type="button" style="border-radius:0 8px 8px 0;">Pie</button>
+          </li>
+        </ul>
+        <div id="managerChart" style="min-height:320px;"></div>
+      </div>
+      <!-- Akhir container -->
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<style>
+#chartTab .nav-link {
+  color: #2266d1;
+  background: #f2f6fb;
+  font-weight: 500;
+  border: none;
+  transition: background 0.2s;
+}
+#chartTab .nav-link.active {
+  background: #2266d1;
+  color: #fff;
+}
+</style>
+<script>
+const barData = {
+  series: [{
+    data: [34, 28, 22, 19, 15, 12, 9]
+  }],
+  categories: ['Putri A.', 'James', 'Thomas', 'Benjamin', 'Bruklin', 'Beverly', 'B. Huber']
+};
+const lineData = {
+  series: [{
+    name: 'Interaksi',
+    data: [12, 19, 15, 22, 28, 34, 30]
+  }],
+  categories: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min']
+};
+const pieData = {
+  series: [30, 25, 18, 12, 8, 7],
+  labels: ['Jakarta Garden City', 'Alam Sutera', 'Sentul City', 'Kota Baru Parahyangan', 'Surabaya', 'Bali']
+};
+let chart;
+function renderChart(type) {
+  let options;
+  if (type === 'bar') {
+    options = {
+      chart: { type: 'bar', height: 320 },
+      plotOptions: { bar: { horizontal: true, borderRadius: 6 } },
+      colors: ['#2266d1'],
+      series: barData.series,
+      xaxis: { categories: barData.categories },
+      title: { text: 'Manager Paling Sering Dihubungi (7 Hari Terakhir)', align: 'left', style: { fontSize: '15px' } },
+      dataLabels: { enabled: true }
+    };
+  } else if (type === 'line') {
+    options = {
+      chart: { type: 'line', height: 320 },
+      colors: ['#2266d1'],
+      series: lineData.series,
+      xaxis: { categories: lineData.categories },
+      title: { text: 'Fluktuasi Interaksi per Hari', align: 'left', style: { fontSize: '15px' } },
+      dataLabels: { enabled: true },
+      stroke: { curve: 'smooth', width: 3 }
+    };
+  } else if (type === 'pie') {
+    options = {
+      chart: { type: 'pie', height: 320 },
+      labels: pieData.labels,
+      series: pieData.series,
+      title: { text: 'Distribusi Interaksi per Lokasi', align: 'left', style: { fontSize: '15px' } },
+      colors: ['#2266d1', '#6d28d9', '#e78001', '#018679', '#a259c6', '#ff5858'],
+      legend: { position: 'bottom' }
+    };
+  }
+  if (chart) chart.destroy();
+  chart = new ApexCharts(document.querySelector("#managerChart"), options);
+  chart.render();
+}
+document.addEventListener('DOMContentLoaded', function() {
+  renderChart('bar');
+  document.querySelectorAll('#chartTab .nav-link').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#chartTab .nav-link').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      renderChart(this.getAttribute('data-chart'));
+    });
+  });
+});
+</script>
+
+  <div class="card">
 <div class="card-body">
 <div class="table-top">
 <div class="search-set">
