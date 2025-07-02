@@ -336,7 +336,7 @@ NO
 <td>001</td>
 <td>+12163547758 </td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1165797e7c7062517469707c617d743f727e7c">[email&#160;protected]</a></td>
-<td>Tangerang</td>
+<td>Alam Sutera (Tangerang)</td>
 </tr>
 
 <tr>
@@ -352,8 +352,23 @@ NO
 <td>002</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dcbfa9afa8b3b1b9ae9cb9a4bdb1acb0b9f2bfb3b1">[email&#160;protected]</a></td>
-<td>Bogor</td>
+<td>Sentul City (Bogor)</td>
 </tr>
+
+<tr>
+<td>
+3
+</td>
+<td class="productimgname">
+<a href="javascript:void(0);" class="product-img">
+<img src="../assets/img/customer/customer3.jpg" alt="product">
+</a>
+<a href="javascript:void(0);">Putri</a>
+</td>
+<td>003</td>
+<td>123-456-880</td>
+<td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aeccdcdbc5c2c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</a></td>
+<td>Jakarta Garden City</td>
 
 <tr>
 <td>
@@ -365,10 +380,10 @@ NO
 </a>
 <a href="javascript:void(0);">James</a>
 </td>
-<td>003</td>
+<td>004</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6d0e181e190200081f2d08150c001d0108430e0200">[email&#160;protected]</a></td>
-<td>Bandung</td>
+<td>Kota Baru Parahyangan (Bandung)</td>
 </tr>
 
 <tr>
@@ -384,7 +399,7 @@ NO
 <td>005</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="aeccdcdbc5c2c7c0eecbd6cfc3dec2cb80cdc1c3">[email&#160;protected]</a></td>
-<td>Jakarta Timur</td>
+<td>Surabaya</td>
 
 </tr>
 <tr>
@@ -398,7 +413,7 @@ NO
 <td>006</td>
 <td>+12163547758 </td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0143647764736d78416479606c716d642f626e6c">[email&#160;protected]</a></td>
-<td>Kuta</td>
+<td>Bali</td>
 </tr>
 
 <tr>
@@ -412,7 +427,7 @@ NO
 <td>007</td>
 <td>123-456-888</td>
 <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e8a09d8a8d9aa88d90898598848dc68b8785">[email&#160;protected]</a></td>
-<td>Jakarta Barat</td>
+<td>Jakarta Garden City</td>
 </tr>
 </tbody>
 </table>
