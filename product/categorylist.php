@@ -771,6 +771,17 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   background: #90caf9;
   border-radius: 8px;
 }
+
+/* area chart dan donut chart */
+.card {
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    background-color: #ffffff;
+  }
+  h6 {
+    font-weight: 600;
+  }
+
 </style>
 
 
@@ -1285,6 +1296,140 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   renderActivityLog();
   renderAIInsight();
 </script>
+
+<!-- Area & Donut Charts in One Row -->
+<div class="d-flex flex-wrap gap-4">
+  <!-- Area Chart Container -->
+<div class="card shadow-sm p-3" style="flex: 2; min-width: 400px;">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h6 class="mb-0 text-primary">Tren Popularity Index (Top 5 Kategori)</h6>
+      <select id="areaChartYear" class="chart-select" style="width:90px;">
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025" selected>2025</option>
+      </select>
+    </div>
+    <canvas id="areaChart" height="200"></canvas>
+  </div>
+
+  <!-- Donut Chart Container -->
+<div class="card shadow-sm p-3" style="flex: 1; min-width: 220px; max-width: 300px;">
+
+    <h6 class="mb-3 text-primary">Distribusi Popularity Index per Kategori</h6>
+    <div style="display:flex;justify-content:center;">
+      <canvas id="donutChart" width="160" height="160"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const areaCtx = document.getElementById('areaChart').getContext('2d');
+  const donutCtx = document.getElementById('donutChart').getContext('2d');
+
+  const labels = ["Living Room", "Bedroom", "Furniture", "Kitchen", "Lighting"];
+
+  const popularityByYear = {
+    "2023": [40, 68, 75, 60, 20],
+    "2024": [88, 80, 83, 66, 24],
+    "2025": [25, 82, 49, 68, 22],
+  };
+
+  let selectedYear = document.getElementById("areaChartYear").value;
+
+  const areaChart = new Chart(areaCtx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Popularity Index',
+        data: popularityByYear[selectedYear],
+        fill: true,
+        backgroundColor: 'rgba(13, 110, 253, 0.2)',
+        borderColor: '#0d6efd',
+        tension: 0.4,
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBackgroundColor: '#0d6efd'
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: {
+        duration: 1000,
+        easing: 'easeInOutQuart'
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { mode: 'index', intersect: false }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: '#eee' }
+        },
+        x: {
+          grid: { display: false }
+        }
+      }
+    }
+  });
+
+  const donutChart = new Chart(donutCtx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Popularity Index',
+        data: popularityByYear[selectedYear],
+        backgroundColor: [
+          '#0d6efd',
+          '#6c757d',
+          '#198754',
+          '#ffc107',
+          '#dc3545'
+        ],
+        borderWidth: 1,
+        hoverOffset: 12
+      }]
+    },
+    options: {
+      responsive: true,
+      animation: {
+        animateRotate: true,
+        animateScale: true,
+        duration: 1200
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 12,
+            color: '#333',
+            font: { size: 12 }
+          }
+        }
+      }
+    }
+  });
+
+  document.getElementById("areaChartYear").addEventListener("change", function () {
+    const year = this.value;
+    areaChart.data.datasets[0].data = popularityByYear[year];
+    donutChart.data.datasets[0].data = popularityByYear[year];
+
+    areaChart.update();
+    donutChart.update();
+  });
+</script>
+
+
+
+
+
 <!-- Tabel Kategori dengan Modal Detail -->
 <div>
   <div class="d-flex-between my-2">
