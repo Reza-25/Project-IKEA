@@ -24,17 +24,12 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <link href="../assets/css/style.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
    <style>
-
-  
     a {
     text-decoration: none !important;
-  }
-
-  .ikea-header {
-    background-color: #0051BA !important;
   }
 
     .ikea-select {
@@ -440,7 +435,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 /* END - bar chart & notes */
 
 /* css pie chart & tabel */
- body {
+body {
     font-family: 'Segoe UI', sans-serif;
     background-color: #f4f6f8;
     padding: 30px;
@@ -532,99 +527,92 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   .category-icon {
     margin-right: 6px;
   }
-   body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f4f6f8;
-    padding: 30px;
-    color: #333;
-  }
-  .section {
-    display: flex;
-    justify-content: center;
-  }
-  .table-wrapper {
-    width: 100%;
-    max-width: 1100px;
-  }
-  .table-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: #0d6efd;
-  }
-  .table-comparison {
-    background: #fff;
-    padding: 24px;
-    border-radius: 20px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-    width: 100%;
-    display: flex;
-    gap: 24px;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  .table-box {
-    flex: 1;
-    background: #ffffff;
-    padding: 16px;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .table-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  }
-  .chart-container {
-    height: 200px;
-    margin-bottom: 20px;
-  }
-  .divider {
-    width: 2px;
-    background: linear-gradient(to bottom, #cfd8dc, #90a4ae, #cfd8dc);
-    border-radius: 4px;
-  }
-  table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-    font-size: 14px;
-  }
-  thead th {
-    text-align: left;
-    padding: 12px 16px;
-    background: #f0f4f8;
-    color: #1e293b;
-    font-weight: 600;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-  tbody td {
-    background: #ffffff;
-    padding: 14px 16px;
-    border-bottom: 1px solid #e2e8f0;
-    transition: background 0.3s ease;
-  }
-  tbody tr {
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-  }
-  tbody tr:hover td {
-    background-color: #f1f5f9;
-  }
-  .highlight {
-    background-color: #d2e3fc !important;
-    font-weight: bold;
-  }
-  .caption-icon {
-    margin-right: 8px;
-    color: #0d6efd;
-  }
-  .category-icon {
-    margin-right: 6px;
-  }
+ 
   /* END - pie chart & tabel */
+  
+   body {
+      background-color: #f4f6f8;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .container-custom {
+      padding: 2rem 1rem;
+    }
+
+    .card-wrapper {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+
+    .card-wrapper:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .card-header-custom {
+      background: linear-gradient(135deg, #4da8da, #1e81b0);
+      color: #fff;
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+
+    .card-body-custom {
+      padding: 1.25rem;
+      color: #333;
+    }
+
+    ul.custom-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    ul.custom-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px dashed #ddd;
+      font-size: 0.95rem;
+    }
+
+    ul.custom-list li:last-child {
+      border-bottom: none;
+    }
+
+    .produk-target-box {
+      background-color: #e2f0fb;
+      border-left: 6px solid #007ac2;
+      border-radius: 1rem;
+      padding: 1.25rem;
+      text-align: center;
+      font-size: 1rem;
+      color: #004d73;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 122, 194, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .produk-target-box:hover {
+      background-color: #d0ebff;
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(0, 122, 194, 0.4);
+    }
+
+    .produk-target-box span {
+      display: block;
+      font-size: 1.2rem;
+      margin-top: 0.3rem;
+    }
+
+    @media (max-width: 768px) {
+      .produk-target-box {
+        margin-top: 1rem;
+      }
+    }
 
 </style>
 
@@ -682,7 +670,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="1975"></span></h4>
+                    <h4>Furniture</h4>
                     <h5>Top Category</h5>
                   <h2 class="stat-change">+9% from last year</h2>
                 </div>
@@ -698,7 +686,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="7863"></span></h4>
+                    <h4>Sofa KVK</span></h4>
                     <h5>Top-Selling Product</h5>
                     <h2 class="stat-change">+15% from last year</h2>
                   </div>
@@ -899,58 +887,181 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   </script>
   <!-- END Chart & Notes Row -->
 
+
+  <div class="container container-custom">
+    <div class="row g-4">
+
+      <!-- Aktivitas Terkait & Log -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card-wrapper">
+          <div class="card-header-custom">
+            📅 Aktivitas Terkait & Log
+          </div>
+          <div class="card-body-custom">
+            <ul class="custom-list">
+              <li><strong>30 Juni 2025</strong> – Restok Sofa LINDHULT</li>
+              <li><strong>29 Juni 2025</strong> – Harga Rak KALLAX dinaikkan</li>
+              <li><strong>28 Juni 2025</strong> – Diskon 15% Meja LACK</li>
+              <li><strong>27 Juni 2025</strong> – Promo Kursi TERJE diterapkan</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informasi Ringkas -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card-wrapper">
+          <div class="card-header-custom">
+            📌 Informasi Ringkas
+          </div>
+          <div class="card-body-custom">
+            <ul class="custom-list">
+              <li>✅ Produk Terlaris: <strong>Sofa KLIPPAN</strong> (1.340)</li>
+              <li>⚠️ Tidak Laku: <strong>Lampu LERSTA</strong></li>
+              <li>🏆 Kategori Top: <strong>Ruang Tamu</strong></li>
+              <li>📍 Toko Terbaik: <strong>IKEA Alam Sutera</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Produk Melebihi Target -->
+      <div class="col-lg-4 col-md-12">
+        <div class="produk-target-box d-flex flex-row align-items-center justify-content-center"
+             style="padding: 0.6rem 1rem; min-height: 80px; max-width: 320px; width: 320px; margin: 0 auto 12px auto; font-size: 0.93rem; box-sizing: border-box;">
+          <div style="flex:1; text-align:left;">
+            🎯 Produk <strong>LACK</strong>
+            <span style="display:block; font-size:1.02rem; margin-top:2px;">Telah melebihi target hari ini!</span>
+          </div>
+          <div style="width:54px; height:54px; margin-left:18px;">
+            <canvas id="donutTarget"></canvas>
+          </div>
+        </div>
+        <!-- Produk Hampir Mencapai Target -->
+        <div class="produk-target-box d-flex flex-row align-items-center justify-content-center"
+             style="padding: 0.6rem 1rem; min-height: 80px; max-width: 320px; width: 320px; margin: 0 auto 12px auto; font-size: 0.93rem; border-left: 6px solid #fd7e14; background-color: #fff4e6; color: #a85b00; box-sizing: border-box;">
+          <div style="flex:1; text-align:left;">
+            ⏳ Produk <strong>BILLY</strong>
+            <span style="display:block; font-size:1.02rem; margin-top:2px;">Hampir mencapai target hari ini!</span>
+          </div>
+          <div style="width:54px; height:54px; margin-left:18px;">
+            <canvas id="donutAlmost"></canvas>
+          </div>
+        </div>
+        <!-- Stok Hampir Habis -->
+        <div class="produk-target-box d-flex flex-row align-items-center justify-content-center"
+             style="padding: 0.6rem 1rem; min-height: 80px; max-width: 320px; width: 320px; margin: 0 auto; font-size: 0.93rem; border-left: 6px solid #e53935; background-color: #ffeaea; color: #b71c1c; box-sizing: border-box;">
+          <div style="flex:1; text-align:left;">
+            ⚠️ Stok <strong>MALM</strong>
+            <span style="display:block; font-size:1.02rem; margin-top:2px;">Sisa stok tinggal <strong>7</strong> unit!</span>
+          </div>
+          <div style="width:54px; height:54px; margin-left:18px; display:flex; align-items:center; justify-content:center;">
+            <i class="fas fa-exclamation-triangle" style="font-size:2rem; color:#e53935;"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  // Donut chart: 120% dari target, warna biru
+  window.addEventListener('DOMContentLoaded', function() {
+    // Produk Melebihi Target
+    const ctxTarget = document.getElementById('donutTarget').getContext('2d');
+    new Chart(ctxTarget, {
+      type: 'doughnut',
+      data: {
+        labels: ['Tercapai', 'Sisa'],
+        datasets: [{
+          data: [120, 30],
+          backgroundColor: ['#007ac2', '#e2f0fb'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: '70%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+          title: { display: false }
+        }
+      }
+    });
+
+    // Produk Hampir Mencapai Target
+    const ctxAlmost = document.getElementById('donutAlmost').getContext('2d');
+    new Chart(ctxAlmost, {
+      type: 'doughnut',
+      data: {
+        labels: ['Tercapai', 'Sisa'],
+        datasets: [{
+          data: [92, 8],
+          backgroundColor: ['#fd7e14', '#ffe0b2'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        cutout: '70%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+          title: { display: false }
+        }
+      }
+    });
+  });
+</script>
+
   <!-- Pie chart & Tabel -->
     <div class="section">
-    <div class="table-wrapper">
-      <div class="table-title"></div>
-      <div class="table-comparison">
-        <div class="table-box">
-          <div class="chart-container">
-            <canvas id="donutTerbanyak"></canvas>
-          </div>
-          <table id="tableTerbanyak">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Kategori</th>
-                <th>Produk</th>
-                <th>Terjual</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Sofa Minimalis</td><td>250</td></tr>
-              <tr><td>2</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Meja Kayu</td><td>210</td></tr>
-              <tr><td>3</td><td><i class="fas fa-tv category-icon"></i>Elektronik</td><td>TV LED 50"</td><td>180</td></tr>
-              <tr><td>4</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Kursi Kantor</td><td>160</td></tr>
-              <tr><td>5</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Lemari Sliding</td><td>150</td></tr>
-            </tbody>
-          </table>
+  <div class="table-wrapper">
+    <div class="table-title"></div>
+    <div class="d-flex gap-3 flex-wrap">
+      <div class="table-box">
+        <div class="chart-container">
+          <canvas id="donutTerbanyak"></canvas>
         </div>
+        <table id="tableTerbanyak">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kategori</th>
+              <th>Produk</th>
+              <th>Terjual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Sofa Minimalis</td><td>250</td></tr>
+            <tr><td>2</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Meja Kayu</td><td>210</td></tr>
+            <tr><td>3</td><td><i class="fas fa-tv category-icon"></i>Elektronik</td><td>TV LED 50"</td><td>180</td></tr>
+            <tr><td>4</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Kursi Kantor</td><td>160</td></tr>
+            <tr><td>5</td><td><i class="fas fa-couch category-icon"></i>Furniture</td><td>Lemari Sliding</td><td>150</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div class="divider"></div>
-
-        <div class="table-box">
-          <div class="chart-container">
-            <canvas id="donutTersedikit"></canvas>
-          </div>
-          <table id="tableTersedikit">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Kategori</th>
-                <th>Produk</th>
-                <th>Terjual</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>1</td><td><i class="fas fa-brush category-icon"></i>Dekorasi</td><td>Rak Dinding</td><td>30</td></tr>
-              <tr><td>2</td><td><i class="fas fa-lightbulb category-icon"></i>Dekorasi</td><td>Lampu Gantung</td><td>35</td></tr>
-              <tr><td>3</td><td><i class="fas fa-rug category-icon"></i>Dekorasi</td><td>Karpet Bulat</td><td>38</td></tr>
-              <tr><td>4</td><td><i class="fas fa-mirror category-icon"></i>Dekorasi</td><td>Cermin Hias</td><td>40</td></tr>
-              <tr><td>5</td><td><i class="fas fa-clock category-icon"></i>Dekorasi</td><td>Jam Dinding</td><td>42</td></tr>
-            </tbody>
-          </table>
+      <div class="table-box">
+        <div class="chart-container">
+          <canvas id="donutTersedikit"></canvas>
         </div>
+        <table id="tableTersedikit">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Kategori</th>
+              <th>Produk</th>
+              <th>Terjual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><i class="fas fa-brush category-icon"></i>Dekorasi</td><td>Rak Dinding</td><td>30</td></tr>
+            <tr><td>2</td><td><i class="fas fa-lightbulb category-icon"></i>Dekorasi</td><td>Lampu Gantung</td><td>35</td></tr>
+            <tr><td>3</td><td><i class="fas fa-rug category-icon"></i>Dekorasi</td><td>Karpet Bulat</td><td>38</td></tr>
+            <tr><td>4</td><td><i class="fas fa-mirror category-icon"></i>Dekorasi</td><td>Cermin Hias</td><td>40</td></tr>
+            <tr><td>5</td><td><i class="fas fa-clock category-icon"></i>Dekorasi</td><td>Jam Dinding</td><td>42</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -1040,7 +1151,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       }
     });
   </script>
+   
+
   <!-- END - Pie chart & tabel -->
+
 
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
@@ -1054,3 +1168,4 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script src="../assets/js/script.js"></script>
   </body>
 </html>
+
