@@ -1390,10 +1390,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
           <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
         </div>
-        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
-          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
-          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
-        </div>
       </div>
     </div>
   </div>
@@ -1557,8 +1553,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="modal fade" id="categoryListModal" tabindex="-1" aria-labelledby="categoryListModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="categoryListModalLabel">Daftar Transaksi Kategori</h5>
+      <div class="modal-header" style="background:linear-gradient(90deg,#0d47a1 0%,#66bfff 100%); border-radius:12px 12px 0 0;">
+        <h5 class="modal-title" id="categoryListModalLabel" style="color:#fff; font-weight:600;">
+          Daftar Transaksi Kategori
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -1600,6 +1598,16 @@ const categoryTransactions = {
   ]
 };
 
+// Data insight per kategori
+const categoryInsights = {
+  'Supplies': 'Terlalu banyak penggunaan kertas, lebih dihemat lagi bulan depan.',
+  'Utilities': 'Listrik terlalu banyak pengeluaran, matikan listrik saat tidak dibutuhkan atau tambahkan panel surya.',
+  'Transport': 'Pengeluaran transportasi naik, pertimbangkan opsi transportasi bersama.',
+  'Employee': 'Bonus dan gaji tinggi bulan ini, evaluasi kebutuhan lembur.',
+  'Technology': 'Upgrade perangkat rutin, pastikan sesuai kebutuhan.',
+  'Marketing': 'Iklan digital efektif, namun cek ROI tiap channel.'
+};
+
 // Fungsi untuk menampilkan modal dan list transaksi
 function showCategoryDetails(categoryName) {
   const list = categoryTransactions[categoryName] || [];
@@ -1632,6 +1640,31 @@ function showCategoryDetails(categoryName) {
       </tr>`;
     });
     html += `</tbody></table></div>`;
+  }
+  // Tambahkan insight di bawah tabel
+  if (categoryInsights[categoryName]) {
+    html += `
+      <div style="
+        display:flex;
+        align-items:flex-start;
+        gap:12px;
+        background:#fffde7;
+        color:#b8860b;
+        border-radius:10px;
+        padding:15px 16px;
+        font-size:15px;
+        margin-top:22px;
+        box-shadow:0 2px 8px rgba(251,192,45,0.10);
+        border-left:6px solid #fbc02d;
+      ">
+        <span style="font-size:28px; color:#fbc02d; flex-shrink:0;">
+          <i class="fa fa-lightbulb"></i>
+        </span>
+        <span>
+          <b style="color:#b8860b;">Insight:</b> ${categoryInsights[categoryName]}
+        </span>
+      </div>
+    `;
   }
   document.getElementById('categoryListContent').innerHTML = html;
   // Tampilkan modal Bootstrap
