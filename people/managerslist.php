@@ -237,7 +237,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="3"></span></h4>
+                    <h4><span class="counters" data-count="134"></span></h4>
                     <h5>Pending Tasks</h5>
                     <h2 class="stat-change">+2 dari minggu lalu</h2>
                   </div>
