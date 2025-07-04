@@ -163,7 +163,7 @@ canvas#salesChart {
   color: #a14fd5;
 }
 .bg-purple {
-  background-color: #a14fd5;
+  background-color: #a14fd5 !important;
 }
 
 .bg-light-success {

@@ -1,3 +1,265 @@
 <!-- CATEGORY PRODUCT -->
 Jumlah kategori: 21
 Total semua produk terjual (dari semua kategori): 12.450
+
+<!-- Ganti bagian Non-Chart Data dengan ini: -->
+
+<!-- Best Selling Products -->
+<div class="dashboard-card">
+  <div class="card-header">
+    <h5 class="card-title mb-0"><i class="fas fa-trophy me-2"></i> Produk Terlaris per Brand</h5>
+  </div>
+  <div class="card-body">
+    <div class="insight-grid">
+      <div class="insight-card slide-in" style="animation-delay: 0.1s">
+        <h6><div class="insight-icon"><i class="fas fa-couch"></i></div> HEMNES</h6>
+        <div class="d-flex align-items-center mb-2">
+          <span class="metric-badge bg-success-light">#1 Terlaris</span>
+          <span>HEMNES Bed Frame</span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>
+            <span class="text-muted">Terjual:</span>
+            <strong>2,450 unit</strong>
+          </div>
+          <div class="text-success">
+            <i class="fas fa-arrow-up"></i> 12%
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" style="width: 85%"></div>
+        </div>
+        
+        <div class="d-flex align-items-center mt-3">
+          <span class="metric-badge bg-info-light">#2</span>
+          <span>HEMNES Dresser - 1,890 unit</span>
+        </div>
+      </div>
+
+      <div class="insight-card slide-in" style="animation-delay: 0.2s">
+        <h6><div class="insight-icon"><i class="fas fa-th"></i></div> SKÅDIS</h6>
+        <div class="d-flex align-items-center mb-2">
+          <span class="metric-badge bg-success-light pulse-animation">Best Seller</span>
+          <span>SKÅDIS Pegboard</span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>
+            <span class="text-muted">Terjual:</span>
+            <strong>3,210 unit</strong>
+          </div>
+          <div class="text-success">
+            <i class="fas fa-arrow-up"></i> 18%
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" style="width: 92%"></div>
+        </div>
+        
+        <div class="d-flex align-items-center mt-3">
+          <span class="metric-badge bg-info-light">#2</span>
+          <span>Accessories Set - 2,780 unit</span>
+        </div>
+      </div>
+
+      <div class="insight-card slide-in" style="animation-delay: 0.3s">
+        <h6><div class="insight-icon"><i class="fas fa-border-style"></i></div> LACK</h6>
+        <div class="d-flex align-items-center mb-2">
+          <span class="metric-badge bg-success-light">Top Pick</span>
+          <span>LACK Side Table</span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>
+            <span class="text-muted">Terjual:</span>
+            <strong>4,150 unit</strong>
+          </div>
+          <div class="text-warning">
+            <i class="fas fa-arrow-up"></i> 5%
+          </div>
+        </div>
+        <div class="progress-container">
+          <div class="progress-bar" style="width: 78%"></div>
+        </div>
+        
+        <div class="d-flex align-items-center mt-3">
+          <span class="metric-badge bg-info-light">#2</span>
+          <span>Wall Shelf - 2,930 unit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Ratings -->
+<div class="dashboard-card">
+  <div class="card-header">
+    <h5 class="card-title mb-0"><i class="fas fa-star me-2"></i> Rating Konsumen</h5>
+  </div>
+  <div class="card-body">
+    <div class="insight-grid">
+      <div class="insight-card slide-in" style="animation-delay: 0.4s">
+        <h6><div class="insight-icon"><i class="fas fa-thumbs-up"></i></div> SKÅDIS</h6>
+        <div class="d-flex align-items-center mb-2">
+          <span class="rating-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </span>
+          <strong>4.8/5</strong>
+          <span class="text-muted ms-2">(1,240 reviews)</span>
+        </div>
+        <div class="alert alert-success p-2 mb-3">
+          <i class="fas fa-comment-dots me-2"></i>
+          "Pengguna menyukai kemudahan instalasi"
+        </div>
+        <div class="alert alert-warning p-2">
+          <i class="fas fa-comment-medical me-2"></i>
+          "Meminta lebih banyak pilihan warna"
+        </div>
+      </div>
+
+      <div class="insight-card slide-in" style="animation-delay: 0.5s">
+        <h6><div class="insight-icon"><i class="fas fa-award"></i></div> HEMNES</h6>
+        <div class="d-flex align-items-center mb-2">
+          <span class="rating-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </span>
+          <strong>4.5/5</strong>
+          <span class="text-muted ms-2">(980 reviews)</span>
+        </div>
+        <div class="alert alert-success p-2 mb-3">
+          <i class="fas fa-comment-dots me-2"></i>
+          "Dipuji karena daya tahan tinggi"
+        </div>
+        <div class="alert alert-danger p-2">
+          <i class="fas fa-tools me-2"></i>
+          "Beberapa keluhan tentang susahnya perakitan"
+        </div>
+      </div>
+
+      <div class="insight-card slide-in" style="animation-delay: 0.6s">
+        <h6><div class="insight-icon"><i class="fas fa-medal"></i></div> LACK</h6>
+        <div class="d-flex align-items-center mb-2">
+          <span class="rating-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+          </span>
+          <strong>4.2/5</strong>
+          <span class="text-muted ms-2">(1,560 reviews)</span>
+        </div>
+        <div class="alert alert-success p-2 mb-3">
+          <i class="fas fa-comment-dots me-2"></i>
+          "Harga terjangkau dengan kualitas cukup"
+        </div>
+        <div class="alert alert-warning p-2">
+          <i class="fas fa-exclamation-triangle me-2"></i>
+          "Kekhawatiran tentang kualitas material"
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Critical Alerts -->
+<div class="dashboard-card">
+  <div class="card-header">
+    <h5 class="card-title mb-0"><i class="fas fa-bell me-2"></i> Notifikasi Kritis</h5>
+  </div>
+  <div class="card-body p-0">
+    <div class="alert-notification critical-alert">
+      <i class="fas fa-box-open fa-lg"></i>
+      <div>
+        <strong>STOK KRITIS</strong><br>
+        LACK Side Table (Hitam) - Tinggal 8 unit (Akan habis dalam 3 hari)
+      </div>
+      <button class="btn btn-sm btn-outline-danger ms-auto">Restock</button>
+    </div>
+    
+    <div class="alert-notification warning-alert">
+      <i class="fas fa-sync-alt fa-lg"></i>
+      <div>
+        <strong>RESTOCK FREKUENSI TINGGI</strong><br>
+        SKÅDIS Pegboard - Sudah 4x restock bulan ini (rata-rata 2x/bulan)
+      </div>
+      <button class="btn btn-sm btn-outline-warning ms-auto">Analisis</button>
+    </div>
+    
+    <div class="alert-notification critical-alert">
+      <i class="fas fa-thumbs-down fa-lg"></i>
+      <div>
+        <strong>REVIEW NEGATIF</strong><br>
+        VITTSJÖ Shelf Unit - 12 review negatif minggu ini (Rata-rata 3.2/5)
+      </div>
+      <button class="btn btn-sm btn-outline-danger ms-auto">Investigasi</button>
+    </div>
+  </div>
+</div>
+
+<!-- Health Score -->
+<div class="dashboard-card">
+  <div class="card-header">
+    <h5 class="card-title mb-0"><i class="fas fa-heartbeat me-2"></i> Brand Health Score</h5>
+  </div>
+  <div class="card-body">
+    <div class="insight-grid">
+      <div class="insight-card">
+        <h6><div class="insight-icon"><i class="fas fa-check-circle"></i></div> SKÅDIS</h6>
+        <div class="d-flex align-items-center mb-3">
+          <div class="health-score" style="font-size: 2rem; color: #28a745">91</div>
+          <div class="ms-3">
+            <div class="progress" style="height: 10px; width: 150px">
+              <div class="progress-bar bg-success" style="width: 91%"></div>
+            </div>
+            <small class="text-muted">Dari skor maksimal 100</small>
+          </div>
+        </div>
+        <div class="alert alert-success p-2">
+          <i class="fas fa-check me-2"></i>
+          Performa excellent di semua metrik
+        </div>
+      </div>
+      
+      <div class="insight-card">
+        <h6><div class="insight-icon"><i class="fas fa-check"></i></div> HEMNES</h6>
+        <div class="d-flex align-items-center mb-3">
+          <div class="health-score" style="font-size: 2rem; color: #28a745">87</div>
+          <div class="ms-3">
+            <div class="progress" style="height: 10px; width: 150px">
+              <div class="progress-bar bg-success" style="width: 87%"></div>
+            </div>
+            <small class="text-muted">Dari skor maksimal 100</small>
+          </div>
+        </div>
+        <div class="alert alert-success p-2">
+          <i class="fas fa-check me-2"></i>
+          Penjualan stabil, rating tinggi
+        </div>
+      </div>
+      
+      <div class="insight-card">
+        <h6><div class="insight-icon"><i class="fas fa-exclamation-triangle"></i></div> FJÄLLBO</h6>
+        <div class="d-flex align-items-center mb-3">
+          <div class="health-score" style="font-size: 2rem; color: #ffc107">62</div>
+          <div class="ms-3">
+            <div class="progress" style="height: 10px; width: 150px">
+              <div class="progress-bar bg-warning" style="width: 62%"></div>
+            </div>
+            <small class="text-muted">Dari skor maksimal 100</small>
+          </div>
+        </div>
+        <div class="alert alert-warning p-2">
+          <i class="fas fa-exclamation me-2"></i>
+          Perlu perhatian: Penjualan menurun
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

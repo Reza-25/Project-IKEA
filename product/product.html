@@ -1,498 +1,562 @@
+<?php
+require_once __DIR__ . '/../include/config.php'; // Import config.php
+?>
+
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IKEA Dashboard - Produk Terjual</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
+    <meta content="POS - Bootstrap Admin Template" name="description" />
+    <meta content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" name="keywords" />
+    <meta content="Dreamguys - Bootstrap Admin Template" name="author" />
+    <meta content="noindex, nofollow" name="robots" />
+    <title>IKEA Brand Management</title>
+    <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="../assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
+    <link href="../assets/plugins/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="../assets/css/style.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
       :root {
-        --ikea-blue: #1a5ea7;
-        --ikea-purple: #751e8d;
-        --ikea-orange: #e78001;
-        --ikea-teal: #018679;
-        --ikea-yellow: #ffcc00;
-        --ikea-white: #ffffff;
-        --ikea-light-blue: #f8fbff;
+        --ikea-blue: #0051BA;
+        --ikea-yellow: #FFCC00;
+        --light-gray: #f8f9fa;
+        --dark-gray: #343a40;
       }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      
       body {
-        background: linear-gradient(135deg, var(--ikea-light-blue) 0%, #ffffff 100%);
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        min-height: 100vh;
+        background-color: #f5f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       }
-      .navbar {
-        background: var(--ikea-blue) !important;
-        box-shadow: 0 4px 20px rgba(26, 94, 167, 0.3);
-      }
-      .navbar-brand {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: white !important;
-      }
-      .stats-card {
+      
+      .dashboard-card {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         background: white;
-        border-radius: 20px;
-        padding: 30px 25px;
-        box-shadow: 0 8px 32px rgba(26, 94, 167, 0.13), 0 2px 8px rgba(0, 0, 0, 0.08);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 1.5px solid #e3eafc;
-        position: relative;
-        overflow: hidden;
+        margin-bottom: 24px;
       }
-      .stats-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: linear-gradient(90deg, var(--color, #1a5ea7), var(--color-light, #4a8bc7));
-      }
-      .stats-card:hover {
-        transform: translateY(-8px) scale(1.03);
-        box-shadow: 0 20px 48px rgba(26, 94, 167, 0.18), 0 4px 16px rgba(0, 0, 0, 0.1);
-      }
-      .stats-card.blue {
-        --color: var(--ikea-blue);
-        --color-light: #4a8bc7;
-      }
-      .stats-card.purple {
-        --color: var(--ikea-purple);
-        --color-light: #a555b8;
-      }
-      .stats-card.orange {
-        --color: var(--ikea-orange);
-        --color-light: #f0a040;
-      }
-      .stats-card.teal {
-        --color: var(--ikea-teal);
-        --color-light: #40a699;
-      }
-      .stats-icon {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2rem;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, var(--color), var(--color-light));
+      
+      .card-header {
+        border-radius: 12px 12px 0 0 !important;
+        background-color: var(--ikea-blue);
         color: white;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        animation: popIn 0.7s;
+        padding: 15px 20px;
       }
-      @keyframes popIn {
-        0% {
-          transform: scale(0.7);
-          opacity: 0;
-        }
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-      .stats-number {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: var(--color);
-        margin-bottom: 8px;
-        counter-reset: num var(--num);
-      }
-      .stats-label {
-        color: #666;
+      
+      .card-header h5 {
+        margin-bottom: 0;
         font-size: 1.1rem;
+      }
+      
+      /* Chart containers */
+      .chart-container {
+        position: relative;
+        height: 300px;
+      }
+      
+      /* Dynamic notes for area chart */
+      .chart-notes {
+        display: flex;
+        justify-content: space-between;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        border-left: 4px solid var(--ikea-blue);
+      }
+      
+      .chart-note-item {
+        text-align: center;
+        flex: 1;
+      }
+      
+      .chart-note-item i {
+        font-size: 1.2rem;
+        color: var(--ikea-blue);
+        margin-bottom: 5px;
+      }
+      
+      .chart-note-item strong {
+        display: block;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+      
+      .chart-note-item span {
+        font-size: 0.85rem;
+        color: #495057;
+      }
+      
+      /* Insight cards */
+      .insight-card {
+        padding: 15px;
+        border-radius: 8px;
+        background-color: white;
+        margin-bottom: 15px;
+        border-left: 4px solid var(--ikea-blue);
+      }
+      
+      .insight-card h6 {
+        font-weight: 600;
         margin-bottom: 10px;
       }
-      .stats-change {
-        font-size: 0.9rem;
-        padding: 5px 12px;
-        border-radius: 15px;
-        font-weight: 600;
-      }
-      .stats-change.positive {
-        background: rgba(40, 167, 69, 0.1);
-        color: #28a745;
-      }
-      .stats-change.negative {
-        background: rgba(220, 53, 69, 0.1);
-        color: #dc3545;
-      }
-      .data-table {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-      }
-      .table-header {
-        background: linear-gradient(135deg, var(--ikea-blue), var(--ikea-purple));
-        color: white;
-        padding: 20px 30px;
-        font-size: 1.3rem;
-        font-weight: bold;
-      }
-      .table thead th {
-        background: var(--ikea-light-blue);
-        color: var(--ikea-blue);
-        border: none;
-        padding: 15px;
-        font-weight: 600;
-      }
-      .table tbody tr {
-        transition: all 0.3s ease;
-      }
-      .table tbody tr:hover {
-        background: var(--ikea-light-blue);
-        transform: scale(1.01);
-      }
-      .product-img {
-        width: 50px;
-        height: 50px;
-        border-radius: 10px;
-        object-fit: cover;
-      }
-      .insight-card {
-        background: linear-gradient(135deg, var(--ikea-yellow), #fff3a0);
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-left: 5px solid var(--ikea-orange);
-        box-shadow: 0 4px 15px rgba(231, 128, 1, 0.2);
-      }
-      .insight-icon {
-        color: var(--ikea-orange);
-        font-size: 1.5rem;
-        margin-right: 10px;
-      }
-      .export-btn {
-        background: var(--ikea-teal);
-        border: none;
-        color: white;
-        padding: 12px 25px;
-        border-radius: 10px;
-        margin: 5px;
-        transition: all 0.3s ease;
-        text-decoration: none;
+      
+      /* Status indicators */
+      .status-indicator {
         display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 6px;
       }
-      .export-btn:hover {
-        background: var(--ikea-orange);
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        color: white;
+      
+      .status-good {
+        background-color: #28a745;
       }
-      .rating {
-        color: var(--ikea-yellow);
+      
+      .status-warning {
+        background-color: #ffc107;
       }
-      .review-card {
-        background: white;
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        border-left: 4px solid var(--ikea-teal);
+      
+      .status-critical {
+        background-color: #dc3545;
       }
-      @keyframes countUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      
+      /* Alert notifications */
+      .alert-notification {
+        padding: 12px 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
       }
-      .animate-count {
-        animation: countUp 1s ease-out;
+      
+      .alert-notification i {
+        margin-right: 12px;
+        font-size: 1.2rem;
       }
-      .section-title {
-        color: var(--ikea-blue);
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 30px;
-        text-align: center;
+      
+      /* Health score */
+      .health-score {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-right: 8px;
       }
+      
+      /* Responsive adjustments */
       @media (max-width: 768px) {
-        .stats-card {
-          margin-bottom: 20px;
+        .chart-notes {
+          flex-wrap: wrap;
         }
-        .stats-number {
-          font-size: 2rem;
+        
+        .chart-note-item {
+          flex: 50%;
+          margin-bottom: 10px;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand" href="#"> <i class="fas fa-store"></i> IKEA Indonesia </a>
-        <div class="navbar-nav ms-auto">
-          <span class="navbar-text text-white"> <i class="fas fa-user-circle"></i> Manager Dashboard </span>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container mt-4">
-      <!-- Page Title -->
-      <h1 class="section-title"><i class="fas fa-chart-line"></i> Dashboard Produk Terjual</h1>
-
-      <!-- Stats Cards -->
-      <div class="row mb-5">
-        <div class="col-lg-3 col-sm-6 col-12 d-flex mb-4">
-          <div class="stats-card blue animate-count w-100">
-            <div class="stats-icon">
-              <i class="fas fa-box"></i>
+    <div id="global-loader">
+      <div class="whirly-loader"></div>
+    </div>
+    
+    <div class="main-wrapper">
+      <?php include BASE_PATH . '/include/sidebar.php'; ?>
+      
+      <div class="page-wrapper">
+        <?php include __DIR__ . '/../include/header.php'; ?>
+        
+        <div class="content">
+          <div class="page-header">
+            <div class="page-title">
+              <h4>Brand Management System</h4>
+              <h6>Comprehensive brand performance analysis</h6>
             </div>
-            <div class="stats-number" id="totalSold">7,863</div>
-            <div class="stats-label">Total Produk Terjual</div>
-            <div class="stats-change positive"><i class="fas fa-arrow-up"></i> +15% dari bulan lalu</div>
           </div>
-        </div>
-        <div class="col-lg-3 col-sm-6 col-12 d-flex mb-4">
-          <div class="stats-card purple animate-count w-100">
-            <div class="stats-icon">
-              <i class="fas fa-dollar-sign"></i>
-            </div>
-            <div class="stats-number">Rp 2.4M</div>
-            <div class="stats-label">Total Pendapatan</div>
-            <div class="stats-change positive"><i class="fas fa-arrow-up"></i> +22% dari bulan lalu</div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-sm-6 col-12 d-flex mb-4">
-          <div class="stats-card orange animate-count w-100">
-            <div class="stats-icon">
-              <i class="fas fa-trophy"></i>
-            </div>
-            <div class="stats-number">HEMNES</div>
-            <div class="stats-label">Produk Terlaris</div>
-            <div class="stats-change positive"><i class="fas fa-fire"></i> 342 unit terjual</div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-sm-6 col-12 d-flex mb-4">
-          <div class="stats-card teal animate-count w-100">
-            <div class="stats-icon">
-              <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <div class="stats-number">23</div>
-            <div class="stats-label">Produk Hampir Habis</div>
-            <div class="stats-change negative"><i class="fas fa-arrow-down"></i> Perlu restok segera</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Filters -->
-      <div class="filter-container">
-        <div class="row align-items-center">
-          <div class="col-md-8">
-            <h5 class="mb-3"><i class="fas fa-filter"></i> Filter Data</h5>
-            <button class="filter-btn active" data-period="daily">Harian</button>
-            <button class="filter-btn" data-period="weekly">Mingguan</button>
-            <button class="filter-btn" data-period="monthly">Bulanan</button>
-            <select class="form-select d-inline-block w-auto ms-3">
-              <option>Semua Kategori</option>
-              <option>Furniture</option>
-              <option>Lighting</option>
-              <option>Storage</option>
-              <option>Kitchen</option>
-            </select>
-          </div>
-          <div class="col-md-4 text-end">
-            <h6 class="mb-2">Export Data:</h6>
-            <a href="#" class="export-btn"><i class="fas fa-file-pdf"></i> PDF</a>
-            <a href="#" class="export-btn"><i class="fas fa-file-excel"></i> Excel</a>
-            <a href="#" class="export-btn"><i class="fas fa-file-csv"></i> CSV</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Insights -->
-      <div class="insight-card">
-        <i class="fas fa-lightbulb insight-icon"></i>
-        <strong>Insight MIS:</strong> Penjualan produk sofa naik 23% dibanding minggu lalu. Lemari PAX hampir mencapai target bulanan dengan 89% dari target.
-      </div>
-
-      <!-- Review Section -->
-      <div class="row mb-5">
-        <div class="col-lg-8 mb-4"></div>
-        <div class="col-lg-4">
-          <div class="chart-container">
-            <h5 class="chart-title"><i class="fas fa-comments"></i> Review Terbaru</h5>
-            <div class="review-card">
-              <div class="d-flex justify-content-between">
-                <strong>Sarah M.</strong>
-                <div class="rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
+          
+          <!-- Area Chart with Year Selection -->
+          <div class="row">
+            <div class="col-12">
+              <div class="dashboard-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h5 class="card-title mb-0">Brand Sales Trend</h5>
+                  <select id="areaYearSelect" class="form-select form-select-sm" style="width: 100px;">
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025" selected>2025</option>
+                  </select>
+                </div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="areaChartBrandSales"></canvas>
+                  </div>
+                  <div class="chart-notes">
+                    <div class="chart-note-item">
+                      <i class="bi bi-tag"></i>
+                      <strong>Brand</strong>
+                      <span id="noteBrand">-</span>
+                    </div>
+                    <div class="chart-note-item">
+                      <i class="bi bi-calendar3"></i>
+                      <strong>Month</strong>
+                      <span id="noteMonth">-</span>
+                    </div>
+                    <div class="chart-note-item">
+                      <i class="bi bi-bar-chart-line"></i>
+                      <strong>Sales</strong>
+                      <span id="noteSales">-</span>
+                    </div>
+                    <div class="chart-note-item">
+                      <i class="bi bi-graph-up"></i>
+                      <strong>Avg/Month</strong>
+                      <span id="noteAvg">-</span>
+                    </div>
+                    <div class="chart-note-item">
+                      <i class="bi bi-activity"></i>
+                      <strong>Trend</strong>
+                      <span id="noteTrend">-</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <small class="text-muted">HEMNES Lemari</small>
-              <p class="mt-2 mb-0">"Kualitas sangat baik, mudah dirakit!"</p>
             </div>
-            <div class="review-card">
-              <div class="d-flex justify-content-between">
-                <strong>Andi R.</strong>
-                <div class="rating">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="far fa-star"></i>
+          </div>
+          
+          <!-- Non-Chart Data Section -->
+          <div class="row">
+            <!-- Best Selling Products per Brand -->
+            <div class="col-md-6">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">🧺 Best Selling Products per Brand</h5>
+                </div>
+                <div class="card-body">
+                  <div class="insight-card">
+                    <h6>HEMNES</h6>
+                    <p>HEMNES Bed Frame - 2,450 units sold</p>
+                    <p>HEMNES Dresser - 1,890 units sold</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>SKÅDIS</h6>
+                    <p>SKÅDIS Pegboard - 3,210 units sold</p>
+                    <p>SKÅDIS Accessories Set - 2,780 units sold</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>LACK</h6>
+                    <p>LACK Side Table - 4,150 units sold</p>
+                    <p>LACK Wall Shelf - 2,930 units sold</p>
+                  </div>
                 </div>
               </div>
-              <small class="text-muted">LACK Meja</small>
-              <p class="mt-2 mb-0">"Sesuai ekspektasi, harga terjangkau."</p>
+            </div>
+            
+            <!-- Restock Frequency -->
+            <div class="col-md-6">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">🔁 Restock Frequency</h5>
+                </div>
+                <div class="card-body">
+                  <div class="insight-card">
+                    <h6>LACK</h6>
+                    <p>68% products restocked in last 3 months</p>
+                    <p>Average restock cycle: 2 weeks</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>HEMNES</h6>
+                    <p>42% products restocked in last 3 months</p>
+                    <p>Average restock cycle: 6 weeks</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>SKÅDIS</h6>
+                    <p>55% products restocked in last 3 months</p>
+                    <p>Average restock cycle: 4 weeks</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Tables Row -->
-      <div class="row">
-        <div class="col-lg-6 mb-4">
-          <div class="data-table">
-            <div class="table-header"><i class="fas fa-medal"></i> Top 10 Produk Terlaris</div>
-            <div class="table-responsive">
-              <table class="table table-hover mb-0">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Gambar</th>
-                    <th>Produk</th>
-                    <th>Terjual</th>
-                    <th>Pendapatan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>
-                      <img
-                        src="data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='50' height='50' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' font-size='12' text-anchor='middle' dy='.3em'%3EHEMNES%3C/text%3E%3C/svg%3E"
-                        class="product-img"
-                        alt="HEMNES"
-                      />
-                    </td>
-                    <td><strong>HEMNES Lemari</strong></td>
-                    <td><span class="badge bg-success">342</span></td>
-                    <td><strong>Rp 189M</strong></td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>
-                      <img
-                        src="data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='50' height='50' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' font-size='12' text-anchor='middle' dy='.3em'%3ELACK%3C/text%3E%3C/svg%3E"
-                        class="product-img"
-                        alt="LACK"
-                      />
-                    </td>
-                    <td><strong>LACK Meja</strong></td>
-                    <td><span class="badge bg-primary">298</span></td>
-                    <td><strong>Rp 142M</strong></td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>
-                      <img
-                        src="data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='50' height='50' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' font-size='12' text-anchor='middle' dy='.3em'%3EBILLY%3C/text%3E%3C/svg%3E"
-                        class="product-img"
-                        alt="BILLY"
-                      />
-                    </td>
-                    <td><strong>BILLY Rak Buku</strong></td>
-                    <td><span class="badge bg-warning">267</span></td>
-                    <td><strong>Rp 128M</strong></td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>
-                      <img
-                        src="data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='50' height='50' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' font-size='12' text-anchor='middle' dy='.3em'%3EMALM%3C/text%3E%3C/svg%3E"
-                        class="product-img"
-                        alt="MALM"
-                      />
-                    </td>
-                    <td><strong>MALM Tempat Tidur</strong></td>
-                    <td><span class="badge bg-info">234</span></td>
-                    <td><strong>Rp 156M</strong></td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>
-                      <img
-                        src="data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='50' height='50' fill='%23e0e0e0'/%3E%3Ctext x='50%25' y='50%25' font-size='12' text-anchor='middle' dy='.3em'%3EPOANG%3C/text%3E%3C/svg%3E"
-                        class="product-img"
-                        alt="POANG"
-                      />
-                    </td>
-                    <td><strong>POÄNG Kursi</strong></td>
-                    <td><span class="badge bg-secondary">198</span></td>
-                    <td><strong>Rp 95M</strong></td>
-                  </tr>
-                </tbody>
-              </table>
+          
+          <!-- Customer Ratings & Stock Status -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">⭐️ Customer Ratings</h5>
+                </div>
+                <div class="card-body">
+                  <div class="insight-card">
+                    <h6>SKÅDIS</h6>
+                    <p>Average rating: 4.8/5 (from 1,240 reviews)</p>
+                    <p>"Customers love the versatility but want more color options"</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>HEMNES</h6>
+                    <p>Average rating: 4.5/5 (from 980 reviews)</p>
+                    <p>"Praised for durability but some assembly complaints"</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>LACK</h6>
+                    <p>Average rating: 4.2/5 (from 1,560 reviews)</p>
+                    <p>"Great value but concerns about material quality"</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">📦 Stock Status</h5>
+                </div>
+                <div class="card-body">
+                  <div class="insight-card">
+                    <h6>Low Stock <span class="status-indicator status-critical"></span></h6>
+                    <p>LACK Side Table (Black) - 8 units left</p>
+                    <p>SKÅDIS Pegboard (White) - 12 units left</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>Overstock <span class="status-indicator status-warning"></span></h6>
+                    <p>HEMNES Dresser (Black-Brown) - 240 units</p>
+                    <p>VITTSJÖ Shelf Unit - 180 units</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-6 mb-4">
-          <div class="data-table">
-            <div class="table-header"><i class="fas fa-clock"></i> Transaksi Terakhir</div>
-            <div class="table-responsive">
-              <table class="table table-hover mb-0">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Produk</th>
-                    <th>Waktu</th>
-                    <th>Cabang</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>#TRX001</strong></td>
-                    <td>HEMNES Lemari</td>
-                    <td><small>12:34 WIB</small></td>
-                    <td><span class="badge bg-primary">Alam Sutera</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>#TRX002</strong></td>
-                    <td>LACK Meja</td>
-                    <td><small>12:28 WIB</small></td>
-                    <td><span class="badge bg-success">PIK</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>#TRX003</strong></td>
-                    <td>BILLY Rak Buku</td>
-                    <td><small>12:15 WIB</small></td>
-                    <td><span class="badge bg-warning">Tangerang</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>#TRX004</strong></td>
-                    <td>MALM Tempat Tidur</td>
-                    <td><small>12:02 WIB</small></td>
-                    <td><span class="badge bg-info">Kelapa Gading</span></td>
-                  </tr>
-                  <tr>
-                    <td><strong>#TRX005</strong></td>
-                    <td>POÄNG Kursi</td>
-                    <td><small>11:45 WIB</small></td>
-                    <td><span class="badge bg-secondary">Cibubur</span></td>
-                  </tr>
-                </tbody>
-              </table>
+          
+          <!-- Critical Alerts -->
+          <div class="row">
+            <div class="col-12">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">📬 Critical Alerts</h5>
+                </div>
+                <div class="card-body">
+                  <div class="alert-notification alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                      <strong>LACK Side Table (Black)</strong> - Stock critical (8 units left) - Expected to sell out in 3 days
+                    </div>
+                  </div>
+                  <div class="alert-notification alert alert-warning">
+                    <i class="fas fa-sync-alt"></i>
+                    <div>
+                      <strong>SKÅDIS Pegboard</strong> - Restocked 4 times this month (above average)
+                    </div>
+                  </div>
+                  <div class="alert-notification alert alert-danger">
+                    <i class="fas fa-thumbs-down"></i>
+                    <div>
+                      <strong>VITTSJÖ Shelf Unit</strong> - 12 negative reviews this week (3.2/5 average)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Additional Insights -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">📊 Brand Health Scores</h5>
+                </div>
+                <div class="card-body">
+                  <div class="insight-card">
+                    <div class="d-flex align-items-center">
+                      <span class="health-score text-success">87/100</span>
+                      <span class="status-indicator status-good"></span>
+                      <strong>HEMNES</strong>
+                    </div>
+                    <p class="mt-2">Stable sales, high ratings, optimal inventory</p>
+                  </div>
+                  <div class="insight-card">
+                    <div class="d-flex align-items-center">
+                      <span class="health-score text-warning">62/100</span>
+                      <span class="status-indicator status-warning"></span>
+                      <strong>FJÄLLBO</strong>
+                    </div>
+                    <p class="mt-2">Needs attention: Declining sales, frequent restocks</p>
+                  </div>
+                  <div class="insight-card">
+                    <div class="d-flex align-items-center">
+                      <span class="health-score text-success">91/100</span>
+                      <span class="status-indicator status-good"></span>
+                      <strong>SKÅDIS</strong>
+                    </div>
+                    <p class="mt-2">Excellent performance across all metrics</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">🌍 Top Selling Locations</h5>
+                </div>
+                <div class="card-body">
+                  <div class="insight-card">
+                    <h6>HEMNES</h6>
+                    <p>Top cities: Jakarta, Surabaya, Medan</p>
+                    <p>Contributes 68% of total brand sales</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>SKÅDIS</h6>
+                    <p>Top cities: Bandung, Yogyakarta, Denpasar</p>
+                    <p>Urban areas account for 75% of sales</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>LACK</h6>
+                    <p>Top cities: Jakarta, Semarang, Makassar</p>
+                    <p>Consistent demand across regions</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- AI Suggestions -->
+          <div class="row">
+            <div class="col-12">
+              <div class="dashboard-card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">🧠 AI Recommendations</h5>
+                </div>
+                <div class="card-body">
+                  <div class="insight-card">
+                    <h6>New Product Opportunity</h6>
+                    <p>"Pencarian untuk 'rak dinding kayu minimalis' meningkat 42% bulan ini. Pertimbangkan menambahkan varian ini di koleksi LACK."</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>Promo Readiness</h6>
+                    <p>"KALLAX memiliki Promo-Ready Score 92% (Stok tinggi + rating 4.6) - Cocok untuk flash sale minggu depan"</p>
+                  </div>
+                  <div class="insight-card">
+                    <h6>Competitive Insight</h6>
+                    <p>"SKÅDIS dan VARIERA bersaing ketat di kategori Organizer. SKÅDIS unggul di rating (4.8 vs 4.3), VARIERA lebih murah 15%"</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <script>
+      // Area Chart Data by Year
+      const areaChartData = {
+        2023: [
+          { label: 'HEMNES', data: [80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135], borderColor: '#26c6da', backgroundColor: 'rgba(38, 198, 218, 0.5)', tension: 0.4, fill: true },
+          { label: 'SKÅDIS', data: [70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125], borderColor: '#d05ce4', backgroundColor: 'rgba(208, 92, 228, 0.5)', tension: 0.4, fill: true },
+          { label: 'LACK', data: [60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115], borderColor: '#ffb443', backgroundColor: 'rgba(255, 180, 67, 0.5)', tension: 0.4, fill: true }
+        ],
+        2024: [
+          { label: 'HEMNES', data: [90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145], borderColor: '#26c6da', backgroundColor: 'rgba(38, 198, 218, 0.5)', tension: 0.4, fill: true },
+          { label: 'SKÅDIS', data: [80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135], borderColor: '#d05ce4', backgroundColor: 'rgba(208, 92, 228, 0.5)', tension: 0.4, fill: true },
+          { label: 'LACK', data: [70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125], borderColor: '#ffb443', backgroundColor: 'rgba(255, 180, 67, 0.5)', tension: 0.4, fill: true }
+        ],
+        2025: [
+          { label: 'HEMNES', data: [100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155], borderColor: '#26c6da', backgroundColor: 'rgba(38, 198, 218, 0.5)', tension: 0.4, fill: true },
+          { label: 'SKÅDIS', data: [90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145], borderColor: '#d05ce4', backgroundColor: 'rgba(208, 92, 228, 0.5)', tension: 0.4, fill: true },
+          { label: 'LACK', data: [80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135], borderColor: '#ffb443', backgroundColor: 'rgba(255, 180, 67, 0.5)', tension: 0.4, fill: true }
+        ]
+      };
+
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      let currentAreaYear = '2025';
+
+      // Initialize Area Chart
+      const areaCtx = document.getElementById('areaChartBrandSales').getContext('2d');
+      let areaChart = new Chart(areaCtx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: areaChartData[currentAreaYear]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ' + context.raw + ' units';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Sales (Units)'
+              }
+            }
+          },
+          onClick: (e, elements) => {
+            if (elements.length > 0) {
+              const point = elements[0];
+              const dataset = areaChart.data.datasets[point.datasetIndex];
+              const month = areaChart.data.labels[point.index];
+              const value = dataset.data[point.index];
+              const avg = (dataset.data.reduce((a, b) => a + b, 0) / dataset.data.length).toFixed(1);
+              const prev = dataset.data[point.index - 1];
+              const trend = prev !== undefined ? (value > prev ? 'Up 📈' : value < prev ? 'Down 📉' : 'Stable ➖') : '-';
+              
+              // Update notes
+              document.getElementById('noteBrand').textContent = dataset.label;
+              document.getElementById('noteMonth').textContent = month;
+              document.getElementById('noteSales').textContent = value + ' units';
+              document.getElementById('noteAvg').textContent = avg + ' units';
+              document.getElementById('noteTrend').textContent = trend;
+            }
+          }
+        }
+      });
+
+      // Year selection handler
+      document.getElementById('areaYearSelect').addEventListener('change', function() {
+        currentAreaYear = this.value;
+        areaChart.destroy();
+        areaChart = new Chart(areaCtx, {
+          type: 'line',
+          data: {
+            labels: months,
+            datasets: areaChartData[currentAreaYear]
+          },
+          options: areaChart.options
+        });
+      });
+    </script>
+
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/feather.min.js"></script>
+    <script src="../assets/js/jquery.slimscroll.min.js"></script>
+    <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/plugins/select2/js/select2.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
+    <script src="../assets/js/script.js"></script>
   </body>
 </html>
