@@ -4,870 +4,1615 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
-    <meta content="POS - Bootstrap Admin Template" name="description" />
-    <meta content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" name="keywords" />
-    <meta content="Dreamguys - Bootstrap Admin Template" name="author" />
-    <meta content="noindex, nofollow" name="robots" />
-    <title>IKEA Brand Management</title>
-    <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="../assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/fontawesome/css/all.min.css" rel="stylesheet" />
-    <link href="../assets/css/style.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<meta name="description" content="POS - Bootstrap Admin Template">
+<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+<meta name="author" content="Dreamguys - Bootstrap Admin Template">
+<meta name="robots" content="noindex, nofollow">
+<title>IKEA</title>
 
-    <style>
-      :root {
-        --ikea-blue: #0051BA;
-        --ikea-yellow: #FFCC00;
-        --light-gray: #f8f9fa;
-        --dark-gray: #343a40;
-      }
-      
-      body {
-        background-color: #f5f7fa;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
-      
-      .ikea-header {
-        background-color: var(--ikea-blue) !important;
-      }
-      
-      .dashboard-card {
-        border-radius: 12px;
-        border: none;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        background: white;
-        margin-bottom: 24px;
-      }
-      
-      .dashboard-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      }
-      
-      .card-header {
-        border-radius: 12px 12px 0 0 !important;
-        background-color: var(--ikea-blue);
-        color: white;
-        padding: 15px 20px;
-      }
-      
-      .card-header h5 {
-        margin-bottom: 0;
-        font-size: 1.1rem;
-      }
-      
-      /* Chart containers */
-      .chart-container {
-        position: relative;
-        height: 250px;
-      }
-      
-      .small-chart-container {
-        position: relative;
-        height: 200px;
-      }
-      
-      /* Dynamic notes for line chart */
-      .chart-notes {
-        display: flex;
-        justify-content: space-between;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 15px;
-        margin-top: 15px;
-        border-left: 4px solid var(--ikea-blue);
-      }
-      
-      .chart-note-item {
-        text-align: center;
-        flex: 1;
-      }
-      
-      .chart-note-item i {
-        font-size: 1.2rem;
-        color: var(--ikea-blue);
-        margin-bottom: 5px;
-      }
-      
-      .chart-note-item strong {
-        display: block;
-        font-size: 0.9rem;
-        margin-bottom: 5px;
-      }
-      
-      .chart-note-item span {
-        font-size: 0.85rem;
-        color: #495057;
-      }
-      
-      /* Metric cards */
-      .metric-card {
-        padding: 15px;
-        border-left: 4px solid var(--ikea-blue);
-        background-color: white;
-        border-radius: 8px;
-        height: 100%;
-      }
-      
-      .metric-card .metric-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--ikea-blue);
-        margin-bottom: 5px;
-      }
-      
-      .metric-card .metric-label {
-        font-size: 0.85rem;
-        color: #6c757d;
-      }
-      
-      /* Alert items */
-      .alert-item {
-        padding: 12px 15px;
-        border-radius: 8px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-      }
-      
-      .alert-item i {
-        margin-right: 12px;
-        font-size: 1.2rem;
-      }
-      
-      /* Table styling */
-      .data-table th {
-        background-color: #f8f9fa;
-        font-weight: 600;
-      }
-      
-      /* Animation */
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      
-      .animate-fadein {
-        animation: fadeIn 0.6s ease-out forwards;
-      }
-      
-      /* Responsive adjustments */
-      @media (max-width: 768px) {
-        .chart-notes {
-          flex-wrap: wrap;
-        }
-        
-        .chart-note-item {
-          flex: 50%;
-          margin-bottom: 10px;
-        }
-      }
-      
-      .card-header {
-  background-color: #0d47a1 !important; /* Biru navy tua */
-  color: white !important; /* Agar teks tetap terlihat */
-  border-radius: 12px 12px 0 0;
+<link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/css/animate.css">
+<link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<style>
+   a {
+    text-decoration: none !important;
+  }
+
+    .ikea-select {
+      background-color: #E6F0FF !important; /* Soft blue */
+      border: 2px solid #ccc;
+      color: #333;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      appearance: none;
+      width: 140px; /* Lebar diperpanjang */
+      background-image: url("data:image/svg+xml,%3Csvg fill='%230051BA' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+      background-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+
+  .ikea-select:hover {
+    border-color: #0051BA;
+  }
+
+  .ikea-select:focus {
+    outline: none;
+    border-color: #0051BA;
+    box-shadow: 0 0 0 3px rgba(230, 240, 255, 0.8); /* glow soft blue */
+  }
+
+  .card-header h5 {
+    color: white;
+  }
+
+  style
+  .ikea-note-card {
+    background-color: #fffbea;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    border-left: 8px solid #FFCC00;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #notesCarousel::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  #notesCarousel::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+  .note-card p {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .note-card strong {
+    font-size: 16px;
+  }
+
+  .card-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .card-body::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+/* Reset semua background jadi putih & style dasar kolom */
+.das1, .das2, .das3, .das4 {
+  background: white !important;
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
-    </style>
-  </head>
-  <body>
-    <div id="global-loader">
-      <div class="whirly-loader"></div>
-    </div>
+/* Struktur utama card */
+.dash-count {
+  padding: 24px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Efek saat hover */
+.dash-count:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+/* Penyesuaian tampilan angka dan label */
+.dash-counts h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.dash-counts h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 4px;
+  color: #6c757d;
+}
+
+/* Gaya icon kanan */
+.dash-imgs i {
+  font-size: 32px;
+}
+
+/* Kolom 1 - Biru Laut */
+.das1 {
+  border-top: 6px solid #1a5ea7;
+}
+.das1 * {
+  color: #1a5ea7 !important;
+}
+
+/* Kolom 2 - Ungu */
+.das2 {
+  border-top: 6px solid #751e8d;
+}
+.das2 * {
+  color: #751e8d !important;
+}
+
+/* Kolom 3 - Kuning/Oranye */
+.das3 {
+  border-top: 6px solid #e78001;
+}
+.das3 * {
+  color: #e78001 !important;
+}
+
+/* Kolom 4 - Tosca */
+.das4 {
+  border-top: 6px solid #018679;
+}
+.das4 * {
+  color: #018679 !important;
+}
+
+.stat-change {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;         /* Warna teks */
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Icon Box Style */
+.icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.icon-box i {
+  color: #ffffff !important;
+  font-size: 16 px;
+}
+/* Efek hover dan active */
+.icon-box:hover,
+.icon-box:active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  transform: scale(1.08);
+}
+.bg-ungu {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+}
+.bg-biru {
+  background: linear-gradient(135deg, #a259c6 0%, #6d28d9 100%);
+}
+.bg-hijau {
+  background: linear-gradient(135deg,rgb(89, 236, 222) 0%, #018679 100%);
+}
+.bg-merah {
+  background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
+}
+
+:root {
+    --primary-blue: #0051BA;
+    --secondary-blue: #66bfff;
+    --ikea-yellow: #FFCC00;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light-gray: #f8f9fa;
+    --dark-gray: #343a40;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fb;
+    color: #333;
+    padding: 15px;
+  }
+
+  .dashboard-container {
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    border-radius: 16px;
+    padding: 18px;
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 12px rgba(13, 71, 161, 0.2);
+  }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    border: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+    height: 100%;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-header {
+    background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    color: white;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 16px 16px 0 0 !important;
+    border: none;
+    font-size: 0.95rem;
+  }
+
+  .chart-container {
+    padding: 15px;
+    position: relative;
+    min-height: 280px;
+  }
+
+  .insight-container {
+    padding: 15px;
+    background-color: #f9fafb;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 16px 16px;
+    font-size: 0.9rem;
+  }
+
+  .stats-card {
+    padding: 20px;
+    text-align: center;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 15px;
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+
+  .stats-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+  }
+
+  .stats-card i {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+  }
+
+  .stats-card h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 8px 0;
+  }
+
+  .stats-card p {
+    color: #6c757d;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+
+  .trend-indicator {
+    font-size: 1.1rem;
+    display: inline-block;
+    margin-left: 6px;
+  }
+
+  .trend-up {
+    color: var(--success);
+  }
+
+  .trend-down {
+    color: var(--danger);
+  }
+
+  .notification-card {
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+  }
+
+  .notification-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .notification-card i {
+    font-size: 1.4rem;
+    min-width: 36px;
+    text-align: center;
+  }
+
+  .notification-card.warning {
+    background-color: #fff8e1;
+    border-left: 4px solid var(--warning);
+  }
+
+  .notification-card.danger {
+    background-color: #ffebee;
+    border-left: 4px solid var(--danger);
+  }
+
+  .notification-card.info {
+    background-color: #e3f2fd;
+    border-left: 4px solid #2196f3;
+  }
+
+  .health-score {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 8px 0;
+  }
+
+  .health-score.good {
+    color: var(--success);
+  }
+
+  .health-score.fair {
+    color: var(--warning);
+  }
+
+  .health-score.poor {
+    color: var(--danger);
+  }
+
+  .health-bar {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+
+  .health-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+
+  .location-tag {
+    display: inline-block;
+    background: #e9ecef;
+    padding: 4px 10px;
+    border-radius: 16px;
+    margin: 4px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+
+  .location-tag:hover {
+    transform: scale(1.05);
+  }
+
+  .location-tag.highlight {
+    background: var(--primary-blue);
+    color: white;
+  }
+
+  .chart-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 15px 10px 15px;
+  }
+
+  .chart-select {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    padding: 6px 12px;
+    background: white;
+    font-size: 0.9rem;
+  }
+
+  .insight-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .insight-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .insight-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .insight-card-header i {
+    font-size: 1.4rem;
+    color: var(--primary-blue);
+  }
+
+  .sentiment-bar {
+    height: 6px;
+    border-radius: 3px;
+    margin: 4px 0;
+  }
+
+  .sentiment-positive {
+    background: linear-gradient(90deg, #28a745, #4caf50);
+  }
+
+  .sentiment-neutral {
+    background: linear-gradient(90deg, #ffc107, #ff9800);
+  }
+
+  .sentiment-negative {
+    background: linear-gradient(90deg, #dc3545, #f44336);
+  }
+
+  .suggestion-card {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    color: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .suggestion-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .brand-comparison {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .brand-comparison-item {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+  }
+
+  .brand-comparison-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .brand-comparison-item h5 {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+
+  .readiness-score {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 12px 0;
+    color: var(--primary-blue);
+  }
+
+  /* Animasi */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-delay-1 {
+    animation-delay: 0.1s;
+  }
+  
+  .animate-delay-2 {
+    animation-delay: 0.2s;
+  }
+  
+  .animate-delay-3 {
+    animation-delay: 0.3s;
+  }
+
+  /* Layout adjustments */
+  .row {
+    margin-bottom: 10px;
+  }
+
+  .chart-sm {
+    min-height: 250px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  /* Improved Donut Chart Legend */
+  .donut-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+  }
+  
+  .legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  /* Budget Expense Styles */
+  .budget-card {
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    height: 100%;
+  }
+  
+  .budget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .budget-title {
+    font-weight: 600;
+    color: var(--primary-blue);
+  }
+  
+  .budget-status {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .status-good {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: var(--success);
+  }
+  
+  .status-warning {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: var(--warning);
+  }
+  
+  .budget-bar {
+    height: 10px;
+    background: #e9ecef;
+    border-radius: 5px;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+  
+  .budget-fill {
+    height: 100%;
+    border-radius: 5px;
+  }
+  
+  .bg-supplies { background: linear-gradient(90deg, #1a5ea7, #2196f3); }
+  .bg-utilities { background: linear-gradient(90deg, #28a745, #4caf50); }
+  .bg-transport { background: linear-gradient(90deg, #ff9800, #ff5722); }
+  
+  .budget-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+  }
+  
+  .summary-item {
+    text-align: center;
+    flex: 1;
+  }
+  
+  .summary-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  
+  .summary-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+  
+  /* Improved spacing and layout */
+  .compact-grid {
+    margin-bottom: -15px;
+  }
+  
+  .compact-grid > [class*="col-"] {
+    margin-bottom: 15px;
+  }
+
+  @media (max-width: 768px) {
+    .chart-controls {
+      flex-direction: column;
+    }
     
-    <div class="main-wrapper">
-      <?php include BASE_PATH . '/include/sidebar.php'; ?>
-      
-      <div class="page-wrapper">
-        <?php include __DIR__ . '/../include/header.php'; ?>
-        
-        <div class="content">
-          <div class="page-header">
-            <div class="page-title">
-              <h4>Brand Management System</h4>
-              <h6>Comprehensive brand performance analysis</h6>
+    .brand-comparison {
+      flex-direction: column;
+    }
+    
+    .stats-card {
+      margin-bottom: 12px;
+    }
+    
+    .page-header {
+      padding: 15px;
+    }
+    
+    .chart-container {
+      min-height: 250px;
+    }
+    
+    .dashboard-container {
+      padding: 0 10px;
+    }
+  }
+</style>
+
+
+</head>
+<body>
+<div id="global-loader">
+
+<div class="whirly-loader"> </div>
+</div>
+
+
+<div class="main-wrapper">
+<!-- Include sidebar -->
+<?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
+<!-- /Include sidebar -->
+
+
+<!-- BAGIAN ATAS -->
+<div class="page-wrapper">
+  <div class="content">
+    <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+  <div class="page-header">
+      <div class="page-title">
+        <h4>Product Category list</h4>
+        <h6>View/Search product Category</h6>
+      </div>
+      <div class="page-btn">
+        <a href="addcategory.php" class="btn btn-added">
+          <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">Add Category
+        </a>
+      </div>
+    </div>
+
+    <!-- Revenue, Suppliers, Product Sold, Budget Spent -->
+          <div class="row justify-content-end">
+            <!-- Total Product Sold -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das1">
+                  <div class="dash-counts">
+                    <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
+                    <h5>Total Product Sold</h5>
+                    <h2 class="stat-change">+9% from last year</h2>
+                    </div>
+                    <div class="icon-box bg-ungu">
+                      <i class="fa fa-box"></i>
+                    </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Most Popular Category -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das2">
+                  <div class="dash-counts">
+                    <h4>Furniture</h4>
+                    <h5>Top Category</h5>
+                  <h2 class="stat-change">+9% from last year</h2>
+                </div>
+                <div class="icon-box bg-biru">
+                  <i class="fa fa-couch"></i>
+                </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Top-Selling Product -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das3">
+                  <div class="dash-counts">
+                    <h4>Sofa KVK</span></h4>
+                    <h5>Top-Selling Product</h5>
+                    <h2 class="stat-change">+15% from last year</h2>
+                  </div>
+                  <div class="icon-box bg-merah">
+                    <i class="fa fa-trophy"></i>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Average Product Sales -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das4">
+                  <div class="dash-counts">
+                    <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
+                    <h5>Avg. Product Sales</h5>
+                   <h2 class="stat-change">+6% from last year</h2>
+                    </div>
+                    <div class="icon-box bg-hijau">
+                      <i class="fa fa-chart-line"></i>
+                    </div>
+                </div>
+              </a>
             </div>
           </div>
-          
-          <!-- Brand Charts Section -->
-          <div class="row animate-fadein">
-            <!-- Bar Chart - Top 5 Brands -->
-            <div class="col-md-6">
-              <div class="dashboard-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h5 class="card-title mb-0">Top 5 Brands by Sales</h5>
-                  <select id="barYearSelect" class="form-select form-select-sm" style="width: 100px;">
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025" selected>2025</option>
-                  </select>
-                </div>
-                <div class="card-body">
-                  <div class="chart-container">
-                    <canvas id="barChartTopBrands"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Pie Chart - Brand Contribution -->
-            <div class="col-md-6">
-              <div class="dashboard-card">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">Brand Contribution to Sales</h5>
-                </div>
-                <div class="card-body">
-                  <div class="small-chart-container">
-                    <canvas id="pieChartBrandContribution"></canvas>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <!-- END KOLOM  -->
+
+         <div class="dashboard-container">
+  <!-- Header -->
+  <div class="page-header animate__animated animate__fadeInDown">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h1 style="font-size: 1.6rem;"><i class="fas fa-chart-line me-2"></i>Brand Analytics Dashboard</h1>
+        <p class="mb-0" style="font-size: 0.95rem;">Analisis kinerja dan prediksi brand IKEA Indonesia</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-light btn-sm"><i class="fas fa-download me-2"></i>Export</button>
+        <button class="btn btn-light btn-sm"><i class="fas fa-cog me-2"></i>Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stats-card animate__animated animate__fadeInUp">
+      <i class="fas fa-boxes text-primary"></i>
+      <h3>12 Brand</h3>
+      <p>Total brand aktif</p>
+    </div>
+    <div class="stats-card animate__animated animate__fadeInUp animate-delay-1">
+      <i class="fas fa-money-bill-wave text-success"></i>
+      <h3>Rp 385 M</h3>
+      <p>Total penjualan Q2 2025</p>
+    </div>
+    <div class="stats-card animate__animated animate__fadeInUp animate-delay-2">
+      <i class="fas fa-star text-warning"></i>
+      <h3>4.6 <span class="trend-indicator trend-up">▲</span></h3>
+      <p>Rata-rata rating brand</p>
+    </div>
+    <div class="stats-card animate__animated animate__fadeInUp animate-delay-3">
+      <i class="fas fa-sync-alt text-info"></i>
+      <h3>24 <span class="trend-indicator trend-down">▼</span></h3>
+      <p>Restock bulan ini</p>
+    </div>
+  </div>
+
+  <!-- Chart Row 1 -->
+  <div class="row compact-grid">
+    <!-- Bar Chart -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="fas fa-chart-bar me-2"></i>Top 5 Brands with Highest Sales</span>
+          <div class="chart-controls">
+            <select class="chart-select" id="barChartYear">
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
           </div>
-          
-          <!-- Line Chart - Brand Growth Trend -->
-          <div class="row animate-fadein" style="animation-delay: 0.2s">
-            <div class="col-12">
-              <div class="dashboard-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h5 class="card-title mb-0">Brand Growth Trend</h5>
-                  <select id="lineYearSelect" class="form-select form-select-sm" style="width: 100px;">
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025" selected>2025</option>
-                  </select>
-                </div>
-                <div class="card-body">
-                  <div class="chart-container">
-                    <canvas id="lineChartBrandGrowth"></canvas>
-                  </div>
-                  <div class="chart-notes">
-                    <div class="chart-note-item">
-                      <i class="bi bi-tag"></i>
-                      <strong>Brand</strong>
-                      <span id="noteBrand">-</span>
-                    </div>
-                    <div class="chart-note-item">
-                      <i class="bi bi-calendar3"></i>
-                      <strong>Month</strong>
-                      <span id="noteMonth">-</span>
-                    </div>
-                    <div class="chart-note-item">
-                      <i class="bi bi-bar-chart-line"></i>
-                      <strong>Sales</strong>
-                      <span id="noteSales">-</span>
-                    </div>
-                    <div class="chart-note-item">
-                      <i class="bi bi-graph-up"></i>
-                      <strong>Avg/Month</strong>
-                      <span id="noteAvg">-</span>
-                    </div>
-                    <div class="chart-note-item">
-                      <i class="bi bi-activity"></i>
-                      <strong>Trend</strong>
-                      <span id="noteTrend">-</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Brand Performance Matrix -->
-          <div class="row animate-fadein" style="animation-delay: 0.4s">
-            <div class="col-md-6">
-              <div class="dashboard-card">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">Brand Performance Matrix</h5>
-                </div>
-                <div class="card-body">
-                  <div class="chart-container">
-                    <canvas id="bubbleChartBrandMatrix"></canvas>
-                  </div>
-                  <div class="mt-3">
-                    <div class="d-flex align-items-center mb-2">
-                      <div class="legend-color" style="background-color: #26c6da; width: 15px; height: 15px; border-radius: 50%; margin-right: 8px;"></div>
-                      <small>High Growth - High Revenue</small>
-                    </div>
-                    <div class="d-flex align-items-center mb-2">
-                      <div class="legend-color" style="background-color: #ffb443; width: 15px; height: 15px; border-radius: 50%; margin-right: 8px;"></div>
-                      <small>High Growth - Low Revenue</small>
-                    </div>
-                    <div class="d-flex align-items-center mb-2">
-                      <div class="legend-color" style="background-color: #d05ce4; width: 15px; height: 15px; border-radius: 50%; margin-right: 8px;"></div>
-                      <small>Low Growth - High Revenue</small>
-                    </div>
-                    <div class="d-flex align-items-center">
-                      <div class="legend-color" style="background-color: #8884d8; width: 15px; height: 15px; border-radius: 50%; margin-right: 8px;"></div>
-                      <small>Low Growth - Low Revenue</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Brand Inventory Health -->
-            <div class="col-md-6">
-              <div class="dashboard-card">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">Brand Inventory Health</h5>
-                </div>
-                <div class="card-body">
-                  <div class="chart-container">
-                    <canvas id="radarChartInventory"></canvas>
-                  </div>
-                  <div class="mt-3 text-center">
-                    <small class="text-muted">Score: 1 (Poor) - 5 (Excellent)</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Brand Statistics Section -->
-          <div class="row animate-fadein" style="animation-delay: 0.6s">
-            <div class="col-md-3 col-6">
-              <div class="metric-card">
-                <div class="metric-value">36</div>
-                <div class="metric-label">Total Brands</div>
-                <small class="text-muted">Active in system</small>
-              </div>
-            </div>
-            <div class="col-md-3 col-6">
-              <div class="metric-card">
-                <div class="metric-value">124</div>
-                <div class="metric-label">Most Products</div>
-                <small class="text-muted">HEMNES</small>
-              </div>
-            </div>
-            <div class="col-md-3 col-6">
-              <div class="metric-card">
-                <div class="metric-value">4.8</div>
-                <div class="metric-label">Top Rating</div>
-                <small class="text-muted">SKÅDIS</small>
-              </div>
-            </div>
-            <div class="col-md-3 col-6">
-              <div class="metric-card">
-                <div class="metric-value">17x</div>
-                <div class="metric-label">Most Restocked</div>
-                <small class="text-muted">LACK (3 months)</small>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Brand Comparison Table -->
-          <div class="row animate-fadein" style="animation-delay: 0.8s">
-            <div class="col-12">
-              <div class="dashboard-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                  <h5 class="card-title mb-0">Brand Comparison Analysis</h5>
-                  <div>
-                    <select id="tableYearSelect" class="form-select form-select-sm d-inline-block" style="width: 120px;">
-                      <option value="2023">2023</option>
-                      <option value="2024">2024</option>
-                      <option value="2025" selected>2025</option>
-                    </select>
-                    <button class="btn btn-sm btn-outline-primary ms-2">
-                      <i class="fas fa-download"></i> Export
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover data-table">
-                      <thead>
-                        <tr>
-                          <th>Brand</th>
-                          <th>Revenue</th>
-                          <th>Growth</th>
-                          <th>Market Share</th>
-                          <th>Inventory Turn</th>
-                          <th>Customer Rating</th>
-                          <th>Profit Margin</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>HEMNES</td>
-                          <td>$1.2M</td>
-                          <td class="text-success">+12%</td>
-                          <td>18%</td>
-                          <td>3.2x</td>
-                          <td>4.5</td>
-                          <td>22%</td>
-                        </tr>
-                        <tr>
-                          <td>SKÅDIS</td>
-                          <td>$980K</td>
-                          <td class="text-success">+15%</td>
-                          <td>15%</td>
-                          <td>3.8x</td>
-                          <td>4.8</td>
-                          <td>25%</td>
-                        </tr>
-                        <tr>
-                          <td>LACK</td>
-                          <td>$850K</td>
-                          <td class="text-warning">+5%</td>
-                          <td>13%</td>
-                          <td>2.9x</td>
-                          <td>4.2</td>
-                          <td>18%</td>
-                        </tr>
-                        <tr>
-                          <td>VITTSJÖ</td>
-                          <td>$720K</td>
-                          <td class="text-success">+8%</td>
-                          <td>11%</td>
-                          <td>3.5x</td>
-                          <td>4.6</td>
-                          <td>20%</td>
-                        </tr>
-                        <tr>
-                          <td>KALLAX</td>
-                          <td>$680K</td>
-                          <td class="text-danger">-2%</td>
-                          <td>10%</td>
-                          <td>2.7x</td>
-                          <td>4.3</td>
-                          <td>15%</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Action Items and Forecast -->
-          <div class="row animate-fadein" style="animation-delay: 1s">
-            <div class="col-md-6">
-              <div class="dashboard-card">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">Brand Action Items</h5>
-                </div>
-                <div class="card-body">
-                  <div class="alert-item alert alert-warning">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <div>
-                      <strong>LACK</strong> needs promotional support - Growth slowing to 5%
-                    </div>
-                  </div>
-                  <div class="alert-item alert alert-info">
-                    <i class="fas fa-info-circle"></i>
-                    <div>
-                      <strong>KALLAX</strong> requires inventory optimization - Negative growth detected
-                    </div>
-                  </div>
-                  <div class="alert-item alert alert-success">
-                    <i class="fas fa-check-circle"></i>
-                    <div>
-                      <strong>SKÅDIS</strong> performing well - Consider expanding product line
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-6">
-              <div class="dashboard-card">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">6-Month Brand Forecast</h5>
-                </div>
-                <div class="card-body">
-                  <div class="chart-container">
-                    <canvas id="forecastChart"></canvas>
-                  </div>
-                  <div class="mt-3">
-                    <small class="text-muted">Forecast based on current trends and seasonal factors</small>
-                  </div>
-                </div>
-              </div>
+        </div>
+        <div class="chart-container chart-sm">
+          <div id="barChart"></div>
+        </div>
+        <div class="insight-container" id="barChartInsight">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-lightbulb text-warning me-3" style="font-size: 1.6rem;"></i>
+            <div>
+              <h5>Insight: Dominasi Brand LACK</h5>
+              <p class="mb-0">Brand LACK mendominasi penjualan dengan kontribusi 28% dari total revenue. Penjualan tertinggi di Q2 karena program promo "Summer Refresh".</p>
             </div>
           </div>
         </div>
       </div>
     </div>
+    
+    <!-- Donut Chart -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-chart-pie me-2"></i>Brand Contribution to Total Sales
+        </div>
+        <div class="chart-container chart-sm">
+          <div id="donutChart"></div>
+          <!-- Custom Legend -->
+          <div class="donut-legend" id="donutLegend"></div>
+        </div>
+        <div class="insight-container">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-lightbulb text-info me-3" style="font-size: 1.6rem;"></i>
+            <div>
+              <h5>Insight: Distribusi Merata</h5>
+              <p class="mb-0">Top 5 brand menyumbang 72% total penjualan. Brand SKÅDIS menunjukkan peningkatan kontribusi terbesar (+5% YoY).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-      // Data for charts
-      const chartData = {
-        // Bar chart data
-        barDataByYear: {
-          2023: [2200, 2000, 1800, 1600, 1400],
-          2024: [2500, 2300, 1900, 1700, 1500],
-          2025: [3210, 2740, 2110, 1840, 1630]
-        },
-        
-        // Line chart data
-        lineDataByYear: {
-          2023: [
-            { label: 'HEMNES', data: [120,130,125,140,150,145,160,155,165,170,175,180], borderColor: '#26c6da', backgroundColor: 'rgba(38,198,218,0.1)', tension: 0.4, fill: true },
-            { label: 'SKÅDIS', data: [100,105,110,115,120,125,130,135,140,145,150,155], borderColor: '#d05ce4', backgroundColor: 'rgba(208,92,228,0.1)', tension: 0.4, fill: true },
-            { label: 'LACK', data: [90,85,95,100,105,110,115,120,125,130,135,140], borderColor: '#ffb443', backgroundColor: 'rgba(255,180,67,0.1)', tension: 0.4, fill: true },
-            { label: 'VITTSJÖ', data: [80,88,92,97,102,108,115,121,128,135,142,150], borderColor: '#36e2d1', backgroundColor: 'rgba(54,226,209,0.1)', tension: 0.4, fill: true },
-            { label: 'KALLAX', data: [75,78,82,85,89,93,97,101,105,110,115,120], borderColor: '#8884d8', backgroundColor: 'rgba(136,132,216,0.1)', tension: 0.4, fill: true }
-          ],
-          2024: [
-            { label: 'HEMNES', data: [130,135,140,145,150,155,160,165,170,175,180,185], borderColor: '#26c6da', backgroundColor: 'rgba(38,198,218,0.1)', tension: 0.4, fill: true },
-            { label: 'SKÅDIS', data: [110,115,120,125,130,135,140,145,150,155,160,165], borderColor: '#d05ce4', backgroundColor: 'rgba(208,92,228,0.1)', tension: 0.4, fill: true },
-            { label: 'LACK', data: [95,98,102,106,110,114,118,122,126,130,134,138], borderColor: '#ffb443', backgroundColor: 'rgba(255,180,67,0.1)', tension: 0.4, fill: true },
-            { label: 'VITTSJÖ', data: [85,90,94,99,104,109,114,119,124,129,134,139], borderColor: '#36e2d1', backgroundColor: 'rgba(54,226,209,0.1)', tension: 0.4, fill: true },
-            { label: 'KALLAX', data: [80,84,88,92,96,100,104,108,112,116,120,124], borderColor: '#8884d8', backgroundColor: 'rgba(136,132,216,0.1)', tension: 0.4, fill: true }
-          ],
-          2025: [
-            { label: 'HEMNES', data: [140,145,150,155,160,165,170,175,180,185,190,195], borderColor: '#26c6da', backgroundColor: 'rgba(38,198,218,0.1)', tension: 0.4, fill: true },
-            { label: 'SKÅDIS', data: [120,125,130,135,140,145,150,155,160,165,170,175], borderColor: '#d05ce4', backgroundColor: 'rgba(208,92,228,0.1)', tension: 0.4, fill: true },
-            { label: 'LACK', data: [100,105,110,115,120,125,130,135,140,145,150,155], borderColor: '#ffb443', backgroundColor: 'rgba(255,180,67,0.1)', tension: 0.4, fill: true },
-            { label: 'VITTSJÖ', data: [90,95,100,105,110,115,120,125,130,135,140,145], borderColor: '#36e2d1', backgroundColor: 'rgba(54,226,209,0.1)', tension: 0.4, fill: true },
-            { label: 'KALLAX', data: [85,89,93,97,101,105,109,113,117,121,125,129], borderColor: '#8884d8', backgroundColor: 'rgba(136,132,216,0.1)', tension: 0.4, fill: true }
-          ]
-        },
-        
-        // Pie chart data
-        pieData: {
-          labels: ['HEMNES', 'SKÅDIS', 'LACK', 'VITTSJÖ', 'Others'],
-          datasets: [{
-            data: [30, 25, 20, 15, 10],
-            backgroundColor: ['#26c6da', '#d05ce4', '#ffb443', '#36e2d1', '#8884d8']
-          }]
-        }
-      };
+  <!-- Line Chart -->
+  <div class="row compact-grid">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="fas fa-chart-line me-2"></i>Brand Growth Trend (Top 5 Brands)</span>
+          <div class="chart-controls">
+            <select class="chart-select" id="lineChartYear">
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-container chart-sm">
+          <div id="lineChart"></div>
+        </div>
+        <div class="insight-container" id="lineChartInsight">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-lightbulb text-primary me-3" style="font-size: 1.6rem;"></i>
+            <div>
+              <h5 id="lineChartInsightTitle">Insight: Tren Brand LACK</h5>
+              <p class="mb-0" id="lineChartInsightText">Brand LACK menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      // Initialize charts
-      const months = [...Array(12).keys()].map(i => new Date(0, i).toLocaleString('default', { month: 'short' }));
-      let currentBarYear = '2025';
-      let currentLineYear = '2025';
+  <!-- Non-Chart Data Section -->
+  <div class="row compact-grid">
+    <!-- Prediksi Penjualan -->
+    <div class="col-md-6">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-calculator"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Prediksi Penjualan Brand per Bulan</h4>
+        </div>
+        <div class="d-flex align-items-center mb-3">
+          <div class="bg-light p-2 rounded-circle me-3">
+            <i class="fas fa-chart-line text-primary" style="font-size: 1.6rem;"></i>
+          </div>
+          <div>
+            <h5 class="mb-1" style="font-size: 1.1rem;">LACK</h5>
+            <p class="mb-0">diprediksi terjual <span class="fw-bold">2.100 unit</span> di Agustus 2025</p>
+          </div>
+          <div class="ms-auto">
+            <span class="trend-indicator trend-up" style="font-size: 1.8rem;">▲</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div>
+            <p class="mb-1">Akurasi prediksi:</p>
+            <div class="progress" style="height: 8px; width: 130px;">
+              <div class="progress-bar bg-success" role="progressbar" style="width: 88%" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <span class="fw-bold">88%</span>
+          </div>
+          <div>
+            <p class="mb-1">Bandingkan dengan:</p>
+            <p class="mb-0 fw-bold">Jul 2025: 1.950 unit</p>
+            <p class="mb-0 fw-bold">Ags 2024: 1.820 unit</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notifikasi Kritis -->
+    <div class="col-md-6">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-bell"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Notifikasi Kritis Otomatis</h4>
+        </div>
+        
+        <div class="notification-card warning">
+          <i class="fas fa-exclamation-triangle text-warning"></i>
+          <div>
+            <h5 class="mb-1" style="font-size: 1rem;">LACK - Stok Tinggal 6 Unit</h5>
+            <p class="mb-0">Stok kritis, restock diperlukan segera</p>
+          </div>
+        </div>
+        
+        <div class="notification-card danger">
+          <i class="fas fa-sync-alt text-danger"></i>
+          <div>
+            <h5 class="mb-1" style="font-size: 1rem;">SKÅDIS - 4x Restock dalam 30 Hari</h5>
+            <p class="mb-0">Permintaan melonjak 45% dari bulan lalu</p>
+          </div>
+        </div>
+        
+        <div class="notification-card info">
+          <i class="fas fa-thumbs-down text-info"></i>
+          <div>
+            <h5 class="mb-1" style="font-size: 1rem;">VITTSJÖ - 8 Review Negatif Minggu Ini</h5>
+            <p class="mb-0">Keluhan utama: kerusakan sudut saat pengiriman</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Health Score -->
+    <div class="col-md-4">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-heartbeat"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Health Score untuk Brand</h4>
+        </div>
+        
+        <div class="mb-4">
+          <div class="d-flex justify-content-between">
+            <h5 class="mb-1" style="font-size: 1rem;">HEMNES</h5>
+            <span class="health-score good">87/100</span>
+          </div>
+          <p class="mb-2">🟢 Stabil</p>
+          <div class="health-bar">
+            <div class="health-fill bg-success" style="width: 87%"></div>
+          </div>
+          <p class="mb-0 small">Stok stabil (95%), rating 4.7, restock normal</p>
+        </div>
+        
+        <div>
+          <div class="d-flex justify-content-between">
+            <h5 class="mb-1" style="font-size: 1rem;">FJÄLLBO</h5>
+            <span class="health-score poor">62/100</span>
+          </div>
+          <p class="mb-2">🔴 Perlu perhatian</p>
+          <div class="health-bar">
+            <div class="health-fill bg-danger" style="width: 62%"></div>
+          </div>
+          <p class="mb-0 small">Penurunan penjualan 15% MoM, rating turun ke 4.1</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Waktu Restock -->
+    <div class="col-md-4">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-clock"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Waktu Optimal Restock per Brand</h4>
+        </div>
+        
+        <div class="d-flex align-items-start mb-4">
+          <div class="bg-light p-2 rounded-circle me-3">
+            <i class="fas fa-box text-primary"></i>
+          </div>
+          <div>
+            <h5 class="mb-1" style="font-size: 1rem;">LACK</h5>
+            <p class="mb-0">Cenderung habis 10 hari setelah stok baru. <span class="fw-bold">Jadwal restock ideal: setiap 2 minggu.</span></p>
+          </div>
+        </div>
+        
+        <div class="d-flex align-items-start">
+          <div class="bg-light p-2 rounded-circle me-3">
+            <i class="fas fa-box text-success"></i>
+          </div>
+          <div>
+            <h5 class="mb-1" style="font-size: 1rem;">SKÅDIS</h5>
+            <p class="mb-0">Stok bertahan 14-18 hari. <span class="fw-bold">Jadwal restock ideal: setiap 3 minggu.</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Review Sentiment -->
+    <div class="col-md-4">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-comments"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Review Sentiment Summary</h4>
+        </div>
+        
+        <div class="mb-4">
+          <h5 style="font-size: 1rem;">SKÅDIS</h5>
+          <div class="d-flex mb-2">
+            <span style="width: 25%; font-size: 0.9rem;">82%</span>
+            <div class="sentiment-bar sentiment-positive" style="width: 82%"></div>
+          </div>
+          <div class="d-flex mb-2">
+            <span style="width: 25%; font-size: 0.9rem;">12%</span>
+            <div class="sentiment-bar sentiment-neutral" style="width: 12%"></div>
+          </div>
+          <div class="d-flex mb-3">
+            <span style="width: 25%; font-size: 0.9rem;">6%</span>
+            <div class="sentiment-bar sentiment-negative" style="width: 6%"></div>
+          </div>
+          <p class="mb-0"><i>"Pengguna menyukai kemudahan instalasi, tapi mengeluh soal bahan plastik."</i></p>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <!-- Brand Readiness -->
+    <div class="col-md-6">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-bolt"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Brand Readiness Index untuk Promo</h4>
+        </div>
+        
+        <div class="text-center mb-4">
+          <div class="readiness-score">92%</div>
+          <h4 class="mb-1" style="font-size: 1.1rem;">KALLAX</h4>
+          <p class="mb-0">Promo-Ready Score</p>
+        </div>
+        
+        <div class="d-flex justify-content-between mb-4">
+          <div class="text-center">
+            <i class="fas fa-box-open text-success" style="font-size: 1.8rem;"></i>
+            <p class="mb-0">Stok Tinggi</p>
+          </div>
+          <div class="text-center">
+            <i class="fas fa-star text-warning" style="font-size: 1.8rem;"></i>
+            <p class="mb-0">Rating 4.6</p>
+          </div>
+          <div class="text-center">
+            <i class="fas fa-chart-line text-primary" style="font-size: 1.8rem;"></i>
+            <p class="mb-0">Penjualan Stabil</p>
+          </div>
+        </div>
+        
+        <p class="fw-bold mb-0">"Stok tinggi + rating 4.6 → cocok untuk promo flash sale minggu depan"</p>
+      </div>
+    </div>
+    
+    <!-- Distribusi Lokasi -->
+    <div class="col-md-6">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Distribusi Lokasi Penjualan Terbanyak</h4>
+        </div>
+        
+        <div class="mb-4">
+          <h5 style="font-size: 1rem;">HEMNES</h5>
+          <p class="mb-2">Paling banyak terjual di:</p>
+          <div>
+            <span class="location-tag highlight">Jakarta</span>
+            <span class="location-tag">Surabaya</span>
+            <span class="location-tag">Medan</span>
+            <span class="location-tag">Bandung</span>
+          </div>
+        </div>
+        
+        <div>
+          <h5 style="font-size: 1rem;">SKÅDIS</h5>
+          <p class="mb-2">Populer di:</p>
+          <div>
+            <span class="location-tag">Bandung</span>
+            <span class="location-tag highlight">Yogyakarta</span>
+            <span class="location-tag">Malang</span>
+            <span class="location-tag">Denpasar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- AI Suggestion -->
+    <div class="col-md-6">
+      <div class="suggestion-card">
+        <div class="insight-card-header">
+          <i class="fas fa-brain"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">AI Suggestion: Produk Baru yang Potensial</h4>
+        </div>
+        <p class="mb-0">"Pencarian untuk 'rak dinding kayu minimalis' meningkat 45% dalam 3 bulan terakhir. Pertimbangkan menambahkan varian ini di koleksi LACK."</p>
+      </div>
+    </div>
+    
+    <!-- Insight Produk Bersaing -->
+    <div class="col-md-6">
+      <div class="insight-card">
+        <div class="insight-card-header">
+          <i class="fas fa-chess-board"></i>
+          <h4 class="mb-0" style="font-size: 1.2rem;">Insight "Produk Bersaing" Antar Brand</h4>
+        </div>
+        <h5 class="mt-3" style="font-size: 1.1rem;">SKÅDIS vs VARIERA</h5>
+        <p class="mb-3">Bersaing ketat di kategori "Organizer"</p>
+        
+        <div class="brand-comparison">
+          <div class="brand-comparison-item">
+            <h5 style="font-size: 1rem;">SKÅDIS</h5>
+            <p class="mb-1">Rating: 4.6</p>
+            <p class="mb-1">Harga: Rp 299.000</p>
+            <p class="mb-0">Penjualan: 1.240 unit/bulan</p>
+          </div>
+          
+          <div class="text-center my-auto">
+            <i class="fas fa-vs" style="font-size: 1.4rem; color: #6c757d;"></i>
+          </div>
+          
+          <div class="brand-comparison-item">
+            <h5 style="font-size: 1rem;">VARIERA</h5>
+            <p class="mb-1">Rating: 4.3</p>
+            <p class="mb-1">Harga: Rp 249.000</p>
+            <p class="mb-0">Penjualan: 1.050 unit/bulan</p>
+          </div>
+        </div>
+        
+        <p class="fw-bold mt-3 mb-0">"Rata-rata SKÅDIS unggul di rating, tapi VARIERA unggul di harga."</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Data dummy untuk visualisasi
+  const barChartData = {
+    2025: {
+      brands: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ"],
+      sales: [385, 315, 280, 265, 240], // dalam juta
+      insights: {
+        "LACK": "Brand LACK mendominasi penjualan dengan kontribusi 28% dari total revenue. Penjualan tertinggi di Q2 karena program promo 'Summer Refresh'.",
+        "SKÅDIS": "Brand SKÅDIS menunjukkan pertumbuhan pesat dengan peningkatan 18% YoY, terutama karena produk organizer yang populer di kalangan urban.",
+        "HEMNES": "HEMNES tetap menjadi favorit dengan penjualan stabil. Koleksi kayu solidnya masih menjadi pilihan utama konsumen kelas menengah atas.",
+        "KALLAX": "KALLAX mengalami peningkatan 5% di kuartal ini setelah peluncuran varian warna baru yang lebih modern.",
+        "VITTSJÖ": "VITTSJÖ menunjukkan potensi dengan peningkatan penjualan di segmen furniture logam, terutama untuk ruang kerja."
+      }
+    },
+    2024: {
+      brands: ["HEMNES", "LACK", "KALLAX", "SKÅDIS", "VITTSJÖ"],
+      sales: [325, 310, 290, 275, 220],
+      insights: {
+        "HEMNES": "HEMNES menjadi brand terlaris di tahun 2024 dengan koleksi kayu solidnya yang tahan lama dan desain klasik.",
+        "LACK": "LACK tetap menjadi favorit dengan harga terjangkau, meskipun sempat mengalami penurunan stok di Q3.",
+        "KALLAX": "KALLAX menunjukkan kinerja konsisten dengan sistem penyimpanan modular yang fleksibel.",
+        "SKÅDIS": "SKÅDIS mulai menunjukkan potensi dengan peningkatan 12% di paruh kedua tahun 2024.",
+        "VITTSJÖ": "VITTSJÖ mulai dikenal di pasar dengan desain industrial yang minimalis."
+      }
+    },
+    2023: {
+      brands: ["KALLAX", "HEMNES", "LACK", "VITTSJÖ", "SKÅDIS"],
+      sales: [295, 285, 265, 240, 210],
+      insights: {
+        "KALLAX": "KALLAX mendominasi penjualan di 2023 dengan sistem penyimpanan modular yang sangat populer.",
+        "HEMNES": "HEMNES tetap menjadi pilihan utama untuk furniture kayu berkualitas dengan desain timeless.",
+        "LACK": "LACK mulai dikenal sebagai brand dengan harga terjangkau dan desain modern.",
+        "VITTSJÖ": "VITTSJÖ baru memasuki pasar dengan koleksi furniture logam industrial.",
+        "SKÅDIS": "SKÅDIS masih dalam tahap pengenalan dengan produk organizer plastik."
+      }
+    }
+  };
+
+  const donutChartData = {
+    labels: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ", "Lainnya"],
+    series: [28, 22, 18, 15, 12, 5], // persentase
+    colors: ['#0d47a1', '#1a5ea7', '#2196f3', '#64b5f6', '#90caf9', '#bbdefb']
+  };
+
+  const lineChartData = {
+    2025: [
+      { name: "LACK", data: [320, 350, 380, 410, 440, 420, 450, 480] },
+      { name: "SKÅDIS", data: [220, 240, 260, 290, 310, 330, 350, 380] },
+      { name: "HEMNES", data: [280, 290, 310, 300, 320, 330, 340, 350] },
+      { name: "KALLAX", data: [260, 250, 270, 280, 290, 300, 310, 320] },
+      { name: "VITTSJÖ", data: [190, 200, 210, 220, 230, 240, 250, 260] }
+    ],
+    2024: [
+      { name: "HEMNES", data: [310, 300, 290, 300, 310, 320, 330, 340] },
+      { name: "LACK", data: [290, 310, 330, 350, 370, 360, 380, 400] },
+      { name: "KALLAX", data: [280, 270, 260, 270, 280, 290, 300, 310] },
+      { name: "SKÅDIS", data: [180, 200, 220, 240, 260, 280, 300, 320] },
+      { name: "VITTSJÖ", data: [170, 180, 190, 200, 210, 220, 230, 240] }
+    ],
+    2023: [
+      { name: "KALLAX", data: [300, 290, 280, 290, 300, 310, 320, 330] },
+      { name: "HEMNES", data: [280, 270, 280, 290, 300, 310, 320, 330] },
+      { name: "LACK", data: [250, 270, 290, 310, 330, 320, 340, 360] },
+      { name: "VITTSJÖ", data: [150, 160, 170, 180, 190, 200, 210, 220] },
+      { name: "SKÅDIS", data: [150, 170, 190, 210, 230, 250, 270, 290] }
+    ]
+  };
+
+  const lineInsights = {
+    "LACK": "Brand LACK menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.",
+    "SKÅDIS": "SKÅDIS menunjukkan pertumbuhan eksponensial dengan peningkatan 18% di Q2. Popularitas brand ini terus meningkat.",
+    "HEMNES": "HEMNES memiliki penjualan stabil dengan sedikit peningkatan di akhir tahun. Konsistensi menjadi kekuatan utama brand ini.",
+    "KALLAX": "KALLAX memiliki tren yang stabil dengan sedikit fluktuasi. Brand ini tetap menjadi favorit di segmen penyimpanan.",
+    "VITTSJÖ": "VITTSJÖ menunjukkan pertumbuhan konsisten meski lambat. Potensi peningkatan dengan strategi pemasaran yang tepat."
+  };
+
+  // Inisialisasi chart
+  let barChart, donutChart, lineChart;
+  let currentYear = '2025';
+
+  // Fungsi untuk memformat angka
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  // Membuat custom legend untuk donut chart
+  function createDonutLegend() {
+    const legendContainer = document.getElementById('donutLegend');
+    legendContainer.innerHTML = '';
+    
+    donutChartData.labels.forEach((label, index) => {
+      const legendItem = document.createElement('div');
+      legendItem.className = 'legend-item';
       
-      // Bar Chart - Top 5 Brands
-      const barCtx = document.getElementById('barChartTopBrands').getContext('2d');
-      const barChart = new Chart(barCtx, {
+      const colorBox = document.createElement('div');
+      colorBox.className = 'legend-color';
+      colorBox.style.backgroundColor = donutChartData.colors[index];
+      
+      const labelText = document.createElement('span');
+      labelText.textContent = `${label} (${donutChartData.series[index]}%)`;
+      
+      legendItem.appendChild(colorBox);
+      legendItem.appendChild(labelText);
+      legendContainer.appendChild(legendItem);
+    });
+  }
+
+  // Update insight untuk bar chart
+  function updateBarChartInsight(brand) {
+    const insight = barChartData[currentYear].insights[brand] || 
+                   `Brand ${brand} menunjukkan kinerja yang solid dengan kontribusi signifikan terhadap total penjualan.`;
+    
+    const insightHTML = `
+      <div class="d-flex align-items-center">
+        <i class="fas fa-lightbulb text-warning me-3" style="font-size: 1.6rem;"></i>
+        <div>
+          <h5>Insight: Brand ${brand}</h5>
+          <p class="mb-0">${insight}</p>
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('barChartInsight').innerHTML = insightHTML;
+  }
+
+  // Update insight untuk line chart
+  function updateLineChartInsight(brand) {
+    const insight = lineInsights[brand] || 
+                  `Tren penjualan brand ${brand} menunjukkan pola yang menarik dengan fluktuasi musiman.`;
+    
+    const insightHTML = `
+      <div class="d-flex align-items-center">
+        <i class="fas fa-lightbulb text-primary me-3" style="font-size: 1.6rem;"></i>
+        <div>
+          <h5>Insight: Tren Brand ${brand}</h5>
+          <p class="mb-0">${insight}</p>
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('lineChartInsight').innerHTML = insightHTML;
+  }
+
+  // Inisialisasi Bar Chart
+  function initBarChart(year) {
+    const data = barChartData[year];
+    currentYear = year;
+    
+    const options = {
+      series: [{
+        name: 'Penjualan (Rp Juta)',
+        data: data.sales
+      }],
+      chart: {
         type: 'bar',
-        data: {
-          labels: ['HEMNES', 'SKÅDIS', 'LACK', 'VITTSJÖ', 'KALLAX'],
-          datasets: [{
-            label: 'Sales (Units)',
-            data: chartData.barDataByYear[currentBarYear],
-            backgroundColor: 'rgba(0, 81, 186, 0.7)',
-            borderColor: 'rgba(0, 81, 186, 1)',
-            borderWidth: 1,
-            borderRadius: 8
-          }]
+        height: 280,
+        toolbar: {
+          show: true
         },
+        events: {
+          dataPointSelection: function(event, chartContext, config) {
+            const brand = data.brands[config.dataPointIndex];
+            updateBarChartInsight(brand);
+          }
+        }
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 8,
+          horizontal: false,
+          columnWidth: '55%',
+          distributed: false,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors: ['#0d47a1', '#1a5ea7', '#2196f3', '#64b5f6', '#90caf9'],
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ['transparent']
+      },
+      xaxis: {
+        categories: data.brands,
+      },
+      yaxis: {
+        title: {
+          text: 'Penjualan (Rp Juta)'
+        },
+        labels: {
+          formatter: function(val) {
+            return 'Rp ' + formatNumber(val);
+          }
+        }
+      },
+      tooltip: {
+        y: {
+          formatter: function(val) {
+            return 'Rp ' + formatNumber(val) + ' juta';
+          }
+        }
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'],
+          opacity: 0.5
+        }
+      }
+    };
+
+    if (barChart) {
+      barChart.destroy();
+    }
+    
+    barChart = new ApexCharts(document.querySelector("#barChart"), options);
+    barChart.render();
+  }
+
+  // Inisialisasi Donut Chart
+  function initDonutChart() {
+    const options = {
+      series: donutChartData.series,
+      chart: {
+        type: 'donut',
+        height: 150,
+      },
+      labels: donutChartData.labels,
+      colors: donutChartData.colors,
+      responsive: [{
+        breakpoint: 480,
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return context.raw.toLocaleString() + ' units';
-                }
-              }
-            }
+          chart: {
+            width: 150
           },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return value.toLocaleString();
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }],
+      legend: {
+        show: false
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              total: {
+                show: true,
+                label: 'Total',
+                formatter: function (w) {
+                  return '100%'
                 }
               }
             }
           }
         }
-      });
-      
-      // Pie Chart - Brand Contribution
-      const pieCtx = document.getElementById('pieChartBrandContribution').getContext('2d');
-      const pieChart = new Chart(pieCtx, {
-        type: 'pie',
-        data: chartData.pieData,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'right'
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  const label = context.label || '';
-                  const value = context.raw || 0;
-                  const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                  const percentage = Math.round((value / total) * 100);
-                  return `${label}: ${percentage}% (${value} units)`;
-                }
-              }
-            }
-          }
+      },
+      dataLabels: {
+        formatter: function(val, opts) {
+          return val.toFixed(1) + '%';
+        },
+        dropShadow: {
+          enabled: false
         }
-      });
-      
-      // Line Chart - Brand Growth Trend
-      const lineCtx = document.getElementById('lineChartBrandGrowth').getContext('2d');
-      let lineChart = new Chart(lineCtx, {
+      }
+    };
+
+    if (donutChart) {
+      donutChart.destroy();
+    }
+    
+    donutChart = new ApexCharts(document.querySelector("#donutChart"), options);
+    donutChart.render();
+    
+    // Buat custom legend setelah chart di-render
+    createDonutLegend();
+  }
+
+  // Inisialisasi Line Chart
+  function initLineChart(year) {
+    const data = lineChartData[year];
+    
+    const options = {
+      series: data,
+      chart: {
+        height: 280,
         type: 'line',
-        data: {
-          labels: months,
-          datasets: chartData.lineDataByYear[currentLineYear]
+        zoom: {
+          enabled: false
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom'
-            }
+        toolbar: {
+          show: true
+        },
+        events: {
+          dataPointSelection: function(event, chartContext, config) {
+            const brand = data[config.seriesIndex].name;
+            updateLineChartInsight(brand);
           },
-          onClick: (e, elements) => {
-            if (elements.length > 0) {
-              const point = elements[0];
-              const dataset = lineChart.data.datasets[point.datasetIndex];
-              const month = lineChart.data.labels[point.index];
-              const value = dataset.data[point.index];
-              const avg = (dataset.data.reduce((a, b) => a + b, 0) / dataset.data.length).toFixed(1);
-              const prev = dataset.data[point.index - 1];
-              const trend = prev !== undefined ? (value > prev ? 'Up 📈' : value < prev ? 'Down 📉' : 'Stable ➖') : '-';
-              
-              // Update notes
-              document.getElementById('noteBrand').textContent = dataset.label;
-              document.getElementById('noteMonth').textContent = month;
-              document.getElementById('noteSales').textContent = value + ' units';
-              document.getElementById('noteAvg').textContent = avg + ' units';
-              document.getElementById('noteTrend').textContent = trend;
-            }
+          legendClick: function(chartContext, seriesIndex, config) {
+            const brand = data[seriesIndex].name;
+            updateLineChartInsight(brand);
           }
         }
-      });
-      
-      // Bubble Chart - Brand Performance Matrix
-      const bubbleCtx = document.getElementById('bubbleChartBrandMatrix').getContext('2d');
-      new Chart(bubbleCtx, {
-        type: 'bubble',
-        data: {
-          datasets: [
-            {
-              label: 'HEMNES',
-              data: [{x: 12, y: 1200000, r: 20}],
-              backgroundColor: '#26c6da'
-            },
-            {
-              label: 'SKÅDIS',
-              data: [{x: 15, y: 980000, r: 18}],
-              backgroundColor: '#26c6da'
-            },
-            {
-              label: 'LACK',
-              data: [{x: 5, y: 850000, r: 16}],
-              backgroundColor: '#ffb443'
-            },
-            {
-              label: 'VITTSJÖ',
-              data: [{x: 8, y: 720000, r: 14}],
-              backgroundColor: '#d05ce4'
-            },
-            {
-              label: 'KALLAX',
-              data: [{x: -2, y: 680000, r: 12}],
-              backgroundColor: '#8884d8'
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  return [
-                    context.dataset.label,
-                    `Growth: ${context.raw.x}%`,
-                    `Revenue: $${context.raw.y.toLocaleString()}`,
-                    `Market Share: ${context.raw.r/2}%`
-                  ];
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Growth Rate (%)'
-              }
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Revenue ($)'
-              },
-              ticks: {
-                callback: function(value) {
-                  return '$' + (value/1000).toLocaleString() + 'K';
-                }
-              }
-            }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 3,
+      },
+      colors: ['#0d47a1', '#1a5ea7', '#2196f3', '#64b5f6', '#90caf9'],
+      markers: {
+        size: 5,
+        strokeWidth: 0,
+        hover: {
+          size: 7
+        }
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'],
+          opacity: 0.5
+        }
+      },
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags'],
+      },
+      yaxis: {
+        title: {
+          text: 'Penjualan (Unit)'
+        }
+      },
+      tooltip: {
+        y: {
+          formatter: function(val) {
+            return val + ' unit';
           }
         }
-      });
+      }
+    };
 
-      // Radar Chart - Inventory Health
-      const radarCtx = document.getElementById('radarChartInventory').getContext('2d');
-      new Chart(radarCtx, {
-        type: 'radar',
-        data: {
-          labels: ['Stock Level', 'Turnover', 'Availability', 'Restock Freq', 'Carry Cost'],
-          datasets: [
-            {
-              label: 'HEMNES',
-              data: [4, 3.2, 4.5, 3, 3.8],
-              backgroundColor: 'rgba(38, 198, 218, 0.2)',
-              borderColor: '#26c6da',
-              pointBackgroundColor: '#26c6da'
-            },
-            {
-              label: 'SKÅDIS',
-              data: [4.5, 3.8, 4.8, 4, 4.2],
-              backgroundColor: 'rgba(208, 92, 228, 0.2)',
-              borderColor: '#d05ce4',
-              pointBackgroundColor: '#d05ce4'
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            r: {
-              angleLines: {
-                display: true
-              },
-              suggestedMin: 0,
-              suggestedMax: 5
-            }
-          }
-        }
-      });
+    if (lineChart) {
+      lineChart.destroy();
+    }
+    
+    lineChart = new ApexCharts(document.querySelector("#lineChart"), options);
+    lineChart.render();
+  }
 
-      // Forecast Chart
-      const forecastCtx = document.getElementById('forecastChart').getContext('2d');
-      new Chart(forecastCtx, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-          datasets: [
-            {
-              label: 'HEMNES',
-              data: [120, 125, 130, 135, 140, 145],
-              borderColor: '#26c6da',
-              tension: 0.4,
-              fill: false
-            },
-            {
-              label: 'SKÅDIS',
-              data: [100, 110, 115, 120, 125, 130],
-              borderColor: '#d05ce4',
-              tension: 0.4,
-              fill: false
-            },
-            {
-              label: 'LACK',
-              data: [90, 92, 95, 98, 100, 102],
-              borderColor: '#ffb443',
-              tension: 0.4,
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom'
-            }
-          },
-          scales: {
-            y: {
-              title: {
-                display: true,
-                text: 'Sales (Units in 1000s)'
-              }
-            }
-          }
-        }
-      });
+  // Event listeners
+  document.getElementById('barChartYear').addEventListener('change', function() {
+    const year = this.value;
+    initBarChart(year);
+    initLineChart(year);
+  });
 
-      // Year selection handlers
-      document.getElementById('barYearSelect').addEventListener('change', function() {
-        currentBarYear = this.value;
-        barChart.data.datasets[0].data = chartData.barDataByYear[currentBarYear];
-        barChart.update();
-      });
-      
-      document.getElementById('lineYearSelect').addEventListener('change', function() {
-        currentLineYear = this.value;
-        lineChart.destroy();
-        lineChart = new Chart(lineCtx, {
-          type: 'line',
-          data: {
-            labels: months,
-            datasets: chartData.lineDataByYear[currentLineYear]
-          },
-          options: lineChart.options
-        });
-      });
+  document.getElementById('lineChartYear').addEventListener('change', function() {
+    const year = this.value;
+    initLineChart(year);
+  });
 
-      // Table year selector
-      document.getElementById('tableYearSelect').addEventListener('change', function() {
-        // In a real implementation, this would fetch new data for the selected year
-        console.log('Selected year:', this.value);
-      });
+  // Inisialisasi saat halaman dimuat
+  document.addEventListener('DOMContentLoaded', function() {
+    initBarChart('2025');
+    initDonutChart();
+    initLineChart('2025');
+    
+    // Animate elements with delay
+    document.querySelectorAll('.card, .insight-card, .suggestion-card').forEach((el, index) => {
+      el.classList.add('animate__animated', 'animate__fadeInUp');
+      el.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-      // Animation for elements when they come into view
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fadein');
-          }
-        });
-      }, { threshold: 0.1 });
-      
-      document.querySelectorAll('.dashboard-card').forEach(card => {
-        observer.observe(card);
-      });
-    </script>
-
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
     <script src="../assets/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/moment.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
     <script src="../assets/plugins/select2/js/select2.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
     <script src="../assets/js/script.js"></script>
   </body>
 </html>
+
+

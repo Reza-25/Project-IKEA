@@ -4,262 +4,1433 @@ Total semua produk terjual (dari semua kategori): 12.450
 
 <!-- Ganti bagian Non-Chart Data dengan ini: -->
 
-<!-- Best Selling Products -->
-<div class="dashboard-card">
-  <div class="card-header">
-    <h5 class="card-title mb-0"><i class="fas fa-trophy me-2"></i> Produk Terlaris per Brand</h5>
-  </div>
-  <div class="card-body">
-    <div class="insight-grid">
-      <div class="insight-card slide-in" style="animation-delay: 0.1s">
-        <h6><div class="insight-icon"><i class="fas fa-couch"></i></div> HEMNES</h6>
-        <div class="d-flex align-items-center mb-2">
-          <span class="metric-badge bg-success-light">#1 Terlaris</span>
-          <span>HEMNES Bed Frame</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div>
-            <span class="text-muted">Terjual:</span>
-            <strong>2,450 unit</strong>
-          </div>
-          <div class="text-success">
-            <i class="fas fa-arrow-up"></i> 12%
-          </div>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar" style="width: 85%"></div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKEA Brand Analytics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <style>
+        :root {
+            --primary-blue: #0051BA;
+            --secondary-blue: #66bfff;
+            --ikea-yellow: #FFCC00;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light-gray: #f8f9fa;
+            --dark-gray: #343a40;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            color: #333;
+            padding: 15px;
+        }
+
+        .dashboard-container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            border-radius: 16px;
+            padding: 18px;
+            color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 12px rgba(13, 71, 161, 0.2);
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border: none;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 16px 16px 0 0 !important;
+            border: none;
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-container {
+            padding: 15px;
+            position: relative;
+            min-height: 280px;
+        }
+
+        .insight-container {
+            padding: 15px;
+            background-color: #f9fafb;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 16px 16px;
+            font-size: 0.9rem;
+        }
+
+        .stats-card {
+            padding: 20px;
+            text-align: center;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 15px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .stats-card i {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .stats-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+
+        .stats-card p {
+            color: #6c757d;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        .trend-indicator {
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-left: 6px;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .notification-card {
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .notification-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-card i {
+            font-size: 1.4rem;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .notification-card.warning {
+            background-color: #fff8e1;
+            border-left: 4px solid var(--warning);
+        }
+
+        .notification-card.danger {
+            background-color: #ffebee;
+            border-left: 4px solid var(--danger);
+        }
+
+        .notification-card.info {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+
+        .health-score {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+
+        .health-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        .health-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .location-tag {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin: 2px;
+            font-size: 0.8rem;
+        }
+
+        .chart-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 0 0 10px 0;
+        }
+
+        .chart-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 6px 12px;
+            background: white;
+            font-size: 0.9rem;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .insight-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+
+        .insight-card-header i {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+
+        .sentiment-bar {
+            height: 6px;
+            border-radius: 3px;
+            margin: 3px 0;
+        }
+
+        .sentiment-positive {
+            background: linear-gradient(90deg, #28a745, #4caf50);
+        }
+
+        .sentiment-neutral {
+            background: linear-gradient(90deg, #ffc107, #ff9800);
+        }
+
+        .sentiment-negative {
+            background: linear-gradient(90deg, #dc3545, #f44336);
+        }
+
+        .suggestion-card {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .suggestion-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-comparison {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .brand-comparison-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .readiness-score {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 8px 0;
+            color: var(--primary-blue);
+        }
+
+        /* Animasi */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Layout adjustments */
+        .compact-grid {
+            margin-bottom: -10px;
+        }
         
-        <div class="d-flex align-items-center mt-3">
-          <span class="metric-badge bg-info-light">#2</span>
-          <span>HEMNES Dresser - 1,890 unit</span>
-        </div>
-      </div>
+        .compact-grid > [class*="col-"] {
+            margin-bottom: 15px;
+        }
 
-      <div class="insight-card slide-in" style="animation-delay: 0.2s">
-        <h6><div class="insight-icon"><i class="fas fa-th"></i></div> SKÅDIS</h6>
-        <div class="d-flex align-items-center mb-2">
-          <span class="metric-badge bg-success-light pulse-animation">Best Seller</span>
-          <span>SKÅDIS Pegboard</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div>
-            <span class="text-muted">Terjual:</span>
-            <strong>3,210 unit</strong>
-          </div>
-          <div class="text-success">
-            <i class="fas fa-arrow-up"></i> 18%
-          </div>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar" style="width: 92%"></div>
-        </div>
+        /* Scrollable containers */
+        .scrollable-container {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
         
-        <div class="d-flex align-items-center mt-3">
-          <span class="metric-badge bg-info-light">#2</span>
-          <span>Accessories Set - 2,780 unit</span>
-        </div>
-      </div>
-
-      <div class="insight-card slide-in" style="animation-delay: 0.3s">
-        <h6><div class="insight-icon"><i class="fas fa-border-style"></i></div> LACK</h6>
-        <div class="d-flex align-items-center mb-2">
-          <span class="metric-badge bg-success-light">Top Pick</span>
-          <span>LACK Side Table</span>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div>
-            <span class="text-muted">Terjual:</span>
-            <strong>4,150 unit</strong>
-          </div>
-          <div class="text-warning">
-            <i class="fas fa-arrow-up"></i> 5%
-          </div>
-        </div>
-        <div class="progress-container">
-          <div class="progress-bar" style="width: 78%"></div>
-        </div>
+        .scrollable-container::-webkit-scrollbar {
+            width: 6px;
+        }
         
-        <div class="d-flex align-items-center mt-3">
-          <span class="metric-badge bg-info-light">#2</span>
-          <span>Wall Shelf - 2,930 unit</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+        .scrollable-container::-webkit-scrollbar-thumb {
+            background-color: #c1c1c1;
+            border-radius: 3px;
+        }
 
-<!-- Customer Ratings -->
-<div class="dashboard-card">
-  <div class="card-header">
-    <h5 class="card-title mb-0"><i class="fas fa-star me-2"></i> Rating Konsumen</h5>
-  </div>
-  <div class="card-body">
-    <div class="insight-grid">
-      <div class="insight-card slide-in" style="animation-delay: 0.4s">
-        <h6><div class="insight-icon"><i class="fas fa-thumbs-up"></i></div> SKÅDIS</h6>
-        <div class="d-flex align-items-center mb-2">
-          <span class="rating-stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-          </span>
-          <strong>4.8/5</strong>
-          <span class="text-muted ms-2">(1,240 reviews)</span>
-        </div>
-        <div class="alert alert-success p-2 mb-3">
-          <i class="fas fa-comment-dots me-2"></i>
-          "Pengguna menyukai kemudahan instalasi"
-        </div>
-        <div class="alert alert-warning p-2">
-          <i class="fas fa-comment-medical me-2"></i>
-          "Meminta lebih banyak pilihan warna"
-        </div>
-      </div>
+        /* Small cards */
+        .small-card {
+            padding: 12px;
+            font-size: 0.9rem;
+        }
+        
+        .small-card .insight-card-header {
+            margin-bottom: 8px;
+        }
+        
+        .small-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        /* Expense card styles */
+        .expense-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 15px;
+        }
+        
+        .expense-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .expense-title {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+        }
+        
+        .expense-summary {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        
+        .summary-item {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .summary-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .summary-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .department-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .department-row {
+            display: flex;
+            align-items: center;
+        }
+        
+        .department-name {
+            width: 120px;
+            font-size: 0.9rem;
+        }
+        
+        .department-bar {
+            flex: 1;
+            height: 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .department-fill {
+            height: 100%;
+            border-radius: 6px;
+        }
+        
+        .department-value {
+            width: 50px;
+            text-align: right;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .bg-logistics { background: linear-gradient(90deg, #1a5ea7, #2196f3); }
+        .bg-retail { background: linear-gradient(90deg, #28a745, #4caf50); }
+        .bg-hr { background: linear-gradient(90deg, #ff9800, #ff5722); }
+        .bg-it { background: linear-gradient(90deg, #9c27b0, #e91e63); }
+        .bg-other { background: linear-gradient(90deg, #607d8b, #9e9e9e); }
+        
+        .insight-box {
+            background-color: #e6f0ff;
+            border-left: 4px solid var(--primary-blue);
+            padding: 10px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
 
-      <div class="insight-card slide-in" style="animation-delay: 0.5s">
-        <h6><div class="insight-icon"><i class="fas fa-award"></i></div> HEMNES</h6>
-        <div class="d-flex align-items-center mb-2">
-          <span class="rating-stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="far fa-star"></i>
-          </span>
-          <strong>4.5/5</strong>
-          <span class="text-muted ms-2">(980 reviews)</span>
-        </div>
-        <div class="alert alert-success p-2 mb-3">
-          <i class="fas fa-comment-dots me-2"></i>
-          "Dipuji karena daya tahan tinggi"
-        </div>
-        <div class="alert alert-danger p-2">
-          <i class="fas fa-tools me-2"></i>
-          "Beberapa keluhan tentang susahnya perakitan"
-        </div>
-      </div>
-
-      <div class="insight-card slide-in" style="animation-delay: 0.6s">
-        <h6><div class="insight-icon"><i class="fas fa-medal"></i></div> LACK</h6>
-        <div class="d-flex align-items-center mb-2">
-          <span class="rating-stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="far fa-star"></i>
-          </span>
-          <strong>4.2/5</strong>
-          <span class="text-muted ms-2">(1,560 reviews)</span>
-        </div>
-        <div class="alert alert-success p-2 mb-3">
-          <i class="fas fa-comment-dots me-2"></i>
-          "Harga terjangkau dengan kualitas cukup"
-        </div>
-        <div class="alert alert-warning p-2">
-          <i class="fas fa-exclamation-triangle me-2"></i>
-          "Kekhawatiran tentang kualitas material"
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Critical Alerts -->
-<div class="dashboard-card">
-  <div class="card-header">
-    <h5 class="card-title mb-0"><i class="fas fa-bell me-2"></i> Notifikasi Kritis</h5>
-  </div>
-  <div class="card-body p-0">
-    <div class="alert-notification critical-alert">
-      <i class="fas fa-box-open fa-lg"></i>
+        /* Chart header adjustments */
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .chart-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="page-header animate__animated animate__fadeInDown">
+    <div class="d-flex justify-content-between align-items-center">
       <div>
-        <strong>STOK KRITIS</strong><br>
-        LACK Side Table (Hitam) - Tinggal 8 unit (Akan habis dalam 3 hari)
+        <h1 style="font-size: 1.6rem;"><i class="fas fa-chart-line me-2"></i>Brand Analytics Dashboard</h1>
+        <p class="mb-0" style="font-size: 0.95rem;">Analisis kinerja dan prediksi brand IKEA Indonesia</p>
       </div>
-      <button class="btn btn-sm btn-outline-danger ms-auto">Restock</button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-light btn-sm"><i class="fas fa-download me-2"></i>Export</button>
+        <button class="btn btn-light btn-sm"><i class="fas fa-cog me-2"></i>Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stats-card animate__animated animate__fadeInUp">
+      <i class="fas fa-boxes text-primary"></i>
+      <h3>12 Brand</h3>
+      <p>Total brand aktif</p>
+    </div>
+    <div class="stats-card animate__animated animate__fadeInUp animate-delay-1">
+      <i class="fas fa-money-bill-wave text-success"></i>
+      <h3>Rp 385 M</h3>
+      <p>Total penjualan Q2 2025</p>
+    </div>
+    <div class="stats-card animate__animated animate__fadeInUp animate-delay-2">
+      <i class="fas fa-star text-warning"></i>
+      <h3>4.6 <span class="trend-indicator trend-up">▲</span></h3>
+      <p>Rata-rata rating brand</p>
+    </div>
+    <div class="stats-card animate__animated animate__fadeInUp animate-delay-3">
+      <i class="fas fa-sync-alt text-info"></i>
+      <h3>24 <span class="trend-indicator trend-down">▼</span></h3>
+      <p>Restock bulan ini</p>
+    </div>
+  </div>
+
+  <!-- Chart Row 1 -->
+  <div class="row compact-grid">
+    <!-- Bar Chart -->
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">
+          <span><i class="fas fa-chart-bar me-2"></i>Top 5 Brands with Highest Sales</span>
+          <select class="chart-select" id="barChartYear">
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+          </select>
+        </div>
+        <div class="chart-container chart-sm">
+          <div id="barChart"></div>
+        </div>
+        <div class="insight-container" id="barChartInsight">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-lightbulb text-warning me-3" style="font-size: 1.6rem;"></i>
+            <div>
+              <h5>Insight: Dominasi Brand LACK</h5>
+              <p class="mb-0">Brand LACK mendominasi penjualan dengan kontribusi 28% dari total revenue. Penjualan tertinggi di Q2 karena program promo "Summer Refresh".</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     
-    <div class="alert-notification warning-alert">
-      <i class="fas fa-sync-alt fa-lg"></i>
-      <div>
-        <strong>RESTOCK FREKUENSI TINGGI</strong><br>
-        SKÅDIS Pegboard - Sudah 4x restock bulan ini (rata-rata 2x/bulan)
+    <!-- Donut Chart -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <span><i class="fas fa-chart-pie me-2"></i>Brand Contribution to Total Sales</span>
+        </div>
+        <div class="chart-container chart-sm">
+          <div id="donutChart"></div>
+        </div>
+        <div class="insight-container">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-lightbulb text-info me-3" style="font-size: 1.6rem;"></i>
+            <div>
+              <h5>Insight: Distribusi Merata</h5>
+              <p class="mb-0">Top 5 brand menyumbang 72% total penjualan. Brand SKÅDIS menunjukkan peningkatan kontribusi terbesar (+5% YoY).</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-sm btn-outline-warning ms-auto">Analisis</button>
+    </div>
+  </div>
+
+  <!-- Line Chart -->
+  <div class="row compact-grid">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <span><i class="fas fa-chart-line me-2"></i>Brand Growth Trend (Top 5 Brands)</span>
+          <select class="chart-select" id="lineChartYear">
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+          </select>
+        </div>
+        <div class="chart-container chart-sm">
+          <div id="lineChart"></div>
+        </div>
+        <div class="insight-container" id="lineChartInsight">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-lightbulb text-primary me-3" style="font-size: 1.6rem;"></i>
+            <div>
+              <h5 id="lineChartInsightTitle">Insight: Tren Brand LACK</h5>
+              <p class="mb-0" id="lineChartInsightText">Brand LACK menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-Chart Data Section - Compact Layout -->
+  <div class="row compact-grid">
+    <!-- Prediksi Penjualan (Scrollable) -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <span><i class="fas fa-calculator me-2"></i>Prediksi Penjualan per Bulan</span>
+        </div>
+        <div class="scrollable-container">
+          <div class="insight-card small-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-light p-2 rounded-circle me-3">
+                <i class="fas fa-couch text-primary"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">LACK</h5>
+                <p class="mb-0">diprediksi terjual <span class="fw-bold">2.100 unit</span> di Agustus 2025</p>
+              </div>
+              <div class="ms-auto">
+                <span class="trend-indicator trend-up">▲</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="mb-1">Akurasi: <span class="fw-bold">88%</span></p>
+                <div class="progress" style="height: 6px; width: 100px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 88%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-card small-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-light p-2 rounded-circle me-3">
+                <i class="fas fa-chair text-success"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">SKÅDIS</h5>
+                <p class="mb-0">diprediksi terjual <span class="fw-bold">1.850 unit</span> di Agustus 2025</p>
+              </div>
+              <div class="ms-auto">
+                <span class="trend-indicator trend-up">▲</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="mb-1">Akurasi: <span class="fw-bold">92%</span></p>
+                <div class="progress" style="height: 6px; width: 100px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 92%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-card small-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-light p-2 rounded-circle me-3">
+                <i class="fas fa-bed text-warning"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">HEMNES</h5>
+                <p class="mb-0">diprediksi terjual <span class="fw-bold">1.550 unit</span> di Agustus 2025</p>
+              </div>
+              <div class="ms-auto">
+                <span class="trend-indicator trend-down">▼</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="mb-1">Akurasi: <span class="fw-bold">78%</span></p>
+                <div class="progress" style="height: 6px; width: 100px;">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 78%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-card small-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-light p-2 rounded-circle me-3">
+                <i class="fas fa-shelf text-info"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">KALLAX</h5>
+                <p class="mb-0">diprediksi terjual <span class="fw-bold">1.420 unit</span> di Agustus 2025</p>
+              </div>
+              <div class="ms-auto">
+                <span class="trend-indicator trend-up">▲</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="mb-1">Akurasi: <span class="fw-bold">85%</span></p>
+                <div class="progress" style="height: 6px; width: 100px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="insight-card small-card">
+            <div class="d-flex align-items-center mb-3">
+              <div class="bg-light p-2 rounded-circle me-3">
+                <i class="fas fa-table text-danger"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">VITTSJÖ</h5>
+                <p class="mb-0">diprediksi terjual <span class="fw-bold">1.250 unit</span> di Agustus 2025</p>
+              </div>
+              <div class="ms-auto">
+                <span class="trend-indicator trend-up">▲</span>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="mb-1">Akurasi: <span class="fw-bold">80%</span></p>
+                <div class="progress" style="height: 6px; width: 100px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     
-    <div class="alert-notification critical-alert">
-      <i class="fas fa-thumbs-down fa-lg"></i>
-      <div>
-        <strong>REVIEW NEGATIF</strong><br>
-        VITTSJÖ Shelf Unit - 12 review negatif minggu ini (Rata-rata 3.2/5)
+    <!-- Notifikasi Kritis (Compact) -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <span><i class="fas fa-bell me-2"></i>Notifikasi Kritis Otomatis</span>
+        </div>
+        <div class="scrollable-container">
+          <div class="notification-card warning">
+            <i class="fas fa-exclamation-triangle text-warning"></i>
+            <div>
+              <h5 class="mb-1">LACK - Stok Tinggal 6 Unit</h5>
+              <p class="mb-0">Stok kritis, restock diperlukan segera</p>
+            </div>
+          </div>
+          
+          <div class="notification-card danger">
+            <i class="fas fa-sync-alt text-danger"></i>
+            <div>
+              <h5 class="mb-1">SKÅDIS - 4x Restock dalam 30 Hari</h5>
+              <p class="mb-0">Permintaan melonjak 45% dari bulan lalu</p>
+            </div>
+          </div>
+          
+          <div class="notification-card info">
+            <i class="fas fa-thumbs-down text-info"></i>
+            <div>
+              <h5 class="mb-1">VITTSJÖ - 8 Review Negatif Minggu Ini</h5>
+              <p class="mb-0">Keluhan utama: kerusakan sudut saat pengiriman</p>
+            </div>
+          </div>
+          
+          <div class="notification-card warning">
+            <i class="fas fa-truck text-warning"></i>
+            <div>
+              <h5 class="mb-1">HEMNES - Keterlambatan Pengiriman</h5>
+              <p class="mb-0">Rata-rata keterlambatan 3 hari di area Jabodetabek</p>
+            </div>
+          </div>
+          
+          <div class="notification-card info">
+            <i class="fas fa-star-half-alt text-info"></i>
+            <div>
+              <h5 class="mb-1">KALLAX - Rating Menurun</h5>
+              <p class="mb-0">Rating turun dari 4.6 ke 4.3 dalam 2 minggu</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <button class="btn btn-sm btn-outline-danger ms-auto">Investigasi</button>
+    </div>
+    
+    <!-- Small Cards Row -->
+    <div class="col-md-4">
+      <div class="row">
+        <!-- Health Score (Compact) -->
+        <div class="col-md-12 mb-3">
+          <div class="insight-card small-card">
+            <div class="insight-card-header">
+              <i class="fas fa-heartbeat"></i>
+              <h4 class="mb-0">Health Score Brand</h4>
+            </div>
+            
+            <div class="mb-3">
+              <div class="d-flex justify-content-between">
+                <h5 class="mb-1">HEMNES</h5>
+                <span class="health-score good">87/100</span>
+              </div>
+              <p class="mb-2">🟢 Stabil</p>
+              <div class="health-bar">
+                <div class="health-fill bg-success" style="width: 87%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="d-flex justify-content-between">
+                <h5 class="mb-1">FJÄLLBO</h5>
+                <span class="health-score poor">62/100</span>
+              </div>
+              <p class="mb-2">🔴 Perlu perhatian</p>
+              <div class="health-bar">
+                <div class="health-fill bg-danger" style="width: 62%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Waktu Restock (Compact) -->
+        <div class="col-md-12 mb-3">
+          <div class="insight-card small-card">
+            <div class="insight-card-header">
+              <i class="fas fa-clock"></i>
+              <h4 class="mb-0">Waktu Optimal Restock</h4>
+            </div>
+            
+            <div class="d-flex align-items-start mb-3">
+              <div class="bg-light p-2 rounded-circle me-3">
+                <i class="fas fa-box text-primary"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">LACK</h5>
+                <p class="mb-0">Restock ideal: setiap 2 minggu</p>
+              </div>
+            </div>
+            
+            <div class="d-flex align-items-start">
+              <div class="bg-light p-2 rounded-circle me-3">
+                <i class="fas fa-box text-success"></i>
+              </div>
+              <div>
+                <h5 class="mb-1">SKÅDIS</h5>
+                <p class="mb-0">Restock ideal: setiap 3 minggu</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Review Sentiment (Compact) -->
+        <div class="col-md-12">
+          <div class="insight-card small-card">
+            <div class="insight-card-header">
+              <i class="fas fa-comments"></i>
+              <h4 class="mb-0">Review Sentiment</h4>
+            </div>
+            
+            <div>
+              <h5>SKÅDIS</h5>
+              <div class="d-flex mb-2">
+                <span style="width: 25%; font-size: 0.8rem;">82%</span>
+                <div class="sentiment-bar sentiment-positive" style="width: 82%"></div>
+              </div>
+              <div class="d-flex mb-2">
+                <span style="width: 25%; font-size: 0.8rem;">12%</span>
+                <div class="sentiment-bar sentiment-neutral" style="width: 12%"></div>
+              </div>
+              <div class="d-flex mb-3">
+                <span style="width: 25%; font-size: 0.8rem;">6%</span>
+                <div class="sentiment-bar sentiment-negative" style="width: 6%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Expense Section -->
+  <div class="row compact-grid">
+    <!-- Detail Expense -->
+    <div class="col-md-6">
+      <div class="expense-card">
+        <div class="expense-header">
+          <div class="expense-title">Detail Expense: Jan - 2025</div>
+        </div>
+        
+        <div class="expense-summary">
+          <div class="summary-item">
+            <div class="summary-value">Rp 3.200.000</div>
+            <div class="summary-label">Total Expense</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">Marketing</div>
+            <div class="summary-label">Top Category</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">Iklan Facebook</div>
+            <div class="summary-label">Top Expense</div>
+          </div>
+        </div>
+        
+        <div class="department-chart">
+          <div class="department-row">
+            <div class="department-name">Logistik</div>
+            <div class="department-bar">
+              <div class="department-fill bg-logistics" style="width: 43%"></div>
+            </div>
+            <div class="department-value">43%</div>
+          </div>
+          
+          <div class="department-row">
+            <div class="department-name">Retail Ops</div>
+            <div class="department-bar">
+              <div class="department-fill bg-retail" style="width: 25%"></div>
+            </div>
+            <div class="department-value">25%</div>
+          </div>
+          
+          <div class="department-row">
+            <div class="department-name">HR</div>
+            <div class="department-bar">
+              <div class="department-fill bg-hr" style="width: 12%"></div>
+            </div>
+            <div class="department-value">12%</div>
+          </div>
+          
+          <div class="department-row">
+            <div class="department-name">IT</div>
+            <div class="department-bar">
+              <div class="department-fill bg-it" style="width: 10%"></div>
+            </div>
+            <div class="department-value">10%</div>
+          </div>
+          
+          <div class="department-row">
+            <div class="department-name">Lainnya</div>
+            <div class="department-bar">
+              <div class="department-fill bg-other" style="width: 10%"></div>
+            </div>
+            <div class="department-value">10%</div>
+          </div>
+        </div>
+        
+        <div class="insight-box">
+          <i class="fas fa-lightbulb me-2"></i>Logistik mendominasi pengeluaran, harus evaluasi
+        </div>
+      </div>
+    </div>
+    
+    <!-- Ringkasan Budget -->
+    <div class="col-md-6">
+      <div class="expense-card">
+        <div class="expense-header">
+          <div class="expense-title">Ringkasan Budget</div>
+        </div>
+        
+        <div class="expense-summary">
+          <div class="summary-item">
+            <div class="summary-value">Rp 455.000.000</div>
+            <div class="summary-label">Total Budget</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value">Rp 363.000.000</div>
+            <div class="summary-label">Total Used</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-value text-success">Rp 92.000.000</div>
+            <div class="summary-label">Budget Remaining</div>
+          </div>
+        </div>
+        
+        <div class="progress mb-4" style="height: 15px;">
+          <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"></div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Supplies</span>
+              <span class="fw-bold">90%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar" style="width: 90%; background: linear-gradient(90deg, #1a5ea7, #2196f3);"></div>
+            </div>
+            <div class="d-flex justify-content-between mt-1">
+              <small>Rp 45.000.000</small>
+              <small>Rp 50.000.000</small>
+            </div>
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Utilities</span>
+              <span class="fw-bold">83%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar" style="width: 83%; background: linear-gradient(90deg, #28a745, #4caf50);"></div>
+            </div>
+            <div class="d-flex justify-content-between mt-1">
+              <small>Rp 25.000.000</small>
+              <small>Rp 30.000.000</small>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Transport</span>
+              <span class="fw-bold">72%</span>
+            </div>
+            <div class="progress" style="height: 8px;">
+              <div class="progress-bar" style="width: 72%; background: linear-gradient(90deg, #ff9800, #ff5722);"></div>
+            </div>
+            <div class="d-flex justify-content-between mt-1">
+              <small>Rp 18.000.000</small>
+              <small>Rp 25.000.000</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom Section - Compact Cards -->
+  <div class="row compact-grid">
+    <!-- AI Suggestion (Compact) -->
+    <div class="col-md-4">
+      <div class="suggestion-card">
+        <div class="insight-card-header">
+          <i class="fas fa-brain"></i>
+          <h4 class="mb-0">AI Suggestion</h4>
+        </div>
+        <p class="mb-0">"Pencarian untuk 'rak dinding kayu minimalis' meningkat 45% dalam 3 bulan terakhir. Pertimbangkan menambahkan varian ini di koleksi LACK."</p>
+      </div>
+    </div>
+    
+    <!-- Insight Produk Bersaing (Compact) -->
+    <div class="col-md-4">
+      <div class="insight-card small-card">
+        <div class="insight-card-header">
+          <i class="fas fa-chess-board"></i>
+          <h4 class="mb-0">Produk Bersaing</h4>
+        </div>
+        <h5 class="mt-2">SKÅDIS vs VARIERA</h5>
+        <p class="mb-3">Bersaing ketat di kategori "Organizer"</p>
+        
+        <div class="brand-comparison">
+          <div class="brand-comparison-item">
+            <h5>SKÅDIS</h5>
+            <p class="mb-1">Rating: 4.6</p>
+            <p class="mb-1">Harga: Rp 299.000</p>
+            <p class="mb-0">Penjualan: 1.240 unit</p>
+          </div>
+          
+          <div class="text-center my-auto">
+            <i class="fas fa-vs"></i>
+          </div>
+          
+          <div class="brand-comparison-item">
+            <h5>VARIERA</h5>
+            <p class="mb-1">Rating: 4.3</p>
+            <p class="mb-1">Harga: Rp 249.000</p>
+            <p class="mb-0">Penjualan: 1.050 unit</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Brand Readiness (Compact) -->
+    <div class="col-md-4">
+      <div class="insight-card small-card">
+        <div class="insight-card-header">
+          <i class="fas fa-bolt"></i>
+          <h4 class="mb-0">Brand Readiness</h4>
+        </div>
+        
+        <div class="text-center mb-3">
+          <div class="readiness-score">92%</div>
+          <h4 class="mb-1">KALLAX</h4>
+          <p class="mb-0">Promo-Ready Score</p>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+          <div class="text-center">
+            <i class="fas fa-box-open text-success"></i>
+            <p class="mb-0 small">Stok Tinggi</p>
+          </div>
+          <div class="text-center">
+            <i class="fas fa-star text-warning"></i>
+            <p class="mb-0 small">Rating 4.6</p>
+          </div>
+          <div class="text-center">
+            <i class="fas fa-chart-line text-primary"></i>
+            <p class="mb-0 small">Penjualan Stabil</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Health Score -->
-<div class="dashboard-card">
-  <div class="card-header">
-    <h5 class="card-title mb-0"><i class="fas fa-heartbeat me-2"></i> Brand Health Score</h5>
-  </div>
-  <div class="card-body">
-    <div class="insight-grid">
-      <div class="insight-card">
-        <h6><div class="insight-icon"><i class="fas fa-check-circle"></i></div> SKÅDIS</h6>
-        <div class="d-flex align-items-center mb-3">
-          <div class="health-score" style="font-size: 2rem; color: #28a745">91</div>
-          <div class="ms-3">
-            <div class="progress" style="height: 10px; width: 150px">
-              <div class="progress-bar bg-success" style="width: 91%"></div>
-            </div>
-            <small class="text-muted">Dari skor maksimal 100</small>
-          </div>
-        </div>
-        <div class="alert alert-success p-2">
-          <i class="fas fa-check me-2"></i>
-          Performa excellent di semua metrik
+<script>
+  // Data dummy untuk visualisasi
+  const barChartData = {
+    2025: {
+      brands: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ"],
+      sales: [385, 315, 280, 265, 240], // dalam juta
+      insights: {
+        "LACK": "Brand LACK mendominasi penjualan dengan kontribusi 28% dari total revenue. Penjualan tertinggi di Q2 karena program promo 'Summer Refresh'.",
+        "SKÅDIS": "Brand SKÅDIS menunjukkan pertumbuhan pesat dengan peningkatan 18% YoY, terutama karena produk organizer yang populer di kalangan urban.",
+        "HEMNES": "HEMNES tetap menjadi favorit dengan penjualan stabil. Koleksi kayu solidnya masih menjadi pilihan utama konsumen kelas menengah atas.",
+        "KALLAX": "KALLAX mengalami peningkatan 5% di kuartal ini setelah peluncuran varian warna baru yang lebih modern.",
+        "VITTSJÖ": "VITTSJÖ menunjukkan potensi dengan peningkatan penjualan di segmen furniture logam, terutama untuk ruang kerja."
+      }
+    },
+    2024: {
+      brands: ["HEMNES", "LACK", "KALLAX", "SKÅDIS", "VITTSJÖ"],
+      sales: [325, 310, 290, 275, 220],
+      insights: {
+        "HEMNES": "HEMNES menjadi brand terlaris di tahun 2024 dengan koleksi kayu solidnya yang tahan lama dan desain klasik.",
+        "LACK": "LACK tetap menjadi favorit dengan harga terjangkau, meskipun sempat mengalami penurunan stok di Q3.",
+        "KALLAX": "KALLAX menunjukkan kinerja konsisten dengan sistem penyimpanan modular yang fleksibel.",
+        "SKÅDIS": "SKÅDIS mulai menunjukkan potensi dengan peningkatan 12% di paruh kedua tahun 2024.",
+        "VITTSJÖ": "VITTSJÖ mulai dikenal di pasar dengan desain industrial yang minimalis."
+      }
+    },
+    2023: {
+      brands: ["KALLAX", "HEMNES", "LACK", "VITTSJÖ", "SKÅDIS"],
+      sales: [295, 285, 265, 240, 210],
+      insights: {
+        "KALLAX": "KALLAX mendominasi penjualan di 2023 dengan sistem penyimpanan modular yang sangat populer.",
+        "HEMNES": "HEMNES tetap menjadi pilihan utama untuk furniture kayu berkualitas dengan desain timeless.",
+        "LACK": "LACK mulai dikenal sebagai brand dengan harga terjangkau dan desain modern.",
+        "VITTSJÖ": "VITTSJÖ baru memasuki pasar dengan koleksi furniture logam industrial.",
+        "SKÅDIS": "SKÅDIS masih dalam tahap pengenalan dengan produk organizer plastik."
+      }
+    }
+  };
+
+  const donutChartData = {
+    labels: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ", "Lainnya"],
+    series: [28, 22, 18, 15, 12, 5] // persentase
+  };
+
+  const lineChartData = {
+    2025: [
+      { name: "LACK", data: [320, 350, 380, 410, 440, 420, 450, 480] },
+      { name: "SKÅDIS", data: [220, 240, 260, 290, 310, 330, 350, 380] },
+      { name: "HEMNES", data: [280, 290, 310, 300, 320, 330, 340, 350] },
+      { name: "KALLAX", data: [260, 250, 270, 280, 290, 300, 310, 320] },
+      { name: "VITTSJÖ", data: [190, 200, 210, 220, 230, 240, 250, 260] }
+    ],
+    2024: [
+      { name: "HEMNES", data: [310, 300, 290, 300, 310, 320, 330, 340] },
+      { name: "LACK", data: [290, 310, 330, 350, 370, 360, 380, 400] },
+      { name: "KALLAX", data: [280, 270, 260, 270, 280, 290, 300, 310] },
+      { name: "SKÅDIS", data: [180, 200, 220, 240, 260, 280, 300, 320] },
+      { name: "VITTSJÖ", data: [170, 180, 190, 200, 210, 220, 230, 240] }
+    ],
+    2023: [
+      { name: "KALLAX", data: [300, 290, 280, 290, 300, 310, 320, 330] },
+      { name: "HEMNES", data: [280, 270, 280, 290, 300, 310, 320, 330] },
+      { name: "LACK", data: [250, 270, 290, 310, 330, 320, 340, 360] },
+      { name: "VITTSJÖ", data: [150, 160, 170, 180, 190, 200, 210, 220] },
+      { name: "SKÅDIS", data: [150, 170, 190, 210, 230, 250, 270, 290] }
+    ]
+  };
+
+  const lineInsights = {
+    "LACK": "Brand LACK menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.",
+    "SKÅDIS": "SKÅDIS menunjukkan pertumbuhan eksponensial dengan peningkatan 18% di Q2. Popularitas brand ini terus meningkat.",
+    "HEMNES": "HEMNES memiliki penjualan stabil dengan sedikit peningkatan di akhir tahun. Konsistensi menjadi kekuatan utama brand ini.",
+    "KALLAX": "KALLAX memiliki tren yang stabil dengan sedikit fluktuasi. Brand ini tetap menjadi favorit di segmen penyimpanan.",
+    "VITTSJÖ": "VITTSJÖ menunjukkan pertumbuhan konsisten meski lambat. Potensi peningkatan dengan strategi pemasaran yang tepat."
+  };
+
+  // Inisialisasi chart
+  let barChart, donutChart, lineChart;
+  let currentYear = '2025';
+
+  // Fungsi untuk memformat angka
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  // Update insight untuk bar chart
+  function updateBarChartInsight(brand) {
+    const insight = barChartData[currentYear].insights[brand] || 
+                   `Brand ${brand} menunjukkan kinerja yang solid dengan kontribusi signifikan terhadap total penjualan.`;
+    
+    const insightHTML = `
+      <div class="d-flex align-items-center">
+        <i class="fas fa-lightbulb text-warning me-3" style="font-size: 1.6rem;"></i>
+        <div>
+          <h5>Insight: Brand ${brand}</h5>
+          <p class="mb-0">${insight}</p>
         </div>
       </div>
-      
-      <div class="insight-card">
-        <h6><div class="insight-icon"><i class="fas fa-check"></i></div> HEMNES</h6>
-        <div class="d-flex align-items-center mb-3">
-          <div class="health-score" style="font-size: 2rem; color: #28a745">87</div>
-          <div class="ms-3">
-            <div class="progress" style="height: 10px; width: 150px">
-              <div class="progress-bar bg-success" style="width: 87%"></div>
-            </div>
-            <small class="text-muted">Dari skor maksimal 100</small>
-          </div>
-        </div>
-        <div class="alert alert-success p-2">
-          <i class="fas fa-check me-2"></i>
-          Penjualan stabil, rating tinggi
-        </div>
-      </div>
-      
-      <div class="insight-card">
-        <h6><div class="insight-icon"><i class="fas fa-exclamation-triangle"></i></div> FJÄLLBO</h6>
-        <div class="d-flex align-items-center mb-3">
-          <div class="health-score" style="font-size: 2rem; color: #ffc107">62</div>
-          <div class="ms-3">
-            <div class="progress" style="height: 10px; width: 150px">
-              <div class="progress-bar bg-warning" style="width: 62%"></div>
-            </div>
-            <small class="text-muted">Dari skor maksimal 100</small>
-          </div>
-        </div>
-        <div class="alert alert-warning p-2">
-          <i class="fas fa-exclamation me-2"></i>
-          Perlu perhatian: Penjualan menurun
+    `;
+    
+    document.getElementById('barChartInsight').innerHTML = insightHTML;
+  }
+
+  // Update insight untuk line chart
+  function updateLineChartInsight(brand) {
+    const insight = lineInsights[brand] || 
+                  `Tren penjualan brand ${brand} menunjukkan pola yang menarik dengan fluktuasi musiman.`;
+    
+    const insightHTML = `
+      <div class="d-flex align-items-center">
+        <i class="fas fa-lightbulb text-primary me-3" style="font-size: 1.6rem;"></i>
+        <div>
+          <h5>Insight: Tren Brand ${brand}</h5>
+          <p class="mb-0">${insight}</p>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+    `;
+    
+    document.getElementById('lineChartInsight').innerHTML = insightHTML;
+  }
+
+  // Inisialisasi Bar Chart
+  function initBarChart(year) {
+    const data = barChartData[year];
+    currentYear = year;
+    
+    const options = {
+      series: [{
+        name: 'Penjualan (Rp Juta)',
+        data: data.sales
+      }],
+      chart: {
+        type: 'bar',
+        height: 280,
+        toolbar: {
+          show: true
+        },
+        events: {
+          dataPointSelection: function(event, chartContext, config) {
+            const brand = data.brands[config.dataPointIndex];
+            updateBarChartInsight(brand);
+          }
+        }
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 8,
+          horizontal: false,
+          columnWidth: '55%',
+          distributed: false,
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      colors: ['#0d47a1', '#1a5ea7', '#2196f3', '#64b5f6', '#90caf9'],
+      stroke: {
+        show: true,
+        width: 2,
+        colors: ['transparent']
+      },
+      xaxis: {
+        categories: data.brands,
+      },
+      yaxis: {
+        title: {
+          text: 'Penjualan (Rp Juta)'
+        },
+        labels: {
+          formatter: function(val) {
+            return 'Rp ' + formatNumber(val);
+          }
+        }
+      },
+      tooltip: {
+        y: {
+          formatter: function(val) {
+            return 'Rp ' + formatNumber(val) + ' juta';
+          }
+        }
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'],
+          opacity: 0.5
+        }
+      }
+    };
+
+    if (barChart) {
+      barChart.destroy();
+    }
+    
+    barChart = new ApexCharts(document.querySelector("#barChart"), options);
+    barChart.render();
+  }
+
+  // Inisialisasi Donut Chart
+  function initDonutChart() {
+    const options = {
+      series: donutChartData.series,
+      chart: {
+        type: 'donut',
+        height: 280,
+      },
+      labels: donutChartData.labels,
+      colors: ['#0d47a1', '#1a5ea7', '#2196f3', '#64b5f6', '#90caf9', '#bbdefb'],
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }],
+      legend: {
+        position: 'right',
+        offsetY: 0,
+        height: 230,
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              total: {
+                show: true,
+                label: 'Total',
+                formatter: function (w) {
+                  return '100%'
+                }
+              }
+            }
+          }
+        }
+      },
+      dataLabels: {
+        formatter: function(val, opts) {
+          return val.toFixed(1) + '%';
+        },
+        dropShadow: {
+          enabled: false
+        }
+      }
+    };
+
+    if (donutChart) {
+      donutChart.destroy();
+    }
+    
+    donutChart = new ApexCharts(document.querySelector("#donutChart"), options);
+    donutChart.render();
+  }
+
+  // Inisialisasi Line Chart
+  function initLineChart(year) {
+    const data = lineChartData[year];
+    
+    const options = {
+      series: data,
+      chart: {
+        height: 280,
+        type: 'line',
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: true
+        },
+        events: {
+          dataPointSelection: function(event, chartContext, config) {
+            const brand = data[config.seriesIndex].name;
+            updateLineChartInsight(brand);
+          },
+          legendClick: function(chartContext, seriesIndex, config) {
+            const brand = data[seriesIndex].name;
+            updateLineChartInsight(brand);
+          }
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 3,
+      },
+      colors: ['#0d47a1', '#1a5ea7', '#2196f3', '#64b5f6', '#90caf9'],
+      markers: {
+        size: 5,
+        strokeWidth: 0,
+        hover: {
+          size: 7
+        }
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'],
+          opacity: 0.5
+        }
+      },
+      xaxis: {
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags'],
+      },
+      yaxis: {
+        title: {
+          text: 'Penjualan (Unit)'
+        }
+      },
+      tooltip: {
+        y: {
+          formatter: function(val) {
+            return val + ' unit';
+          }
+        }
+      }
+    };
+
+    if (lineChart) {
+      lineChart.destroy();
+    }
+    
+    lineChart = new ApexCharts(document.querySelector("#lineChart"), options);
+    lineChart.render();
+  }
+
+  // Event listeners
+  document.getElementById('barChartYear').addEventListener('change', function() {
+    const year = this.value;
+    initBarChart(year);
+    initLineChart(year);
+  });
+
+  document.getElementById('lineChartYear').addEventListener('change', function() {
+    const year = this.value;
+    initLineChart(year);
+  });
+
+  // Inisialisasi saat halaman dimuat
+  document.addEventListener('DOMContentLoaded', function() {
+    initBarChart('2025');
+    initDonutChart();
+    initLineChart('2025');
+    
+    // Animate elements with delay
+    document.querySelectorAll('.card, .insight-card, .suggestion-card').forEach((el, index) => {
+      el.classList.add('animate__animated', 'animate__fadeInUp');
+      el.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
