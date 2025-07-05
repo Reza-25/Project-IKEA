@@ -29,7 +29,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
 <link rel="stylesheet" href="../assets/css/style.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">   
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
 /* Reset semua background jadi putih & style dasar kolom */
 .das1, .das2, .das3, .das4 {
@@ -323,7 +324,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         }
 
         .bar.excellent {
-            background: linear-gradient(to top, #0051BA, #16a34a);
+            background: linear-gradient(to top, #2196f3, #0d47a1);
         }
 
         .bar.good {
@@ -470,20 +471,20 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             border-radius: 8px 8px 0 0;
         }
 
-        .stacked-segment.tugas {
-            background: linear-gradient(to top, #0051BA, #2563eb);
+        .stacked-segment.customer-handling {
+            background: linear-gradient(to top, #2196f3, #0d47a1);
         }
 
-        .stacked-segment.komentar {
-            background: linear-gradient(to top, #f59e0b, #d97706);
+        .stacked-segment.stock-management {
+            background: linear-gradient(to top, #ff5858, #e78001);
         }
 
-        .stacked-segment.reward {
-            background: linear-gradient(to top, #10b981, #059669);
+        .stacked-segment.operational-support {
+            background: linear-gradient(to top, rgb(89, 236, 222), #018679);
         }
 
-        .stacked-segment.voting {
-            background: linear-gradient(to top, #8b5cf6, #7c3aed);
+        .stacked-segment.team-collaboration {
+            background: linear-gradient(to top, #a259c6, #6d28d9);
         }
 
         .stacked-bar:hover .stacked-segment {
@@ -545,6 +546,554 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 height: 220px;
             }
         }
+          /* Employee Card Styles */
+/* Header Animation */
+.header-animation {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: headerPulse 4s ease-in-out infinite;
+}
+
+@keyframes headerPulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.1); opacity: 0.6; }
+}
+
+.period-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+/* Enhanced Employee Card Styles */
+.employee-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 2px solid #e3f2fd;
+  border-radius: 20px;
+  padding: 18px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.employee-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2196f3 0%, #0d47a1 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+.employee-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(33, 150, 243, 0.2);
+  border-color: #2196f3;
+}
+
+/* Rank Specific Styles */
+.employee-card.rank-1 {
+  background: linear-gradient(135deg, #fff8e1 0%, #ffffff 100%);
+  border-color: #fcd116;
+  box-shadow: 0 12px 30px rgba(252, 209, 22, 0.3);
+}
+
+.employee-card.rank-1::before {
+  background: linear-gradient(90deg, #fcd116 0%, #f57c00 100%);
+}
+
+.employee-card.rank-1:hover {
+  box-shadow: 0 20px 40px rgba(252, 209, 22, 0.4);
+  border-color: #fcd116;
+}
+
+.employee-card.rank-2 {
+  background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+  border-color: #c0c0c0;
+  box-shadow: 0 12px 30px rgba(192, 192, 192, 0.3);
+}
+
+.employee-card.rank-2::before {
+  background: linear-gradient(90deg, #c0c0c0 0%, #9e9e9e 100%);
+}
+
+.employee-card.rank-2:hover {
+  box-shadow: 0 20px 40px rgba(192, 192, 192, 0.4);
+  border-color: #c0c0c0;
+}
+
+.employee-card.rank-3 {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffffff 100%);
+  border-color: #cd7f32;
+  box-shadow: 0 12px 30px rgba(205, 127, 50, 0.3);
+}
+
+.employee-card.rank-3::before {
+  background: linear-gradient(90deg, #cd7f32 0%, #a0522d 100%);
+}
+
+.employee-card.rank-3:hover {
+  box-shadow: 0 20px 40px rgba(205, 127, 50, 0.4);
+  border-color: #cd7f32;
+}
+
+/* Medal Styles */
+.rank-medal {
+  position: absolute;
+  top: -10px;
+  right: 15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: white;
+  z-index: 10;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.rank-medal.gold {
+  background: linear-gradient(135deg, #fcd116 0%, #f57c00 100%);
+  animation: goldGlow 2s ease-in-out infinite;
+}
+
+.rank-medal.silver {
+  background: linear-gradient(135deg, #c0c0c0 0%, #9e9e9e 100%);
+  animation: silverGlow 2s ease-in-out infinite;
+}
+
+.rank-medal.bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #a0522d 100%);
+  animation: bronzeGlow 2s ease-in-out infinite;
+}
+
+@keyframes goldGlow {
+  0%, 100% { box-shadow: 0 6px 15px rgba(252, 209, 22, 0.5); }
+  50% { box-shadow: 0 8px 20px rgba(252, 209, 22, 0.8); }
+}
+
+@keyframes silverGlow {
+  0%, 100% { box-shadow: 0 6px 15px rgba(192, 192, 192, 0.5); }
+  50% { box-shadow: 0 8px 20px rgba(192, 192, 192, 0.8); }
+}
+
+@keyframes bronzeGlow {
+  0%, 100% { box-shadow: 0 6px 15px rgba(205, 127, 50, 0.5); }
+  50% { box-shadow: 0 8px 20px rgba(205, 127, 50, 0.8); }
+}
+
+/* Top Performer Badge */
+.top-performer {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  background: linear-gradient(135deg, #fcd116 0%, #f57c00 100%);
+  color: #1a237e;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(252, 209, 22, 0.4);
+  animation: topPerformerPulse 2s ease-in-out infinite;
+}
+
+@keyframes topPerformerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Employee Info Section */
+.employee-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.employee-info-compact {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.employee-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #2196f3;
+  box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.employee-avatar-small {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #2196f3;
+  box-shadow: 0 6px 15px rgba(33, 150, 243, 0.3);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.employee-avatar:hover, .employee-avatar-small:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(33, 150, 243, 0.5);
+}
+
+.employee-avatar img, .employee-avatar-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.employee-avatar::after, .employee-avatar-small::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+.employee-details h6, .employee-details-compact h6 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a237e;
+  margin: 0 0 3px 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.employee-details-compact h6 {
+  font-size: 1rem;
+}
+
+.employee-details h6:hover, .employee-details-compact h6:hover {
+  color: #2196f3;
+  text-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+}
+
+.employee-role {
+  font-size: 0.8rem;
+  color: #5c6bc0;
+  margin: 0 0 5px 0;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.employee-location {
+  font-size: 0.8rem;
+  color: #2196f3;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.employee-name-role {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+
+/* Performance Metrics */
+.performance-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.performance-metrics-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.metric-item-compact {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #37474f;
+  min-width: 110px;
+}
+
+.metric-bar {
+  flex: 1;
+  height: 10px;
+  background: #e3f2fd;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.metric-bar-small {
+  flex: 1;
+  height: 8px;
+  background: #e3f2fd;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.metric-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #2196f3 0%, #0d47a1 100%);
+  border-radius: 5px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.metric-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.metric-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a237e;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Overall Score */
+.overall-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.overall-score-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.score-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.score-circle-small {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.score-circle:hover, .score-circle-small:hover {
+  transform: scale(1.05);
+}
+
+.score-circle.excellent, .score-circle-small.excellent {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+}
+
+.score-circle.good, .score-circle-small.good {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+}
+
+.score-circle.average, .score-circle-small.average {
+  background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+}
+
+.score-number {
+  font-size: 1.6rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.score-circle-small .score-number {
+  font-size: 1.4rem;
+}
+
+.score-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.score-change {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+.score-change.positive {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.score-change.negative {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+/* Header Gradient */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .employee-card {
+    padding: 16px;
+  }
+  
+  .employee-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  
+  .performance-metrics {
+    margin: 16px 0;
+  }
+  
+  .metric-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .metric-label {
+    min-width: auto;
+    text-align: center;
+  }
+  
+  .overall-score {
+    margin-top: 16px;
+  }
+}
+
+/* Gamification Badges */
+.game-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.badge-item {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+  transition: all 0.3s ease;
+}
+
+.badge-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(33, 150, 243, 0.4);
+}
+
+.badge-item.hero {
+  background: linear-gradient(135deg, #fcd116 0%, #f57c00 100%);
+  color: #1a237e;
+}
+
+.badge-item.solver {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+}
+
+.badge-item.star {
+  background: linear-gradient(135deg, #9c27b0 0%, #6a1b9a 100%);
+}
+
+/* Animation on load */
+.employee-card {
+  animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.employee-card:nth-child(1) { animation-delay: 0.1s; }
+.employee-card:nth-child(2) { animation-delay: 0.2s; }
+.employee-card:nth-child(3) { animation-delay: 0.3s; }
+.employee-card:nth-child(4) { animation-delay: 0.4s; }
+.employee-card:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>
 
 </head>
@@ -742,8 +1291,8 @@ document.addEventListener('DOMContentLoaded', function () {
             <h5><i class="fa fa-chart-bar me-2"></i>Visualisasi Kinerja Karyawan</h5>
             <div class="chart-tabs">
                 <button class="tab-btn active" data-tab="kehadiran">Kehadiran</button>
-                <button class="tab-btn" data-tab="pelayanan">Pelayanan</button>
-                <button class="tab-btn" data-tab="tugas">Tugas</button>
+                <button class="tab-btn" data-tab="kinerja">Kinerja</button>
+                <button class="tab-btn" data-tab="aktivitas">Aktivitas</button>
             </div>
         </div>
         
@@ -782,11 +1331,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
                 <div class="chart-legend">
                     <div class="legend-item">
-                        <div class="legend-color" style="background: #0051BA;"></div>
+                        <div class="legend-color" style="background: #0d47a1;"></div>
                         <span>Excellent (≥85%)</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: #FFCC00;"></div>
+                        <div class="legend-color" style="background: #f59e0b;"></div>
                         <span>Good (70-84%)</span>
                     </div>
                     <div class="legend-item">
@@ -799,8 +1348,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             </div>
 
-            <!-- Pelayanan Chart (Radar) -->
-            <div class="chart-content" id="pelayanan">
+            <!-- Kinerja Chart (Radar) -->
+            <div class="chart-content" id="kinerja">
                 <div class="branch-selector">
                     <button class="branch-btn active" data-branch="alam-sutera">Alam Sutera</button>
                     <button class="branch-btn" data-branch="sentul">Sentul</button>
@@ -844,75 +1393,75 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             </div>
 
-            <!-- Tugas Chart (Stacked) -->
-            <div class="chart-content" id="tugas">
+            <!-- Aktivitas Chart (Stacked) -->
+            <div class="chart-content" id="aktivitas">
                 <div class="stacked-chart">
                     <div class="stacked-bar">
-                        <div class="stacked-segment tugas" style="height: 80px;" data-value="40"></div>
-                        <div class="stacked-segment komentar" style="height: 30px;" data-value="15"></div>
-                        <div class="stacked-segment reward" style="height: 50px;" data-value="25"></div>
-                        <div class="stacked-segment voting" style="height: 40px;" data-value="20"></div>
+                        <div class="stacked-segment customer-handling" style="height: 80px;" data-value="40"></div>
+                        <div class="stacked-segment stock-management" style="height: 30px;" data-value="15"></div>
+                        <div class="stacked-segment operational-support" style="height: 50px;" data-value="25"></div>
+                        <div class="stacked-segment team-collaboration" style="height: 40px;" data-value="20"></div>
                         <div class="bar-label">Alam Sutera</div>
                     </div>
                     <div class="stacked-bar">
-                        <div class="stacked-segment tugas" style="height: 70px;" data-value="35"></div>
-                        <div class="stacked-segment komentar" style="height: 40px;" data-value="20"></div>
-                        <div class="stacked-segment reward" style="height: 35px;" data-value="18"></div>
-                        <div class="stacked-segment voting" style="height: 35px;" data-value="17"></div>
+                        <div class="stacked-segment customer-handling" style="height: 70px;" data-value="35"></div>
+                        <div class="stacked-segment stock-management" style="height: 40px;" data-value="20"></div>
+                        <div class="stacked-segment operational-support" style="height: 35px;" data-value="18"></div>
+                        <div class="stacked-segment team-collaboration" style="height: 35px;" data-value="17"></div>
                         <div class="bar-label">Sentul</div>
                     </div>
                     <div class="stacked-bar">
-                        <div class="stacked-segment tugas" style="height: 75px;" data-value="38"></div>
-                        <div class="stacked-segment komentar" style="height: 35px;" data-value="18"></div>
-                        <div class="stacked-segment reward" style="height: 40px;" data-value="20"></div>
-                        <div class="stacked-segment voting" style="height: 30px;" data-value="15"></div>
+                        <div class="stacked-segment customer-handling" style="height: 75px;" data-value="38"></div>
+                        <div class="stacked-segment stock-management" style="height: 35px;" data-value="18"></div>
+                        <div class="stacked-segment operational-support" style="height: 40px;" data-value="20"></div>
+                        <div class="stacked-segment team-collaboration" style="height: 30px;" data-value="15"></div>
                         <div class="bar-label">Bandung</div>
                     </div>
                     <div class="stacked-bar">
-                        <div class="stacked-segment tugas" style="height: 60px;" data-value="30"></div>
-                        <div class="stacked-segment komentar" style="height: 45px;" data-value="23"></div>
-                        <div class="stacked-segment reward" style="height: 30px;" data-value="15"></div>
-                        <div class="stacked-segment voting" style="height: 25px;" data-value="12"></div>
+                        <div class="stacked-segment customer-handling" style="height: 60px;" data-value="30"></div>
+                        <div class="stacked-segment stock-management" style="height: 45px;" data-value="23"></div>
+                        <div class="stacked-segment operational-support" style="height: 30px;" data-value="15"></div>
+                        <div class="stacked-segment team-collaboration" style="height: 25px;" data-value="12"></div>
                         <div class="bar-label">Surabaya</div>
                     </div>
                     <div class="stacked-bar">
-                        <div class="stacked-segment tugas" style="height: 85px;" data-value="42"></div>
-                        <div class="stacked-segment komentar" style="height: 25px;" data-value="13"></div>
-                        <div class="stacked-segment reward" style="height: 45px;" data-value="22"></div>
-                        <div class="stacked-segment voting" style="height: 35px;" data-value="18"></div>
+                        <div class="stacked-segment customer-handling" style="height: 85px;" data-value="42"></div>
+                        <div class="stacked-segment stock-management" style="height: 25px;" data-value="13"></div>
+                        <div class="stacked-segment operational-support" style="height: 45px;" data-value="22"></div>
+                        <div class="stacked-segment team-collaboration" style="height: 35px;" data-value="18"></div>
                         <div class="bar-label">Bali</div>
                     </div>
                     <div class="stacked-bar">
-                        <div class="stacked-segment tugas" style="height: 50px;" data-value="25"></div>
-                        <div class="stacked-segment komentar" style="height: 50px;" data-value="25"></div>
-                        <div class="stacked-segment reward" style="height: 25px;" data-value="12"></div>
-                        <div class="stacked-segment voting" style="height: 35px;" data-value="18"></div>
+                        <div class="stacked-segment customer-handling" style="height: 50px;" data-value="25"></div>
+                        <div class="stacked-segment stock-management" style="height: 50px;" data-value="25"></div>
+                        <div class="stacked-segment operational-support" style="height: 25px;" data-value="12"></div>
+                        <div class="stacked-segment team-collaboration" style="height: 35px;" data-value="18"></div>
                         <div class="bar-label">Jakarta</div>
                     </div>
                     <div class="stacked-bar">
-                        <div class="stacked-segment tugas" style="height: 90px;" data-value="45"></div>
-                        <div class="stacked-segment komentar" style="height: 20px;" data-value="10"></div>
-                        <div class="stacked-segment reward" style="height: 55px;" data-value="28"></div>
-                        <div class="stacked-segment voting" style="height: 45px;" data-value="22"></div>
+                        <div class="stacked-segment customer-handling" style="height: 90px;" data-value="45"></div>
+                        <div class="stacked-segment stock-management" style="height: 20px;" data-value="10"></div>
+                        <div class="stacked-segment operational-support" style="height: 55px;" data-value="28"></div>
+                        <div class="stacked-segment team-collaboration" style="height: 45px;" data-value="22"></div>
                         <div class="bar-label">Taman Anggrek</div>
                     </div>
                 </div>
                 <div class="chart-legend">
                     <div class="legend-item">
-                        <div class="legend-color" style="background: #0051BA;"></div>
-                        <span>Tugas</span>
+                        <div class="legend-color" style="background: #0d47a1;"></div>
+                        <span>Customer Handling</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: #f59e0b;"></div>
-                        <span>Komentar</span>
+                        <div class="legend-color" style="background: #ff5858;"></div>
+                        <span>Stock Management</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: #10b981;"></div>
-                        <span>Reward</span>
+                        <div class="legend-color" style="background: #018679;"></div>
+                        <span>Operational Support</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color" style="background: #8b5cf6;"></div>
-                        <span>Voting</span>
+                        <div class="legend-color" style="background: #6d28d9;"></div>
+                        <span>Team Collaboration</span>
                     </div>
                 </div>
                 <div class="stats-info">
@@ -1021,357 +1570,336 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     </script>
-<div class="card mt-4">
-<div class="card-body">
-<div class="table-top">
-<div class="search-set">
-<div class="search-path">
-<a class="btn btn-filter" id="filter_search">
-<img src="../assets/img/icons/filter.svg" alt="img">
-<span><img src="../assets/img/icons/closes.svg" alt="img"></span>
-</a>
-</div>
-<div class="search-input">
-<a class="btn btn-searchset">
-<img src="../assets/img/icons/search-white.svg" alt="img">
-</a>
-</div>
-</div>
-<div class="wordset">
-<ul>
-<li>
-<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="../assets/img/icons/pdf.svg" alt="img"></a>
-</li>
-<li>
-<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="../assets/img/icons/excel.svg" alt="img"></a>
-</li>
-<li>
-<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="../assets/img/icons/printer.svg" alt="img"></a>
-</li>
-</ul>
-</div>
-</div>
 
-<div class="card" id="filter_inputs">
-<div class="card-body pb-0">
-<div class="row">
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<input type="text" placeholder="Enter User Name">
-</div>
-</div>
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<input type="text" placeholder="Enter Phone">
-</div>
-</div>
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<input type="text" placeholder="Enter Email">
-</div>
-</div>
-<div class="col-lg-2 col-sm-6 col-12">
-<div class="form-group">
-<select class="select">
-<option>Disable</option>
-<option>Enable</option>
-</select>
-</div>
-</div>
-<div class="col-lg-1 col-sm-6 col-12 ms-auto">
-<div class="form-group">
-<a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img"></a>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<!-- List Evaluasi Karyawan IKEA -->
-<div class="row justify-content-center">
-  <div class="col-md-10">
-    <!-- ITEM 1 -->
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body">
-        <h5 class="mb-1">Andi Saputra</h5>
-        <p class="text-muted mb-2">Sales Associate - Alam Sutera (Tangerang)</p>
-        <div class="row mb-2 small">
-          <div class="col-4">Kehadiran</div>
-          <div class="col-4">Pelayanan</div>
-          <div class="col-4">Penyelesaian Tugas</div>
-        </div>
-        <div class="row align-items-center mb-2">
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 98%">98%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 90%">90%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 95%">95%</div></div></div>
-        </div>
-        <div class="text-end">
-          <span class="badge bg-success fs-6">94 <i class="bi bi-arrow-up"></i> +3%</span>
+<!-- List Evaluasi Karyawan IKEA - Compact Version -->
+<div class="row justify-content-center mt-4">
+  <div class="col-12">
+    <div class="card shadow-lg border-0">
+      <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%); position: relative; overflow: hidden; border-radius: 25px 25px 0 0;">
+        <div class="header-animation"></div>
+        <div class="d-flex justify-content-between align-items-center position-relative">
+          <div>
+            <h4 class="mb-1 fw-bold">
+              <i class="bi bi-trophy-fill me-2"></i>
+              Employee Hall of Fame
+            </h4>
+            <p class="mb-0 opacity-90">Celebrating Our Top Performers - Juni 2024</p>
+          </div>
+          <div class="period-badge">
+            <i class="bi bi-calendar-check me-2"></i>
+            Top 5 Best Employee
+          </div>
         </div>
       </div>
-    </div>
+      <div class="card-body p-3" style="border-radius: 0 0 25px 25px;">
+        
+        <!-- RANK 1 - GOLD MEDAL -->
+        <div class="employee-card rank-1 mb-3">
+          <div class="rank-medal gold">1</div>
+          <div class="top-performer">
+            <i class="bi bi-star-fill me-1"></i>
+            TOP PERFORMER
+          </div>
+          <div class="row align-items-center">
+            <div class="col-md-3">
+              <div class="employee-info-compact">
+                <div class="employee-avatar-small">
+                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Andi Saputra">
+                </div>
+                <div class="employee-details-compact">
+                  <h6 class="employee-name">Andi Saputra</h6>
+                  <p class="employee-role">Sales Associate</p>
+                  <span class="employee-location">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    Alam Sutera
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="performance-metrics">
+                <div class="metric-item">
+                  <span class="metric-label">Kehadiran</span>
+                  <div class="metric-bar">
+                    <div class="metric-progress" style="width: 98%"></div>
+                  </div>
+                  <span class="metric-value">98%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Pelayanan</span>
+                  <div class="metric-bar">
+                    <div class="metric-progress" style="width: 90%"></div>
+                  </div>
+                  <span class="metric-value">90%</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Tugas</span>
+                  <div class="metric-bar">
+                    <div class="metric-progress" style="width: 95%"></div>
+                  </div>
+                  <span class="metric-value">95%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="overall-score">
+                <div class="score-circle excellent">
+                  <span class="score-number">94</span>
+                  <span class="score-label">TOTAL POIN</span>
+                </div>
+                <div class="score-change positive">
+                  <i class="bi bi-arrow-up"></i>
+                  <span>+3%</span>
+                </div>
+                <div class="game-badges">
+                  <div class="badge-item hero">
+                    <i class="bi bi-person-hearts"></i>
+                    Problem Solver
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <!-- ITEM 2 -->
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body">
-        <h5 class="mb-1">Rina Pramesti</h5>
-        <p class="text-muted mb-2">Customer Service - Sentul City (Bogor)</p>
-        <div class="row mb-2 small">
-          <div class="col-4">Kehadiran</div>
-          <div class="col-4">Pelayanan</div>
-          <div class="col-4">Penyelesaian Tugas</div>
+        <!-- RANK 2 & 3 - TWO COLUMNS -->
+        <div class="row">
+          <div class="col-md-6">
+            <!-- RANK 2 - SILVER MEDAL -->
+            <div class="employee-card rank-2 mb-3">
+              <div class="rank-medal silver">2</div>
+              <div class="row align-items-center">
+                <div class="col-12">
+                  <div class="employee-info-compact">
+                    <div class="employee-avatar-small">
+                      <img src="https://images.unsplash.com/photo-1494790108755-2616c6d73fe4?w=150&h=150&fit=crop&crop=face" alt="Rina Pramesti">
+                    </div>
+                    <div class="employee-details-compact">
+                      <h6 class="employee-name">Rina Pramesti</h6>
+                      <p class="employee-role">Customer Service</p>
+                      <span class="employee-location">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        Sentul City
+                      </span>
+                    </div>
+                  </div>
+                  <div class="performance-metrics-compact">
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Kehadiran</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 95%"></div>
+                      </div>
+                      <span class="metric-value">95%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Pelayanan</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 88%"></div>
+                      </div>
+                      <span class="metric-value">88%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Tugas</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 91%"></div>
+                      </div>
+                      <span class="metric-value">91%</span>
+                    </div>
+                  </div>
+                  <div class="overall-score-compact">
+                    <div class="score-circle-small excellent">
+                      <span class="score-number">91</span>
+                      <span class="score-label">POIN</span>
+                    </div>
+                    <div class="score-change positive">
+                      <i class="bi bi-arrow-up"></i>
+                      <span>+2%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <!-- RANK 3 - BRONZE MEDAL -->
+            <div class="employee-card rank-3 mb-3">
+              <div class="rank-medal bronze">3</div>
+              <div class="row align-items-center">
+                <div class="col-12">
+                  <div class="employee-info-compact">
+                    <div class="employee-avatar-small">
+                      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Dimas Wahyu">
+                    </div>
+                    <div class="employee-details-compact">
+                      <h6 class="employee-name">Dimas Wahyu</h6>
+                      <p class="employee-role">Warehouse Staff</p>
+                      <span class="employee-location">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        Kota Baru Parahyangan
+                      </span>
+                    </div>
+                  </div>
+                  <div class="performance-metrics-compact">
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Kehadiran</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 92%"></div>
+                      </div>
+                      <span class="metric-value">92%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Pelayanan</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 85%"></div>
+                      </div>
+                      <span class="metric-value">85%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Tugas</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 88%"></div>
+                      </div>
+                      <span class="metric-value">88%</span>
+                    </div>
+                  </div>
+                  <div class="overall-score-compact">
+                    <div class="score-circle-small good">
+                      <span class="score-number">88</span>
+                      <span class="score-label">POIN</span>
+                    </div>
+                    <div class="score-change positive">
+                      <i class="bi bi-arrow-up"></i>
+                      <span>+1%</span>
+                    </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row align-items-center mb-2">
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 95%">95%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 88%">88%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 91%">91%</div></div></div>
-        </div>
-        <div class="text-end">
-          <span class="badge bg-success fs-6">91 <i class="bi bi-arrow-up"></i> +2%</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- ITEM 3 -->
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body">
-        <h5 class="mb-1">Dimas Wahyu</h5>
-        <p class="text-muted mb-2">Warehouse Staff - Kota Baru Parahyangan (Bandung)</p>
-        <div class="row mb-2 small">
-          <div class="col-4">Kehadiran</div>
-          <div class="col-4">Pelayanan</div>
-          <div class="col-4">Penyelesaian Tugas</div>
-        </div>
-        <div class="row align-items-center mb-2">
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 92%">92%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 85%">85%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 88%">88%</div></div></div>
-        </div>
-        <div class="text-end">
-          <span class="badge bg-success fs-6">88 <i class="bi bi-arrow-up"></i> +1%</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- ITEM 4 -->
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body">
-        <h5 class="mb-1">Siska Lestari</h5>
-        <p class="text-muted mb-2">Cashier - Bali</p>
-        <div class="row mb-2 small">
-          <div class="col-4">Kehadiran</div>
-          <div class="col-4">Pelayanan</div>
-          <div class="col-4">Penyelesaian Tugas</div>
+        <!-- RANK 4 & 5 - TWO COLUMNS -->
+        <div class="row">
+          <div class="col-md-6">
+            <!-- RANK 4 -->
+            <div class="employee-card mb-3">
+              <div class="row align-items-center">
+                <div class="col-12">
+                  <div class="employee-info-compact">
+                    <div class="employee-avatar-small">
+                      <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="Siska Lestari">
+                    </div>
+                    <div class="employee-details-compact">
+                      <h6 class="employee-name">Siska Lestari</h6>
+                      <p class="employee-role">Cashier</p>
+                      <span class="employee-location">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        Bali
+                      </span>
+                    </div>
+                  </div>
+                  <div class="performance-metrics-compact">
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Kehadiran</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 90%"></div>
+                      </div>
+                      <span class="metric-value">90%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Pelayanan</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 80%"></div>
+                      </div>
+                      <span class="metric-value">80%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Tugas</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 84%"></div>
+                      </div>
+                      <span class="metric-value">84%</span>
+                    </div>
+                  </div>
+                  <div class="overall-score-compact">
+                    <div class="score-circle-small average">
+                      <span class="score-number">84</span>
+                      <span class="score-label">POIN</span>
+                    </div>
+                    <div class="score-change negative">
+                      <i class="bi bi-arrow-down"></i>
+                      <span>-1%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <!-- RANK 5 -->
+            <div class="employee-card mb-2">
+              <div class="row align-items-center">
+                <div class="col-12">
+                  <div class="employee-info-compact">
+                    <div class="employee-avatar-small">
+                      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face" alt="Yudha Hermawan">
+                    </div>
+                    <div class="employee-details-compact">
+                      <h6 class="employee-name">Yudha Hermawan</h6>
+                      <p class="employee-role">Delivery Driver</p>
+                      <span class="employee-location">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        Surabaya
+                      </span>
+                    </div>
+                  </div>
+                  <div class="performance-metrics-compact">
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Kehadiran</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 88%"></div>
+                      </div>
+                      <span class="metric-value">88%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Pelayanan</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 78%"></div>
+                      </div>
+                      <span class="metric-value">78%</span>
+                    </div>
+                    <div class="metric-item-compact">
+                      <span class="metric-label">Tugas</span>
+                      <div class="metric-bar-small">
+                        <div class="metric-progress" style="width: 80%"></div>
+                      </div>
+                      <span class="metric-value">80%</span>
+                    </div>
+                  </div>
+                  <div class="overall-score-compact">
+                    <div class="score-circle-small average">
+                      <span class="score-number">80</span>
+                      <span class="score-label">POIN</span>
+                    </div>
+                    <div class="score-change negative">
+                      <i class="bi bi-arrow-down"></i>
+                      <span>-2%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row align-items-center mb-2">
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 90%">90%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 80%">80%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 84%">84%</div></div></div>
-        </div>
-        <div class="text-end">
-          <span class="badge bg-danger fs-6">84 <i class="bi bi-arrow-down"></i> -1%</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- ITEM 5 -->
-    <div class="card mb-3 shadow-sm">
-      <div class="card-body">
-        <h5 class="mb-1">Yudha Hermawan</h5>
-        <p class="text-muted mb-2">Delivery Driver - Surabaya</p>
-        <div class="row mb-2 small">
-          <div class="col-4">Kehadiran</div>
-          <div class="col-4">Pelayanan</div>
-          <div class="col-4">Penyelesaian Tugas</div>
-        </div>
-        <div class="row align-items-center mb-2">
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 88%">88%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 78%">78%</div></div></div>
-          <div class="col-4"><div class="progress"><div class="progress-bar bg-primary" style="width: 80%">80%</div></div></div>
-        </div>
-        <div class="text-end">
-          <span class="badge bg-danger fs-6">80 <i class="bi bi-arrow-down"></i> -2%</span>
-        </div>
       </div>
     </div>
   </div>
 </div>
-
-<div class="modal fade" id="showpayment" tabindex="-1" aria-labelledby="showpayment" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">Show Payments</h5>
-<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-</div>
-<div class="modal-body">
-<div class="table-responsive">
-<table class="table">
-<thead>
-<tr>
-<th>Date</th>
-<th>Reference</th>
-<th>Amount	</th>
-<th>Paid By	</th>
-<th>Paid By	</th>
-</tr>
-</thead>
-<tbody>
-<tr class="bor-b1">
-<td>2022-03-07	</td>
-<td>INV/SL0101</td>
-<td>$ 1500.00	</td>
-<td>Cash</td>
-<td>
-<a class="me-2" href="javascript:void(0);">
-<img src="../assets/img/icons/printer.svg" alt="img">
-</a>
-<a class="me-2" href="javascript:void(0);" data-bs-target="#editpayment" data-bs-toggle="modal" data-bs-dismiss="modal">
-<img src="../assets/img/icons/edit.svg" alt="img">
-</a>
-<a class="me-2 confirm-text" href="javascript:void(0);">
-<img src="../assets/img/icons/delete.svg" alt="img">
-</a>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="modal fade" id="createpayment" tabindex="-1" aria-labelledby="createpayment" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">Create Payment</h5>
-<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-</div>
-<div class="modal-body">
-<div class="row">
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Customer</label>
-<div class="input-group">
-<input type="text" value="2022-03-07" class="datetimepicker">
-<a class="scanner-set input-group-text">
-<img src="../assets/img/icons/datepicker.svg" alt="img">
-</a>
-</div>
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Reference</label>
-<input type="text" value="INV/SL0101">
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Received Amount</label>
-<input type="text" value="1500.00">
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Paying Amount</label>
-<input type="text" value="1500.00">
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Payment type</label>
-<select class="select">
-<option>Cash</option>
-<option>Online</option>
-<option>Inprogress</option>
-</select>
-</div>
-</div>
-<div class="col-lg-12">
-<div class="form-group">
-<label>Note</label>
-<textarea class="form-control"></textarea>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-submit">Submit</button>
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-
-
-<div class="modal fade" id="editpayment" tabindex="-1" aria-labelledby="editpayment" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title">Edit Payment</h5>
-<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-</div>
-<div class="modal-body">
-<div class="row">
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Customer</label>
-<div class="input-group">
-<input type="text" value="2022-03-07" class="datetimepicker">
-<a class="scanner-set input-group-text">
-<img src="../assets/img/icons/datepicker.svg" alt="img">
-</a>
-</div>
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Reference</label>
-<input type="text" value="INV/SL0101">
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Received Amount</label>
-<input type="text" value="1500.00">
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Paying Amount</label>
-<input type="text" value="1500.00">
-</div>
-</div>
-<div class="col-lg-6 col-sm-12 col-12">
-<div class="form-group">
-<label>Payment type</label>
-<select class="select">
-<option>Cash</option>
-<option>Online</option>
-<option>Inprogress</option>
-</select>
-</div>
-</div>
-<div class="col-lg-12">
-<div class="form-group">
-<label>Note</label>
-<textarea class="form-control"></textarea>
-</div>
-</div>
-</div>
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-submit">Submit</button>
-<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
-
 
 <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="../assets/js/jquery-3.6.0.min.js"></script>
 
