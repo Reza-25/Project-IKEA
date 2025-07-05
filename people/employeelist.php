@@ -1288,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 <div class="chart-container">
         <div class="chart-header">
-            <h5><i class="fa fa-chart-bar me-2"></i>Visualisasi Kinerja Karyawan</h5>
+            <h5><i class="fa fa-chart-bar me-2"></i>Kinerja Karyawan per Cabang</h5>
             <div class="chart-tabs">
                 <button class="tab-btn active" data-tab="kehadiran">Kehadiran</button>
                 <button class="tab-btn" data-tab="kinerja">Kinerja</button>
