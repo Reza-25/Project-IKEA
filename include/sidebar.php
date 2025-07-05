@@ -45,8 +45,8 @@ function is_active($pages) {
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
                 <!-- Dashboard -->
-                <li class="<?= (['index.php']) ?>">
-                    <a href="../dashboard/index.php"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
+                <li class="<?= (['index.html']) ?>">
+                    <a href="../index.html"><img src="../assets/img/icons/dashboard.svg" alt="img" /><span> Dashboard</span> </a>
                 </li>
                 
                 <!-- Product -->
@@ -72,10 +72,10 @@ function is_active($pages) {
                 </li>
                 
                 <!-- Supplier -->
-                <li class="submenu <?= (['supplier.php']) ?>">
+                <li class="submenu <?= (['supplierlist.php']) ?>">
                     <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li class="<?= (['supplier.php']) ?>"><a href="../supplier/supplier.php"class="<?= is_active(['supplier.php']) ?>">Supplier List</a></li>
+                        <li class="<?= (['supplierlist.php']) ?>"><a href="../supplier/supplierlist.php"class="<?= is_active(['supplier.php']) ?>">Supplier List</a></li>
                     </ul>
                 </li>
                 
@@ -100,7 +100,7 @@ function is_active($pages) {
                     <a href="javascript:void(0);"><img src="../assets/img/icons/transfer1.svg" alt="img" /><span> Inventory</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li class="<?= (['transferlist.php']) ?>"><a href="../inventory/transferlist.php"class="<?= is_active(['transferlist.php']) ?>">Transfer List</a></li>
-                        <li class="<?= (['suplierreturn.php']) ?>"><a href="../inventory/suplierreturn.php"class="<?= is_active(['suplierreturn.php']) ?>">Supplier Return</a></li>
+                        <li class="<?= (['suplierreturn.php']) ?>"><a href="../inventory/suplierreturn.php"class="<?= is_active(['supplierreturn.php']) ?>">Supplier Return</a></li>
                         <li class="<?= (['customerreturn.php']) ?>"><a href="../inventory/customerreturn.php"class="<?= is_active(['customerreturn.php']) ?>">Customer Return</a></li>
                     </ul>
                 </li>
