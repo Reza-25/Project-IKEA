@@ -182,7 +182,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         font-size: 1.0rem;
         font-weight: 600;
         margin-bottom: 15px;
-        color: #333;
+        color: #0d47a1;
         text-align: center;
       }
       
@@ -205,7 +205,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       
       .map-header {
         padding: 20px 20px 10px 20px;
-        background: #fff;
+        background: linear-gradient(135deg, #0d47a1 0%, #2196f3 100%);
         border-bottom: 1px solid #e9ecef;
       }
       
@@ -213,7 +213,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         font-size: 1.2rem;
         font-weight: 600;
         margin: 0;
-        color: #333;
+        color: #fff;
       }
       
       .map-container {
@@ -775,10 +775,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script>
       // Data toko per provinsi
       const provinceData = {
-        'Banten': { count: 1, color: '#3498db' },
-        'Jawa Barat': { count: 2, color: '#2ecc71' },
-        'DKI Jakarta': { count: 1, color: '#f1c40f' },
-        'Bali': { count: 1, color: '#e74c3c' }
+        'Banten': { count: 1, color: '#2196f3' },
+        'Jawa Barat': { count: 2, color: '#0d47a1' },
+        'DKI Jakarta': { count: 1, color: '#64b5f6' },
+        'Bali': { count: 1, color: '#1976d2' }
       };
       
       // Data toko lengkap untuk modal detail
