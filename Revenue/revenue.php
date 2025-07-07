@@ -42,35 +42,131 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         box-shadow: 0 8px 25px rgba(0,0,0,0.15);
       }
       
-      .dashboard-mini {
-        height: 150px;
-      }
-      
-      .mini-chart-container {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 15px;
-        padding: 20px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-      
-      .mini-chart-container:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      }
-      
-      .mini-chart-value {
-        font-size: 2rem;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-      
-      .mini-chart-label {
-        font-size: 0.9rem;
-        opacity: 0.9;
-      }
-      
+            /* Reset semua background jadi putih & style dasar kolom */
+.das1, .das2, .das3, .das4 {
+  background: white !important;
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Struktur utama card */
+.dash-count {
+  padding: 24px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Efek saat hover */
+.dash-count:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+/* Penyesuaian tampilan angka dan label */
+.dash-counts h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.dash-counts h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 4px;
+  color: #6c757d;
+}
+
+/* Gaya icon kanan */
+.dash-imgs i {
+  font-size: 32px;
+}
+
+/* Kolom 1 - Biru Laut */
+.das1 {
+  border-top: 6px solid #1a5ea7;
+}
+.das1 * {
+  color: #1a5ea7 !important;
+}
+
+/* Kolom 2 - Ungu */
+.das2 {
+  border-top: 6px solid #751e8d;
+}
+.das2 * {
+  color: #751e8d !important;
+}
+
+/* Kolom 3 - Kuning/Oranye */
+.das3 {
+  border-top: 6px solid #e78001;
+}
+.das3 * {
+  color: #e78001 !important;
+}
+
+/* Kolom 4 - Tosca */
+.das4 {
+  border-top: 6px solid #018679;
+}
+.das4 * {
+  color: #018679 !important;
+}
+
+.stat-change {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;         /* Warna teks */
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Icon Box Style */
+.icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.icon-box i {
+  color: #ffffff !important;
+  font-size: 16 px;
+}
+/* Efek hover dan active */
+.icon-box:hover,
+.icon-box:active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  transform: scale(1.08);
+}
+.bg-ungu {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+}
+.bg-biru {
+  background: linear-gradient(135deg, #a259c6 0%, #6d28d9 100%);
+}
+.bg-hijau {
+  background: linear-gradient(135deg,rgb(89, 236, 222) 0%, #018679 100%);
+}
+.bg-merah {
+  background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
+}
       .profit-positive {
         color: #28a745;
       }
@@ -256,38 +352,78 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>REVENUE ANALYTICS</h4>
+              <h4>Revenue Analytics</h4>
               <h6>Monitor your store performance and profits</h6>
             </div>
           </div>
 
-          <!-- Dashboard Mini Charts -->
-          <div class="row mb-4">
-            <div class="col-lg-3 col-sm-6">
-              <div class="mini-chart-container">
-                <div class="mini-chart-value">+1.7%</div>
-                <div class="mini-chart-label">Average Profit</div>
-              </div>
+                     <!-- Total Expenses, Top Category, Top Expense, Avg Daily Expense -->
+          <div class="row justify-content-end">
+            <!-- Total Product Sold -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das1">
+                  <div class="dash-counts">
+                     <h4>$<span class="counters" data-count="111598">111,589</span></h4>
+                    <h5>Revenue Growth</h5>
+                    <h2 class="stat-change">+1.7 from last month</h2>
+                    </div>
+                    <div class="icon-box bg-ungu">
+                      <i class="fa fa-box"></i>
+                    </div>
+                </div>
+              </a>
             </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="mini-chart-container" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                <div class="mini-chart-value">Rp 2.5M</div>
-                <div class="mini-chart-label">Total Revenue</div>
-              </div>
+
+            <!-- Most Popular Category -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das2">
+                  <div class="dash-counts">
+                      <h4>$<span class="counters" data-count="34111598">111,589</span></h4>
+                    <h5>Total Revenue</h5>
+                  <h2 class="stat-change">Keep up the good work!</h2>
+                </div>
+                <div class="icon-box bg-biru">
+                  <i class="fa fa-couch"></i>
+                </div>
+                </div>
+              </a>
             </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="mini-chart-container" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                <div class="mini-chart-value">6/7</div>
-                <div class="mini-chart-label">Active Stores</div>
-              </div>
+
+            <!-- Top-Selling Product -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das3">
+                  <div class="dash-counts">
+                    <h4>92%</h4>
+                    <h5>Target Achievement</h5>
+                    <h2 class="stat-change">Keep it up!</h2>
+                  </div>
+                  <div class="icon-box bg-merah">
+                    <i class="fa fa-exclamation-triangle"></i>
+                  </div>
+                </div>
+              </a>
             </div>
-            <div class="col-lg-3 col-sm-6">
-              <div class="mini-chart-container" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                <div class="mini-chart-value">Sentul City</div>
-                <div class="mini-chart-label">Best Performer</div>
-              </div>
+
+            <!-- Average Product Sales -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das4">
+                  <div class="dash-counts">
+                   <h4>Bali</h4>
+                    <h5>Top Performer</h5>
+                    <h2 class="stat-change">Keep it up!</h2>
+                    </div>
+                    <div class="icon-box bg-hijau">
+                      <i class="fa fa-chart-line"></i>
+                    </div>
+                </div>
+              </a>
             </div>
           </div>
+          <!-- END KOLOM  -->
 
           <!-- Charts Row -->
           <div class="row mb-4">

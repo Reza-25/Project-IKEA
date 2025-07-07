@@ -3,22 +3,23 @@
 ?>
 
 <style>
-  /* CSS untuk Sidebar Kanan Atas */
+  /* CSS untuk Sidebar Kanan */
   #side-panel {
     position: fixed;
-    top: 50%;
+    top: 60.8px;
     right: 0;
     width: 50px; /* Lebar normal */
-    height: 290px;
+    height: 100vh;
     background-color: #f1f3f4;
     border-left: 1px solid #ccc;
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform: translateY(-50%);
     box-shadow: -2px 0 5px rgba(0,0,0,0.1);
     transition: width 0.3s ease;
     z-index: 1000;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
   }
 
   /* Wrapper ikon */
@@ -26,7 +27,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 25px;
+    padding-top: 60px; /* Memberi ruang untuk tombol toggle */
+    flex-grow: 1;
   }
 
   .icon {
@@ -40,31 +43,31 @@
   }
 
   .plus-icon {
-    margin-top: auto;
+    margin-bottom: 20px;
     font-size: 22px;
   }
 
   #side-panel.collapsed {
-    transform: translateY(-50%);
     width: 0;
-    overflow: visible; /* Biar tombol toggle tetap terlihat */
-    padding: 10px 0;
+    overflow: visible;
   }
 
   #toggle-btn {
     position: absolute;
-    top: 10px;
-    left: -20px; /* 20px ke kiri dari sisi panel */
+    top: 5px;
+    left: -20px;
     cursor: pointer;
     font-size: 14px;
-    background: #e0e0e0;
-    border-radius: 3px;
-    width: 20px;
-    height: 20px;
+    background:rgb(224, 224, 224);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
     text-align: center;
-    line-height: 20px;
+    line-height: 30px;
     user-select: none;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1001;
   }
 
   #side-panel.collapsed #icons-wrapper {
@@ -73,6 +76,7 @@
 
   #side-panel.collapsed #toggle-btn {
     transform: rotate(180deg);
+    left: -15px;
   }
 
   #popup-container {
@@ -97,7 +101,7 @@
   .popup-content .close-btn {
     position: absolute;
     top: -10px;
-    right: -10px;
+    right: 20px;
     background: #f44336;
     color: white;
     border-radius: 50%;
@@ -112,7 +116,7 @@
 
 <div id="side-panel">
   <!-- Tombol Toggle -->
-  <div id="toggle-btn" onclick="togglePanel()">«</div>
+  <div id="toggle-btn" href="javascript:void(0);" onclick="togglePanel()">«</div>
 
   <!-- Wrapper ikon yang akan disembunyikan/ditampilkan -->
   <div id="icons-wrapper">
