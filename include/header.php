@@ -1,4 +1,15 @@
-</php?>
+<?php
+require_once __DIR__ . '/../include/config.php';
+if (!isset($_SESSION['user_id'])) {
+    // Redirect ke login jika belum login
+    header('Location: signin.php');
+    exit;
+}
+
+// Ambil data user dari session
+$userFullName = $_SESSION['user_full_name'];
+$userProfilePicture = $_SESSION['user_profile_picture'];
+?>
 
 <head>
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
@@ -17,7 +28,7 @@
 
 <div class="header">
     <div class="header-left active">
-        <a href="../Dashboard/index.php" class="logo">
+        <a href="../index.html" class="logo">
             <img src="../assets/img/logo1.png" alt="" />
         </a>
         <a id="toggle_btn" href="javascript:void(0);"> </a>
@@ -149,7 +160,7 @@
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
                 <span class="user-img">
-                    <img src="../assets/img/profiles/avator1.jpg" alt="" />
+                <img src="../assets/img/profiles/<?= $userProfilePicture ?>" alt="<?= $userFullName ?>"/>
                     <span class="status online"></span>
                 </span>
             </a>
@@ -157,12 +168,12 @@
                 <div class="profilename">
                     <div class="profileset">
                         <span class="user-img">
-                            <img src="../assets/img/profiles/avator1.jpg" alt="" />
+                        <img src="../assets/img/profiles/<?= $userProfilePicture ?>" alt="<?= $userFullName ?>" />
                             <span class="status online"></span>
                         </span>
                         <div class="profilesets">
-                            <h6>John Doe</h6>
-                            <h5>Admin</h5>
+                            <h6><?= $userFullName ?></h6>
+                            <h5>Member</h5>
                         </div>
                     </div>
                     <hr class="m-0" />

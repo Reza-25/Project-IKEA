@@ -1,5 +1,15 @@
 <?php
+session_start();
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+$userFullName = isset($_SESSION['user_full_name']) ? $_SESSION['user_full_name'] : 'Guest';
+require_once __DIR__ . '/../include/popup.php';
+// Cek apakah perlu menampilkan notifikasi login
+if (isset($_SESSION['show_login_notification']) && $_SESSION['show_login_notification']) {
+  $showNotification = true;
+  unset($_SESSION['show_login_notification']); // Hapus session agar tidak muncul lagi
+} else {
+  $showNotification = false;
+}
 ?>
 <!DOCTYPE html>
 
@@ -36,6 +46,10 @@ include __DIR__ . '/../include/sidepanel.php';
 <?php include BASE_PATH . '/include/sidebar.php'; ?>
 <?php include __DIR__ . '/../include/ai.php'; ?>
 <div class="page-wrapper">
+  <!-- Tampilkan popup jika diperlukan -->
+<?php if ($showNotification): ?>
+    <?php showLoginNotification($_SESSION['user_full_name']); ?>
+<?php endif; ?>
 <div class="content">
 <div class="row">
 <div class="col-lg-12 col-12 mb-4">
@@ -44,7 +58,7 @@ include __DIR__ . '/../include/sidepanel.php';
 <i class="icon-yellow" data-feather="sun"></i>
 </div>
 <div>
-<h4 class="mb-1 text-primary-dark">Good Morning, Mrs. Bintang! 👋</h4>
+<h4 class="mb-1 text-primary-dark">Good Morning, <?= $userFullName ?>! 👋</h4>
 <p class="mb-0 text-primary-dark">
                     Today, you have <strong>3 tasks</strong> and <strong>5 notifications</strong> that need your attention.
                 </p>
