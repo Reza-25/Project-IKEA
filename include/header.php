@@ -31,7 +31,9 @@ $userProfilePicture = $_SESSION['user_profile_picture'];
         <a href="../index.html" class="logo">
             <img src="../assets/img/logo1.png" alt="" />
         </a>
-        <a id="toggle_btn" href="javascript:void(0);"> </a>
+        <a id="toggle_btn" href="javascript:void(0);" style="width: 30px; height: 30px; border-radius: 50%; background-color: #092c4c; display: flex; align-items: center; justify-content: center;">
+        <img src="../assets/img/ikeamaskot.png" alt="toggle" style="width: 20px; height: 20px;" />
+        </a>
     </div>
 
     <a id="mobile_btn" class="mobile_btn" href="#sidebar">

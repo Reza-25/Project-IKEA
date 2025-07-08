@@ -24,26 +24,131 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <link rel="stylesheet" href="../assets/css/style.css" />
     
     <style>
-      /* Styling untuk summary cards */
-      .summary-card {
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        height: 100%;
-      }
-      .summary-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      }
-      .summary-value {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 5px;
-      }
-      .summary-label {
-        font-size: 14px;
-        color: #666;
-      }
+      /* Reset semua background jadi putih & style dasar kolom */
+.das1, .das2, .das3, .das4 {
+  background: white !important;
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Struktur utama card */
+.dash-count {
+  padding: 24px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Efek saat hover */
+.dash-count:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+/* Penyesuaian tampilan angka dan label */
+.dash-counts h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.dash-counts h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 4px;
+  color: #6c757d;
+}
+
+/* Gaya icon kanan */
+.dash-imgs i {
+  font-size: 32px;
+}
+
+/* Kolom 1 - Biru Laut */
+.das1 {
+  border-top: 6px solid #1a5ea7;
+}
+.das1 * {
+  color: #1a5ea7 !important;
+}
+
+/* Kolom 2 - Ungu */
+.das2 {
+  border-top: 6px solid #751e8d;
+}
+.das2 * {
+  color: #751e8d !important;
+}
+
+/* Kolom 3 - Kuning/Oranye */
+.das3 {
+  border-top: 6px solid #e78001;
+}
+.das3 * {
+  color: #e78001 !important;
+}
+
+/* Kolom 4 - Tosca */
+.das4 {
+  border-top: 6px solid #018679;
+}
+.das4 * {
+  color: #018679 !important;
+}
+
+.stat-change {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;         /* Warna teks */
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Icon Box Style */
+.icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.icon-box i {
+  color: #ffffff !important;
+  font-size: 16 px;
+}
+/* Efek hover dan active */
+.icon-box:hover,
+.icon-box:active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  transform: scale(1.08);
+}
+.bg-ungu {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+}
+.bg-biru {
+  background: linear-gradient(135deg, #a259c6 0%, #6d28d9 100%);
+}
+.bg-hijau {
+  background: linear-gradient(135deg,rgb(89, 236, 222) 0%, #018679 100%);
+}
+.bg-merah {
+  background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
+}
       .map-container {
         border-radius: 8px;
         overflow: hidden;
@@ -169,46 +274,74 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             </div>
           </div>
 
-          <!-- Summary Cards -->
-          <div class="row">
-            <div class="col-md-3">
-              <div class="card summary-card bg-light-primary animated-card">
-                <div class="card-body text-center p-3">
-                  <div class="summary-value" id="total-warehouses">7</div>
-                  <div class="summary-label">Total Warehouses</div>
-                  <i class="fas fa-warehouse fa-2x mt-3 text-primary"></i>
+           <!-- Total Expenses, Top Category, Top Expense, Avg Daily Expense -->
+          <div class="row justify-content-end">
+            <!-- Total Product Sold -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das1">
+                  <div class="dash-counts">
+                     <h4><span class="counters" data-count="17"></span></h4>
+                    <h5>Total Warehouses</h5>
+                    <h2 class="stat-change">Doing Amazing!</h2>
+                    </div>
+                    <div class="icon-box bg-ungu">
+                      <i class="fa fa-box"></i>
+                    </div>
                 </div>
-              </div>
+              </a>
             </div>
-            <div class="col-md-3">
-              <div class="card summary-card bg-light-success animated-card">
-                <div class="card-body text-center p-3">
-                  <div class="summary-value" id="active-warehouses">4</div>
-                  <div class="summary-label">Active Warehouses</div>
-                  <i class="fas fa-check-circle fa-2x mt-3 text-success"></i>
+
+            <!-- Most Popular Category -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das2">
+                  <div class="dash-counts">
+                      <h4>78%</span></h4>
+                    <h5>Utilization Rate</h5>
+                  <h2 class="stat-change"> Almost High usage!</h2>
                 </div>
-              </div>
+                <div class="icon-box bg-biru">
+                  <i class="fa fa-couch"></i>
+                </div>
+                </div>
+              </a>
             </div>
-            <div class="col-md-3">
-              <div class="card summary-card bg-light-info animated-card">
-                <div class="card-body text-center p-3">
-                  <div class="summary-value" id="total-capacity">430,000 unit</div>
-                  <div class="summary-label">Total Capacity</div>
-                  <i class="fas fa-boxes fa-2x mt-3 text-info"></i>
+
+            <!-- Top-Selling Product -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das3">
+                  <div class="dash-counts">
+                    <h4>4.2x/month</h4>
+                    <h5>Inventory Turnover</h5>
+                    <h2 class="stat-change">+18% over averange</h2>
+                  </div>
+                  <div class="icon-box bg-merah">
+                    <i class="fa fa-exclamation-triangle"></i>
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
-            <div class="col-md-3">
-              <div class="card summary-card bg-light-warning animated-card">
-                <div class="card-body text-center p-3">
-                  <div class="summary-value" id="total-area">121,500 m²</div>
-                  <div class="summary-label">Total Land Area</div>
-                  <i class="fas fa-vector-square fa-2x mt-3 text-warning"></i>
+
+            <!-- Average Product Sales -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das4">
+                  <div class="dash-counts">
+                   <h4><span class="counters" data-count="111.500">111,500</span>m</h4>
+                    <h5>Total Land Area</h5>
+                    <h2 class="stat-change">Keep it up!</h2>
+                    </div>
+                    <div class="icon-box bg-hijau">
+                      <i class="fa fa-chart-line"></i>
+                    </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
-          
+          <!-- END KOLOM  -->
+
           <!-- Donut Chart Section -->
           <div class="chart-card animated-card">
             <h5 class="chart-title">Warehouse Distribution by Type</h5>

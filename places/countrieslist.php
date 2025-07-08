@@ -27,58 +27,131 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     
     <style>
-      /* Styling untuk summary cards */
-      .info-container {
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-      }
+      /* Reset semua background jadi putih & style dasar kolom */
+.das1, .das2, .das3, .das4 {
+  background: white !important;
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
 
-      .leaflet-control-attribution {
-        display: none !important; /* Sembunyikan watermark */
-      }
+/* Struktur utama card */
+.dash-count {
+  padding: 24px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-      .leaflet-control {
-        display: none !important; /* Sembunyikan semua kontrol */
-      }
-      
-      /* Gaya kartu ringkasan baru sesuai index.php */
-      .dash-count {
-        color: white !important;
-        border-radius: 15px !important;
-        padding: 20px !important;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
-        transition: transform 0.3s ease;
-        height: 100%;
-      }
-      .dash-count:hover {
-        transform: translateY(-5px);
-      }
-      .das1 {
-        background: linear-gradient(135deg, #26c6da 0%, #1a5ea7 100%) !important;
-      }
-      .das2 {
-        background: linear-gradient(135deg, #d05ce4 0%, #751e8d 100%) !important;
-      }
-      .das3 {
-        background: linear-gradient(135deg, #ffb443 0%, #e78001 100%) !important;
-      }
-      .das4 {
-        background: linear-gradient(135deg, #36e2d1 0%, #018679 100%) !important;
-      }
-      
-      .dash-counts {
-        margin-bottom: 10px;
-      }
-      .dash-count h4 {
-        font-size: 24px;
-        font-weight: 700;
-        margin-bottom: 5px;
-      }
-      .dash-count h5 {
-        font-size: 14px;
-        color: rgba(255,255,255,0.9);
-      }
-      
+/* Efek saat hover */
+.dash-count:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+/* Penyesuaian tampilan angka dan label */
+.dash-counts h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.dash-counts h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 4px;
+  color: #6c757d;
+}
+
+/* Gaya icon kanan */
+.dash-imgs i {
+  font-size: 32px;
+}
+
+/* Kolom 1 - Biru Laut */
+.das1 {
+  border-top: 6px solid #1a5ea7;
+}
+.das1 * {
+  color: #1a5ea7 !important;
+}
+
+/* Kolom 2 - Ungu */
+.das2 {
+  border-top: 6px solid #751e8d;
+}
+.das2 * {
+  color: #751e8d !important;
+}
+
+/* Kolom 3 - Kuning/Oranye */
+.das3 {
+  border-top: 6px solid #e78001;
+}
+.das3 * {
+  color: #e78001 !important;
+}
+
+/* Kolom 4 - Tosca */
+.das4 {
+  border-top: 6px solid #018679;
+}
+.das4 * {
+  color: #018679 !important;
+}
+
+.stat-change {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;         /* Warna teks */
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Icon Box Style */
+.icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.icon-box i {
+  color: #ffffff !important;
+  font-size: 16 px;
+}
+/* Efek hover dan active */
+.icon-box:hover,
+.icon-box:active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  transform: scale(1.08);
+}
+.bg-ungu {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+}
+.bg-biru {
+  background: linear-gradient(135deg, #a259c6 0%, #6d28d9 100%);
+}
+.bg-hijau {
+  background: linear-gradient(135deg,rgb(89, 236, 222) 0%, #018679 100%);
+}
+.bg-merah {
+  background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
+}
       /* Chart Container Styling */
       .chart-container {
         position: relative;
@@ -109,7 +182,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         font-size: 1.0rem;
         font-weight: 600;
         margin-bottom: 15px;
-        color: #333;
+        color: #0d47a1;
         text-align: center;
       }
       
@@ -132,7 +205,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       
       .map-header {
         padding: 20px 20px 10px 20px;
-        background: #fff;
+        background: linear-gradient(135deg, #0d47a1 0%, #2196f3 100%);
         border-bottom: 1px solid #e9ecef;
       }
       
@@ -140,7 +213,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         font-size: 1.2rem;
         font-weight: 600;
         margin: 0;
-        color: #333;
+        color: #fff;
       }
       
       .map-container {
@@ -389,60 +462,82 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             </div>
           </div>
           
+           <!-- Total Expenses, Top Category, Top Expense, Avg Daily Expense -->
+          <div class="row justify-content-end">
+            <!-- Total Product Sold -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das1">
+                  <div class="dash-counts">
+                     <h4><span class="counters" data-count="7"></span></h4>
+                    <h5>Total Store</h5>
+                    <h2 class="stat-change">Keep up the good work</h2>
+                    </div>
+                    <div class="icon-box bg-ungu">
+                      <i class="fa fa-box"></i>
+                    </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Most Popular Category -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das2">
+                  <div class="dash-counts">
+                      <h4>Surabaya</span></h4>
+                    <h5>Top Satisfaction Store</h5>
+                  <h2 class="stat-change">3 months in a row</h2>
+                </div>
+                <div class="icon-box bg-biru">
+                  <i class="fa fa-couch"></i>
+                </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Top-Selling Product -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das3">
+                  <div class="dash-counts">
+                    <h4><span class="counters" data-count="78630"></span></h4>
+                    <h5>Top Store Traffic</h5>
+                    <h2 class="stat-change">+18% over averange</h2>
+                  </div>
+                  <div class="icon-box bg-merah">
+                    <i class="fa fa-exclamation-triangle"></i>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Average Product Sales -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das4">
+                  <div class="dash-counts">
+                     <h4><span class="counters" data-count="4200"></span></h4>
+                    <h5>Avg. Daily Visitors</h5>
+                   <h2 class="stat-change">+8% from last week</h2>
+                    </div>
+                    <div class="icon-box bg-hijau">
+                      <i class="fa fa-chart-line"></i>
+                    </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <!-- END KOLOM  -->
+
           <div class="info-container">
             <!-- Summary Cards - Diubah sesuai index.php -->
             <div class="row">
               <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                  <div class="dash-count das1">
-                    <div class="dash-counts">
-                      <h4 id="total-stores">5</h4>
-                      <h5>Total Stores</h5>
-                    </div>
-                    <div class="dash-imgs">
-                      <i class="fas fa-store fa-2x"></i>
-                    </div>
-                  </div>
-                </a>
               </div>
               <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                  <div class="dash-count das2">
-                    <div class="dash-counts">
-                      <h4 id="active-stores">4</h4>
-                      <h5>Active Stores</h5>
-                    </div>
-                    <div class="dash-imgs">
-                      <i class="fas fa-check-circle fa-2x"></i>
-                    </div>
-                  </div>
-                </a>
               </div>
               <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                  <div class="dash-count das3">
-                    <div class="dash-counts">
-                      <h4 id="inprogress-stores">1</h4>
-                      <h5>In Progress</h5>
-                    </div>
-                    <div class="dash-imgs">
-                      <i class="fas fa-hard-hat fa-2x"></i>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-md-3">
-                <a href="#" class="text-decoration-none">
-                  <div class="dash-count das4">
-                    <div class="dash-counts">
-                      <h4 id="total-area">143,000 m²</h4>
-                      <h5>Total Area</h5>
-                    </div>
-                    <div class="dash-imgs">
-                      <i class="fas fa-vector-square fa-2x"></i>
-                    </div>
-                  </div>
-                </a>
               </div>
             </div>
 
@@ -680,10 +775,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script>
       // Data toko per provinsi
       const provinceData = {
-        'Banten': { count: 1, color: '#3498db' },
-        'Jawa Barat': { count: 2, color: '#2ecc71' },
-        'DKI Jakarta': { count: 1, color: '#f1c40f' },
-        'Bali': { count: 1, color: '#e74c3c' }
+        'Banten': { count: 1, color: '#2196f3' },
+        'Jawa Barat': { count: 2, color: '#0d47a1' },
+        'DKI Jakarta': { count: 1, color: '#64b5f6' },
+        'Bali': { count: 1, color: '#1976d2' }
       };
       
       // Data toko lengkap untuk modal detail
