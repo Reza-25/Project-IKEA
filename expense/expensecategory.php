@@ -1,6 +1,115 @@
 <!-- animation, hover, shadow -->
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+
+// Koneksi database
+$conn = new mysqli('localhost', 'root', '', 'ikea');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Query untuk data ringkasan
+$summaryQueries = [
+    'total_expenses' => "SELECT SUM(jumlah) AS total FROM expenses",
+    'top_category' => "SELECT c.name AS category_name 
+                      FROM expenses e 
+                      JOIN categories c ON e.category_id = c.id 
+                      GROUP BY e.category_id 
+                      ORDER BY SUM(e.jumlah) DESC 
+                      LIMIT 1",
+    'top_expense' => "SELECT jumlah AS max_amount 
+                     FROM expenses 
+                     ORDER BY jumlah DESC 
+                     LIMIT 1",
+    'avg_daily' => "SELECT AVG(jumlah) AS avg_daily 
+                   FROM expenses 
+                   WHERE MONTH(tanggal) = MONTH(CURRENT_DATE()) 
+                   AND YEAR(tanggal) = YEAR(CURRENT_DATE())"
+];
+
+$summaryData = [];
+foreach ($summaryQueries as $key => $sql) {
+    $result = $conn->query($sql);
+    $summaryData[$key] = $result->fetch_assoc();
+}
+
+// Query untuk card kategori
+$categoryQuery = "SELECT 
+    c.id, 
+    c.name, 
+    c.budget,
+    SUM(e.jumlah) AS total_used,
+    COUNT(e.id) AS total_transactions,
+    SUM(CASE WHEN e.status = 'Done' THEN 1 ELSE 0 END) AS done_count,
+    SUM(CASE WHEN e.status = 'Ongoing' THEN 1 ELSE 0 END) AS ongoing_count
+FROM categories c
+LEFT JOIN expenses e ON c.id = e.category_id
+GROUP BY c.id";
+
+$categories = $conn->query($categoryQuery);
+
+// Query untuk department spending
+$departmentQuery = "SELECT 
+    d.name, 
+    d.color_code,
+    SUM(e.jumlah) AS total,
+    (SUM(e.jumlah) / (SELECT SUM(jumlah) FROM expenses)) * 100 AS percentage
+FROM departments d
+LEFT JOIN expenses e ON d.id = e.department_id
+GROUP BY d.id
+ORDER BY total DESC";
+
+$departments = $conn->query($departmentQuery);
+
+// Query untuk ringkasan sidebar
+$summaryQuery = "SELECT 
+    (SELECT COUNT(*) FROM categories) AS total_category,
+    (SELECT SUM(budget) FROM categories) AS total_budget,
+    (SELECT SUM(jumlah) FROM expenses) AS total_used";
+
+$summaryResult = $conn->query($summaryQuery);
+$summary = $summaryResult->fetch_assoc();
+$remaining = $summary['total_budget'] - $summary['total_used'];
+
+// Query untuk data chart
+$year = isset($_GET['year']) ? (int)$_GET['year'] : date('Y');
+$chartQuery = "SELECT 
+    MONTH(tanggal) AS bulan,
+    MONTHNAME(tanggal) AS month_name,
+    SUM(jumlah) AS total_pengeluaran
+FROM expenses
+WHERE YEAR(tanggal) = $year
+GROUP BY MONTH(tanggal)
+ORDER BY bulan";
+
+$chartResult = $conn->query($chartQuery);
+
+$months = [];
+$values = [];
+$topCategoryPerMonth = [];
+$topExpensePerMonth = [];
+$avgPerMonth = [];
+
+// Inisialisasi array untuk 12 bulan
+$monthData = array_fill(1, 12, [
+    'total' => 0,
+    'top_category' => 'N/A',
+    'top_expense' => 'N/A',
+    'avg' => 0
+]);
+
+while ($row = $chartResult->fetch_assoc()) {
+    $bulan = $row['bulan'];
+    $monthData[$bulan] = [
+        'total' => $row['total_pengeluaran'],
+        'month_name' => $row['month_name'],
+    ];
+}
+
+for ($i = 1; $i <= 12; $i++) {
+    $months[] = $monthData[$i]['month_name'] ?? date('M', mktime(0, 0, 0, $i, 1));
+    $values[] = $monthData[$i]['total'] ?? 0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +142,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
-   <style>
+    <style>
 /* Reset semua background jadi putih & style dasar kolom */
 .das1, .das2, .das3, .das4 {
   background: white !important;
@@ -886,7 +995,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       <!-- Include sidebar -->
       <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
 
-
       <div class="page-wrapper">
         <div class="content">
           <div class="page-header">
@@ -900,10 +1008,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           <div class="row justify-content-end">
             <!-- Total Product Sold -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
+              <a href="../revenue/revenue.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                    <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
+                  <h4>$<span class="counters" data-count="<?= $summaryData['total_expenses']['total'] ?? 0 ?>"><?= number_format($summaryData['total_expenses']['total'] ?? 0, 2) ?></span></h4>
                     <h5>Total Expenses</h5>
                     <h2 class="stat-change">+8% from last year</h2>
                     </div>
@@ -919,7 +1027,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                    <h4>Logistics</h4>
+                    <h4><?= $summaryData['top_category']['category_name'] ?? 'N/A' ?></h4>
                     <h5>Top Expense Cat.</h5>
                   <h2 class="stat-change">43% of total</h2>
                 </div>
@@ -935,7 +1043,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="7863"></span></h4>
+                  <h4><span class="counters" data-count="<?= $summaryData['top_expense']['max_amount'] ?? 0 ?>"><?= number_format($summaryData['top_expense']['max_amount'] ?? 0) ?></span></h4>
                     <h5>Top Single Expense</h5>
                     <h2 class="stat-change">+18% over averange</h2>
                   </div>
@@ -951,7 +1059,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das4">
                   <div class="dash-counts">
-                    <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
+                  <h4>$<span class="counters" data-count="<?= $summaryData['avg_daily']['avg_daily'] ?? 0 ?>"><?= number_format($summaryData['avg_daily']['avg_daily'] ?? 0, 2) ?></span></h4>
                     <h5>Avg. Daily Expense</h5>
                    <h2 class="stat-change">+5% from last month</h2>
                     </div>
@@ -972,268 +1080,76 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0 fw-bold" style="color:#2266d1;">Total Expense per Bulan</h5>
         <select id="yearSelector" class="form-select form-select-sm" style="width:auto;min-width:90px;border-radius:8px;">
-          <option>2025</option>
-          <option>2024</option>
+          <?php
+          $currentYear = date('Y');
+          for ($y = $currentYear - 2; $y <= $currentYear; $y++): ?>
+            <option value="<?= $y ?>" <?= $year == $y ? 'selected' : '' ?>><?= $y ?></option>
+          <?php endfor; ?>
         </select>
       </div>
       <div>
         <div id="expenseBarChart" style="min-height:320px;"></div>
       </div>
     </div>
-    <!-- Cards-container DIPINDAH ke sini, di luar card chart, tapi tetap dalam col-md-8 -->
+    <!-- Cards-container -->
     <div class="cards-container" style="flex: 0 0 70%; max-width: 100%; margin-top: 18px;">
       <div id="cardsView" class="categories-grid" style="grid-template-columns: repeat(3, 1fr); gap: 16px;">
-        <!-- Card 1 -->
+        <?php while($category = $categories->fetch_assoc()): 
+          $percentage = $category['budget'] > 0 ? 
+              min(100, ($category['total_used'] / $category['budget']) * 100) : 0;
+          $status = match(true) {
+              $percentage >= 90 => 'danger',
+              $percentage >= 75 => 'warning',
+              default => 'safe'
+          };
+        ?>
         <div class="category-card">
           <div class="category-header">
-            <h5 class="category-title">Supplies</h5>
+            <h5 class="category-title"><?= $category['name'] ?></h5>
             <div class="status-indicator">
-              <div class="status-dot safe"></div>
-              <span class="status-text">On Track</span>
+              <div class="status-dot <?= $status ?>"></div>
+              <span class="status-text">
+                <?= match($status) {
+                    'danger' => 'Over Budget',
+                    'warning' => 'Near Limit',
+                    default => 'On Track'
+                } ?>
+              </span>
             </div>
           </div>
           <div class="amount-info">
-            <div class="amount-main">Rp 45.000.000</div>
-            <div class="amount-budget">Budget: Rp 50.000.000</div>
+            <div class="amount-main">Rp <?= number_format($category['total_used'] ?? 0) ?></div>
+            <div class="amount-budget">Budget: Rp <?= number_format($category['budget']) ?></div>
           </div>
           <div class="progress-section">
             <div class="progress-header">
               <span class="progress-label">Budget Terpakai</span>
-              <span class="progress-percentage">90.0%</span>
+              <span class="progress-percentage"><?= number_format($percentage, 1) ?>%</span>
             </div>
             <div class="progress-bar">
-              <div class="progress-fill safe" style="width: 90%"></div>
+              <div class="progress-fill <?= $status ?>" style="width: <?= $percentage ?>%"></div>
             </div>
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
             <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">45</div>
+              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;"><?= $category['total_transactions'] ?></div>
               <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
             </div>
             <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">32</div>
+              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;"><?= $category['done_count'] ?></div>
               <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
             </div>
             <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">13</div>
+              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;"><?= $category['ongoing_count'] ?></div>
               <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
             </div>
           </div>
-          <button class="view-all-btn" onclick="showCategoryDetails('Supplies')">
+          <button class="view-all-btn" onclick="showCategoryDetails(<?= $category['id'] ?>)">
             <span>👁️</span>
             VIEW ALL
           </button>
         </div>
-
-        <!-- Card 2 -->
-        <div class="category-card">
-          <div class="category-header">
-            <h5 class="category-title">Utilities</h5>
-            <div class="status-indicator">
-              <div class="status-dot safe"></div>
-              <span class="status-text">On Track</span>
-            </div>
-          </div>
-          <div class="amount-info">
-            <div class="amount-main">Rp 25.000.000</div>
-            <div class="amount-budget">Budget: Rp 30.000.000</div>
-          </div>
-          <div class="progress-section">
-            <div class="progress-header">
-              <span class="progress-label">Budget Terpakai</span>
-              <span class="progress-percentage">83.3%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill safe" style="width: 83.3%"></div>
-            </div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">12</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">9</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">3</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-            </div>
-          </div>
-          <button class="view-all-btn" onclick="showCategoryDetails('Utilities')">
-            <span>👁️</span>
-            VIEW ALL
-          </button>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="category-card">
-          <div class="category-header">
-            <h5 class="category-title">Transport</h5>
-            <div class="status-indicator">
-              <div class="status-dot safe"></div>
-              <span class="status-text">On Track</span>
-            </div>
-          </div>
-          <div class="amount-info">
-            <div class="amount-main">Rp 18.000.000</div>
-            <div class="amount-budget">Budget: Rp 25.000.000</div>
-          </div>
-          <div class="progress-section">
-            <div class="progress-header">
-              <span class="progress-label">Budget Terpakai</span>
-              <span class="progress-percentage">72.0%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill safe" style="width: 72%"></div>
-            </div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">18</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">12</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">6</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-            </div>
-          </div>
-          <button class="view-all-btn" onclick="showCategoryDetails('Transport')">
-            <span>👁️</span>
-            VIEW ALL
-          </button>
-        </div>
-
-        <!-- Card 4 -->
-        <div class="category-card">
-          <div class="category-header">
-            <h5 class="category-title">Employee</h5>
-            <div class="status-indicator">
-              <div class="status-dot warning"></div>
-              <span class="status-text">Near Limit</span>
-            </div>
-          </div>
-          <div class="amount-info">
-            <div class="amount-main">Rp 95.000.000</div>
-            <div class="amount-budget">Budget: Rp 100.000.000</div>
-          </div>
-          <div class="progress-section">
-            <div class="progress-header">
-              <span class="progress-label">Budget Terpakai</span>
-              <span class="progress-percentage">95.0%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill warning" style="width: 95%"></div>
-            </div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">30</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">22</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">8</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-            </div>
-          </div>
-          <button class="view-all-btn" onclick="showCategoryDetails('Employee')">
-            <span>👁️</span>
-            VIEW ALL
-          </button>
-        </div>
-
-        <!-- Card 5 -->
-        <div class="category-card">
-          <div class="category-header">
-            <h5 class="category-title">Technology</h5>
-            <div class="status-indicator">
-              <div class="status-dot safe"></div>
-              <span class="status-text">On Track</span>
-            </div>
-          </div>
-          <div class="amount-info">
-            <div class="amount-main">Rp 60.000.000</div>
-            <div class="amount-budget">Budget: Rp 80.000.000</div>
-          </div>
-          <div class="progress-section">
-            <div class="progress-header">
-              <span class="progress-label">Budget Terpakai</span>
-              <span class="progress-percentage">75.0%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill safe" style="width: 75%"></div>
-            </div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">15</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">11</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">4</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-            </div>
-          </div>
-          <button class="view-all-btn" onclick="showCategoryDetails('Technology')">
-            <span>👁️</span>
-            VIEW ALL
-          </button>
-        </div>
-
-        <!-- Card 6 -->
-        <div class="category-card">
-          <div class="category-header">
-            <h5 class="category-title">Marketing</h5>
-            <div class="status-indicator">
-              <div class="status-dot safe"></div>
-              <span class="status-text">On Track</span>
-            </div>
-          </div>
-          <div class="amount-info">
-            <div class="amount-main">Rp 35.000.000</div>
-            <div class="amount-budget">Budget: Rp 40.000.000</div>
-          </div>
-          <div class="progress-section">
-            <div class="progress-header">
-              <span class="progress-label">Budget Terpakai</span>
-              <span class="progress-percentage">87.5%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill safe" style="width: 87.5%"></div>
-            </div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 12px;">
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#3b82f6;">20</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Total</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#10b981;">15</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Done</div>
-            </div>
-            <div style="text-align:center; flex:1;">
-              <div class="number" style="font-size:16px; font-weight:700; color:#ef4444;">5</div>
-              <div class="label" style="font-size:10px; color:#6c757d; text-transform:uppercase; font-weight:500;">Ongoing</div>
-            </div>
-          </div>
-          <button class="view-all-btn" onclick="showCategoryDetails('Marketing')">
-            <span>👁️</span>
-            VIEW ALL
-          </button>
-        </div>
+        <?php endwhile; ?>
       </div>
     </div>
   </div>
@@ -1242,7 +1158,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <!-- DETAIL EXPENSE DULU -->
     <div class="card shadow-sm" style="border-radius:22px; background:#fff; padding:0 0 18px 0; margin-bottom:24px;">
       <div style="background:linear-gradient(90deg,#0d47a1 0%,#66bfff 100%); border-radius:22px 22px 0 0; padding:14px 22px;">
-        <span style="color:#fff; font-weight:600; font-size:15px;">Detail Expense: <span id="summaryPeriod">Jan - 2025</span></span>
+        <span style="color:#fff; font-weight:600; font-size:15px;">Detail Expense: <span id="summaryPeriod">Jan - <?= $year ?></span></span>
       </div>
       <div style="padding:18px 18px 0 18px;">
         <div class="d-flex align-items-center mb-2" style="gap:8px; font-size:13px;">
@@ -1287,22 +1203,22 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
         <div class="summary-item" style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f8f9fa;">
           <span class="summary-label" style="font-size:13px; color:#6c757d;">Total Category</span>
-          <span class="summary-value" style="font-size:15px; font-weight:600; color:#2c3e50;">6</span>
+          <span class="summary-value" style="font-size:15px; font-weight:600; color:#2c3e50;"><?= $summary['total_category'] ?></span>
         </div>
         <div class="summary-item" style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f8f9fa;">
           <span class="summary-label" style="font-size:13px; color:#6c757d;">Total Budget</span>
-          <span class="summary-value" style="font-size:15px; font-weight:600; color:#2c3e50;">Rp 455.000.000</span>
+          <span class="summary-value" style="font-size:15px; font-weight:600; color:#2c3e50;">Rp <?= number_format($summary['total_budget']) ?></span>
         </div>
         <div class="summary-item" style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f8f9fa;">
           <span class="summary-label" style="font-size:13px; color:#6c757d;">Total Used</span>
-          <span class="summary-value" style="font-size:15px; font-weight:600; color:#2c3e50;">Rp 363.000.000</span>
+          <span class="summary-value" style="font-size:15px; font-weight:600; color:#2c3e50;">Rp <?= number_format($summary['total_used']) ?></span>
         </div>
         <div class="summary-total" style="background:linear-gradient(135deg, #0d47a1 0%, #66bfff 100%); color:white; padding:13px; border-radius:8px; margin-top:15px; text-align:left;">
           <div class="summary-label" style="color:rgba(255,255,255,0.9); font-size:15px; font-weight:500; margin-bottom:2px;">
             Budget Remaining
           </div>
           <div class="summary-value" style="color:white; font-size:20px; font-weight:700;">
-            Rp 92.000.000
+            Rp <?= number_format($remaining) ?>
           </div>
         </div>
       </div>
@@ -1317,75 +1233,20 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       <!-- Tambahkan style agar tinggi tetap dan scroll jika overflow -->
       <div style="padding:18px 18px 0 18px; max-height:370px; overflow-y:auto;">
         <div style="display:flex; flex-direction:column; gap:16px;">
-          <!-- Logistik -->
+          <?php while($dept = $departments->fetch_assoc()): ?>
           <div>
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-              <span style="font-size:18px; color:#1976d2;"><i class="fa fa-truck"></i></span>
-              <span style="font-weight:600; color:#1976d2; min-width:80px;">Logistik</span>
-              <span style="margin-left:auto; font-weight:600; color:#1976d2;">43%</span>
+              <span style="font-size:18px; color:<?= $dept['color_code'] ?>;"><i class="fa fa-truck"></i></span>
+              <span style="font-weight:600; color:<?= $dept['color_code'] ?>; min-width:80px;"><?= $dept['name'] ?></span>
+              <span style="margin-left:auto; font-weight:600; color:<?= $dept['color_code'] ?>;"><?= number_format($dept['percentage'], 0) ?>%</span>
             </div>
             <div style="background:#e3f2fd; border-radius:8px; height:14px; overflow:hidden;">
-              <div style="width:43%; background:linear-gradient(90deg,#1976d2 60%,#64b5f6 100%); height:100%; border-radius:8px;"></div>
+              <div style="width:<?= $dept['percentage'] ?>%; background:linear-gradient(90deg,<?= $dept['color_code'] ?> 60%,#64b5f6 100%); height:100%; border-radius:8px;"></div>
             </div>
           </div>
-          <!-- Retail Ops -->
-          <div>
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-              <span style="font-size:18px; color:#43a047;"><i class="fa fa-store"></i></span>
-              <span style="font-weight:600; color:#43a047; min-width:80px;">Retail Ops</span>
-              <span style="margin-left:auto; font-weight:600; color:#43a047;">25%</span>
-            </div>
-            <div style="background:#e8f5e9; border-radius:8px; height:14px; overflow:hidden;">
-              <div style="width:25%; background:linear-gradient(90deg,#43a047 60%,#a5d6a7 100%); height:100%; border-radius:8px;"></div>
-            </div>
-          </div>
-          <!-- HR -->
-          <div>
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-              <span style="font-size:18px; color:#fbc02d;"><i class="fa fa-users"></i></span>
-              <span style="font-weight:600; color:#fbc02d; min-width:80px;">HR</span>
-              <span style="margin-left:auto; font-weight:600; color:#fbc02d;">12%</span>
-            </div>
-            <div style="background:#fffde7; border-radius:8px; height:14px; overflow:hidden;">
-              <div style="width:12%; background:linear-gradient(90deg,#fbc02d 60%,#fff176 100%); height:100%; border-radius:8px;"></div>
-            </div>
-          </div>
-          <!-- IT -->
-          <div>
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-              <span style="font-size:18px; color:#7e57c2;"><i class="fa fa-laptop-code"></i></span>
-              <span style="font-weight:600; color:#7e57c2; min-width:80px;">IT</span>
-              <span style="margin-left:auto; font-weight:600; color:#7e57c2;">10%</span>
-            </div>
-            <div style="background:#ede7f6; border-radius:8px; height:14px; overflow:hidden;">
-              <div style="width:10%; background:linear-gradient(90deg,#7e57c2 60%,#b39ddb 100%); height:100%; border-radius:8px;"></div>
-            </div>
-          </div>
-          <!-- Lainnya -->
-          <div>
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-              <span style="font-size:18px; color:#757575;"><i class="fa fa-ellipsis-h"></i></span>
-              <span style="font-weight:600; color:#757575; min-width:80px;">Lainnya</span>
-              <span style="margin-left:auto; font-weight:600; color:#757575;">10%</span>
-            </div>
-            <div style="background:#f5f5f5; border-radius:8px; height:14px; overflow:hidden;">
-              <div style="width:10%; background:linear-gradient(90deg,#757575 60%,#bdbdbd 100%); height:100%; border-radius:8px;"></div>
-            </div>
-          </div>
+          <?php endwhile; ?>
         </div>
         <!-- Insight Card -->
-        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
-          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
-          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
-          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
-          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
-        </div>
-        <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
-          <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
-          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
-        </div>
         <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
           <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
           <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
@@ -1397,48 +1258,16 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
 <script>
 const expenseData = {
-  2025: {
-    months: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-    values: [3200000, 5800000, 2200000, 2000000, 3300000, 1400000, 4900000, 3700000, 2100000, 4000000, 3900000, 3700000],
-    topCategory: [
-      'Marketing', 'Supplies', 'Utilities', 'Marketing', 'Technology', 'Employee', 'Marketing', 'Supplies', 'Utilities', 'Employee', 'Technology', 'Marketing'
-    ],
-    topExpense: [
-      'Iklan Facebook', 'Pembelian Kertas', 'Bayar Listrik', 'Iklan Instagram', 'Pembelian Laptop', 'Bonus Karyawan', 'Iklan Facebook', 'Pembelian ATK', 'Bayar Air', 'Bonus Karyawan', 'Upgrade Server', 'Iklan Facebook'
-    ],
-    avg: [
-      3200000, 4000000, 2500000, 2100000, 3300000, 1800000, 4200000, 3500000, 2200000, 3900000, 3700000, 3600000
-    ]
-  },
-  2024: {
-    months: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-    values: [2100000, 3400000, 1800000, 1700000, 2500000, 1200000, 3100000, 2700000, 1500000, 2900000, 3100000, 2600000],
-    topCategory: [
-      'Supplies', 'Supplies', 'Utilities', 'Marketing', 'Technology', 'Employee', 'Marketing', 'Supplies', 'Utilities', 'Employee', 'Technology', 'Marketing'
-    ],
-    topExpense: [
-      'Pembelian Kertas', 'Pembelian Kertas', 'Bayar Listrik', 'Iklan Instagram', 'Pembelian Laptop', 'Bonus Karyawan', 'Iklan Facebook', 'Pembelian ATK', 'Bayar Air', 'Bonus Karyawan', 'Upgrade Server', 'Iklan Facebook'
-    ],
-    avg: [
-      2100000, 2300000, 2000000, 1800000, 2500000, 1700000, 2900000, 2600000, 1700000, 3000000, 3100000, 2700000
-    ]
-  },
-  2023: {
-    months: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-    values: [1800000, 2200000, 1600000, 1500000, 2000000, 1100000, 2100000, 1900000, 1200000, 1700000, 2100000, 1800000],
-    topCategory: [
-      'Utilities', 'Supplies', 'Marketing', 'Marketing', 'Technology', 'Employee', 'Marketing', 'Supplies', 'Utilities', 'Employee', 'Technology', 'Marketing'
-    ],
-    topExpense: [
-      'Bayar Listrik', 'Pembelian Kertas', 'Iklan Facebook', 'Iklan Instagram', 'Pembelian Laptop', 'Bonus Karyawan', 'Iklan Facebook', 'Pembelian ATK', 'Bayar Air', 'Bonus Karyawan', 'Upgrade Server', 'Iklan Facebook'
-    ],
-    avg: [
-      1800000, 2000000, 1700000, 1600000, 2000000, 1400000, 2100000, 2000000, 1300000, 1800000, 2100000, 1900000
-    ]
-  }
+    <?= $year ?>: {
+        months: <?= json_encode($months) ?>,
+        values: <?= json_encode($values) ?>,
+        topCategory: <?= json_encode($topCategoryPerMonth) ?>,
+        topExpense: <?= json_encode($topExpensePerMonth) ?>,
+        avg: <?= json_encode($avgPerMonth) ?>
+    }
 };
 
-let currentYear = '2025';
+let currentYear = '<?= $year ?>';
 let currentMonthIdx = 0;
 let chartInstance = null;
 
@@ -1458,7 +1287,6 @@ function renderExpenseChart(year) {
   }
 
   // Membuat gradient biru tua ke biru muda untuk bar chart
-  // ApexCharts hanya support gradient di seluruh bar, bukan per-bar, jadi gunakan fill.gradient
   chartInstance = new ApexCharts(document.querySelector("#expenseBarChart"), {
     chart: {
       type: 'bar',
@@ -1530,25 +1358,16 @@ function renderExpenseChart(year) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Tambahkan tahun 2023 ke select
-  const yearSelector = document.getElementById('yearSelector');
-  if ([...yearSelector.options].filter(opt => opt.value === '2023').length === 0) {
-    const opt2023 = document.createElement('option');
-    opt2023.value = '2023';
-    opt2023.textContent = '2023';
-    yearSelector.appendChild(opt2023);
-  }
   renderExpenseChart(currentYear);
+  
+  const yearSelector = document.getElementById('yearSelector');
   yearSelector.addEventListener('change', function() {
     currentYear = this.value;
-    currentMonthIdx = 0;
-    document.getElementById('expenseBarChart').innerHTML = '';
-    renderExpenseChart(currentYear);
+    // Reload halaman dengan tahun baru
+    window.location.href = `?year=${currentYear}`;
   });
 });
 </script>
-          <!-- END CHART SECTION -->
-  
     <!-- Tambahkan modal setelah cardsView, sebelum </body> -->
 <div class="modal fade" id="categoryListModal" tabindex="-1" aria-labelledby="categoryListModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -1569,113 +1388,78 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <script>
-// Data transaksi per kategori (dummy, bisa diganti dari backend)
-const categoryTransactions = {
-  'Supplies': [
-    { tanggal: '2025-06-01', deskripsi: 'Pembelian Kertas', jumlah: 1200000, reference: 'SUP-001', status: 'Done' },
-    { tanggal: '2025-06-05', deskripsi: 'Pembelian ATK', jumlah: 800000, reference: 'SUP-002', status: 'Ongoing' },
-    { tanggal: '2025-06-10', deskripsi: 'Pembelian Printer', jumlah: 2200000, reference: 'SUP-003', status: 'Done' }
-  ],
-  'Utilities': [
-    { tanggal: '2025-06-02', deskripsi: 'Bayar Listrik', jumlah: 1500000, reference: 'UTL-001', status: 'Done' },
-    { tanggal: '2025-06-12', deskripsi: 'Bayar Air', jumlah: 700000, reference: 'UTL-002', status: 'Ongoing' }
-  ],
-  'Transport': [
-    { tanggal: '2025-06-03', deskripsi: 'Bensin', jumlah: 500000, reference: 'TRN-001', status: 'Done' },
-    { tanggal: '2025-06-15', deskripsi: 'Taksi', jumlah: 300000, reference: 'TRN-002', status: 'Ongoing' }
-  ],
-  'Employee': [
-    { tanggal: '2025-06-04', deskripsi: 'Bonus Karyawan', jumlah: 5000000, reference: 'EMP-001', status: 'Done' },
-    { tanggal: '2025-06-20', deskripsi: 'Gaji', jumlah: 90000000, reference: 'EMP-002', status: 'Done' }
-  ],
-  'Technology': [
-    { tanggal: '2025-06-06', deskripsi: 'Pembelian Laptop', jumlah: 12000000, reference: 'TEC-001', status: 'Done' },
-    { tanggal: '2025-06-18', deskripsi: 'Upgrade Server', jumlah: 8000000, reference: 'TEC-002', status: 'Ongoing' }
-  ],
-  'Marketing': [
-    { tanggal: '2025-06-07', deskripsi: 'Iklan Facebook', jumlah: 2000000, reference: 'MKT-001', status: 'Done' },
-    { tanggal: '2025-06-21', deskripsi: 'Iklan Instagram', jumlah: 1700000, reference: 'MKT-002', status: 'Ongoing' }
-  ]
-};
-
-// Data insight per kategori
-const categoryInsights = {
-  'Supplies': 'Terlalu banyak penggunaan kertas, lebih dihemat lagi bulan depan.',
-  'Utilities': 'Listrik terlalu banyak pengeluaran, matikan listrik saat tidak dibutuhkan atau tambahkan panel surya.',
-  'Transport': 'Pengeluaran transportasi naik, pertimbangkan opsi transportasi bersama.',
-  'Employee': 'Bonus dan gaji tinggi bulan ini, evaluasi kebutuhan lembur.',
-  'Technology': 'Upgrade perangkat rutin, pastikan sesuai kebutuhan.',
-  'Marketing': 'Iklan digital efektif, namun cek ROI tiap channel.'
-};
-
 // Fungsi untuk menampilkan modal dan list transaksi
-function showCategoryDetails(categoryName) {
-  const list = categoryTransactions[categoryName] || [];
-  let html = `<h6 class="mb-3">Daftar Transaksi: <span class="text-primary">${categoryName}</span></h6>`;
-  if (list.length === 0) {
-    html += `<div class="alert alert-info">Belum ada transaksi pada kategori ini.</div>`;
-  } else {
-    html += `<div class="table-responsive"><table class="table table-bordered table-sm">
-      <thead>
-        <tr>
-          <th>No</th>
-          <th>Reference</th>
-          <th>Tanggal</th>
-          <th>Deskripsi</th>
-          <th>Jumlah</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>`;
-    list.forEach((item, idx) => {
-      html += `<tr>
-        <td>${idx + 1}</td>
-        <td>${item.reference}</td>
-        <td>${item.tanggal}</td>
-        <td>${item.deskripsi}</td>
-        <td>Rp ${item.jumlah.toLocaleString('id-ID')}</td>
-        <td>
-          <span class="badges ${item.status === 'Done' ? 'bg-lightgreen' : 'bg-lightred'}">${item.status}</span>
-        </td>
-      </tr>`;
+function showCategoryDetails(categoryId) {
+  fetch(`get_category_expenses.php?category_id=${categoryId}`)
+    .then(response => response.json())
+    .then(data => {
+      let html = `<h6 class="mb-3">Daftar Transaksi: <span class="text-primary">${data.categoryName}</span></h6>`;
+      
+      if (data.transactions.length === 0) {
+        html += `<div class="alert alert-info">Belum ada transaksi pada kategori ini.</div>`;
+      } else {
+        html += `<div class="table-responsive"><table class="table table-bordered table-sm">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Reference</th>
+              <th>Tanggal</th>
+              <th>Deskripsi</th>
+              <th>Jumlah</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>`;
+        data.transactions.forEach((item, idx) => {
+          html += `<tr>
+            <td>${idx + 1}</td>
+            <td>${item.reference}</td>
+            <td>${item.tanggal}</td>
+            <td>${item.deskripsi}</td>
+            <td>Rp ${item.jumlah.toLocaleString('id-ID')}</td>
+            <td>
+              <span class="badges ${item.status === 'Done' ? 'bg-lightgreen' : 'bg-lightred'}">${item.status}</span>
+            </td>
+          </tr>`;
+        });
+        html += `</tbody></table></div>`;
+      }
+      
+      if (data.insight) {
+        html += `
+          <div style="
+            display:flex;
+            align-items:flex-start;
+            gap:12px;
+            background:#fffde7;
+            color:#b8860b;
+            border-radius:10px;
+            padding:15px 16px;
+            font-size:15px;
+            margin-top:22px;
+            box-shadow:0 2px 8px rgba(251,192,45,0.10);
+            border-left:6px solid #fbc02d;
+          ">
+            <span style="font-size:28px; color:#fbc02d; flex-shrink:0;">
+              <i class="fa fa-lightbulb"></i>
+            </span>
+            <span>
+              <b style="color:#b8860b;">Insight:</b> ${data.insight}
+            </span>
+          </div>
+        `;
+      }
+      
+      document.getElementById('categoryListContent').innerHTML = html;
+      // Tampilkan modal Bootstrap
+      const modal = new bootstrap.Modal(document.getElementById('categoryListModal'));
+      modal.show();
     });
-    html += `</tbody></table></div>`;
-  }
-  // Tambahkan insight di bawah tabel
-  if (categoryInsights[categoryName]) {
-    html += `
-      <div style="
-        display:flex;
-        align-items:flex-start;
-        gap:12px;
-        background:#fffde7;
-        color:#b8860b;
-        border-radius:10px;
-        padding:15px 16px;
-        font-size:15px;
-        margin-top:22px;
-        box-shadow:0 2px 8px rgba(251,192,45,0.10);
-        border-left:6px solid #fbc02d;
-      ">
-        <span style="font-size:28px; color:#fbc02d; flex-shrink:0;">
-          <i class="fa fa-lightbulb"></i>
-        </span>
-        <span>
-          <b style="color:#b8860b;">Insight:</b> ${categoryInsights[categoryName]}
-        </span>
-      </div>
-    `;
-  }
-  document.getElementById('categoryListContent').innerHTML = html;
-  // Tampilkan modal Bootstrap
-  const modal = new bootstrap.Modal(document.getElementById('categoryListModal'));
-  modal.show();
 }
-</script>
-    <script>
+
 // Data untuk pie chart ringkasan
-const totalBudget = 455000000;
-const totalUsed = 363000000;
+const totalBudget = <?= $summary['total_budget'] ?>;
+const totalUsed = <?= $summary['total_used'] ?>;
 const budgetRemaining = totalBudget - totalUsed;
 
 const pieOptions = {
@@ -1732,6 +1516,7 @@ function animatePieChart() {
   }
 }
 
+// Pie chart
 document.addEventListener('DOMContentLoaded', function() {
   const pieContainer = document.getElementById('summaryPieChart');
   if (pieContainer) {
@@ -1754,24 +1539,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
-
     <script src="../assets/js/feather.min.js"></script>
-
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
-
     <script src="../assets/js/jquery.dataTables.min.js"></script>
     <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
-
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
-
     <script src="../assets/js/moment.min.js"></script>
     <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-
     <script src="../assets/plugins/select2/js/select2.min.js"></script>
-
     <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
-
     <script src="../assets/js/script.js"></script>
   </body>
 </html>
