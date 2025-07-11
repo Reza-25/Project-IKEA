@@ -1,104 +1,92 @@
--- schema.sql
--- Relational schema for inventory management system
+CREATE TABLE dashboard_stats (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    total_revenue DECIMAL(15,2) NOT NULL,
+    supplier_count INT NOT NULL,
+    products_sold INT NOT NULL,
+    budget_spent DECIMAL(15,2) NOT NULL,
+    record_date DATE NOT NULL
+);
 
-CREATE TABLE Supplier (
-  ID_Supplier INT AUTO_INCREMENT PRIMARY KEY,
-  Nama_Supplier VARCHAR(100) NOT NULL,
-  Kontak_Supplier VARCHAR(50),
-  Alamat_Supplier VARCHAR(255)
-) ENGINE=InnoDB;
+CREATE TABLE financial_records (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    year YEAR NOT NULL,
+    month TINYINT NOT NULL,
+    revenue DECIMAL(12,2) NOT NULL,
+    expense DECIMAL(12,2) NOT NULL
+);CREATE TABLE financial_records (
 
-CREATE TABLE Barang (
-  ID_Barang INT AUTO_INCREMENT PRIMARY KEY,
-  ID_Supplier INT NOT NULL,
-  Nama_Barang VARCHAR(150) NOT NULL,
-  Kategori VARCHAR(50),
-  Deskripsi TEXT,
-  Harga_Satuan DECIMAL(12,2) NOT NULL DEFAULT 0.00,
-  Satuan VARCHAR(20) NOT NULL,
-  FOREIGN KEY (ID_Supplier) REFERENCES Supplier(ID_Supplier)
-    ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB;
+CREATE TABLE product_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    icon_class VARCHAR(50) NOT NULL,
+    sold_count INT DEFAULT 0
+);
 
-CREATE TABLE Gudang (
-  ID_Gudang INT AUTO_INCREMENT PRIMARY KEY,
-  Nama_Gudang VARCHAR(100) NOT NULL,
-  Lokasi VARCHAR(150),
-  Kapasitas INT,
-  Jenis_Gudang VARCHAR(50)
-) ENGINE=InnoDB;
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    category_id INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    sold_count INT DEFAULT 0,
+    growth_rate DECIMAL(5,2) NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES product_categories(id)
+);
 
-CREATE TABLE Toko (
-  ID_Toko INT AUTO_INCREMENT PRIMARY KEY,
-  Nama_Toko VARCHAR(100) NOT NULL,
-  Lokasi_Toko VARCHAR(150),
-  Manager_Toko VARCHAR(100),
-  Kontak_Toko VARCHAR(50)
-) ENGINE=InnoDB;
+CREATE TABLE daily_summary (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    summary_date DATE NOT NULL,
+    orders INT NOT NULL,
+    revenue DECIMAL(12,2) NOT NULL,
+    top_product VARCHAR(100) NOT NULL,
+    top_city VARCHAR(50) NOT NULL,
+    online_percentage DECIMAL(5,2) NOT NULL
+);
 
-CREATE TABLE Stok (
-  ID_Barang INT NOT NULL,
-  ID_Gudang INT NOT NULL,
-  ID_Toko INT NOT NULL,
-  Jumlah_Stok INT NOT NULL DEFAULT 0,
-  Stok_Minimal INT NOT NULL DEFAULT 0,
-  Tanggal_Update DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (ID_Barang, ID_Gudang, ID_Toko),
-  FOREIGN KEY (ID_Barang) REFERENCES Barang(ID_Barang)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (ID_Gudang) REFERENCES Gudang(ID_Gudang)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (ID_Toko) REFERENCES Toko(ID_Toko)
-    ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB;
+CREATE TABLE performance_metrics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    metric_name VARCHAR(50) NOT NULL,
+    value DECIMAL(5,2) NOT NULL,
+    color_code VARCHAR(20) NOT NULL
+);
 
-CREATE TABLE Transaksi_Inventaris (
-  ID_Transaksi INT AUTO_INCREMENT PRIMARY KEY,
-  ID_Barang INT NOT NULL,
-  ID_Gudang INT NOT NULL,
-  ID_Toko INT NOT NULL,
-  Tanggal_Transaksi DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  Jenis_Transaksi ENUM('Masuk','Keluar') NOT NULL,
-  Jumlah_Transaksi INT NOT NULL,
-  Keterangan VARCHAR(255),
-  FOREIGN KEY (ID_Barang) REFERENCES Barang(ID_Barang)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (ID_Gudang) REFERENCES Gudang(ID_Gudang)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (ID_Toko) REFERENCES Toko(ID_Toko)
-    ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB;
+CREATE TABLE customer_satisfaction (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rating DECIMAL(3,1) NOT NULL,
+    feedback_score DECIMAL(3,1) NOT NULL,
+    product_reviews INT NOT NULL,
+    complaints INT NOT NULL,
+    purchases INT NOT NULL
+);
 
-CREATE TABLE Distribusi_Barang (
-  ID_Distribusi INT AUTO_INCREMENT PRIMARY KEY,
-  ID_Transaksi INT NOT NULL,
-  ID_Gudang INT NOT NULL,
-  ID_Toko INT NOT NULL,
-  Tanggal_Distribusi DATETIME NOT NULL,
-  Sumber_Lokasi VARCHAR(100) NOT NULL,
-  Tujuan_Lokasi VARCHAR(100) NOT NULL,
-  Status_Distribusi ENUM('Proses','Selesai') NOT NULL,
-  FOREIGN KEY (ID_Transaksi) REFERENCES Transaksi_Inventaris(ID_Transaksi)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (ID_Gudang) REFERENCES Gudang(ID_Gudang)
-    ON UPDATE CASCADE ON DELETE RESTRICT,
-  FOREIGN KEY (ID_Toko) REFERENCES Toko(ID_Toko)
-    ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB;
+CREATE TABLE traffic_sources (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    source_name VARCHAR(50) NOT NULL,
+    conversion_rate DECIMAL(5,2) NOT NULL,
+    percentage DECIMAL(5,2) NOT NULL,
+    color_code VARCHAR(20) NOT NULL
+);
 
-CREATE TABLE Pengguna (
-  ID_Pengguna INT AUTO_INCREMENT PRIMARY KEY,
-  Nama_Lengkap VARCHAR(150) NOT NULL,
-  Email VARCHAR(100) NOT NULL UNIQUE,
-  Kata_Sandi VARCHAR(255) NOT NULL,
-  Nomor_Telepon VARCHAR(20)
-) ENGINE=InnoDB;
+CREATE TABLE activities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    activity_time TIME NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    type_tag VARCHAR(50) NOT NULL,
+    color_code VARCHAR(20) NOT NULL
+);
 
-CREATE TABLE Performa_Toko (
-  ID_Performa INT AUTO_INCREMENT PRIMARY KEY,
-  ID_Toko INT NOT NULL,
-  Rating TINYINT NOT NULL CHECK (Rating BETWEEN 1 AND 5),
-  Tanggal_Feedback DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (ID_Toko) REFERENCES Toko(ID_Toko)
-    ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB;
+CREATE TABLE store_locations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    latitude DECIMAL(9,6) NOT NULL,
+    longitude DECIMAL(9,6) NOT NULL,
+    address TEXT NOT NULL
+);
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    avatar_url VARCHAR(255) NOT NULL,
+    last_activity TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+

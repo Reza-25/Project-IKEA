@@ -1,4 +1,15 @@
-</php?>
+<?php
+require_once __DIR__ . '/../include/config.php';
+if (!isset($_SESSION['user_id'])) {
+    // Redirect ke login jika belum login
+    header('Location: signin.php');
+    exit;
+}
+
+// Ambil data user dari session
+$userFullName = $_SESSION['user_full_name'];
+$userProfilePicture = $_SESSION['user_profile_picture'];
+?>
 
 <head>
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
@@ -10,8 +21,8 @@
 </head>
 
     <style>
-        .header {
-    background-color: #001F3F !important; /* biru donker */
+        .header .header-left .active {
+    background: linear-gradient(to bottom,rgb(10, 35, 61), #0e3259) !important;
     }
     </style>
 
@@ -20,7 +31,9 @@
         <a href="../index.html" class="logo">
             <img src="../assets/img/logo1.png" alt="" />
         </a>
-        <a id="toggle_btn" href="javascript:void(0);"> </a>
+        <a id="toggle_btn" href="javascript:void(0);" style="width: 30px; height: 30px; border-radius: 50%; background-color: #092c4c; display: flex; align-items: center; justify-content: center;">
+        <img src="../assets/img/ikeamaskot.png" alt="toggle" style="width: 20px; height: 20px;" />
+        </a>
     </div>
 
     <a id="mobile_btn" class="mobile_btn" href="#sidebar">
@@ -32,24 +45,6 @@
     </a>
 
     <ul class="nav user-menu">
-        <!-- Search -->
-        <li class="nav-item">
-            <div class="top-nav-search">
-                <a href="javascript:void(0);" class="responsive-search">
-                    <i class="fa fa-search"></i>
-                </a>
-                <form action="#">
-                    <div class="searchinputs">
-                        <input type="text" placeholder="Search Here ..." />
-                        <div class="search-addon">
-                            <span><img src="../assets/img/icons/closes.svg" alt="img" /></span>
-                        </div>
-                    </div>
-                    <a class="btn" id="searchdiv"><img src="../assets/img/icons/search.svg" alt="img" /></a>
-                </form>
-            </div>
-        </li>
-
         <!-- Language Dropdown -->
         <li class="nav-item dropdown has-arrow flag-nav">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
@@ -167,7 +162,7 @@
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
                 <span class="user-img">
-                    <img src="../assets/img/profiles/avator1.jpg" alt="" />
+                <img src="../assets/img/profiles/<?= $userProfilePicture ?>" alt="<?= $userFullName ?>"/>
                     <span class="status online"></span>
                 </span>
             </a>
@@ -175,12 +170,12 @@
                 <div class="profilename">
                     <div class="profileset">
                         <span class="user-img">
-                            <img src="../assets/img/profiles/avator1.jpg" alt="" />
+                        <img src="../assets/img/profiles/<?= $userProfilePicture ?>" alt="<?= $userFullName ?>" />
                             <span class="status online"></span>
                         </span>
                         <div class="profilesets">
-                            <h6>John Doe</h6>
-                            <h5>Admin</h5>
+                            <h6><?= $userFullName ?></h6>
+                            <h5>Member</h5>
                         </div>
                     </div>
                     <hr class="m-0" />
