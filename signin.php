@@ -6,6 +6,7 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
+    $remeber = isset($_POST['remember']);
 
     if (empty($email) || empty($password)) {
         $error = 'Email dan password wajib diisi';
@@ -21,12 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_email'] = $user['email'];
             $_SESSION['user_profile_picture'] = $user['profile_picture'];
             $_SESSION['show_login_notification'] = true;
+            if($remeber){
+              setcookie('user_id', $user['id'], time() + (86400 * 30), "/"); // 30 days
+
+            }
             header('Location: dashboard/index.php');
             exit;
         } else {
             $error = 'Email atau password salah';
         }
     }
+}
+$signupSuccess = false;
+if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
+    $signupSuccess = true;
+    unset($_SESSION['signup_success']); // Hapus session setelah ditampilkan
 }
 ?>
 
@@ -351,9 +361,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           padding: 50px 20px;
         }
       }
+
+      /* Popup Notification */
+      .popup-notification {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            font-weight: 500;
+            z-index: 9999;
+            transition: top 0.5s ease-in-out;
+        }
+
+        .popup-notification.show {
+            top: 20px;
+        }
     </style>
   </head>
   <body>
+  <?php if ($signupSuccess): ?>
+        <div class="popup-notification" id="popupNotification">
+            Kamu berhasil membuat akun!
+        </div>
+    <?php endif; ?>
     <div class="main-wrapper">
       <div class="form-section">
         <div class="form-box">
@@ -451,5 +487,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
       </div>
     </div>
+    <script>
+      // Tampilkan popup selama 3 detik
+      document.addEventListener('DOMContentLoaded', function () {
+            const popup = document.getElementById('popupNotification');
+            if (popup) {
+                popup.classList.add('show');
+                setTimeout(() => {
+                    popup.classList.remove('show');
+                }, 3000); // 3 detik
+            }
+        });
+    </script>
   </body>
 </html>

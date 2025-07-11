@@ -23,7 +23,20 @@ define('BASE_PATH', realpath(__DIR__ . '/..'));
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['user_id'])) {
+    // Jika sesi tidak ada tetapi cookie ada, autentikasi pengguna
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_COOKIE['user_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    if ($user) {
+        // Set ulang sesi
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_full_name'] = $user['full_name'];
+        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['user_profile_picture'] = $user['profile_picture'];
+    }
+}
 
 $host = 'localhost';
 $dbname = 'ikea';
