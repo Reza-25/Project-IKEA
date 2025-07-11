@@ -3069,8 +3069,9 @@ div.dataTables_wrapper div.dataTables_info {
     transition: none;
   }
 }
+/* Penting ubah warna Header kiri */
 .header .header-left {
-  background: linear-gradient(to bottom, #0f263e, #114071);
+  background: linear-gradient(to bottom, #0f263e, #0e3259);
   float: left;
   height: 60px;
   position: relative;
@@ -3275,11 +3276,17 @@ div.dataTables_wrapper div.dataTables_info {
 .header .user-img {
   display: inline-block;
   position: relative;
+  width: 38px;        /* Tambahkan ini */
+  height: 38px;       /* Tambahkan ini */
+  border-radius: 50%; /* Pastikan kontainer juga bulat */
+  overflow: hidden;   /* Supaya gambar yang kelebihan dipotong bulat */
 }
 .header .user-img img {
-  width: 38px;
-  border-radius: 50%;
-  margin-top: 25px;
+  width: 100%;        /* Gambar mengikuti kontainer */
+  height: 100%;       /* Gambar mengikuti kontainer */
+  object-fit: cover;  /* Gambar menyesuaikan isi lingkaran tanpa melar */
+  border-radius: 50%; /* Tetap agar sudut gambar ikut bulat */
+  margin-top: 0;      /* Dihilangkan agar center */
 }
 .header .user-img .status {
   border: 2px solid #fff;
@@ -3908,11 +3915,11 @@ span.select2-container.select2-container--default.select2-container--open {
     width: 100%;
   }
 }
-/* Penting */
+/* Penting Ubah warna Sidebar kiri */
 .sidebar .slimScrollDiv {
   width: 260px ;
   overflow: visible ;
-  background: linear-gradient(to bottom, #0e3259, #0e3259);
+  background: linear-gradient(to bottom, #0e3259, #1c66b5);
 }
 @media (max-width: 575px) {
   .sidebar .slimScrollDiv {
