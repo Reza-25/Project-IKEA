@@ -1,7 +1,7 @@
 <?php
 // --- Konfigurasi Gemini API ---
-$gemini_api_key = ''; // <<< GANTI INI
-$gemini_endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . $gemini_api_key;
+$gemini_api_key = 'AIzaSyCmwBIh7657ydjuHeKOWiq2zLmk9i3wGrs'; // <<< GANTI INI
+$gemini_endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' . $gemini_api_key;
 // --- Akhir Konfigurasi ---
 
 $analysis_result = "";
