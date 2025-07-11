@@ -3082,6 +3082,8 @@ div.dataTables_wrapper div.dataTables_info {
   -webkit-transition: all 0.2s ease;
   -ms-transition: all 0.2s ease;
   transition: all 0.2s ease;
+  border-right: 1px solid #2084c7;
+  background: #19589b;
 }
 .header .header-left .logo {
   display: inline-block;
@@ -3917,9 +3919,15 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 /* Penting Ubah warna Sidebar kiri */
 .sidebar .slimScrollDiv {
+<<<<<<< HEAD
   width: 260px ;
   overflow: visible ;
   background: linear-gradient(to bottom, #0e3259, #1c66b5);
+=======
+  width: 260px !important;
+  overflow: visible !important;
+  background: linear-gradient(to bottom, #199b1b, #00A3E0);
+>>>>>>> 86f85a942dfd3026e278c47f9fe50159b91ce654
 }
 @media (max-width: 575px) {
   .sidebar .slimScrollDiv {
@@ -3975,7 +3983,7 @@ span.select2-container.select2-container--default.select2-container--open {
   margin-left: 10px;
   font-size: 15px;
   font-weight: 500;
-  color: #fff;
+  color: #333;
 }
 .sidebar .sidebar-menu > ul > li > a .menu-arrow {
   display: inline-block;
@@ -4013,11 +4021,11 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 /* Penting */
 .sidebar .sidebar-menu > ul > li.active a span {
-  color: #fff;
+  color: #cf3030;
 }
 /* Penting */
 .sidebar .sidebar-menu > ul > li.submenu ul {
-  background: #3486de38;
+  background: #1e4cd4;
   border-radius: 5px;
   padding: 10px 0;
   display: none;
