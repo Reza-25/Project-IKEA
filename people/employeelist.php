@@ -1,5 +1,56 @@
 ﻿<?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+
+// Ambil data statistik
+try {
+    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Koneksi database gagal: " . $e->getMessage());
+}
+$stats = $db->query("
+    SELECT 
+        (SELECT nama_toko FROM toko ORDER BY RAND() LIMIT 1) AS best_branch,
+        (SELECT nama FROM karyawan ORDER BY poin_total DESC LIMIT 1) AS best_employee,
+        COUNT(*) AS total_karyawan,
+        AVG(poin_total) AS avg_points
+    FROM karyawan
+")->fetch(PDO::FETCH_ASSOC);
+
+// Ambil data cabang dan jumlah karyawan
+$cabangData = $db->query("
+    SELECT c.nama_toko, COUNT(k.id_karyawan) AS jumlah 
+    FROM toko c
+    LEFT JOIN karyawan k ON c.id_toko = k.id_toko
+    GROUP BY c.id_toko
+")->fetchAll(PDO::FETCH_ASSOC);
+
+$totalKaryawan = array_sum(array_column($cabangData, 'jumlah'));
+
+// Ambil 5 karyawan terbaik
+$topEmployees = $db->query("
+    SELECT k.*, c.nama_toko AS lokasi
+    FROM karyawan k
+    JOIN toko c ON k.id_toko = c.id_toko
+    ORDER BY k.poin_total DESC
+    LIMIT 5
+")->fetchAll(PDO::FETCH_ASSOC);
+
+try {
+  $data = $db->query("...")->fetchAll();
+} catch (PDOException $e) {
+  error_log("Database error: " . $e->getMessage());
+  $data = [];
+}
+
+$limit = 10;
+$page = $_GET['page'] ?? 1;
+$offset = ($page - 1) * $limit;
+
+$karyawan = $db->query("
+    SELECT * FROM karyawan
+    LIMIT $limit OFFSET $offset
+");
 ?>
 
 <!DOCTYPE html>
@@ -1126,7 +1177,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                    <h4>Bali</h4>
+                    <h4><?= htmlspecialchars($stats['best_branch']) ?></h4>
                     <h5>Cabang Terbaik</h5>
                     <h2 class="stat-change">Keep up the good work</h2>
                     </div>
@@ -1142,7 +1193,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                    <h4>Andi S.</h4>
+                    <h4><?= htmlspecialchars($stats['best_employee']) ?></h4>
                     <h5>Karyawan Terbaik</h5>
                   <h2 class="stat-change">+10% from last week</h2>
                 </div>
@@ -1158,7 +1209,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="134870"></span></h4>
+                    <h4><span class="counters" data-count="<?= number_format($stats['total_karyawan']) ?>"></span></h4>
                     <h5>Total User</h5>
                     <h2 class="stat-change">+71 dari minggu lalu</h2>
                   </div>
@@ -1174,7 +1225,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das4">
                   <div class="dash-counts">
-                    <h4>8.9</h4>
+                    <h4><?= number_format($stats['avg_points'], 1) ?></h4>
                     <h5>Rata-Rata Poin</h5>
                    <h2 class="stat-change">-0.5 from last month</h2>
                     </div>
@@ -1220,6 +1271,21 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
 <!-- ApexCharts CDN -->
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Data dari PHP
+  const cabangData = <?= json_encode($cabangData) ?>;
+  const labels = cabangData.map(c => c.nama_cabang);
+  const values = cabangData.map(c => parseInt(c.jumlah));
+  const total = <?= $totalKaryawan ?>;
+
+  // Update total karyawan
+  document.getElementById("totalKaryawan").textContent = `Total: ${total} Karyawan`;
+  
+  // ... kode ApexCharts tetap sama ...
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -1592,26 +1658,47 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
       </div>
       <div class="card-body p-3" style="border-radius: 0 0 25px 25px;">
-        
+      <?php if (!empty($topEmployees)): ?>
+    <?php foreach ($topEmployees as $index => $employee): 
+        $rank = $index + 1;
+        $rankClass = '';
+        if ($rank === 1) $rankClass = 'rank-1';
+        elseif ($rank === 2) $rankClass = 'rank-2';
+        elseif ($rank === 3) $rankClass = 'rank-3';
+    ?>
         <!-- RANK 1 - GOLD MEDAL -->
-        <div class="employee-card rank-1 mb-3">
-          <div class="rank-medal gold">1</div>
-          <div class="top-performer">
-            <i class="bi bi-star-fill me-1"></i>
-            TOP PERFORMER
-          </div>
+        <div class="employee-card <?= $rankClass ?> mb-3">
+        <?php if ($rank <= 3): ?>
+        <div class="rank-medal <?= 
+          $rank === 1 ? 'gold' : 
+          ($rank === 2 ? 'silver' : 'bronze') 
+        ?>"><?= $rank ?></div>
+        <?php endif; ?>
+        <?php if ($rank === 1): ?>
+        <div class="top-performer">
+          <i class="bi bi-star-fill me-1"></i>
+          TOP PERFORMER
+        </div>
+        <?php endif; ?>
           <div class="row align-items-center">
             <div class="col-md-3">
               <div class="employee-info-compact">
                 <div class="employee-avatar-small">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Andi Saputra">
+                  <!-- Perbaikan path gambar -->
+                  <?php 
+                        $fotoPath = !empty($employee['foto_profil']) 
+                            ? '../assets/img/profiles/' . htmlspecialchars($employee['foto_profil']) 
+                            : '../assets/img/default-avatar.jpg';
+                        ?>
+                        <img src="<?= $fotoPath ?>" 
+                             alt="<?= htmlspecialchars($employee['nama'] ?? 'Karyawan') ?>">
                 </div>
                 <div class="employee-details-compact">
-                  <h6 class="employee-name">Andi Saputra</h6>
-                  <p class="employee-role">Sales Associate</p>
+                  <h6 class="employee-name"><?= htmlspecialchars($employee['nama']?? 'Nama Tidak Tersedia') ?></h6>
+                  <p class="employee-role"><?= htmlspecialchars($employee['peran']?? 'Peran Tidak Tersedia') ?></p>
                   <span class="employee-location">
                     <i class="bi bi-geo-alt-fill"></i>
-                    Alam Sutera
+                    <?= htmlspecialchars($employee['lokasi'] ?? 'lokasi Tidak tersedia') ?>
                   </span>
                 </div>
               </div>
@@ -1661,240 +1748,10 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
           </div>
         </div>
-
-        <!-- RANK 2 & 3 - TWO COLUMNS -->
-        <div class="row">
-          <div class="col-md-6">
-            <!-- RANK 2 - SILVER MEDAL -->
-            <div class="employee-card rank-2 mb-3">
-              <div class="rank-medal silver">2</div>
-              <div class="row align-items-center">
-                <div class="col-12">
-                  <div class="employee-info-compact">
-                    <div class="employee-avatar-small">
-                      <img src="https://images.unsplash.com/photo-1494790108755-2616c6d73fe4?w=150&h=150&fit=crop&crop=face" alt="Rina Pramesti">
-                    </div>
-                    <div class="employee-details-compact">
-                      <h6 class="employee-name">Rina Pramesti</h6>
-                      <p class="employee-role">Customer Service</p>
-                      <span class="employee-location">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        Sentul City
-                      </span>
-                    </div>
-                  </div>
-                  <div class="performance-metrics-compact">
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Kehadiran</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 95%"></div>
-                      </div>
-                      <span class="metric-value">95%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Pelayanan</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 88%"></div>
-                      </div>
-                      <span class="metric-value">88%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Tugas</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 91%"></div>
-                      </div>
-                      <span class="metric-value">91%</span>
-                    </div>
-                  </div>
-                  <div class="overall-score-compact">
-                    <div class="score-circle-small excellent">
-                      <span class="score-number">91</span>
-                      <span class="score-label">POIN</span>
-                    </div>
-                    <div class="score-change positive">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+2%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-6">
-            <!-- RANK 3 - BRONZE MEDAL -->
-            <div class="employee-card rank-3 mb-3">
-              <div class="rank-medal bronze">3</div>
-              <div class="row align-items-center">
-                <div class="col-12">
-                  <div class="employee-info-compact">
-                    <div class="employee-avatar-small">
-                      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Dimas Wahyu">
-                    </div>
-                    <div class="employee-details-compact">
-                      <h6 class="employee-name">Dimas Wahyu</h6>
-                      <p class="employee-role">Warehouse Staff</p>
-                      <span class="employee-location">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        Kota Baru Parahyangan
-                      </span>
-                    </div>
-                  </div>
-                  <div class="performance-metrics-compact">
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Kehadiran</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 92%"></div>
-                      </div>
-                      <span class="metric-value">92%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Pelayanan</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 85%"></div>
-                      </div>
-                      <span class="metric-value">85%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Tugas</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 88%"></div>
-                      </div>
-                      <span class="metric-value">88%</span>
-                    </div>
-                  </div>
-                  <div class="overall-score-compact">
-                    <div class="score-circle-small good">
-                      <span class="score-number">88</span>
-                      <span class="score-label">POIN</span>
-                    </div>
-                    <div class="score-change positive">
-                      <i class="bi bi-arrow-up"></i>
-                      <span>+1%</span>
-                    </div>
-                  
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- RANK 4 & 5 - TWO COLUMNS -->
-        <div class="row">
-          <div class="col-md-6">
-            <!-- RANK 4 -->
-            <div class="employee-card mb-3">
-              <div class="row align-items-center">
-                <div class="col-12">
-                  <div class="employee-info-compact">
-                    <div class="employee-avatar-small">
-                      <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="Siska Lestari">
-                    </div>
-                    <div class="employee-details-compact">
-                      <h6 class="employee-name">Siska Lestari</h6>
-                      <p class="employee-role">Cashier</p>
-                      <span class="employee-location">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        Bali
-                      </span>
-                    </div>
-                  </div>
-                  <div class="performance-metrics-compact">
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Kehadiran</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 90%"></div>
-                      </div>
-                      <span class="metric-value">90%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Pelayanan</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 80%"></div>
-                      </div>
-                      <span class="metric-value">80%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Tugas</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 84%"></div>
-                      </div>
-                      <span class="metric-value">84%</span>
-                    </div>
-                  </div>
-                  <div class="overall-score-compact">
-                    <div class="score-circle-small average">
-                      <span class="score-number">84</span>
-                      <span class="score-label">POIN</span>
-                    </div>
-                    <div class="score-change negative">
-                      <i class="bi bi-arrow-down"></i>
-                      <span>-1%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-6">
-            <!-- RANK 5 -->
-            <div class="employee-card mb-2">
-              <div class="row align-items-center">
-                <div class="col-12">
-                  <div class="employee-info-compact">
-                    <div class="employee-avatar-small">
-                      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face" alt="Yudha Hermawan">
-                    </div>
-                    <div class="employee-details-compact">
-                      <h6 class="employee-name">Yudha Hermawan</h6>
-                      <p class="employee-role">Delivery Driver</p>
-                      <span class="employee-location">
-                        <i class="bi bi-geo-alt-fill"></i>
-                        Surabaya
-                      </span>
-                    </div>
-                  </div>
-                  <div class="performance-metrics-compact">
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Kehadiran</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 88%"></div>
-                      </div>
-                      <span class="metric-value">88%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Pelayanan</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 78%"></div>
-                      </div>
-                      <span class="metric-value">78%</span>
-                    </div>
-                    <div class="metric-item-compact">
-                      <span class="metric-label">Tugas</span>
-                      <div class="metric-bar-small">
-                        <div class="metric-progress" style="width: 80%"></div>
-                      </div>
-                      <span class="metric-value">80%</span>
-                    </div>
-                  </div>
-                  <div class="overall-score-compact">
-                    <div class="score-circle-small average">
-                      <span class="score-number">80</span>
-                      <span class="score-label">POIN</span>
-                    </div>
-                    <div class="score-change negative">
-                      <i class="bi bi-arrow-down"></i>
-                      <span>-2%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <?php endforeach; ?>
+<?php else: ?>
+    <div class="alert alert-info">Belum ada data karyawan</div>
+<?php endif; ?>
 
       </div>
     </div>
