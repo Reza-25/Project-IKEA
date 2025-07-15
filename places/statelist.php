@@ -1,5 +1,26 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+
+// Hitung statistik
+$stats = [];
+$stats['total_warehouses'] = $pdo->query("SELECT COUNT(*) FROM warehouses")->fetchColumn();
+$stats['utilization_rate'] = 78; // Dummy data, asumsikan 78%
+$stats['inventory_turnover'] = "4.2x/month"; // Dummy data
+$stats['total_land_area'] = $pdo->query("SELECT SUM(land_area) FROM warehouses")->fetchColumn();
+
+// Ambil data untuk pie chart
+$warehouseTypes = $pdo->query("SELECT type, COUNT(*) as count FROM warehouses GROUP BY type")->fetchAll(PDO::FETCH_ASSOC);
+
+// Mapping warna untuk tipe gudang
+$typeColors = [
+    'Distribution & Storage' => '#3498db',
+    'Fullfilment Center' => '#2ecc71',
+    'Transit & Sorting' => '#f1c40f',
+    'Regional Distribution' => '#e74c3c'
+];
+
+// Ambil semua data gudang
+$warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -281,7 +302,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                     <h4><span class="counters" data-count="17"></span></h4>
+                     <h4><span class="counters" data-count="<?= $stats['total_warehouses'] ?>"><?= $stats['total_warehouses'] ?></span></h4>
                     <h5>Total Warehouses</h5>
                     <h2 class="stat-change">Doing Amazing!</h2>
                     </div>
@@ -297,7 +318,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                      <h4>78%</span></h4>
+                      <h4><?= $stats['utilization_rate'] ?>%</span></h4>
                     <h5>Utilization Rate</h5>
                   <h2 class="stat-change"> Almost High usage!</h2>
                 </div>
@@ -313,7 +334,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                    <h4>4.2x/month</h4>
+                    <h4><?= $stats['inventory_turnover'] ?></h4>
                     <h5>Inventory Turnover</h5>
                     <h2 class="stat-change">+18% over averange</h2>
                   </div>
@@ -329,7 +350,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das4">
                   <div class="dash-counts">
-                   <h4><span class="counters" data-count="111.500">111,500</span>m</h4>
+                   <h4><span class="counters" data-count="<?= $stats['total_land_area'] ?>"><?= number_format($stats['total_land_area'], 0, ',', '.') ?></span>m</h4>
                     <h5>Total Land Area</h5>
                     <h2 class="stat-change">Keep it up!</h2>
                     </div>
@@ -440,97 +461,29 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </tr>
                   </thead>
                   <tbody>
-                    <tr data-id="1" data-lat="-6.2241" data-lng="106.6583" data-type="Distribution & Storage">
-                      <td>1</td>
-                      <td>STR001</td>
-                      <td>Gudang Utama IKEA Alam Sutera</td>
-                      <td>Kawasan Industri XYZ Blok A-5, Alam Sutera</td>
-                      <td>Tangerang (Banten)</td>
-                      <td>Distribution & Storage</td>
-                      <td>80.000 unit</td>
-                      <td>25.000 m²</td>
-                      <td>2014</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
-                      <td>(021) 12345678</td>
+                    <?php $counter = 1; ?>
+                    <?php foreach ($warehouses as $warehouse): ?>
+                    <tr data-id="<?= $counter ?>" 
+                        data-lat="<?= $warehouse['latitude'] ?>" 
+                        data-lng="<?= $warehouse['longitude'] ?>" 
+                        data-type="<?= $warehouse['type'] ?>">
+                      <td><?= $counter++ ?></td>
+                      <td><?= htmlspecialchars($warehouse['warehouse_id']) ?></td>
+                      <td><?= htmlspecialchars($warehouse['name']) ?></td>
+                      <td><?= htmlspecialchars($warehouse['address']) ?></td>
+                      <td><?= htmlspecialchars($warehouse['city']) ?></td>
+                      <td><?= htmlspecialchars($warehouse['type']) ?></td>
+                      <td><?= number_format($warehouse['capacity'], 0, ',', '.') ?> unit</td>
+                      <td><?= number_format($warehouse['land_area'], 0, ',', '.') ?> m²</td>
+                      <td><?= $warehouse['operational_year'] ?></td>
+                      <td>
+                        <span class="badges <?= $warehouse['status'] === 'active' ? 'bg-lightgreen' : 'bg-lightred' ?>">
+                          <?= $warehouse['status'] === 'active' ? 'Active' : 'In Progress' ?>
+                        </span>
+                      </td>
+                      <td><?= htmlspecialchars($warehouse['telephone']) ?></td>
                     </tr>
-                    <tr data-id="2" data-lat="-6.5622" data-lng="106.8460" data-type="Fullfilment Center">
-                      <td>2</td>
-                      <td>STR002</td>
-                      <td>Gudang IKEA Sentul Logistics</td>
-                      <td>Kawasan Industri Sentul, Bogor</td>
-                      <td>Bogor (Jawa Barat)</td>
-                      <td>Fullfilment Center</td>
-                      <td>80.000 unit</td>
-                      <td>20.000 m²</td>
-                      <td>2020</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
-                      <td>(021) 12345678</td>
-                    </tr>
-                    <tr data-id="3" data-lat="-6.1775" data-lng="106.9423" data-type="Transit & Sorting">
-                      <td>3</td>
-                      <td>STR003</td>
-                      <td>Gudang Transit IKEA Cakung</td>
-                      <td>Kawasan Industri Cakung, Jakarta Timur</td>
-                      <td>Jakarta Timur (Jakarta)</td>
-                      <td>Transit & Sorting</td>
-                      <td>60.000 unit</td>
-                      <td>15.000 m²</td>
-                      <td>2021</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
-                      <td>(022) 34567890</td>
-                    </tr>
-                    <tr data-id="4" data-lat="-8.6500" data-lng="115.2167" data-type="Regional Distribution">
-                      <td>4</td>
-                      <td>STR004</td>
-                      <td>Gudang Regional IKEA Bali</td>
-                      <td> Jl. Cargo Timur No.88, Denpasar</td>
-                      <td>Denpasar (Bali)</td>
-                      <td>Regional Distribution</td>
-                      <td>40.000 unit</td>
-                      <td>10.000 m²</td>
-                      <td>2021</td>
-                      <td><span class="badges bg-lightgreen">Active</span></td>
-                      <td>(021) 45678901</td>
-                    </tr>
-                    <tr data-id="5" data-lat="-7.2892" data-lng="112.7344" data-type="Fullfilment Center">
-                      <td>5</td>
-                      <td>STR005</td>
-                      <td>Gudang IKEA Surabaya Hub</td>
-                      <td>Jl. Rungkut Industri, Surabaya</td>
-                      <td>Surabaya (Jawa Timur)</td>
-                      <td>Fullfilment Center</td>
-                      <td>75.000 unit</td>
-                      <td>18.000 m²</td>
-                      <td>2025</td>
-                      <td><span class="badges bg-lightred">In Progress</span></td>
-                      <td>(021) 45678901</td>
-                    </tr>
-                    <tr data-id="6" data-lat="3.5952" data-lng="98.6722" data-type="Distribution & Storage">
-                      <td>6</td>
-                      <td>STR006</td>
-                      <td>Gudang Pendukung IKEA Medan</td>
-                      <td>Jl. KIM I, Kawasan Industri Medan</td>
-                      <td>Medan (Sumatera Utara)</td>
-                      <td>Distribution & Storage</td>
-                      <td>50.000 unit</td>
-                      <td>12.000 m²</td>
-                      <td>2023</td>
-                      <td><span class="badges bg-lightred">In Progress</span></td>
-                      <td>(021) 45678901</td>
-                    </tr>
-                    <tr data-id="7" data-lat="-5.1477" data-lng="119.4327" data-type="Transit & Sorting">
-                      <td>7</td>
-                      <td>STR007</td>
-                      <td>Gudang IKEA Makassar</td>
-                      <td>Jl. Poros Makassar-Maros KM 15</td>
-                      <td>Makassar (Sulawesi Selatan)</td>
-                      <td>Transit & Sorting</td>
-                      <td>45.000 unit</td>
-                      <td>11.500 m²</td>
-                      <td>2024</td>
-                      <td><span class="badges bg-lightred">In Progress</span></td>
-                      <td>(021) 45678901</td>
-                    </tr>
+                    <?php endforeach; ?>
                   </tbody>
                 </table>
               </div>
@@ -539,8 +492,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
       </div>
     </div>
-
-    <!-- ... (modal dan script lainnya tetap sama) ... -->
 
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
@@ -564,13 +515,16 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     
     <script>
       $(document).ready(function() {
-        // Data warehouse per tipe
+        // Data warehouse per tipe dari PHP
         const warehouseTypeData = {
-          'Distribution & Storage': { count: 2, color: '#3498db' },
-          'Fullfilment Center': { count: 2, color: '#2ecc71' },
-          'Transit & Sorting': { count: 2, color: '#f1c40f' },
-          'Regional Distribution': { count: 1, color: '#e74c3c' }
-        };
+          <?php foreach ($warehouseTypes as $type): ?>
+          "<?= $type['type'] ?>": { 
+            count: <?= $type['count'] ?>, 
+            color: "<?= $typeColors[$type['type']] ?>" 
+          },
+          <?php endforeach; ?>
+        }
+      });
         
         // Inisialisasi chart
         const ctx = document.getElementById('warehouseTypeChart').getContext('2d');
@@ -778,37 +732,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             });
           }
         );
-        
-        // Hitung luas total
-        let totalArea = 0;
-        let totalCapacity = 0;
-        let activeWarehouses = 0;
-        
-        $('table.datanew tbody tr').each(function() {
-          const areaText = $(this).find('td:eq(7)').text();
-          const capacityText = $(this).find('td:eq(6)').text();
-          const status = $(this).find('td:eq(9)').text();
-          
-          if (areaText !== '-') {
-            const areaValue = parseFloat(areaText.replace('.', '').replace(' m²', ''));
-            totalArea += areaValue;
-          }
-          
-          if (capacityText !== '-') {
-            const capacityValue = parseFloat(capacityText.replace('.', '').replace(' unit', ''));
-            totalCapacity += capacityValue;
-          }
-          
-          if (status.includes('Active')) {
-            activeWarehouses++;
-          }
-        });
-        
-        // Format angka dengan separator
-        $('#total-area').text(totalArea.toLocaleString('id-ID') + ' m²');
-        $('#total-capacity').text(totalCapacity.toLocaleString('id-ID') + ' unit');
-        $('#active-warehouses').text(activeWarehouses);
       });
+
     </script>
   </body>
 </html>

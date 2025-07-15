@@ -1,5 +1,59 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+require_once __DIR__ . '/../include/db.php'; // Import file koneksi database
+
+// Query untuk mengambil data toko
+$stores = [];
+try {
+    $stmt = $pdo->query("
+        SELECT id_toko, nama_toko, kode_toko, alamat, provinsi, kota, telepon, 
+               land_area, tahun_berdiri, status_toko, latitude, longitude
+        FROM toko 
+        WHERE status = 'active'
+        ORDER BY id_toko ASC
+        LIMIT 5
+    ");
+    $stores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Handle error
+    error_log("Database error: " . $e->getMessage());
+}
+
+// Hitung jumlah toko
+$totalStores = count($stores);
+
+// Hitung distribusi toko per provinsi
+$provinceDistribution = [];
+foreach ($stores as $store) {
+    $province = $store['provinsi'] ? $store['provinsi'] : 'Unknown';
+    if (!isset($provinceDistribution[$province])) {
+        $provinceDistribution[$province] = 0;
+    }
+    $provinceDistribution[$province]++;
+}
+
+// Warna untuk setiap provinsi
+$provinceColors = [
+    'Banten' => '#2196f3',
+    'Jawa Barat' => '#0d47a1',
+    'DKI Jakarta' => '#64b5f6',
+    'Bali' => '#1976d2',
+    'Unknown' => '#9e9e9e'
+];
+
+// Hitung total area
+$totalArea = 0;
+foreach ($stores as $store) {
+    if ($store['land_area'] && preg_match('/(\d+\.?\d*)\s*m²/i', $store['land_area'], $matches)) {
+        $areaValue = (float) str_replace('.', '', $matches[1]);
+        $totalArea += $areaValue;
+    }
+}
+
+// Data untuk kotak informasi
+$topSatisfactionStore = 'Surabaya';
+$topStoreTraffic = 78630;
+$avgDailyVisitors = 4200;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -469,7 +523,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                     <h4><span class="counters" data-count="7"></span></h4>
+                     <h4><?php echo $totalStores; ?></h4>
                     <h5>Total Store</h5>
                     <h2 class="stat-change">Keep up the good work</h2>
                     </div>
@@ -485,7 +539,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                      <h4>Surabaya</span></h4>
+                      <h4><?php echo $topSatisfactionStore; ?></h4>
                     <h5>Top Satisfaction Store</h5>
                   <h2 class="stat-change">3 months in a row</h2>
                 </div>
@@ -501,7 +555,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="78630"></span></h4>
+                    <h4><?php echo number_format($topStoreTraffic); ?></h4>
                     <h5>Top Store Traffic</h5>
                     <h2 class="stat-change">+18% over averange</h2>
                   </div>
@@ -517,7 +571,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das4">
                   <div class="dash-counts">
-                     <h4><span class="counters" data-count="4200"></span></h4>
+                     <h4><?php echo number_format($avgDailyVisitors); ?></h4>
                     <h5>Avg. Daily Visitors</h5>
                    <h2 class="stat-change">+8% from last week</h2>
                     </div>
@@ -639,51 +693,22 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                       </tr>
                     </thead>
                     <tbody>
-                      <tr data-id="1" data-lat="-6.2241" data-lng="106.6583" data-province="Banten">
-                        <td>1</td>
-                        <td>STR001</td>
-                        <td>IKEA Alam Sutera</td>
-                        <td>Jl. Jalur Sutera Boulevard No.45, Alam Sutera</td>
-                        <td>
-                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(1)">View Detail</button>
-                        </td>
-                      </tr>
-                      <tr data-id="2" data-lat="-6.5622" data-lng="106.8460" data-province="Jawa Barat">
-                        <td>2</td>
-                        <td>STR002</td>
-                        <td>IKEA Sentul City</td>
-                        <td>Jl. MH Thamrin, Sentul City</td>
-                        <td>
-                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(2)">View Detail</button>
-                        </td>
-                      </tr>
-                      <tr data-id="3" data-lat="-6.8512" data-lng="107.5328" data-province="Jawa Barat">
-                        <td>3</td>
-                        <td>STR003</td>
-                        <td>IKEA Kota Baru Parahyangan</td>
-                        <td>Jl. Parahyangan KM 3</td>
-                        <td>
-                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(3)">View Detail</button>
-                        </td>
-                      </tr>
-                      <tr data-id="4" data-lat="-6.1775" data-lng="106.9423" data-province="DKI Jakarta">
-                        <td>4</td>
-                        <td>STR004</td>
-                        <td>IKEA Jakarta Garden City</td>
-                        <td>JGC, Cakung</td>
-                        <td>
-                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(4)">View Detail</button>
-                        </td>
-                      </tr>
-                      <tr data-id="5" data-lat="-8.7075" data-lng="115.1720" data-province="Bali">
-                        <td>5</td>
-                        <td>STR005</td>
-                        <td>IKEA Bali</td>
-                        <td>Sunset Road, Kuta</td>
-                        <td>
-                          <button class="btn btn-sm btn-primary" onclick="showStoreDetail(5)">View Detail</button>
-                        </td>
-                      </tr>
+                      <?php $counter = 1; ?>
+                      <?php foreach ($stores as $store): ?>
+                        <tr data-id="<?php echo $counter; ?>" 
+                            data-lat="<?php echo $store['latitude'] ?: '-6.2241'; ?>" 
+                            data-lng="<?php echo $store['longitude'] ?: '106.6583'; ?>" 
+                            data-province="<?php echo $store['provinsi'] ?: 'Unknown'; ?>">
+                          <td><?php echo $counter; ?></td>
+                          <td><?php echo $store['kode_toko'] ?: 'N/A'; ?></td>
+                          <td><?php echo htmlspecialchars($store['nama_toko']); ?></td>
+                          <td><?php echo htmlspecialchars($store['alamat']); ?></td>
+                          <td>
+                            <button class="btn btn-sm btn-primary" onclick="showStoreDetail(<?php echo $counter; ?>)">View Detail</button>
+                          </td>
+                        </tr>
+                        <?php $counter++; ?>
+                      <?php endforeach; ?>
                     </tbody>
                   </table>
                 </div>
@@ -773,81 +798,35 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
-      // Data toko per provinsi
-      const provinceData = {
-        'Banten': { count: 1, color: '#2196f3' },
-        'Jawa Barat': { count: 2, color: '#0d47a1' },
-        'DKI Jakarta': { count: 1, color: '#64b5f6' },
-        'Bali': { count: 1, color: '#1976d2' }
-      };
+      // Data toko per provinsi dari PHP
+      const provinceData = <?php 
+        $jsProvinceData = [];
+        foreach ($provinceDistribution as $province => $count) {
+            $color = $provinceColors[$province] ?? '#9e9e9e';
+            $jsProvinceData[$province] = ['count' => $count, 'color' => $color];
+        }
+        echo json_encode($jsProvinceData); 
+      ?>;
       
       // Data toko lengkap untuk modal detail
       const storeDetailData = {
-        1: {
-          name: "IKEA Alam Sutera",
-          id: "STR001",
-          city: "Tangerang (Banten)",
-          telephone: "(021) 12345678",
-          landArea: "35.000 m²",
-          establish: "2014",
-          status: "Open",
-          province: "Banten",
-          address: "Jl. Jalur Sutera Boulevard No.45, Alam Sutera",
-          lat: -6.2241,
-          lng: 106.6583
-        },
-        2: {
-          name: "IKEA Sentul City",
-          id: "STR002",
-          city: "Bogor (Jawa Barat)",
-          telephone: "(021) 12345678",
-          landArea: "36.000 m²",
-          establish: "2021",
-          status: "Open",
-          province: "Jawa Barat",
-          address: "Jl. MH Thamrin, Sentul City",
-          lat: -6.5622,
-          lng: 106.8460
-        },
-        3: {
-          name: "IKEA Kota Baru Parahyangan",
-          id: "STR003",
-          city: "Bandung Barat (Jawa Barat)",
-          telephone: "(022) 34567890",
-          landArea: "33.000 m²",
-          establish: "2021",
-          status: "Open",
-          province: "Jawa Barat",
-          address: "Jl. Parahyangan KM 3",
-          lat: -6.8512,
-          lng: 107.5328
-        },
-        4: {
-          name: "IKEA Jakarta Garden City",
-          id: "STR004",
-          city: "Jakarta Timur (Jakarta)",
-          telephone: "(021) 45678901",
-          landArea: "39.000 m²",
-          establish: "2021",
-          status: "Open",
-          province: "DKI Jakarta",
-          address: "JGC, Cakung",
-          lat: -6.1775,
-          lng: 106.9423
-        },
-        5: {
-          name: "IKEA Bali",
-          id: "STR005",
-          city: "Badung (Bali)",
-          telephone: "-",
-          landArea: "-",
-          establish: "2025",
-          status: "InProgress",
-          province: "Bali",
-          address: "Sunset Road, Kuta",
-          lat: -8.7075,
-          lng: 115.1720
-        }
+        <?php $counter = 1; ?>
+        <?php foreach ($stores as $store): ?>
+          <?php echo $counter; ?>: {
+            name: "<?php echo htmlspecialchars($store['nama_toko']); ?>",
+            id: "<?php echo $store['kode_toko'] ?: 'N/A'; ?>",
+            city: "<?php echo $store['kota'] ?: 'Unknown'; ?>",
+            telephone: "<?php echo $store['telephone'] ?: 'N/A'; ?>",
+            landArea: "<?php echo $store['land_area'] ?: 'N/A'; ?>",
+            establish: "<?php echo $store['tahun_berdiri'] ?: 'N/A'; ?>",
+            status: "<?php echo $store['status_toko'] ?: 'Open'; ?>",
+            province: "<?php echo $store['provinsi'] ?: 'Unknown'; ?>",
+            address: "<?php echo htmlspecialchars($store['alamat']); ?>",
+            lat: <?php echo $store['latitude'] ?: '-6.2241'; ?>,
+            lng: <?php echo $store['longitude'] ?: '106.6583'; ?>
+          },
+          <?php $counter++; ?>
+        <?php endforeach; ?>
       };
 
       // Inisialisasi chart
@@ -971,12 +950,13 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         const storeName = $(this).find('td:eq(2)').text();
         const address = $(this).find('td:eq(3)').text();
         const status = storeDetailData[id].status === 'Open' ? 'open' : 'progress';
+        const provinceColor = provinceData[province]?.color || '#9e9e9e';
         
         // Buat marker custom
         const marker = L.marker([lat, lng], {
           icon: L.divIcon({
             className: 'custom-marker',
-            html: `<div class="store-marker" data-id="${id}" style="background-color: ${provinceData[province].color};"></div>`,
+            html: `<div class="store-marker" data-id="${id}" style="background-color: ${provinceColor};"></div>`,
             iconSize: [24, 24],
             iconAnchor: [12, 24]
           })
@@ -991,7 +971,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <span class="badge ${status === 'open' ? 'bg-lightgreen' : 'bg-lightred'}">
                 ${status === 'open' ? 'Open' : 'In Progress'}
               </span>
-              <span class="badge" style="background: ${provinceData[province].color}">${province}</span>
+              <span class="badge" style="background: ${provinceColor}">${province}</span>
             </div>
           </div>
         `);
@@ -1007,13 +987,13 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         marker.on('mouseover', function() {
           $(this.getElement()).find('.store-marker').addClass('highlight');
           const id = $(this.getElement()).find('.store-marker').data('id');
-          $(storeDetailData[id].element).addClass('highlight-row');
+          $(`tr[data-id="${id}"]`).addClass('highlight-row');
         });
         
         marker.on('mouseout', function() {
           $(this.getElement()).find('.store-marker').removeClass('highlight');
           const id = $(this.getElement()).find('.store-marker').data('id');
-          $(storeDetailData[id].element).removeClass('highlight-row');
+          $(`tr[data-id="${id}"]`).removeClass('highlight-row');
         });
         
         marker.on('click', function() {
@@ -1048,22 +1028,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         }
       );
       
-      // Hitung luas total
-      let totalArea = 0;
-      $('table.datanew tbody tr').each(function() {
-        const id = $(this).data('id');
-        const areaText = storeDetailData[id].landArea;
-        if (areaText !== '-') {
-          const areaValue = parseFloat(areaText.replace('.', '').replace(' m²', ''));
-          if (!isNaN(areaValue)) {
-            totalArea += areaValue;
-          }
-        }
-      });
-      
-      // Format angka dengan separator
-      $('#total-area').text(totalArea.toLocaleString('id-ID') + ' m²');
-      
       // Fungsi untuk menampilkan detail toko di modal
       function showStoreDetail(storeId) {
         const store = storeDetailData[storeId];
@@ -1079,7 +1043,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         document.getElementById('detail-status').innerHTML = 
           store.status === 'Open' ? 
           '<span class="status-badge status-active">Open</span>' : 
-          '<span class="status-badge status-inprogress">InProgress</span>';
+          '<span class="status-badge status-inprogress">In Progress</span>';
         document.getElementById('detail-province').textContent = store.province;
         
         // Create mini map preview
@@ -1093,9 +1057,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         }).addTo(miniMap);
         
         // Add marker to mini map
+        const provinceColor = provinceData[store.province]?.color || '#9e9e9e';
         const customIcon = L.divIcon({
           className: 'custom-marker',
-          html: `<div class="store-marker" style="background-color: ${provinceData[store.province].color};"></div>`,
+          html: `<div class="store-marker" style="background-color: ${provinceColor};"></div>`,
           iconSize: [24, 24],
           iconAnchor: [12, 24]
         });
