@@ -1222,7 +1222,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 <div class="donut-legend" id="donutLegend"></div>
                 <div class="insight-container">
                   <div class="d-flex align-items-center">
-                    <i class="fas fa-lightbulb text-info me-2" style="font-size: 1.3rem;"></i>
+                    <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
                       <h5 style="font-size: 0.9rem;">Insight: Distribusi Merata</h5>
                       <p class="mb-0">Top 5 brand menyumbang 72% total penjualan. Brand SKÅDIS menunjukkan peningkatan kontribusi terbesar (+5% YoY).</p>
@@ -1244,7 +1244,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 <div id="lineChart" style="height: 250px;"></div>
                 <div class="insight-container" id="lineChartInsight">
                   <div class="d-flex align-items-center">
-                    <i class="fas fa-lightbulb text-primary me-2" style="font-size: 1.3rem;"></i>
+                    <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
                       <h5 id="lineChartInsightTitle" style="font-size: 0.9rem;">Insight: Tren Brand LACK</h5>
                       <p class="mb-0" id="lineChartInsightText">Brand LACK menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.</p>
@@ -1317,7 +1317,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
                 <div class="insight-container">
                   <div class="d-flex align-items-center">
-                    <i class="fas fa-lightbulb text-info me-2" style="font-size: 1.3rem;"></i>
+                    <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
                       <h5 style="font-size: 0.9rem;">Insight: Kompetisi Brand</h5>
                       <p class="mb-0">SKÅDIS unggul di rating dan penjualan, sementara VARIERA unggul di harga. LACK mendominasi dengan volume penjualan tertinggi meski HEMNES memiliki rating terbaik.</p>
@@ -1631,7 +1631,7 @@ const barChartData = {
 const donutChartData = {
   labels: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ", "Lainnya"],
   series: [28, 22, 18, 15, 12, 5], // persentase
-  colors: ['#3b82f6', '#8b5cf6', '#06b6d4', '#6366f1', '#a855f7', '#0891b2'] // Beautiful blues, purples, and teals
+  colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd'] // Updated colors matching productsold.php
 };
 
 const lineChartData = {
@@ -1656,14 +1656,6 @@ const lineChartData = {
     { name: "VITTSJÖ", data: [150, 160, 170, 180, 190, 200, 210, 220] },
     { name: "SKÅDIS", data: [150, 170, 190, 210, 230, 250, 270, 290] }
   ]
-};
-
-const lineInsights = {
-  "LACK": "Brand LACK menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.",
-  "SKÅDIS": "SKÅDIS menunjukkan pertumbuhan eksponensial dengan peningkatan 18% di Q2. Popularitas brand ini terus meningkat.",
-  "HEMNES": "HEMNES memiliki penjualan stabil dengan sedikit peningkatan di akhir tahun. Konsistensi menjadi kekuatan utama brand ini.",
-  "KALLAX": "KALLAX memiliki tren yang stabil dengan sedikit fluktuasi. Brand ini tetap menjadi favorit di segmen penyimpanan.",
-  "VITTSJÖ": "VITTSJÖ menunjukkan pertumbuhan konsisten meski lambat. Potensi peningkatan dengan strategi pemasaran yang tepat."
 };
 
 // Brand Data for Table - Extended to 12 entries with IDs
@@ -1856,7 +1848,7 @@ function updateLineChartInsight(brand) {
 
   const insightHTML = `
     <div class="d-flex align-items-center">
-      <i class="fas fa-lightbulb text-primary me-2" style="font-size: 1.3rem;"></i>
+      <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
       <div>
         <h5 style="font-size: 0.9rem;">Insight: Tren Brand ${brand}</h5>
         <p class="mb-0">${insight}</p>
@@ -2062,7 +2054,7 @@ function initDonutChart() {
       height: 200,
     },
     labels: donutChartData.labels,
-    colors: donutChartData.colors, // Using light blue and purple variations
+    colors: donutChartData.colors, // Using blue gradient colors matching productsold.php
     responsive: [{
       breakpoint: 480,
       options: {
@@ -2148,7 +2140,7 @@ function initLineChart(year) {
       curve: 'smooth',
       width: 2,
     },
-    colors: ['#3b82f6', '#8b5cf6', '#06b6d4', '#6366f1', '#a855f7'], // Light blue and purple variations
+    colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb'], // Updated colors matching productsold.php
     markers: {
       size: 4,
       strokeWidth: 0,

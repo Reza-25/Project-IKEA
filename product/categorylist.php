@@ -25,25 +25,28 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
 
 <style>
-   a {
+  body {
+    background-color: #f8f9fa; /* Light gray background for the whole page */
+  }
+  a {
     text-decoration: none !important;
   }
 
-    .ikea-select {
-      background-color: #E6F0FF !important; /* Soft blue */
-      border: 2px solid #ccc;
-      color: #333;
-      border-radius: 20px;
-      padding: 6px 16px;
-      font-size: 0.85rem;
-      appearance: none;
-      width: 140px; /* Lebar diperpanjang */
-      background-image: url("data:image/svg+xml,%3Csvg fill='%230051BA' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.6rem center;
-      background-size: 14px;
-      transition: border-color 0.3s ease;
-    }
+  .ikea-select {
+    background-color: #E6F0FF !important; /* Soft blue */
+    border: 2px solid #ccc;
+    color: #333;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    appearance: none;
+    width: 140px; /* Lebar diperpanjang */
+    background-image: url("data:image/svg+xml,%3Csvg fill='%230051BA' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+    background-size: 14px;
+    transition: border-color 0.3s ease;
+  }
 
   .ikea-select:hover {
     border-color: #0051BA;
@@ -59,7 +62,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     color: white;
   }
 
-  style
   .ikea-note-card {
     background-color: #fffbea;
     border: none;
@@ -247,7 +249,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     gap: 10px;
   }
   .chart-title {
-    font-size: 14px;
+    font-size: 16px; /* Increased font size for titles */
     font-weight: 600;
     color: #2c3e50;
     letter-spacing: 0.3px;
@@ -744,8 +746,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   width: 7px;
   background: #f8fbff;
 }
-.notes-container::-webkit-scrollbar-thumb,
-.mis-ai-insight::-webkit-scrollbar-thumb {
+.notes-container::-webkit-scrollbar-thumb {
   background: #90caf9;
   border-radius: 8px;
 }
@@ -782,6 +783,335 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     font-weight: 600;
   }
 
+/* New styles for the dashboard layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px; /* Main content and sidebar */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@media (max-width: 992px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+    }
+}
+
+.main-dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.right-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dashboard-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.dashboard-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dashboard-card-title i {
+    color: #0d47a1;
+}
+
+.insight-card {
+    background-color: #fffbea;
+    border-left: 8px solid #FFCC00;
+    border-radius: 10px;
+    padding: 15px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.insight-card i {
+    color: #FFCC00;
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+.insight-card p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.sidebar-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-card-title i {
+    color: #0d47a1;
+}
+
+.prediction-card .prediction-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0d47a1;
+    margin-bottom: 5px;
+}
+
+.prediction-card .prediction-detail {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+}
+
+.prediction-card .prediction-trend {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.prediction-card .prediction-trend.up {
+    color: #28a745;
+}
+
+.prediction-card .prediction-trend.down {
+    color: #dc3545;
+}
+
+.notification-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.notification-item:last-child {
+    margin-bottom: 0;
+}
+
+.notification-icon {
+    font-size: 18px;
+    color: #0d47a1;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-text strong {
+    color: #0d47a1;
+}
+
+.notification-text .status-label {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 8px;
+}
+
+.status-critical {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.health-score-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.health-score-item:last-child {
+    margin-bottom: 0;
+}
+
+.health-score-item .brand-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.health-score-item .score-bar {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    margin: 0 10px;
+    overflow: hidden;
+}
+
+.health-score-item .score-fill {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.score-fill.high {
+    background-color: #28a745;
+}
+
+.score-fill.medium {
+    background-color: #ffc107;
+}
+
+.score-fill.low {
+    background-color: #dc3545;
+}
+
+.brand-readiness-card {
+    text-align: center;
+    padding: 20px;
+}
+
+.brand-readiness-card .percentage {
+    font-size: 48px;
+    font-weight: bold;
+    color: #0d47a1;
+    margin-bottom: 10px;
+}
+
+.brand-readiness-card .brand-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.brand-readiness-card .score-text {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.brand-readiness-metrics {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: #777;
+}
+
+.metric-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+}
+
+.indicator-green { background-color: #28a745; }
+.indicator-orange { background-color: #ffc107; }
+.indicator-blue { background-color: #0d6efd; }
+
+.promo-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.promo-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.promo-checkbox input[type="checkbox"]:checked {
+    background-color: #0d47a1;
+    border-color: #0d47a1;
+}
+
+.promo-checkbox input[type="checkbox"]:checked::after {
+    content: '\2713'; /* Checkmark character */
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 </style>
 
 
@@ -801,174 +1131,177 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
 <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
-  <div class="content">
+  <div class="content" style="background-color: #f0f2f5; padding: 20px; border-radius: 12px;"> <!-- Added light background to content area -->
     <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
-  <div class="page-header">
-      <div class="page-title">
-        <h4>Product Category list</h4>
-        <h6>View/Search product Category</h6>
-      </div>
-      <div class="page-btn">
-        <a href="addcategory.php" class="btn btn-added">
-          <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">Add Category
-        </a>
-      </div>
-    </div>
+  
+    <!-- Main Dashboard Content -->
+    <div class="dashboard-grid">
+        <div class="main-dashboard-content">
+            <!-- Top 5 Categories with Highest Sales (Bar Chart) -->
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <h6 class="dashboard-card-title"><i class="fas fa-chart-bar"></i> Top 5 Categories with Highest Sales</h6>
+                    <select id="barChartYear" class="chart-select">
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025" selected>2025</option>
+                    </select>
+                </div>
+                <div style="position: relative; height: 280px;">
+                    <canvas id="barChartTopCategories"></canvas>
+                </div>
+                <div class="insight-card mt-3">
+                    <i class="fas fa-lightbulb"></i>
+                    <p><strong>Insight: Dominasi Kategori Furniture</strong><br/>Kategori Furniture mendominasi penjualan dengan kontribusi terbesar. Penjualan tertinggi di Q2 karena program promo "Summer Refresh".</p>
+                </div>
+            </div>
 
-    <!-- Revenue, Suppliers, Product Sold, Budget Spent -->
-          <div class="row justify-content-end">
-            <!-- Total Product Sold -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das1">
-                  <div class="dash-counts">
-                    <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
-                    <h5>Total Product Sold</h5>
-                    <h2 class="stat-change">+9% from last year</h2>
+            <!-- Category Contribution to Total Sales (Donut Chart) -->
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <h6 class="dashboard-card-title"><i class="fas fa-chart-pie"></i> Category Contribution to Total Sales</h6>
+                </div>
+                <div style="display:flex;justify-content:center; position: relative; height: 250px;">
+                    <canvas id="donutChartCategoryContribution"></canvas>
+                </div>
+                <div class="insight-card mt-3">
+                    <i class="fas fa-lightbulb"></i>
+                    <p><strong>Insight: Distribusi Merata</strong><br/>Top 5 kategori menyumbang 72% total penjualan. Kategori Storage menunjukkan peningkatan kontribusi terbesar (+5% YoY).</p>
+                </div>
+            </div>
+
+            <!-- Category Growth Trend (Top 5 Categories) - Line Chart -->
+            <div class="dashboard-card">
+                <div class="dashboard-card-header">
+                    <h6 class="dashboard-card-title"><i class="fas fa-chart-line"></i> Category Growth Trend (Top 5 Categories)</h6>
+                    <select id="lineChartYear" class="chart-select">
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025" selected>2025</option>
+                    </select>
+                </div>
+                <div style="position: relative; height: 300px;">
+                    <canvas id="lineChartCategoryGrowth"></canvas>
+                </div>
+                <div class="insight-card mt-3">
+                    <i class="fas fa-lightbulb"></i>
+                    <p><strong>Insight: Tren Kategori Furniture</strong><br/>Kategori Furniture menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.</p>
+                </div>
+            </div>
+
+            <!-- Insight "Produk Bersaing" Antar Brand (Static HTML to match image) -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100">
+                        <h6 class="dashboard-card-title"><i class="fas fa-lightbulb"></i> Insight "Produk Bersaing" Antar Brand</h6>
+                        <div class="d-flex align-items-center justify-content-around flex-grow-1">
+                            <div class="text-center">
+                                <img src="/placeholder.svg?height=60&width=60" alt="SKÅDIS" class="rounded-circle mb-2">
+                                <h5 class="mb-1">SKÅDIS</h5>
+                                <p class="text-muted" style="font-size:12px;">4.6 | Rp 299K | 240/bln</p>
+                                <span class="badge bg-primary">Organizer</span>
+                            </div>
+                            <div class="text-center mx-3">
+                                <span class="badge bg-danger rounded-circle p-2" style="font-size:1.2rem;">VS</span>
+                            </div>
+                            <div class="text-center">
+                                <img src="/placeholder.svg?height=60&width=60" alt="VARIERA" class="rounded-circle mb-2">
+                                <h5 class="mb-1">VARIERA</h5>
+                                <p class="text-muted" style="font-size:12px;">4.3 | Rp 249K | 0.850/bln</p>
+                                <span class="badge bg-info">Storage</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="icon-box bg-ungu">
-                      <i class="fa fa-box"></i>
+                </div>
+                <div class="col-md-6">
+                    <div class="dashboard-card h-100">
+                        <h6 class="dashboard-card-title"><i class="fas fa-lightbulb"></i> Insight "Produk Bersaing" Antar Brand</h6>
+                        <div class="d-flex align-items-center justify-content-around flex-grow-1">
+                            <div class="text-center">
+                                <img src="/placeholder.svg?height=60&width=60" alt="LACK" class="rounded-circle mb-2">
+                                <h5 class="mb-1">LACK</h5>
+                                <p class="text-muted" style="font-size:12px;">4.5 | Rp 199K | 0.950/bln</p>
+                                <span class="badge bg-success">Furniture</span>
+                            </div>
+                            <div class="text-center mx-3">
+                                <span class="badge bg-danger rounded-circle p-2" style="font-size:1.2rem;">VS</span>
+                            </div>
+                            <div class="text-center">
+                                <img src="/placeholder.svg?height=60&width=60" alt="HEMNES" class="rounded-circle mb-2">
+                                <h5 class="mb-1">HEMNES</h5>
+                                <p class="text-muted" style="font-size:12px;">4.7 | Rp 599K | 1.403/bln</p>
+                                <span class="badge bg-warning">Bedroom</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-              </a>
             </div>
 
-            <!-- Most Popular Category -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das2">
-                  <div class="dash-counts">
-                    <h4>Furniture</h4>
-                    <h5>Top Category</h5>
-                  <h2 class="stat-change">+9% from last year</h2>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="right-sidebar">
+            <!-- Prediksi Penjualan Kategori per Bulan -->
+            <div class="sidebar-card prediction-card">
+                <h6 class="sidebar-card-title"><i class="fas fa-chart-line"></i> Prediksi Penjualan Kategori per Bulan</h6>
+                <select id="predictionCategorySelect" class="chart-select mb-3">
+                    <!-- Options will be populated by JS from kategoriList -->
+                </select>
+                <div id="predictionContent">
+                    <!-- Content will be loaded by JS -->
                 </div>
-                <div class="icon-box bg-biru">
-                  <i class="fa fa-couch"></i>
+            </div>
+
+            <!-- Notifikasi Kritis Otomatis -->
+            <div class="sidebar-card">
+                <h6 class="sidebar-card-title"><i class="fas fa-bell"></i> Notifikasi Kritis Otomatis</h6>
+                <ul class="notification-list" id="notificationList">
+                    <!-- Notifications will be generated by JS -->
+                </ul>
+            </div>
+
+            <!-- Health Score untuk Kategori -->
+            <div class="sidebar-card">
+                <h6 class="sidebar-card-title"><i class="fas fa-heartbeat"></i> Health Score untuk Kategori</h6>
+                <div id="healthScoreContent">
+                    <!-- Health scores will be generated by JS -->
                 </div>
+            </div>
+
+            <!-- Category Readiness Index -->
+            <div class="sidebar-card brand-readiness-card">
+                <h6 class="sidebar-card-title"><i class="fas fa-chart-line"></i> Category Readiness Index</h6>
+                <select id="readinessCategorySelect" class="chart-select mb-3">
+                    <!-- Options will be populated by JS from kategoriList -->
+                </select>
+                <div id="readinessContent">
+                    <!-- Content will be loaded by JS -->
                 </div>
-              </a>
             </div>
 
-            <!-- Top-Selling Product -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das3">
-                  <div class="dash-counts">
-                    <h4>Sofa KVK</span></h4>
-                    <h5>Top-Selling Product</h5>
-                    <h2 class="stat-change">+15% from last year</h2>
-                  </div>
-                  <div class="icon-box bg-merah">
-                    <i class="fa fa-trophy"></i>
-                  </div>
+            <!-- Distribusi Lokasi Penjualan Terbanyak per Kategori -->
+            <div class="sidebar-card">
+                <h6 class="sidebar-card-title"><i class="fas fa-map-marker-alt"></i> Distribusi Lokasi Penjualan Terbanyak</h6>
+                <div id="locationDistributionContent">
+                    <!-- Content will be loaded by JS -->
                 </div>
-              </a>
             </div>
 
-            <!-- Average Product Sales -->
-            <div class="col-lg-3 col-sm-6 col-12 d-flex">
-              <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
-                <div class="dash-count das4">
-                  <div class="dash-counts">
-                    <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
-                    <h5>Avg. Product Sales</h5>
-                   <h2 class="stat-change">+6% from last year</h2>
-                    </div>
-                    <div class="icon-box bg-hijau">
-                      <i class="fa fa-chart-line"></i>
-                    </div>
-                </div>
-              </a>
+            <!-- AI Suggestion: Produk Baru yang Potensial -->
+            <div class="sidebar-card">
+                <h6 class="sidebar-card-title"><i class="fas fa-robot"></i> AI Suggestion: Produk Baru yang Potensial</h6>
+                <p id="aiSuggestionText" style="font-size:14px; color:#333;">
+                    <!-- AI Suggestion will be loaded by JS -->
+                </p>
             </div>
-          </div>
-          <!-- END KOLOM  -->
-
-    <!-- 🟡 Tambahan: DASHBOARD KATEGORI & PRODUK -->
-    <div class="row justify-content-end mb-4">
-      <!-- Total Category -->
-      <div class="col-lg-4 col-sm-6 col-12 d-flex">
-        <a href="productsold.php" class="w-100 text-decoration-none text-dark">
-          <div class="dash-count das2">
-            <div class="dash-counts">
-              <h4><span class="counters" data-count="21">2.1</span></h4>
-              <h5>Total Category</h5>
-            </div>
-            <div class="dash-imgs">
-              <i data-feather="layers"></i>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Total Product -->
-      <div class="col-lg-4 col-sm-6 col-12 d-flex">
-        <a href="productsold.php" class="w-100 text-decoration-none text-dark">
-          <div class="dash-count das2">
-            <div class="dash-counts">
-              <h4><span class="counters" data-count="12000">12.000</span></h4>
-              <h5>Total Product</h5>
-            </div>
-            <div class="dash-imgs">
-              <i data-feather="box"></i>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Upcoming -->
-      <div class="col-lg-4 col-sm-6 col-12 d-flex">
-        <a href="productsold.php" class="w-100 text-decoration-none text-dark">
-          <div class="dash-count das2" style="padding: 20px; background-color: #FFCC00; border-radius: 10px; color: black;">
-            <div class="dash-counts">
-              <h4>Upcoming Items</h4>
-              <p style="margin: 0; font-weight: bold;">📁 Category: <span class="counters" data-count="6">6</span></p>
-              <p style="margin: 0; font-weight: bold;">📦 Product: <span class="counters" data-count="376">376</span></p>
-            </div>
-            <div class="dash-imgs" style="margin-top: auto;">
-              <i data-feather="clock"></i>
-            </div>
-          </div>
-        </a>
-      </div>
+        </div>
     </div>
-    <!-- END DASHBOARD -->
-
-<!-- Chart & Notes Row -->
-<div class="chart-notes-row">
-  <!-- Chart Wrapper -->
-  <div class="chart-wrapper">
-    <div class="chart-header">
-      <div class="chart-title">Total Product Sold per Bulan</div>
-      <div>
-        <button id="prevKategori" class="btn btn-outline-primary btn-sm">⏮ Prev</button>
-        <button id="nextKategori" class="btn btn-outline-primary btn-sm">⏭ Next</button>
-        <select id="tahun" class="chart-select">
-          <option value="2023">2023</option>
-          <option value="2024">2024</option>
-          <option value="2025" selected>2025</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Kategori Aktif di Tengah -->
-    <div class="text-center fw-bold mt-1" style="font-size: 16px; color: #0d47a1;">
-      Kategori: <span id="kategoriAktif" style="padding: 0 4px;">-</span>
-    </div>
-
-    <!-- PENTING: canvas tetap id="chartProduk" -->
-    <div style="position: relative; height: 320px;">
-      <canvas id="chartProduk"></canvas>
-    </div>
-  </div>
-
-  <!-- Notes -->
-  <div class="notes-container">
-    <!-- Notes akan diisi secara dinamis oleh JavaScript -->
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  // --- ORIGINAL DATA FROM YOUR FILE (KEPT AS IS) ---
   const kategoriList = [
     "Furniture", "Lighting", "Storage", "Bedroom", "Living Room",
     "Kitchen", "Dining", "Office", "Outdoor", "Textiles",
@@ -976,7 +1309,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     "Curtains", "Tableware", "Cookware", "Laundry", "Cleaning", "Pet"
   ];
 
-  let currentKategoriIndex = 0;
   const bulanShort = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
 
   const dataTahun = {};
@@ -1023,457 +1355,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     "Pet": { totalProduk: 180, kontribusi: "1.2% dari seluruh penjualan IKEA", produkKurangLaku: "1 produk", lowStock: "1 produk", insight: "Tampilkan sofa hewan peliharaan", toko: "IKEA Kota Baru" }
   };
 
-  let chart;
-  const ctx = document.getElementById('chartProduk').getContext('2d');
-
-  function renderChart(data, tahun, kategori) {
-    const labels = data.map(item => item.bulan);
-    const values = data.map(item => item.totalSold);
-
-    if (chart) chart.destroy();
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, 320);
-    gradient.addColorStop(0, "#0d47a1");
-    gradient.addColorStop(1, "#66bfff");
-
-    chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: `Total Produk Terjual - ${tahun}`,
-          data: values,
-          backgroundColor: gradient,
-          borderRadius: 6,
-          barThickness: 30
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: {
-          duration: 1700,
-          easing: 'easeOut'
-        },
-        onClick: (evt, elements) => {
-          if (elements.length > 0) {
-            const i = elements[0].index;
-            updateNotes(data[i], tahun);
-          }
-        },
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { color: "#666", font: { size: 12 } },
-            grid: { color: "#eee" }
-          },
-          x: {
-            ticks: { color: "#444", font: { size: 12 } },
-            grid: { display: false }
-          }
-        }
-      }
-    });
-
-    document.getElementById("kategoriAktif").textContent = kategori;
-    updateNotes(data[0], tahun);
-  }
-
-  function updateNotes(item, tahun) {
-    const kategori = kategoriList[currentKategoriIndex];
-    const note = notesMap[kategori];
-
-    document.querySelector(".notes-container").innerHTML = `
-      <div class="note-title">Detail Kategori: <span>${kategori} - ${tahun}</span></div>
-
-      <div class="note-line">
-        <div class="note-icon bg-blue"><i class="fas fa-box"></i></div>
-        <div class="note-text">
-          <div class="note-label">Total Penjualan</div>
-          <div class="note-value">${item.totalSold} unit</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-green"><i class="fas fa-tags"></i></div>
-        <div class="note-text">
-          <div class="note-label">Total Produk</div>
-          <div class="note-value">${note.totalProduk}</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-orange"><i class="fas fa-star"></i></div>
-        <div class="note-text">
-          <div class="note-label">Rata-rata Penjualan</div>
-          <div class="note-value">${item.avgSold} unit/bulan</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-purple"><i class="fas fa-chart-line"></i></div>
-        <div class="note-text">
-          <div class="note-label">Kontribusi</div>
-          <div class="note-value">${note.kontribusi}</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-blue"><i class="fas fa-trophy"></i></div>
-        <div class="note-text">
-          <div class="note-label">Produk Terlaris</div>
-          <div class="note-value">${item.topProduct}</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-orange"><i class="fas fa-arrow-down"></i></div>
-        <div class="note-text">
-          <div class="note-label">Produk Kurang Laku</div>
-          <div class="note-value">${note.produkKurangLaku}</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-green"><i class="fas fa-battery-quarter"></i></div>
-        <div class="note-text">
-          <div class="note-label">Produk Low Stock</div>
-          <div class="note-value">${note.lowStock}</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-purple"><i class="fas fa-brain"></i></div>
-        <div class="note-text">
-          <div class="note-label">Insight AI</div>
-          <div class="note-value">${note.insight}</div>
-        </div>
-      </div>
-
-      <div class="note-line">
-        <div class="note-icon bg-blue"><i class="fas fa-store"></i></div>
-        <div class="note-text">
-          <div class="note-label">Toko Penjual Terbaik</div>
-          <div class="note-value">${note.toko}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  function loadChartByKategori() {
-    const tahun = document.getElementById("tahun").value;
-    const kategori = kategoriList[currentKategoriIndex];
-    const data = dataTahun[tahun][kategori];
-    renderChart(data, tahun, kategori);
-  }
-
-  document.getElementById("prevKategori").addEventListener("click", () => {
-    currentKategoriIndex = (currentKategoriIndex - 1 + kategoriList.length) % kategoriList.length;
-    loadChartByKategori();
-  });
-
-  document.getElementById("nextKategori").addEventListener("click", () => {
-    currentKategoriIndex = (currentKategoriIndex + 1) % kategoriList.length;
-    loadChartByKategori();
-  });
-
-  document.getElementById("tahun").addEventListener("change", loadChartByKategori);
-  window.onload = loadChartByKategori;
-</script>
-
-  <!-- Tambahkan di bawah .chart-notes-row sebelum tabel kategori -->
-<div class="row mt-4" id="mis-log-insight" style="align-items: stretch;">
-  <!-- Aktivitas Log -->
-  <div class="col-lg-7 mb-3 d-flex">
-    <div class="mis-card flex-fill d-flex flex-column" style="height:100%;">
-      <div class="mis-card-header">
-        <i class="fa fa-history me-2"></i>Aktivitas Log
-      </div>
-      <!-- Hilangkan scroll bawah: overflow-y:hidden -->
-      <ul id="activityLog" class="list-group list-group-flush mis-log-list flex-grow-1" style="overflow-y:hidden;"></ul>
-    </div>
-  </div>
-  <!-- Insight AI -->
-  <div class="col-lg-5 mb-3 d-flex">
-    <div class="mis-card flex-fill d-flex flex-column" style="height:100%;">
-      <div class="mis-card-header">
-        <i class="fa fa-brain me-2"></i>Insight AI
-      </div>
-      <!-- Tampilan insight AI lebih menarik, tetap scrollable -->
-      <div id="aiInsight" class="mis-ai-insight flex-grow-1"></div>
-    </div>
-  </div>
-</div>
-
-
-<script>
-  // Data dummy aktivitas log dengan status
-  const activityLogData = [
-    { waktu: "2025-07-02 09:15", aktivitas: "Admin A menambah kategori <b>Furniture</b>", status: "Tambah" },
-    { waktu: "2025-07-02 09:20", aktivitas: "Admin B mengubah status <b>Lighting</b> menjadi Inactive", status: "Update" },
-    { waktu: "2025-07-02 09:30", aktivitas: "Admin C memperbarui deskripsi <b>Storage</b>", status: "Update" },
-    { waktu: "2025-07-02 09:45", aktivitas: "Admin D menambah kategori <b>Bedroom</b>", status: "Tambah" },
-    { waktu: "2025-07-02 10:00", aktivitas: "Admin E mengubah status <b>Living Room</b> menjadi Pending", status: "Update" },
-    { waktu: "2025-07-02 10:10", aktivitas: "Admin F menghapus kategori <b>Outdoor</b>", status: "Hapus" },
-    { waktu: "2025-07-02 10:20", aktivitas: "Admin G menambah kategori <b>Kitchen</b>", status: "Tambah" },
-    { waktu: "2025-07-02 10:25", aktivitas: "Admin H mengubah deskripsi <b>Dining</b>", status: "Update" }
-  ];
-
-  // Mapping warna status
-  function getStatusLabel(status) {
-    if (status === "Tambah") return `<span class="log-status-label log-status-add">Tambah</span>`;
-    if (status === "Update") return `<span class="log-status-label log-status-update">Update</span>`;
-    if (status === "Hapus") return `<span class="log-status-label log-status-delete">Hapus</span>`;
-    return `<span class="log-status-label">${status}</span>`;
-  }
-
-  function renderActivityLog() {
-    const ul = document.getElementById("activityLog");
-    ul.innerHTML = "";
-    activityLogData.forEach(item => {
-      const li = document.createElement("li");
-      li.className = "list-group-item";
-      li.innerHTML = `
-        <span class="log-time">${item.waktu}</span>
-        ${getStatusLabel(item.status)}
-        &mdash; ${item.aktivitas.replace(/<b>(.*?)<\/b>/g, '')}
-      `;
-      ul.appendChild(li);
-    });
-  }
-
-  // Data insight AI dengan icon dan highlight
-  const aiInsightData = [
-    {
-      icon: "📊",
-      html: "<b>Tren Penjualan:</b> Kategori <span>Furniture</span> tetap menjadi kontributor utama dengan pertumbuhan 9% YoY."
-    },
-    {
-      icon: "⚠️",
-      html: "<b>Risiko Stok:</b> 8 produk <span style='color:#e78001;'>low stock</span> pada kategori <b>Furniture</b> dan <b>Kitchen</b>. Rekomendasi: lakukan restock segera."
-    },
-    {
-      icon: "💡",
-      html: "<b>Peluang:</b> Produk <span style='color:#28a745;'>Sofa KVK</span> dan <span>Rak KALLAX</span> berpotensi untuk promo bundling bulan depan."
-    },
-    {
-      icon: "🔔",
-      html: "<b>Alert:</b> Ada 5 produk dengan penjualan &lt; 10 unit di kategori <b>Textiles</b> dan <b>Children</b>. Rekomendasi: evaluasi strategi pemasaran."
-    },
-    {
-      icon: "🤖",
-      html: "<b>AI Suggestion:</b> Optimalkan campaign digital untuk kategori <b>Lighting</b> dan <b>Office</b> yang mengalami penurunan minat."
-    },
-    {
-      icon: "🔥",
-      html: "<b>Rekomendasi AI:</b> Coba flash sale untuk <span>Outdoor</span> menjelang akhir pekan."
-    },
-    {
-      icon: "🚩",
-      html: "<b>AI Alert:</b> Produk <span>Tableware</span> mulai menurun, cek stok dan review harga."
-    }
-  ];
-
-  function renderAIInsight() {
-    const container = document.getElementById("aiInsight");
-    let html = `<ul class="mis-ai-list">`;
-    aiInsightData.forEach(item => {
-      html += `
-        <li class="mis-ai-item">
-          <div class="mis-ai-icon">${item.icon}</div>
-          <div class="mis-ai-content">${item.html}</div>
-        </li>
-      `;
-    });
-    html += `</ul>`;
-    container.innerHTML = html;
-  }
-
-  // Panggil saat halaman load
-  renderActivityLog();
-  renderAIInsight();
-</script>
-
-<!-- Area & Donut Charts in One Row -->
-<div class="d-flex flex-wrap gap-4">
-  <!-- Area Chart Container -->
-<div class="card shadow-sm p-3" style="flex: 2; min-width: 400px;">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <h6 class="mb-0 text-primary">Tren Popularity Index (Top 5 Kategori)</h6>
-      <select id="areaChartYear" class="chart-select" style="width:90px;">
-        <option value="2023">2023</option>
-        <option value="2024">2024</option>
-        <option value="2025" selected>2025</option>
-      </select>
-    </div>
-    <canvas id="areaChart" height="200"></canvas>
-  </div>
-
-  <!-- Donut Chart Container -->
-<div class="card shadow-sm p-3" style="flex: 1; min-width: 220px; max-width: 300px;">
-
-    <h6 class="mb-3 text-primary">Distribusi Popularity Index per Kategori</h6>
-    <div style="display:flex;justify-content:center;">
-      <canvas id="donutChart" width="160" height="160"></canvas>
-    </div>
-  </div>
-</div>
-
-<!-- Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  const areaCtx = document.getElementById('areaChart').getContext('2d');
-  const donutCtx = document.getElementById('donutChart').getContext('2d');
-
-  const labels = ["Living Room", "Bedroom", "Furniture", "Kitchen", "Lighting"];
-
-  const popularityByYear = {
-    "2023": [40, 68, 75, 60, 20],
-    "2024": [88, 80, 83, 66, 24],
-    "2025": [25, 82, 49, 68, 22],
-  };
-
-  let selectedYear = document.getElementById("areaChartYear").value;
-
-  const areaChart = new Chart(areaCtx, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Popularity Index',
-        data: popularityByYear[selectedYear],
-        fill: true,
-        backgroundColor: 'rgba(13, 110, 253, 0.2)',
-        borderColor: '#0d6efd',
-        tension: 0.4,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-        pointBackgroundColor: '#0d6efd'
-      }]
-    },
-    options: {
-      responsive: true,
-      animation: {
-        duration: 1000,
-        easing: 'easeInOutQuart'
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: { mode: 'index', intersect: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          grid: { color: '#eee' }
-        },
-        x: {
-          grid: { display: false }
-        }
-      }
-    }
-  });
-
-  const donutChart = new Chart(donutCtx, {
-    type: 'doughnut',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Popularity Index',
-        data: popularityByYear[selectedYear],
-        backgroundColor: [
-          '#0d6efd',
-          '#6c757d',
-          '#198754',
-          '#ffc107',
-          '#dc3545'
-        ],
-        borderWidth: 1,
-        hoverOffset: 12
-      }]
-    },
-    options: {
-      responsive: true,
-      animation: {
-        animateRotate: true,
-        animateScale: true,
-        duration: 1200
-      },
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            boxWidth: 12,
-            color: '#333',
-            font: { size: 12 }
-          }
-        }
-      }
-    }
-  });
-
-  document.getElementById("areaChartYear").addEventListener("change", function () {
-    const year = this.value;
-    areaChart.data.datasets[0].data = popularityByYear[year];
-    donutChart.data.datasets[0].data = popularityByYear[year];
-
-    areaChart.update();
-    donutChart.update();
-  });
-</script>
-
-
-
-
-
-<!-- Tabel Kategori dengan Modal Detail -->
-<div>
-  <div class="d-flex-between my-2">
-    <input type="text" id="searchInput" placeholder="Cari kategori..." oninput="filterTable()">
-    <div class="d-flex gap-2">
-      <button class="btn btn-primary" style="font-size:12px;" onclick="exportToExcel()">
-        <i class="fa fa-file-excel"></i> Export Excel
-      </button>
-      <button class="btn btn-danger" style="font-size:12px;" onclick="exportToPDF()">
-        <i class="fa fa-file-pdf"></i> Export PDF
-      </button>
-    </div>
-  </div>
-  <table class="table table-bordered table-hover">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Category ID</th>
-        <th>Category</th>
-        <th>Description</th>
-        <th>Status</th>
-        <th>View Detail</th>
-      </tr>
-    </thead>
-    <tbody id="kategoriTableBody"></tbody>
-  </table>
-  <div class="d-flex justify-content-end gap-2 mt-2">
-    <button class="btn prev-next-btn" onclick="prevPage()">⬅ Prev</button>
-    <button class="btn prev-next-btn" onclick="nextPage()">Next ➡</button>
-  </div>
-</div>
-
-<!-- Modal Popup untuk Detail Kategori -->
-<div id="categoryDetailPopup" class="modal-popup d-none">
-  <div class="modal-header d-flex justify-content-between align-items-center">
-    <span>Detail Kategori</span>
-    <button onclick="closePopup()" style="background:none;border:none;font-size:18px;">&times;</button>
-  </div>
-  <div class="modal-body">
-    <ul id="modalContent" class="list-group list-group-flush"></ul>
-  </div>
-</div>
-
-<script>
   const categoryData = [
     ["CAT-01", "Furniture", "Furnitur rumah", 1200, "01 Jan 2022", "Admin A", "19 Nov 2022", "Active", "product1.jpg", "-", 89],
     ["CAT-02", "Lighting", "Pencahayaan rumah modern", 800, "10 Jan 2022", "Admin B", "15 Nov 2022", "Inactive", "product2.jpg", "Furniture", 78],
@@ -1498,117 +1379,604 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     ["CAT-21", "Pet", "Produk untuk hewan peliharaan", 100, "30 Apr 2022", "Admin U", "07 Jan 2023", "Ordered", "product2.jpg", "-", 36]
   ];
 
-   let filteredCategoryData = [...categoryData];
-    const rowsPerPage = 7;
-    let currentPage = 1;
+  // --- NEW/ADAPTED JAVASCRIPT FOR DASHBOARD COMPONENTS ---
 
-    function renderTablePage(page) {
-      const tbody = document.getElementById("kategoriTableBody");
-      tbody.innerHTML = "";
-      const start = (page - 1) * rowsPerPage;
-      const end = start + rowsPerPage;
-      const pageData = filteredCategoryData.slice(start, end);
+  // 1. Top 5 Categories with Highest Sales (Bar Chart)
+  let barChartTopCategories;
+  const barCtxTopCategories = document.getElementById('barChartTopCategories').getContext('2d');
 
-      pageData.forEach((item, index) => {
-        const statusClass = {
-          Active: "status-pill status-active",
-          Pending: "status-pill status-pending",
-          Ordered: "status-pill status-ordered",
-          Inactive: "status-pill status-inactive"
-        }[item[7]] || "";
+  function calculateTopCategoriesSales(year) {
+    const categorySales = {};
+    kategoriList.forEach(kategori => {
+      let totalSales = 0;
+      if (dataTahun[year] && dataTahun[year][kategori]) {
+        dataTahun[year][kategori].forEach(monthData => {
+          totalSales += monthData.totalSold;
+        });
+      }
+      categorySales[kategori] = totalSales;
+    });
 
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${start + index + 1}</td>
-          <td>${item[0]}</td>
-          <td>${item[1]}</td>
-          <td>${item[2]}</td>
-          <td><span class="${statusClass}">${item[7]}</span></td>
-          <td>
-            <button class="btn view-detail" onclick="showDetail(${categoryData.indexOf(item)})">View Detail</button>
-          </td>
+    const sortedCategories = Object.entries(categorySales)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5); // Get top 5
+
+    return {
+      labels: sortedCategories.map(item => item[0]),
+      data: sortedCategories.map(item => item[1])
+    };
+  }
+
+  function renderBarChartTopCategories(year) {
+    const { labels, data } = calculateTopCategoriesSales(year);
+    if (barChartTopCategories) barChartTopCategories.destroy();
+
+    barChartTopCategories = new Chart(barCtxTopCategories, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Total Sales',
+          data: data,
+          backgroundColor: "#0d6efd"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1000,
+          easing: 'easeOutQuart'
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false,
+            callbacks: {
+                label: function(context) {
+                    let label = context.dataset.label || '';
+                    if (label) {
+                        label += ': ';
+                    }
+                    if (context.parsed.y !== null) {
+                        label += 'Rp ' + context.parsed.y.toLocaleString('id-ID');
+                    }
+                    return label;
+                }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: false,
+            },
+            ticks: {
+                callback: function(value) {
+                    if (value === 0) return 'Rp 0';
+                    if (value >= 1000) return 'Rp ' + (value / 1000) + 'K';
+                    return 'Rp ' + value;
+                },
+                color: "#666",
+                font: { size: 12 }
+            },
+            grid: { color: "#eee" }
+          },
+          x: {
+            ticks: { color: "#444", font: { size: 12 } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  document.getElementById("barChartYear").addEventListener("change", function() {
+    renderBarChartTopCategories(this.value);
+  });
+  renderBarChartTopCategories(document.getElementById("barChartYear").value); // Initial render
+
+  // 2. Category Contribution to Total Sales (Donut Chart)
+  const donutCtxCategoryContribution = document.getElementById('donutChartCategoryContribution').getContext('2d');
+  let donutChartCategoryContribution;
+
+  function calculateCategoryContribution() {
+    let totalOverallSales = 0;
+    const categorySales = {};
+
+    for (const year in dataTahun) {
+      for (const category in dataTahun[year]) {
+        if (!categorySales[category]) {
+          categorySales[category] = 0;
+        }
+        dataTahun[year][category].forEach(monthData => {
+          categorySales[category] += monthData.totalSold;
+          totalOverallSales += monthData.totalSold;
+        });
+      }
+    }
+
+    const sortedCategories = Object.entries(categorySales)
+      .sort(([, a], [, b]) => b - a);
+
+    const top5Categories = sortedCategories.slice(0, 5);
+    let otherSales = 0;
+    for (let i = 5; i < sortedCategories.length; i++) {
+      otherSales += sortedCategories[i][1];
+    }
+
+    const labels = top5Categories.map(item => `${item[0]} (${((item[1] / totalOverallSales) * 100).toFixed(0)}%)`);
+    const data = top5Categories.map(item => (item[1] / totalOverallSales) * 100);
+
+    if (otherSales > 0) {
+      labels.push(`Lainnya (${((otherSales / totalOverallSales) * 100).toFixed(0)}%)`);
+      data.push((otherSales / totalOverallSales) * 100);
+    }
+
+    const backgroundColors = [
+      '#0d6efd', // Blue
+      '#6c757d', // Gray
+      '#198754', // Green
+      '#ffc107', // Yellow
+      '#dc3545', // Red
+      '#6f42c1'  // Purple (for 'Lainnya')
+    ];
+
+    return { labels, data, backgroundColors };
+  }
+
+  const { labels, data, backgroundColors } = calculateCategoryContribution();
+
+  donutChartCategoryContribution = new Chart(donutCtxCategoryContribution, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Contribution',
+        data: data,
+        backgroundColor: backgroundColors,
+        borderWidth: 1,
+        hoverOffset: 12
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: {
+        animateRotate: true,
+        animateScale: true,
+        duration: 1200
+      },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 12,
+            color: '#333',
+            font: { size: 12 }
+          }
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let label = context.label || '';
+              if (label) {
+                label += ': ';
+              }
+              if (context.parsed !== null) {
+                label += context.parsed.toFixed(1) + '%';
+              }
+              return label;
+            }
+          }
+        }
+      },
+      cutout: '70%', // Make it a donut chart
+      elements: {
+        center: { // Custom plugin to draw text in the center
+          text: 'Total\n100%',
+          color: '#333',
+          fontStyle: 'Arial',
+          sidePadding: 20,
+          minFontSize: 12,
+          lineHeight: 25
+        }
+      }
+    },
+    plugins: [{ // Plugin for center text
+        id: 'centerText',
+        beforeDraw: function(chart) {
+            if (chart.options.elements.center) {
+                const ctx = chart.ctx;
+                const centerConfig = chart.options.elements.center;
+                const fontStyle = centerConfig.fontStyle || 'Arial';
+                const txt = centerConfig.text;
+                const color = centerConfig.color || '#000';
+                const sidePadding = centerConfig.sidePadding || 20;
+                const sidePaddingCalculated = (centerConfig.sidePaddingCalculated || 0);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                const centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+                const centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+                ctx.font = "bold 16px " + fontStyle; // Adjust font size as needed
+                ctx.fillStyle = color;
+
+                const lines = txt.split('\n');
+                const lineHeight = centerConfig.lineHeight || 20;
+                let yOffset = centerY - ((lines.length - 1) * lineHeight / 2);
+
+                lines.forEach(line => {
+                    ctx.fillText(line, centerX, yOffset);
+                    yOffset += lineHeight;
+                });
+            }
+        }
+    }]
+  });
+
+  // 3. Category Growth Trend (Top 5 Categories) - Line Chart
+  let lineChartCategoryGrowth;
+  const lineCtxCategoryGrowth = document.getElementById('lineChartCategoryGrowth').getContext('2d');
+
+  function calculateCategoryGrowthTrend(year) {
+    const labels = bulanShort.slice(0, 8); // Jan-Agu as per image
+    const datasets = [];
+
+    // Get top 5 categories based on total sales for the selected year
+    const categorySalesForYear = {};
+    kategoriList.forEach(kategori => {
+        let totalSales = 0;
+        if (dataTahun[year] && dataTahun[year][kategori]) {
+            dataTahun[year][kategori].forEach(monthData => {
+                totalSales += monthData.totalSold;
+            });
+        }
+        categorySalesForYear[kategori] = totalSales;
+    });
+
+    const sortedCategories = Object.entries(categorySalesForYear)
+        .sort(([, a], [, b]) => b - a)
+        .slice(0, 5);
+
+    const colors = ['#0d6efd', '#6c757d', '#198754', '#ffc107', '#dc3545']; // Matching image colors
+
+    sortedCategories.forEach((item, index) => {
+        const categoryName = item[0];
+        const monthlyData = dataTahun[year][categoryName].slice(0, 8).map(d => d.totalSold); // Get data for Jan-Agu
+
+        datasets.push({
+            label: categoryName,
+            data: monthlyData,
+            borderColor: colors[index % colors.length],
+            fill: false,
+            tension: 0.4,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+        });
+    });
+
+    return {
+      labels: labels,
+      datasets: datasets
+    };
+  }
+
+  function renderLineChartCategoryGrowth(year) {
+    const { labels, datasets } = calculateCategoryGrowthTrend(year);
+    if (lineChartCategoryGrowth) lineChartCategoryGrowth.destroy();
+
+    lineChartCategoryGrowth = new Chart(lineCtxCategoryGrowth, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart'
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              boxWidth: 12,
+              color: '#333',
+              font: { size: 12 }
+            }
+          },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: false,
+            },
+            ticks: {
+                callback: function(value) {
+                    if (value === 0) return '0';
+                    if (value >= 1000) return (value / 1000) + 'K';
+                    return value;
+                },
+                color: "#666",
+                font: { size: 12 }
+            },
+            grid: { color: "#eee" }
+          },
+          x: {
+            ticks: { color: "#444", font: { size: 12 } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  document.getElementById("lineChartYear").addEventListener("change", function() {
+    renderLineChartCategoryGrowth(this.value);
+  });
+  renderLineChartCategoryGrowth(document.getElementById("lineChartYear").value); // Initial render
+
+  // 4. Prediksi Penjualan Kategori per Bulan (adapted)
+  const predictionCategorySelect = document.getElementById("predictionCategorySelect");
+  kategoriList.forEach(kategori => {
+    const option = document.createElement("option");
+    option.value = kategori;
+    option.textContent = kategori;
+    predictionCategorySelect.appendChild(option);
+  });
+
+  function updatePredictionContent() {
+    const selectedCategory = predictionCategorySelect.value;
+    const predictionContentDiv = document.getElementById("predictionContent");
+
+    // Get last month's data for the selected category for 2025
+    const currentYearData = dataTahun["2025"] ? dataTahun["2025"][selectedCategory] : null;
+    let lastMonthSales = 0;
+    if (currentYearData && currentYearData.length > 0) {
+        lastMonthSales = currentYearData[currentYearData.length - 1].totalSold;
+    }
+
+    // Simple prediction: 5% increase from last month's sales
+    const predictedSales = Math.floor(lastMonthSales * 1.05);
+    const accuracy = Math.floor(Math.random() * (95 - 80) + 80); // Random accuracy between 80-95%
+
+    // Dummy comparison data (using lastMonthSales as base for consistency)
+    const jul2025 = Math.floor(lastMonthSales * 0.98);
+    const aug2024 = Math.floor(lastMonthSales * 0.90);
+
+    let trendIcon = '<i class="fas fa-arrow-up"></i>';
+    let trendClass = 'up';
+
+    predictionContentDiv.innerHTML = `
+        <div class="prediction-value">${selectedCategory}</div>
+        <div class="prediction-detail">diprediksi terjual <strong>${predictedSales.toLocaleString('id-ID')}</strong> unit di Agustus 2025</div>
+        <div class="prediction-detail">Akurasi prediksi:</div>
+        <div class="progress mb-2" style="height: 8px;">
+            <div class="progress-bar bg-success" role="progressbar" style="width: ${accuracy}%;" aria-valuenow="${accuracy}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="prediction-detail mt-2">Bandingkan dengan<br/>Jul 2025: ${jul2025.toLocaleString('id-ID')} unit<br/>Agu 2024: ${aug2024.toLocaleString('id-ID')} unit</div>
+        <div class="prediction-trend ${trendClass}">${trendIcon}</div>
+    `;
+  }
+  predictionCategorySelect.addEventListener("change", updatePredictionContent);
+  updatePredictionContent(); // Initial load
+
+  // 5. Notifikasi Kritis Otomatis (adapted)
+  function generateNotifications() {
+    const notificationList = document.getElementById("notificationList");
+    notificationList.innerHTML = "";
+
+    // Example: Low Stock Notification (using notesMap)
+    const lowStockCategories = kategoriList.filter(cat => notesMap[cat] && notesMap[cat].lowStock && parseInt(notesMap[cat].lowStock.match(/\d+/)[0]) > 0);
+    if (lowStockCategories.length > 0) {
+        const category = lowStockCategories[0]; // Just pick one for example
+        const lowStockCount = notesMap[category].lowStock.match(/\d+/)[0];
+        notificationList.innerHTML += `
+            <li class="notification-item">
+                <i class="fas fa-exclamation-triangle notification-icon text-danger"></i>
+                <div class="notification-text">
+                    <strong>${category} - Stok Tinggal ${lowStockCount} Produk</strong> <span class="status-label status-critical">Kritis</span><br/>Stok kritis, restock diperlukan segera
+                </div>
+            </li>
         `;
-        tbody.appendChild(row);
-      });
     }
 
-    function showDetail(index) {
-      const data = categoryData[index];
-      const content = `
-        <li class="list-group-item"><strong>Created Date:</strong> ${data[4]}</li>
-        <li class="list-group-item"><strong>Created By:</strong> ${data[5]}</li>
-        <li class="list-group-item"><strong>Updated Date:</strong> ${data[6]}</li>
-        <li class="list-group-item"><strong>Status:</strong> ${data[7]}</li>
-        <li class="list-group-item"><strong>Parent Category:</strong> ${data[9]}</li>
-        <li class="list-group-item"><strong>Popularity Index:</strong> ${data[10]}</li>
-      `;
-      document.getElementById("modalContent").innerHTML = content;
-      document.getElementById("categoryDetailPopup").classList.remove("d-none");
+    // Example: Less Popular Products Notification (using notesMap)
+    const lessPopularCategories = kategoriList.filter(cat => notesMap[cat] && notesMap[cat].produkKurangLaku && parseInt(notesMap[cat].produkKurangLaku.match(/\d+/)[0]) > 0);
+    if (lessPopularCategories.length > 0) {
+        const category = lessPopularCategories[0]; // Just pick one for example
+        const lessPopularCount = notesMap[category].produkKurangLaku.match(/\d+/)[0];
+        notificationList.innerHTML += `
+            <li class="notification-item">
+                <i class="fas fa-exclamation-circle notification-icon text-warning"></i>
+                <div class="notification-text">
+                    <strong>${category} - ${lessPopularCount} Produk Kurang Laku</strong> <span class="status-label status-warning">Peringatan</span><br/>Evaluasi strategi pemasaran untuk produk ini.
+                </div>
+            </li>
+        `;
     }
 
-    function closePopup() {
-      document.getElementById("categoryDetailPopup").classList.add("d-none");
-    }
+    // Generic notification (from original AI Insight, adapted to be generic)
+    notificationList.innerHTML += `
+        <li class="notification-item">
+            <i class="fas fa-comment-dots notification-icon text-info"></i>
+            <div class="notification-text">
+                <strong>Keluhan Pelanggan - 8 Review Negatif Minggu Ini</strong> <span class="status-label status-info">Info</span><br/>Keluhan utama: kerusakan sudut saat pengiriman
+            </div>
+        </li>
+    `;
+  }
+  generateNotifications(); // Initial load
 
-    function prevPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        renderTablePage(currentPage);
-      }
-    }
+  // 6. Health Score untuk Kategori (adapted)
+  function generateHealthScores() {
+    const healthScoreContent = document.getElementById("healthScoreContent");
+    healthScoreContent.innerHTML = "";
 
-    function nextPage() {
-      if ((currentPage * rowsPerPage) < filteredCategoryData.length) {
-        currentPage++;
-        renderTablePage(currentPage);
-      }
-    }
+    // Sort categories by popularity index (item[10]) from categoryData
+    const sortedCategoriesByPopularity = [...categoryData].sort((a, b) => b[10] - a[10]);
 
-    function filterTable() {
-      const keyword = document.getElementById("searchInput").value.toLowerCase();
-      filteredCategoryData = categoryData.filter(item =>
-        item[0].toLowerCase().includes(keyword) ||
-        item[1].toLowerCase().includes(keyword) ||
-        item[2].toLowerCase().includes(keyword) ||
-        item[7].toLowerCase().includes(keyword)
-      );
-      currentPage = 1;
-      renderTablePage(currentPage);
-    }
+    // Take top 2 for example
+    const topCategory = sortedCategoriesByPopularity[0];
+    const secondCategory = sortedCategoriesByPopularity[1];
 
-    // Panggil saat pertama kali
-    renderTablePage(currentPage);
-  </script>
+    if (topCategory) {
+        const score = topCategory[10]; // Popularity Index
+        const scoreClass = score >= 80 ? 'high' : (score >= 60 ? 'medium' : 'low');
+        const categoryNotes = notesMap[topCategory[1]]; // Get notes for this category
+        healthScoreContent.innerHTML += `
+            <div class="health-score-item">
+                <span class="brand-name">${topCategory[1]}</span>
+                <div class="score-bar"><div class="score-fill ${scoreClass}" style="width: ${score}%;"></div></div>
+                <span class="score-value">${score}/100</span>
+            </div>
+            <p class="text-muted" style="font-size:12px; margin-top:-10px; margin-bottom:10px;">Stok stabil (95%), rating 4.7, restock normal</p>
+        `;
+    }
+    if (secondCategory) {
+        const score = secondCategory[10];
+        const scoreClass = score >= 80 ? 'high' : (score >= 60 ? 'medium' : 'low');
+        const categoryNotes = notesMap[secondCategory[1]]; // Get notes for this category
+        healthScoreContent.innerHTML += `
+            <div class="health-score-item">
+                <span class="brand-name">${secondCategory[1]}</span>
+                <div class="score-bar"><div class="score-fill ${scoreClass}" style="width: ${score}%;"></div></div>
+                <span class="score-value">${score}/100</span>
+            </div>
+            <p class="text-muted" style="font-size:12px; margin-top:-10px;">Penurunan penjualan 15% MoM, rating turun ke 4.1</p>
+        `;
+    }
+  }
+  generateHealthScores(); // Initial load
+
+  // 7. Category Readiness Index (adapted)
+  const readinessCategorySelect = document.getElementById("readinessCategorySelect");
+  kategoriList.forEach(kategori => {
+    const option = document.createElement("option");
+    option.value = kategori;
+    option.textContent = kategori;
+    readinessCategorySelect.appendChild(option);
+  });
+
+  // Readiness data based on categories
+  const readinessData = {
+    "Furniture": { percentage: 92, scoreText: "Promo-Ready Score", metrics: { stok: "Tinggi", rating: "4.6", stabilitas: "Stabil" } },
+    "Lighting": { percentage: 85, scoreText: "Good for Campaign", metrics: { stok: "Sedang", rating: "4.2", stabilitas: "Cukup Stabil" } },
+    "Storage": { percentage: 90, scoreText: "High Potential", metrics: { stok: "Tinggi", rating: "4.5", stabilitas: "Stabil" } },
+    "Bedroom": { percentage: 88, scoreText: "Ready for Discount", metrics: { stok: "Tinggi", rating: "4.3", stabilitas: "Stabil" } },
+    "Living Room": { percentage: 80, scoreText: "Needs Boost", metrics: { stok: "Sedang", rating: "3.9", stabilitas: "Berfluktuasi" } },
+    "Kitchen": { percentage: 75, scoreText: "Needs Attention", metrics: { stok: "Rendah", rating: "3.8", stabilitas: "Berfluktuasi" } },
+    "Dining": { percentage: 82, scoreText: "Stable Performance", metrics: { stok: "Sedang", rating: "4.0", stabilitas: "Stabil" } },
+    "Office": { percentage: 70, scoreText: "Low Readiness", metrics: { stok: "Rendah", rating: "3.5", stabilitas: "Tidak Stabil" } },
+    "Outdoor": { percentage: 65, scoreText: "High Risk", metrics: { stok: "Rendah", rating: "3.0", stabilitas: "Tidak Stabil" } },
+    "Textiles": { percentage: 88, scoreText: "Good Potential", metrics: { stok: "Tinggi", rating: "4.4", stabilitas: "Stabil" } },
+    "Decoration": { percentage: 78, scoreText: "Moderate Readiness", metrics: { stok: "Sedang", rating: "4.1", stabilitas: "Cukup Stabil" } },
+    "Bathroom": { percentage: 72, scoreText: "Needs Improvement", metrics: { stok: "Rendah", rating: "3.7", stabilitas: "Berfluktuasi" } },
+    "Children": { percentage: 80, scoreText: "Steady Growth", metrics: { stok: "Tinggi", rating: "4.2", stabilitas: "Stabil" } },
+    "Appliances": { percentage: 68, scoreText: "High Risk", metrics: { stok: "Rendah", rating: "3.4", stabilitas: "Tidak Stabil" } },
+    "Rugs": { percentage: 79, scoreText: "Moderate Potential", metrics: { stok: "Sedang", rating: "4.0", stabilitas: "Stabil" } },
+    "Curtains": { percentage: 70, scoreText: "Needs Boost", metrics: { stok: "Rendah", rating: "3.6", stabilitas: "Berfluktuasi" } },
+    "Tableware": { percentage: 85, scoreText: "Good Performance", metrics: { stok: "Tinggi", rating: "4.3", stabilitas: "Stabil" } },
+    "Cookware": { percentage: 80, scoreText: "Steady Readiness", metrics: { stok: "Sedang", rating: "4.1", stabilitas: "Stabil" } },
+    "Laundry": { percentage: 60, scoreText: "Low Readiness", metrics: { stok: "Rendah", rating: "3.2", stabilitas: "Tidak Stabil" } },
+    "Cleaning": { percentage: 55, scoreText: "Critical Readiness", metrics: { stok: "Sangat Rendah", rating: "2.9", stabilitas: "Sangat Tidak Stabil" } },
+    "Pet": { percentage: 62, scoreText: "Needs Development", metrics: { stok: "Rendah", rating: "3.1", stabilitas: "Berfluktuasi" } }
+  };
+
+
+  function updateReadinessContent() {
+    const selectedCategory = readinessCategorySelect.value;
+    const data = readinessData[selectedCategory] || readinessData["Furniture"]; // Default if not found
+    const readinessContentDiv = document.getElementById("readinessContent");
+
+    let stokIndicatorClass = '';
+    if (data.metrics.stok === 'Tinggi') stokIndicatorClass = 'indicator-green';
+    else if (data.metrics.stok === 'Sedang') stokIndicatorClass = 'indicator-orange';
+    else stokIndicatorClass = 'indicator-blue'; // For 'Cukup Stabil' or others
+
+    let stabilitasIndicatorClass = '';
+    if (data.metrics.stabilitas === 'Stabil') stabilitasIndicatorClass = 'indicator-blue';
+    else if (data.metrics.stabilitas === 'Cukup Stabil') stabilitasIndicatorClass = 'indicator-orange';
+    else stabilitasIndicatorClass = 'indicator-red'; // For 'Berfluktuasi' or others
+
+    readinessContentDiv.innerHTML = `
+        <div class="percentage">${data.percentage}%</div>
+        <div class="brand-name">${selectedCategory}</div>
+        <div class="score-text">${data.scoreText}</div>
+        <div class="brand-readiness-metrics">
+            <div class="metric-item">
+                <span class="metric-value"><span class="metric-indicator ${stokIndicatorClass}"></span>${data.metrics.stok}</span>
+                <span class="metric-label">Stok</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-value"><span class="metric-indicator indicator-orange"></span>Rating ${data.metrics.rating}</span>
+                <span class="metric-label">Rating</span>
+            </div>
+            <div class="metric-item">
+                <span class="metric-value"><span class="metric-indicator ${stabilitasIndicatorClass}"></span>${data.metrics.stabilitas}</span>
+                <span class="metric-label">Stabilitas</span>
+            </div>
+        </div>
+        <label class="promo-checkbox">
+            <input type="checkbox" checked>
+            Siap Promo Flash Sale
+        </label>
+    `;
+  }
+  readinessCategorySelect.addEventListener("change", updateReadinessContent);
+  updateReadinessContent(); // Initial load
+
+  // 8. Distribusi Lokasi Penjualan Terbanyak per Kategori (adapted)
+  function generateLocationDistribution() {
+    const locationDistributionContent = document.getElementById("locationDistributionContent");
+    locationDistributionContent.innerHTML = "";
+
+    // Use notesMap.toko for top seller (e.g., Furniture -> IKEA Alam Sutera)
+    const topSellerCategory = kategoriList.find(cat => notesMap[cat] && notesMap[cat].toko === "IKEA Alam Sutera") || "Furniture"; // Default
+    const topSellerLocations = ["Jakarta", "Surabaya", "Medan", "Bandung"]; // Static for visual match
+
+    locationDistributionContent.innerHTML += `
+        <div class="mb-3">
+            <h5 class="mb-1">${topSellerCategory} <span class="badge bg-primary">Top Seller</span></h5>
+            <p class="text-muted" style="font-size:13px;">Paling banyak terjual di:</p>
+            <div class="d-flex flex-wrap gap-2">
+                ${topSellerLocations.map(loc => `<span class="badge bg-primary">${loc}</span>`).join('')}
+            </div>
+        </div>
+    `;
+
+    // Dummy for rising star (e.g., Storage -> IKEA Kota Baru)
+    const risingStarCategory = kategoriList.find(cat => notesMap[cat] && notesMap[cat].toko === "IKEA Kota Baru") || "Storage"; // Example
+    const risingStarLocations = ["Bandung", "Yogyakarta", "Malang", "Denpasar"]; // Static for visual match
+    locationDistributionContent.innerHTML += `
+        <div>
+            <h5 class="mb-1">${risingStarCategory} <span class="badge bg-success">Rising Star</span></h5>
+            <p class="text-muted" style="font-size:13px;">Populer di:</p>
+            <div class="d-flex flex-wrap gap-2">
+                ${risingStarLocations.map(loc => `<span class="badge bg-primary">${loc}</span>`).join('')}
+            </div>
+        </div>
+    `;
+  }
+  generateLocationDistribution(); // Initial load
+
+  // 9. AI Suggestion: Produk Baru yang Potensial (adapted)
+  function updateAISuggestion() {
+    const aiSuggestionText = document.getElementById("aiSuggestionText");
+    // Use insight from a specific category, or a generic one
+    const furnitureInsight = notesMap["Furniture"] ? notesMap["Furniture"].insight : "Pertimbangkan menambahkan varian baru pada koleksi yang populer.";
+    aiSuggestionText.textContent = `"Pencarian untuk 'rak dinding kayu minimalis' meningkat 45% dalam 3 bulan terakhir. Rekomendasi AI: ${furnitureInsight}"`;
+  }
+  updateAISuggestion(); // Initial load
+
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-  function exportToExcel() {
-    const ws = XLSX.utils.table_to_sheet(document.querySelector("table"));
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Kategori");
-    XLSX.writeFile(wb, "kategori_produk.xlsx");
-  }
-
-  async function exportToPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const table = document.querySelector("table");
-    let y = 20;
-    doc.setFontSize(14);
-    doc.text("Ringkasan Kategori Produk", 14, y);
-    y += 10;
-    Array.from(table.rows).forEach((row) => {
-      let x = 14;
-      Array.from(row.cells).forEach((cell) => {
-        doc.text(cell.innerText, x, y);
-        x += 40;
-      });
-      y += 10;
-    });
-    doc.save("kategori_produk.pdf");
-  }
-</script>
 
 
 <!-- Bootstrap 5 JS -->
@@ -1627,5 +1995,3 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script src="../assets/js/script.js"></script>
   </body>
 </html>
-
-

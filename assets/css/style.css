@@ -3071,7 +3071,7 @@ div.dataTables_wrapper div.dataTables_info {
 }
 /* Penting ubah warna Header kiri */
 .header .header-left {
-  background: linear-gradient(to bottom, #0f263e, #0e3259);
+  background: linear-gradient(to bottom, #0e3259, #1e3c72);
   float: left;
   height: 60px;
   position: relative;
@@ -3083,7 +3083,7 @@ div.dataTables_wrapper div.dataTables_info {
   -ms-transition: all 0.2s ease;
   transition: all 0.2s ease;
   border-right: 1px solid #2084c7;
-  background: #19589b;
+  /* background: #19589b; */
 }
 .header .header-left .logo {
   display: inline-block;
@@ -3920,13 +3920,13 @@ span.select2-container.select2-container--default.select2-container--open {
 /* Penting Ubah warna Sidebar kiri */
 .sidebar .slimScrollDiv {
 <<<<<<< HEAD
-  width: 260px ;
+  /* width: 260px ;
   overflow: visible ;
   background: linear-gradient(to bottom, #0e3259, #1c66b5);
-=======
+======= */
   width: 260px !important;
   overflow: visible !important;
-  background: linear-gradient(to bottom, #199b1b, #00A3E0);
+  background: linear-gradient(to bottom, #1e3c72, #0288d1, #3498db);
 >>>>>>> 86f85a942dfd3026e278c47f9fe50159b91ce654
 }
 @media (max-width: 575px) {

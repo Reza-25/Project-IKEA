@@ -62,9 +62,6 @@ function is_active($pages) {
                         <li class="<?= (['categorylist.php']) ?>">
                             <a href="../product/categorylist.php"class="<?=is_active(['categorylist.php']) ?>">Category List</a>
                         </li>
-                        <li class="<?= (['productlist.php']) ?>">
-                            <a href="../product/productlist.php"class="<?= is_active(['productlist.php']) ?>">Product List</a>
-                        </li>
                         <li class="<?= (['brandlist.php']) ?>">
                             <a href="../product/brandlist.php"class="<?= is_active(['brandlist.php']) ?>">Brand List</a>
                         </li>
@@ -72,10 +69,10 @@ function is_active($pages) {
                 </li>
                 
                 <!-- Supplier -->
-                <li class="submenu <?= (['supplierlist.php']) ?>">
+                <li class="submenu <?= (['supplier.php']) ?>">
                     <a href="javascript:void(0);"><img src="../assets/img/icons/sales1.svg" alt="img" /><span> Supplier</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li class="<?= (['supplierlist.php']) ?>"><a href="../supplier/supplierlist.php"class="<?= is_active(['supplier.php']) ?>">Supplier List</a></li>
+                        <li class="<?= (['supplier.php']) ?>"><a href="../supplier/supplier.php"class="<?= is_active(['supplier.php']) ?>">Supplier</a></li>
                     </ul>
                 </li>
                 
