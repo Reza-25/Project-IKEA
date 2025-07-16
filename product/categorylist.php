@@ -1321,7 +1321,6 @@ function initBarChart(year) {
     },
     yaxis: {
       title: {
-        text: 'Jumlah Produk'
       },
       labels: {
         formatter: function(val) {
@@ -1423,7 +1422,6 @@ function initLineChart(year) {
     },
     yaxis: {
       title: {
-        text: 'Jumlah Produk'
       }
     },
     tooltip: {
