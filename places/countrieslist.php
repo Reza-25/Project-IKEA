@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
-require_once __DIR__ . '/../include/db.php'; // Import file koneksi database
+
 
 // Query untuk mengambil data toko
 $stores = [];

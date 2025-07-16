@@ -512,228 +512,224 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <script>
-      $(document).ready(function() {
-        // Data warehouse per tipe dari PHP
-        const warehouseTypeData = {
-          <?php foreach ($warehouseTypes as $type): ?>
-          "<?= $type['type'] ?>": { 
-            count: <?= $type['count'] ?>, 
-            color: "<?= $typeColors[$type['type']] ?>" 
-          },
-          <?php endforeach; ?>
-        }
-      });
-        
-        // Inisialisasi chart
-        const ctx = document.getElementById('warehouseTypeChart').getContext('2d');
-        const warehouseTypeChart = new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: Object.keys(warehouseTypeData),
-            datasets: [{
-              data: Object.values(warehouseTypeData).map(p => p.count),
-              backgroundColor: Object.values(warehouseTypeData).map(p => p.color),
-              borderWidth: 0,
-              hoverOffset: 15
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '70%',
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: {
-                  font: {
-                    size: 12
-                  },
-                  padding: 20,
-                  generateLabels: function(chart) {
-                    const data = chart.data;
-                    if (data.labels.length && data.datasets.length) {
-                      return data.labels.map((label, i) => {
-                        const meta = chart.getDatasetMeta(0);
-                        const style = meta.controller.getStyle(i);
-                        
-                        return {
-                          text: `${label} (${data.datasets[0].data[i]})`,
-                          fillStyle: style.backgroundColor,
-                          strokeStyle: style.borderColor,
-                          lineWidth: style.borderWidth,
-                          hidden: false,
-                          index: i
-                        };
-                      });
-                    }
-                    return [];
-                  }
-                }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    const label = context.label || '';
-                    const value = context.raw || 0;
-                    return `${label}: ${value} warehouse${value > 1 ? 's' : ''}`;
-                  }
-                }
-              }
+$(document).ready(function() {
+  // Data warehouse per tipe dari PHP
+  const warehouseTypeData = {
+    <?php foreach ($warehouseTypes as $type): ?>
+    "<?= $type['type'] ?>": { 
+      count: <?= $type['count'] ?>, 
+      color: "<?= $typeColors[$type['type']] ?>" 
+    }<?= end($warehouseTypes) !== $type ? ',' : '' ?>
+    <?php endforeach; ?>
+  };
+  // Inisialisasi chart
+  const ctx = document.getElementById('warehouseTypeChart').getContext('2d');
+  const warehouseTypeChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(warehouseTypeData),
+      datasets: [{
+        data: Object.values(warehouseTypeData).map(p => p.count),
+        backgroundColor: Object.values(warehouseTypeData).map(p => p.color),
+        borderWidth: 0,
+        hoverOffset: 15
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '70%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: {
+              size: 12
             },
-            animation: {
-              animateRotate: true,
-              animateScale: true
+            padding: 20,
+            generateLabels: function(chart) {
+              const data = chart.data;
+              if (data.labels.length && data.datasets.length) {
+                return data.labels.map((label, i) => {
+                  const meta = chart.getDatasetMeta(0);
+                  const style = meta.controller.getStyle(i);
+                  
+                  return {
+                    text: `${label} (${data.datasets[0].data[i]})`,
+                    fillStyle: style.backgroundColor,
+                    strokeStyle: style.borderColor,
+                    lineWidth: style.borderWidth,
+                    hidden: false,
+                    index: i
+                  };
+                });
+              }
+              return [];
             }
           }
-        });
-        
-        // Interaksi hover pada chart
-        const chartHoverInfo = $('#chartHoverInfo');
-        const chartCanvas = $('#warehouseTypeChart');
-        
-        chartCanvas.on('mousemove', function(e) {
-          const points = warehouseTypeChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
-          
-          if (points.length) {
-            const index = points[0].index;
-            const type = warehouseTypeChart.data.labels[index];
-            const count = warehouseTypeChart.data.datasets[0].data[index];
-            
-            chartHoverInfo.html(`
-              <div class="chart-hover-title">${type}</div>
-              <div class="chart-hover-warehouses">${count} Warehouse${count > 1 ? 's' : ''}</div>
-            `);
-            
-            chartHoverInfo.css({
-              left: e.pageX + 15,
-              top: e.pageY + 15,
-              opacity: 1
-            });
-            
-            // Highlight warehouse di tabel dan peta
-            $(`tr[data-type="${type}"]`).addClass('highlight-row');
-          } else {
-            chartHoverInfo.css('opacity', 0);
-            $('tr.highlight-row').removeClass('highlight-row');
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.raw || 0;
+              return `${label}: ${value} warehouse${value > 1 ? 's' : ''}`;
+            }
           }
-        });
-        
-        chartCanvas.on('mouseleave', function() {
-          chartHoverInfo.css('opacity', 0);
-          $('tr.highlight-row').removeClass('highlight-row');
-        });
-        
-        // Inisialisasi peta
-        const map = L.map('warehouse-map').setView([-2.5489, 118.0149], 5);
-        
-        // Tambahkan tile layer (peta dasar)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-        
-        // Simpan semua marker dalam array
-        const markers = [];
-        const warehouseData = {};
-        
-        // Buat marker untuk setiap warehouse
-        $('table.datanew tbody tr').each(function() {
-          const id = $(this).data('id');
-          const lat = $(this).data('lat');
-          const lng = $(this).data('lng');
-          const type = $(this).data('type');
-          const warehouseName = $(this).find('td:eq(2)').text();
-          const address = $(this).find('td:eq(3)').text();
-          const status = $(this).find('td:eq(9)').text().includes('Active') ? 'active' : 'progress';
-          
-          // Simpan data warehouse
-          warehouseData[id] = {
-            element: this,
-            name: warehouseName,
-            address: address,
-            status: status,
-            type: type
-          };
-          
-          // Buat marker custom
-          const marker = L.marker([lat, lng], {
-            icon: L.divIcon({
-              className: 'custom-marker',
-              html: `<div class="warehouse-marker" data-id="${id}" style="background-color: ${warehouseTypeData[type].color};"></div>`,
-              iconSize: [30, 30],
-              iconAnchor: [15, 30]
-            })
-          }).addTo(map);
-          
-          // Tambahkan popup
-          marker.bindPopup(`
-            <div class="p-2">
-              <h6>${warehouseName}</h6>
-              <p class="mb-1">${address}</p>
-              <div class="d-flex justify-content-between">
-                <span class="badge ${status === 'active' ? 'bg-lightgreen' : 'bg-lightred'}">
-                  ${status === 'active' ? 'Active' : 'In Progress'}
-                </span>
-                <span class="badge" style="background: ${warehouseTypeData[type].color}">${type}</span>
-              </div>
-            </div>
-          `);
-          
-          // Simpan marker
-          markers.push({
-            id: id,
-            marker: marker,
-            element: this
-          });
-          
-          // Event untuk marker
-          marker.on('mouseover', function() {
-            $(this.getElement()).find('.warehouse-marker').addClass('highlight');
-            const id = $(this.getElement()).find('.warehouse-marker').data('id');
-            $(warehouseData[id].element).addClass('highlight-row');
-            map.setView(marker.getLatLng(), 8);
-          });
-          
-          marker.on('mouseout', function() {
-            $(this.getElement()).find('.warehouse-marker').removeClass('highlight');
-            const id = $(this.getElement()).find('.warehouse-marker').data('id');
-            $(warehouseData[id].element).removeClass('highlight-row');
-          });
-          
-          marker.on('click', function() {
-            map.setView([lat, lng], 13);
-          });
-        });
-        
-        // Event untuk baris tabel
-        $('table.datanew tbody tr').hover(
-          function() {
-            const id = $(this).data('id');
-            $(this).addClass('highlight-row');
-            
-            // Highlight marker yang sesuai
-            markers.forEach(m => {
-              if (m.id === id) {
-                $(m.marker.getElement()).find('.warehouse-marker').addClass('highlight');
-                map.setView(m.marker.getLatLng(), 8);
-              }
-            });
-          },
-          function() {
-            const id = $(this).data('id');
-            $(this).removeClass('highlight-row');
-            
-            // Unhighlight marker
-            markers.forEach(m => {
-              if (m.id === id) {
-                $(m.marker.getElement()).find('.warehouse-marker').removeClass('highlight');
-              }
-            });
-          }
-        );
-      });
+        }
+      },
+      animation: {
+        animateRotate: true,
+        animateScale: true
+      }
+    }
+  });
 
+  // Interaksi hover pada chart
+  const chartHoverInfo = $('#chartHoverInfo');
+  const chartCanvas = $('#warehouseTypeChart');
+  
+  chartCanvas.on('mousemove', function(e) {
+    const points = warehouseTypeChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+    
+    if (points.length) {
+      const index = points[0].index;
+      const type = warehouseTypeChart.data.labels[index];
+      const count = warehouseTypeChart.data.datasets[0].data[index];
+      
+      chartHoverInfo.html(`
+        <div class="chart-hover-title">${type}</div>
+        <div class="chart-hover-warehouses">${count} Warehouse${count > 1 ? 's' : ''}</div>
+      `);
+      
+      chartHoverInfo.css({
+        left: e.pageX + 15,
+        top: e.pageY + 15,
+        opacity: 1
+      });
+      
+      // Highlight warehouse di tabel dan peta
+      $(`tr[data-type="${type}"]`).addClass('highlight-row');
+    } else {
+      chartHoverInfo.css('opacity', 0);
+      $('tr.highlight-row').removeClass('highlight-row');
+    }
+  });
+  
+  chartCanvas.on('mouseleave', function() {
+    chartHoverInfo.css('opacity', 0);
+    $('tr.highlight-row').removeClass('highlight-row');
+  });
+  
+  // Inisialisasi peta
+  const map = L.map('warehouse-map').setView([-2.5489, 118.0149], 5);
+  
+  // Tambahkan tile layer (peta dasar)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  
+  // Simpan semua marker dalam array
+  const markers = [];
+  const warehouseData = {};
+  
+  // Buat marker untuk setiap warehouse
+  $('table.datanew tbody tr').each(function() {
+    const id = $(this).data('id');
+    const lat = $(this).data('lat');
+    const lng = $(this).data('lng');
+    const type = $(this).data('type');
+    const warehouseName = $(this).find('td:eq(2)').text();
+    const address = $(this).find('td:eq(3)').text();
+    const status = $(this).find('td:eq(9)').text().includes('Active') ? 'active' : 'progress';
+    
+    // Simpan data warehouse
+    warehouseData[id] = {
+      element: this,
+      name: warehouseName,
+      address: address,
+      status: status,
+      type: type
+    };
+    
+    // Buat marker custom
+    const marker = L.marker([lat, lng], {
+      icon: L.divIcon({
+        className: 'custom-marker',
+        html: `<div class="warehouse-marker" data-id="${id}" style="background-color: ${warehouseTypeData[type].color};"></div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 30]
+      })
+    }).addTo(map);
+    
+    // Tambahkan popup
+    marker.bindPopup(`
+      <div class="p-2">
+        <h6>${warehouseName}</h6>
+        <p class="mb-1">${address}</p>
+        <div class="d-flex justify-content-between">
+          <span class="badge ${status === 'active' ? 'bg-lightgreen' : 'bg-lightred'}">
+            ${status === 'active' ? 'Active' : 'In Progress'}
+          </span>
+          <span class="badge" style="background: ${warehouseTypeData[type].color}">${type}</span>
+        </div>
+      </div>
+    `);
+    
+    // Simpan marker
+    markers.push({
+      id: id,
+      marker: marker,
+      element: this
+    });
+    
+    // Event untuk marker
+    marker.on('mouseover', function() {
+      $(this.getElement()).find('.warehouse-marker').addClass('highlight');
+      const id = $(this.getElement()).find('.warehouse-marker').data('id');
+      $(warehouseData[id].element).addClass('highlight-row');
+      map.setView(marker.getLatLng(), 8);
+    });
+    
+    marker.on('mouseout', function() {
+      $(this.getElement()).find('.warehouse-marker').removeClass('highlight');
+      const id = $(this.getElement()).find('.warehouse-marker').data('id');
+      $(warehouseData[id].element).removeClass('highlight-row');
+    });
+    
+    marker.on('click', function() {
+      map.setView([lat, lng], 13);
+    });
+  });
+  
+  // Event untuk baris tabel
+  $('table.datanew tbody tr').hover(
+    function() {
+      const id = $(this).data('id');
+      $(this).addClass('highlight-row');
+      
+      // Highlight marker yang sesuai
+      markers.forEach(m => {
+        if (m.id === id) {
+          $(m.marker.getElement()).find('.warehouse-marker').addClass('highlight');
+          map.setView(m.marker.getLatLng(), 8);
+        }
+      });
+    },
+    function() {
+      const id = $(this).data('id');
+      $(this).removeClass('highlight-row');
+      
+      // Unhighlight marker
+      markers.forEach(m => {
+        if (m.id === id) {
+          $(m.marker.getElement()).find('.warehouse-marker').removeClass('highlight');
+        }
+      });
+    }
+  );
+});
     </script>
   </body>
 </html>

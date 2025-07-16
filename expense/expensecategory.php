@@ -8,6 +8,43 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Query untuk department spending + insight
+$departmentQuery = "SELECT 
+    d.id, 
+    d.name, 
+    d.color_code,
+    SUM(e.jumlah) AS total,
+    (SUM(e.jumlah) / (SELECT SUM(jumlah) FROM expenses)) * 100 AS percentage,
+    ei.insight
+FROM departments d
+LEFT JOIN expenses e ON d.id = e.department_id
+LEFT JOIN expense_insights ei ON ei.department_id = d.id
+GROUP BY d.id
+ORDER BY total DESC";
+
+$departments = $conn->query($departmentQuery);
+
+// Generate default insights if none exist
+$insightMap = [];
+while($dept = $departments->fetch_assoc()) {
+    if(empty($dept['insight'])) {
+        // Otomatis generate insight berdasarkan data
+        $insight = match($dept['name']) {
+            'Logistik' => 'Pengeluaran tinggi untuk transportasi & ATK. Disarankan audit rutin.',
+            'Retail Ops' => 'Biaya utilitas stabil. Potensi penghematan dengan audit energi.',
+            'HR' => 'Pengeluaran terbesar perusahaan. Evaluasi struktur kompensasi.',
+            'IT' => 'Investasi teknologi meningkat. Alokasi anggaran untuk maintenance.',
+            default => 'Pengeluaran marketing konsisten. Tingkatkan alokasi kampanye digital.'
+        };
+        $insightMap[$dept['id']] = $insight;
+    } else {
+        $insightMap[$dept['id']] = $dept['insight'];
+    }
+}
+
+// Reset pointer result
+$departments->data_seek(0);
+
 // Query untuk data ringkasan
 $summaryQueries = [
     'total_expenses' => "SELECT SUM(jumlah) AS total FROM expenses",
@@ -268,7 +305,7 @@ for ($i = 1; $i <= 12; $i++) {
 .bg-merah {
   background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
 }
- {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -1249,7 +1286,37 @@ for ($i = 1; $i <= 12; $i++) {
         <!-- Insight Card -->
         <div style="display:flex; align-items:center; gap:10px; background:#fffde7; color:#fbc02d; border-radius:10px; padding:13px 14px; font-size:14px; margin-top:18px; box-shadow:0 2px 8px rgba(251,192,45,0.08);">
           <span style="font-size:22px; color:#fbc02d;"><i class="fa fa-lightbulb"></i></span>
-          <span style="color:#b8860b;"><b>Insight:</b> Logistik mendominasi pengeluaran, harus evaluasi</span>
+          <span style="color:#b8860b;"><b>Insight:</b> 
+          <?php 
+    // Ambil insight untuk departemen dengan pengeluaran tertinggi
+$topDeptId = null;
+$maxTotal = 0;
+$departments->data_seek(0); // Reset pointer result
+
+while($dept = $departments->fetch_assoc()) {
+    // Pastikan total ada dan numerik
+    $total = (float)($dept['total'] ?? 0);
+    
+    if ($total > $maxTotal) {
+        $maxTotal = $total;
+        $topDeptId = $dept['id'] ?? null; // Gunakan null coalescing
+    }
+}
+
+// Gunakan default jika tidak ditemukan
+$insightText = 'Analisis pengeluaran departemen diperlukan';
+if ($topDeptId && isset($insightMap[$topDeptId])) {
+    $insightText = $insightMap[$topDeptId];
+    
+    // Tambahkan indikator generated jika perlu
+    if (!isset($dept['insight']) || empty($dept['insight'])) {
+        $insightText .= ' <small style="font-size:10px; opacity:0.7;">(Generated)</small>';
+    }
+}
+
+echo $insightText;
+    ?>
+        </span>
         </div>
       </div>
     </div>
