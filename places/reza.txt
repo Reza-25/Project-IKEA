@@ -1,0 +1,598 @@
+<?php
+require_once __DIR__ . '/../include/config.php'; // Import config.php
+
+// Koneksi ke database
+$host = 'localhost';
+$dbname = 'nama_database'; // Ganti dengan nama database Anda
+$username = 'username'; // Ganti dengan username database Anda
+$password = 'password'; // Ganti dengan password database Anda
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Koneksi database gagal: " . $e->getMessage());
+}
+
+// Query untuk statistik di bagian atas
+// Total Active Brands
+$stmt = $pdo->query("SELECT COUNT(*) AS total_active_brands FROM brand WHERE status IN ('active', 'trending', 'stable')");
+$totalActiveBrands = $stmt->fetchColumn();
+
+// Avg Monthly Sales per Brand (rata-rata penjualan per bulan per brand)
+$stmt = $pdo->query("SELECT AVG(monthly_sales) AS avg_monthly_sales FROM brand");
+$avgMonthlySales = $stmt->fetchColumn();
+$avgMonthlySales = number_format($avgMonthlySales, 0, ',', '.');
+
+// Stock Availability (rata-rata persediaan stok)
+$stmt = $pdo->query("SELECT AVG(stock_availability) AS avg_stock_availability FROM brand");
+$avgStockAvailability = $stmt->fetchColumn();
+$avgStockAvailability = number_format($avgStockAvailability, 2, '.', '');
+
+// Dominant Category (kategori dengan jumlah brand terbanyak)
+$stmt = $pdo->query("SELECT c.category_name, COUNT(b.id) AS brand_count 
+                     FROM brand b 
+                     JOIN categories_product c ON b.category_id = c.id 
+                     GROUP BY c.category_name 
+                     ORDER BY brand_count DESC 
+                     LIMIT 1");
+$dominantCategory = $stmt->fetch(PDO::FETCH_ASSOC);
+$dominantCategoryName = $dominantCategory['category_name'] ?? 'Tidak ada data';
+
+// Query data untuk tabel brand (dengan pagination dan pencarian)
+$searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$itemsPerPage = 4;
+$offset = ($page - 1) * $itemsPerPage;
+
+// Query dengan pencarian
+$whereClause = '';
+$params = [];
+if (!empty($searchQuery)) {
+    $whereClause = "WHERE b.brand_name LIKE :search OR c.category_name LIKE :search OR b.status LIKE :search";
+    $params = ['search' => "%$searchQuery%"];
+}
+
+// Query untuk data brand
+$sql = "SELECT b.id, b.brand_code, b.brand_name, c.category_name, b.rating, b.monthly_sales, b.average_price, b.status 
+        FROM brand b 
+        JOIN categories_product c ON b.category_id = c.id 
+        $whereClause 
+        LIMIT $offset, $itemsPerPage";
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$brandData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Total data untuk pagination
+$sqlCount = "SELECT COUNT(*) FROM brand b $whereClause";
+$stmtCount = $pdo->prepare($sqlCount);
+$stmtCount->execute($params);
+$totalBrands = $stmtCount->fetchColumn();
+$totalPages = ceil($totalBrands / $itemsPerPage);
+
+// Query data untuk grafik
+// Bar Chart: Top 5 Brands with Highest Sales (dari monthly_sales)
+$stmtBar = $pdo->query("SELECT brand_name, monthly_sales 
+                        FROM brand 
+                        ORDER BY monthly_sales DESC 
+                        LIMIT 5");
+$barChartData = $stmtBar->fetchAll(PDO::FETCH_ASSOC);
+$barBrands = array_column($barChartData, 'brand_name');
+$barSales = array_column($barChartData, 'monthly_sales');
+
+// Donut Chart: Brand Contribution to Total Sales (dari monthly_sales)
+$stmtDonut = $pdo->query("SELECT brand_name, monthly_sales FROM brand");
+$donutChartData = $stmtDonut->fetchAll(PDO::FETCH_ASSOC);
+$donutLabels = array_column($donutChartData, 'brand_name');
+$donutSeries = array_column($donutChartData, 'monthly_sales');
+$totalSales = array_sum($donutSeries);
+$donutPercentages = array_map(function($value) use ($totalSales) {
+    return $totalSales > 0 ? round(($value / $totalSales) * 100, 2) : 0;
+}, $donutSeries);
+
+// Line Chart: Brand Growth Trend (kita butuh data historis, tapi karena tidak ada, kita gunakan dummy)
+// Untuk contoh, kita buat data dummy per bulan untuk 5 brand teratas
+$lineChartData = [];
+$topBrands = array_slice($barBrands, 0, 5);
+foreach ($topBrands as $brand) {
+    $lineChartData[$brand] = [];
+    for ($i = 1; $i <= 8; $i++) {
+        $lineChartData[$brand][] = rand(500, 2000); // dummy data
+    }
+}
+
+// Notifikasi Kritis (dari brand_notifications)
+$stmtNotifications = $pdo->query("SELECT bn.notification_type, bn.message, b.brand_name 
+                                  FROM brand_notifications bn 
+                                  JOIN brand b ON bn.brand_id = b.id 
+                                  ORDER BY bn.created_at DESC 
+                                  LIMIT 3");
+$notifications = $stmtNotifications->fetchAll(PDO::FETCH_ASSOC);
+
+// Health Score (dari brand_health_scores)
+$stmtHealth = $pdo->query("SELECT b.brand_name, bhs.health_score 
+                           FROM brand_health_scores bhs 
+                           JOIN brand b ON bhs.brand_id = b.id 
+                           ORDER BY bhs.calculated_at DESC 
+                           LIMIT 2");
+$healthScores = $stmtHealth->fetchAll(PDO::FETCH_ASSOC);
+
+// Untuk data yang lain seperti prediksi, readiness, distribusi lokasi, dan AI suggestion, kita skip karena tidak ada tabelnya atau kita gunakan data dummy.
+
+// Set data untuk JavaScript
+$barChartDataJS = json_encode([
+    'brands' => $barBrands,
+    'sales' => $barSales
+]);
+
+$donutChartDataJS = json_encode([
+    'labels' => $donutLabels,
+    'series' => $donutPercentages
+]);
+
+$lineChartDataJS = json_encode($lineChartData);
+
+// Untuk data table brand
+$brandDataJS = json_encode($brandData);
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- ... (bagian head tetap sama seperti yang Anda berikan) ... -->
+</head>
+<body>
+<div id="global-loader">
+    <div class="whirly-loader"> </div>
+</div>
+
+<div class="main-wrapper">
+    <!-- Include sidebar -->
+    <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
+    <!-- /Include sidebar -->
+
+    <div class="page-wrapper">
+        <div class="content">
+            <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+            <div class="page-header">
+                <div class="page-title">
+                    <h4>Brand Management</h4>
+                    <h6>View/Search product brands</h6>
+                </div>
+                <div class="page-btn">
+                    <a href="addbrand.php" class="btn btn-added">
+                        <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">Add Brand
+                    </a>
+                </div>
+            </div>
+
+            <!-- Statistik Brand -->
+            <div class="row justify-content-end">
+                <!-- 🔢 Total Active Brands -->
+                <div class="col-lg-3 col-sm-6 col-12 d-flex">
+                    <a href="#" class="w-100 text-decoration-none text-dark">
+                        <div class="dash-count das1">
+                            <div class="dash-counts">
+                                <h4><span class="counters" data-count="<?= $totalActiveBrands ?>"><?= $totalActiveBrands ?></span></h4>
+                                <h5>Total Active Brands</h5>
+                                <h2 class="stat-change">+2% from last year</h2>
+                            </div>
+                            <div class="icon-box bg-ungu">
+                                <i class="fa fa-box"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 🛒 Avg Monthly Sales per Brand -->
+                <div class="col-lg-3 col-sm-6 col-12 d-flex">
+                    <a href="#" class="w-100 text-decoration-none text-dark">
+                        <div class="dash-count das2">
+                            <div class="dash-counts">
+                                <h4><span class="counters" data-count="<?= $avgMonthlySales ?>"><?= $avgMonthlySales ?></span></h4>
+                                <h5>Avg Month Brand</h5>
+                                <h2 class="stat-change">+6.3% from last year</h2>
+                            </div>
+                            <div class="icon-box bg-biru">
+                                <i class="fa fa-chart-line"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 📦 Stock Availability -->
+                <div class="col-lg-3 col-sm-6 col-12 d-flex">
+                    <a href="#" class="w-100 text-decoration-none text-dark">
+                        <div class="dash-count das3">
+                            <div class="dash-counts">
+                                <h4><span class="counters" data-count="<?= $avgStockAvailability ?>"><?= $avgStockAvailability ?></span>%</h4>
+                                <h5>Stock Availability</h5>
+                                <h2 class="stat-change">+15% from last year</h2>
+                            </div>
+                            <div class="icon-box bg-merah">
+                                <i class="fa fa-box-open"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 🗂️ Dominant Category -->
+                <div class="col-lg-3 col-sm-6 col-12 d-flex">
+                    <a href="#" class="w-100 text-decoration-none text-dark">
+                        <div class="dash-count das4">
+                            <div class="dash-counts">
+                                <h4><?= $dominantCategoryName ?></h4>
+                                <h5>Dominant Category</h5>
+                                <h2 class="stat-change">Dominated by <?= $dominantCategoryName ?></h2>
+                            </div>
+                            <div class="icon-box bg-hijau">
+                                <i class="fa fa-trophy"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row mb-4">
+                        <div class="col-lg-8">
+                            <!-- Bar Chart -->
+                            <div class="chart-section">
+                                <div class="chart-header">
+                                    <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Top 5 Brands with Highest Sales</h5>
+                                    <select class="chart-select" id="barChartYear">
+                                        <option value="2025">2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div>
+                                <div id="barChart" style="height: 250px;"></div>
+                                <div class="insight-container" id="barChartInsight">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                                        <div>
+                                            <h5 style="font-size: 0.9rem;">Insight: Dominasi Brand <?= $barBrands[0] ?? '' ?></h5>
+                                            <p class="mb-0">Brand <?= $barBrands[0] ?? '' ?> mendominasi penjualan dengan kontribusi terbesar.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Donut Chart -->
+                            <div class="chart-section">
+                                <div class="chart-header">
+                                    <h5 class="chart-title"><i class="fas fa-chart-pie me-2"></i>Brand Contribution to Total Sales</h5>
+                                </div>
+                                <div id="donutChart" style="height: 200px;"></div>
+                                <div class="donut-legend" id="donutLegend"></div>
+                                <div class="insight-container">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                                        <div>
+                                            <h5 style="font-size: 0.9rem;">Insight: Distribusi Merata</h5>
+                                            <p class="mb-0">Top 5 brand menyumbang sebagian besar total penjualan.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Line Chart -->
+                            <div class="chart-section">
+                                <div class="chart-header">
+                                    <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Brand Growth Trend (Top 5 Brands)</h5>
+                                    <select class="chart-select" id="lineChartYear">
+                                        <option value="2025">2025</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                    </select>
+                                </div>
+                                <div id="lineChart" style="height: 250px;"></div>
+                                <div class="insight-container" id="lineChartInsight">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                                        <div>
+                                            <h5 id="lineChartInsightTitle" style="font-size: 0.9rem;">Insight: Tren Brand</h5>
+                                            <p class="mb-0" id="lineChartInsightText">Tren penjualan brand menunjukkan pola yang menarik.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Insight Produk Bersaing -->
+                            <div class="chart-section">
+                                <!-- ... (sama seperti sebelumnya) ... -->
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <!-- Prediksi Penjualan -->
+                            <div class="sidebar-card">
+                                <!-- ... (sama seperti sebelumnya) ... -->
+                            </div>
+
+                            <!-- Notifikasi Kritis -->
+                            <div class="sidebar-card">
+                                <div class="sidebar-card-header">
+                                    <i class="fas fa-bell me-2"></i>Notifikasi Kritis Otomatis
+                                </div>
+                                <div class="sidebar-card-body">
+                                    <?php foreach ($notifications as $notification): ?>
+                                        <?php
+                                        $typeClass = '';
+                                        $iconClass = '';
+                                        if ($notification['notification_type'] == 'stock_critical') {
+                                            $typeClass = 'warning';
+                                            $iconClass = 'fas fa-exclamation-triangle text-warning';
+                                        } elseif ($notification['notification_type'] == 'restock_frequent') {
+                                            $typeClass = 'danger';
+                                            $iconClass = 'fas fa-sync-alt text-danger';
+                                        } elseif ($notification['notification_type'] == 'review_negative') {
+                                            $typeClass = 'info';
+                                            $iconClass = 'fas fa-thumbs-down text-info';
+                                        } else {
+                                            $typeClass = 'info';
+                                            $iconClass = 'fas fa-info-circle text-info';
+                                        }
+                                        ?>
+                                        <div class="notification-card <?= $typeClass ?>">
+                                            <i class="<?= $iconClass ?>"></i>
+                                            <div>
+                                                <h5 class="mb-1"><?= $notification['brand_name'] ?> - <?= $notification['message'] ?></h5>
+                                                <p class="mb-0"><?= $notification['message'] ?></p>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                            <!-- Health Score -->
+                            <div class="sidebar-card">
+                                <div class="sidebar-card-header">
+                                    <i class="fas fa-heartbeat me-2"></i>Health Score untuk Brand
+                                </div>
+                                <div class="sidebar-card-body">
+                                    <?php foreach ($healthScores as $health): ?>
+                                        <div class="health-score-item">
+                                            <div class="health-brand-info">
+                                                <h6><?= $health['brand_name'] ?></h6>
+                                                <p>Stabil, rating tinggi, restock normal</p>
+                                            </div>
+                                            <div class="health-score-value">
+                                                <div class="health-score <?= ($health['health_score'] >= 80) ? 'good' : 'poor' ?>"><?= $health['health_score'] ?>/100</div>
+                                                <div class="health-progress">
+                                                    <div class="health-fill <?= ($health['health_score'] >= 80) ? 'good' : 'poor' ?>" style="width: <?= $health['health_score'] ?>%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                            <!-- Compact Brand Readiness -->
+                            <div class="sidebar-card">
+                                <!-- ... (sama seperti sebelumnya) ... -->
+                            </div>
+
+                            <!-- Distribusi Lokasi -->
+                            <div class="sidebar-card">
+                                <!-- ... (sama seperti sebelumnya) ... -->
+                            </div>
+
+                            <!-- AI Suggestion -->
+                            <div class="suggestion-card">
+                                <!-- ... (sama seperti sebelumnya) ... -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Brand Data Table -->
+                    <div class="brand-table-section">
+                        <div class="chart-header">
+                            <h5 class="chart-title"><i class="fas fa-table me-2"></i>Data Brand IKEA</h5>
+                            <div class="d-flex align-items-center gap-2">
+                                <span style="font-size: 0.8rem; color: #64748b;" id="totalBrandsText">Total: <?= $totalBrands ?> brands</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Table Controls -->
+                        <div class="table-controls">
+                            <form method="GET" action="" class="w-100 d-flex gap-2">
+                                <div class="search-container">
+                                    <input type="text" class="search-input" id="searchInput" name="search" value="<?= htmlspecialchars($searchQuery) ?>" placeholder="Cari brand, kategori, atau status...">
+                                    <i class="fas fa-search search-icon"></i>
+                                </div>
+                                <div class="export-buttons">
+                                    <button type="button" class="export-btn pdf" onclick="exportToPDF()">
+                                        <i class="fas fa-file-pdf"></i>
+                                        Export PDF
+                                    </button>
+                                    <button type="button" class="export-btn excel" onclick="exportToExcel()">
+                                        <i class="fas fa-file-excel"></i>
+                                        Export Excel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <table class="brand-table" id="brandTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>ID Brand</th>
+                                    <th>Brand</th>
+                                    <th>Kategori</th>
+                                    <th>Rating</th>
+                                    <th>Penjualan/Bulan</th>
+                                    <th>Harga Rata-rata</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="brandTableBody">
+                                <?php if (count($brandData) > 0): ?>
+                                    <?php foreach ($brandData as $index => $brand): ?>
+                                        <tr>
+                                            <td style="color: #374151; font-weight: 600;"><?= $index + 1 + $offset ?></td>
+                                            <td><span class="brand-id"><?= $brand['brand_code'] ?></span></td>
+                                            <td><span class="brand-name"><?= $brand['brand_name'] ?></span></td>
+                                            <td><span class="brand-category"><?= $brand['category_name'] ?></span></td>
+                                            <td>
+                                                <div class="brand-rating">
+                                                    <span class="stars">★</span>
+                                                    <span class="brand-rating-value"><?= $brand['rating'] ?></span>
+                                                </div>
+                                            </td>
+                                            <td><span class="brand-sales"><?= number_format($brand['monthly_sales']) ?></span></td>
+                                            <td><span class="brand-price">Rp <?= number_format($brand['average_price'], 0, ',', '.') ?></span></td>
+                                            <td>
+                                                <?php
+                                                $statusClass = '';
+                                                $statusText = '';
+                                                if ($brand['status'] == 'active') {
+                                                    $statusClass = 'status-active';
+                                                    $statusText = 'Aktif';
+                                                } elseif ($brand['status'] == 'trending') {
+                                                    $statusClass = 'status-trending';
+                                                    $statusText = 'Trending';
+                                                } else {
+                                                    $statusClass = 'status-stable';
+                                                    $statusText = 'Stabil';
+                                                }
+                                                ?>
+                                                <span class="brand-status <?= $statusClass ?>"><?= $statusText ?></span>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="no-results">
+                                                <i class="fas fa-search"></i>
+                                                <h5>Tidak ada data yang ditemukan</h5>
+                                                <p>Coba ubah kata kunci pencarian Anda</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                        
+                        <?php if ($totalBrands > 0): ?>
+                            <div class="table-pagination" id="tablePagination">
+                                <div class="pagination-info" id="paginationInfo">
+                                    Menampilkan <?= $offset + 1 ?>-<?= min($offset + $itemsPerPage, $totalBrands) ?> dari <?= $totalBrands ?> brand
+                                </div>
+                                <div class="pagination-controls">
+                                    <?php if ($page > 1): ?>
+                                        <a href="?page=<?= $page - 1 ?>&search=<?= urlencode($searchQuery) ?>" class="pagination-btn">
+                                            <i class="fas fa-chevron-left"></i> Prev
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="pagination-btn disabled">
+                                            <i class="fas fa-chevron-left"></i> Prev
+                                        </span>
+                                    <?php endif; ?>
+
+                                    <?php for ($i = 1; $i <= min(3, $totalPages); $i++): ?>
+                                        <a href="?page=<?= $i ?>&search=<?= urlencode($searchQuery) ?>" class="pagination-btn <?= ($i == $page) ? 'active' : '' ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    <?php endfor; ?>
+
+                                    <?php if ($page < $totalPages): ?>
+                                        <a href="?page=<?= $page + 1 ?>&search=<?= urlencode($searchQuery) ?>" class="pagination-btn">
+                                            Next <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="pagination-btn disabled">
+                                            Next <i class="fas fa-chevron-right"></i>
+                                        </span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Data untuk visualisasi
+const barChartData = {
+    2025: {
+        brands: <?= json_encode($barBrands) ?>,
+        sales: <?= json_encode($barSales) ?>,
+        insights: {
+            "LACK": "Brand LACK mendominasi penjualan dengan kontribusi 28% dari total revenue.",
+            "SKÅDIS": "Brand SKÅDIS menunjukkan pertumbuhan pesat dengan peningkatan 18% YoY.",
+            "HEMNES": "HEMNES tetap menjadi favorit dengan penjualan stabil.",
+            "KALLAX": "KALLAX mengalami peningkatan 5% di kuartal ini.",
+            "VITTSJÖ": "VITTSJÖ menunjukkan potensi dengan peningkatan penjualan."
+        }
+    },
+    2024: {
+        brands: ["HEMNES", "LACK", "KALLAX", "SKÅDIS", "VITTSJÖ"],
+        sales: [325, 310, 290, 275, 220],
+        insights: {
+            "HEMNES": "HEMNES menjadi brand terlaris di tahun 2024.",
+            "LACK": "LACK tetap menjadi favorit dengan harga terjangkau.",
+            "KALLAX": "KALLAX menunjukkan kinerja konsisten.",
+            "SKÅDIS": "SKÅDIS mulai menunjukkan potensi dengan peningkatan 12%.",
+            "VITTSJÖ": "VITTSJÖ mulai dikenal di pasar dengan desain industrial."
+        }
+    },
+    2023: {
+        brands: ["KALLAX", "HEMNES", "LACK", "VITTSJÖ", "SKÅDIS"],
+        sales: [295, 285, 265, 240, 210],
+        insights: {
+            "KALLAX": "KALLAX mendominasi penjualan di 2023.",
+            "HEMNES": "HEMNES tetap menjadi pilihan utama.",
+            "LACK": "LACK mulai dikenal sebagai brand dengan harga terjangkau.",
+            "VITTSJÖ": "VITTSJÖ baru memasuki pasar.",
+            "SKÅDIS": "SKÅDIS masih dalam tahap pengenalan."
+        }
+    }
+};
+
+const donutChartData = {
+    labels: <?= json_encode($donutLabels) ?>,
+    series: <?= json_encode($donutPercentages) ?>,
+    colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd']
+};
+
+const lineChartData = {
+    2025: [
+        { name: "LACK", data: [320, 350, 380, 410, 440, 420, 450, 480] },
+        { name: "SKÅDIS", data: [220, 240, 260, 290, 310, 330, 350, 380] },
+        { name: "HEMNES", data: [280, 290, 310, 300, 320, 330, 340, 350] },
+        { name: "KALLAX", data: [260, 250, 270, 280, 290, 300, 310, 320] },
+        { name: "VITTSJÖ", data: [190, 200, 210, 220, 230, 240, 250, 260] }
+    ],
+    2024: [
+        { name: "HEMNES", data: [310, 300, 290, 300, 310, 320, 330, 340] },
+        { name: "LACK", data: [290, 310, 330, 350, 370, 360, 380, 400] },
+        { name: "KALLAX", data: [280, 270, 260, 270, 280, 290, 300, 310] },
+        { name: "SKÅDIS", data: [180, 200, 220, 240, 260, 280, 300, 320] },
+        { name: "VITTSJÖ", data: [170, 180, 190, 200, 210, 220, 230, 240] }
+    ],
+    2023: [
+        { name: "KALLAX", data: [300, 290, 280, 290, 300, 310, 320, 330] },
+        { name: "HEMNES", data: [280, 270, 280, 290, 300, 310, 320, 330] },
+        { name: "LACK", data: [250, 270, 290, 310, 330, 320, 340, 360] },
+        { name: "VITTSJÖ", data: [150, 160, 170, 180, 190, 200, 210, 220] },
+        { name: "SKÅDIS", data: [150, 170, 190, 210, 230, 250, 270, 290] }
+    ]
+};
+
+const brandData = <?= $brandDataJS ?>;
+
+// ... (JavaScript lainnya tetap sama) ...
+</script>
+
+<!-- ... (script lainnya tetap sama) ... -->
+</body>
+</html>
