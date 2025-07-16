@@ -686,7 +686,7 @@ a {
             <div class="dash-count das1">
               <div class="dash-counts">
                 <h4><span class="counters" data-count="21">21</span></h4>
-                <h5>Total Active Categories</h5>
+                <h5>Total Categories</h5>
                 <h2 class="stat-change">+2% from last year</h2>
               </div>
               <div class="icon-box bg-ungu">
