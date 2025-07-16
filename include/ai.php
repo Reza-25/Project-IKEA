@@ -344,8 +344,7 @@ document.getElementById('sendButton').addEventListener('click', function() {
 
     const userMessage = promptInput.value.trim();
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'ai.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+xhr.open('POST', '/Project-IKEA/include/ai.php', true);    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200) {
             const userBubble = document.createElement('div');

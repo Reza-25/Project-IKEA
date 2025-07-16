@@ -28,13 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `barang` (
-  `ID_Barang` int(11) NOT NULL,
-  `ID_Supplier` int(11) NOT NULL,
-  `Nama_Barang` varchar(150) NOT NULL,
-  `Kategori` varchar(50) DEFAULT NULL,
-  `Deskripsi` text DEFAULT NULL,
-  `Harga_Satuan` decimal(12,2) NOT NULL DEFAULT 0.00,
-  `Satuan` varchar(20) NOT NULL
+  `id_barang` int(11) NOT NULL,
+  `id_supplier` int(11) NOT NULL,
+  `nama_barang` varchar(150) NOT NULL,
+  `kategori` varchar(50) DEFAULT NULL,
+  `deskripsi` text DEFAULT NULL,
+  `harga_satuan` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `satuan` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -92,10 +92,10 @@ INSERT INTO `departments` (`id`, `name`, `color_code`) VALUES
 --
 
 CREATE TABLE `distribusi_barang` (
-  `ID_Distribusi` int(11) NOT NULL,
-  `ID_Transaksi` int(11) NOT NULL,
-  `ID_Gudang` int(11) NOT NULL,
-  `ID_Toko` int(11) NOT NULL,
+  `id_Distribusi` int(11) NOT NULL,
+  `id_Transaksi` int(11) NOT NULL,
+  `id_Gudang` int(11) NOT NULL,
+  `id_Toko` int(11) NOT NULL,
   `Tanggal_Distribusi` datetime NOT NULL,
   `Sumber_Lokasi` varchar(100) NOT NULL,
   `Tujuan_Lokasi` varchar(100) NOT NULL,
@@ -187,7 +187,7 @@ CREATE TABLE `expense_stats` (
 --
 
 CREATE TABLE `gudang` (
-  `ID_Gudang` int(11) NOT NULL
+  `id_Gudang` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -197,7 +197,7 @@ CREATE TABLE `gudang` (
 --
 
 CREATE TABLE `pengguna` (
-  `ID_Pengguna` int(11) NOT NULL,
+  `id_Pengguna` int(11) NOT NULL,
   `Nama_Lengkap` varchar(150) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Kata_Sandi` varchar(255) NOT NULL,
@@ -211,8 +211,8 @@ CREATE TABLE `pengguna` (
 --
 
 CREATE TABLE `performa_toko` (
-  `ID_Performa` int(11) NOT NULL,
-  `ID_Toko` int(11) NOT NULL,
+  `id_Performa` int(11) NOT NULL,
+  `id_Toko` int(11) NOT NULL,
   `Rating` tinyint(4) NOT NULL CHECK (`Rating` between 1 and 5),
   `Tanggal_Feedback` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -224,9 +224,9 @@ CREATE TABLE `performa_toko` (
 --
 
 CREATE TABLE `stok` (
-  `ID_Barang` int(11) NOT NULL,
-  `ID_Gudang` int(11) NOT NULL,
-  `ID_Toko` int(11) NOT NULL,
+  `id_Barang` int(11) NOT NULL,
+  `id_Gudang` int(11) NOT NULL,
+  `id_Toko` int(11) NOT NULL,
   `Jumlah_Stok` int(11) NOT NULL DEFAULT 0,
   `Stok_Minimal` int(11) NOT NULL DEFAULT 0,
   `Tanggal_Update` datetime NOT NULL DEFAULT current_timestamp()
@@ -239,7 +239,7 @@ CREATE TABLE `stok` (
 --
 
 CREATE TABLE `supplier` (
-  `ID_Supplier` int(11) NOT NULL,
+  `id_Supplier` int(11) NOT NULL,
   `Nama_Supplier` varchar(100) NOT NULL,
   `Kontak_Supplier` varchar(50) DEFAULT NULL,
   `Alamat_Supplier` varchar(255) DEFAULT NULL
@@ -252,7 +252,7 @@ CREATE TABLE `supplier` (
 --
 
 CREATE TABLE `toko` (
-  `ID_Toko` int(11) NOT NULL,
+  `id_Toko` int(11) NOT NULL,
   `Nama_Toko` varchar(100) NOT NULL,
   `Lokasi_Toko` varchar(150) DEFAULT NULL,
   `Manager_Toko` varchar(100) DEFAULT NULL,
@@ -266,10 +266,10 @@ CREATE TABLE `toko` (
 --
 
 CREATE TABLE `transaksi_inventaris` (
-  `ID_Transaksi` int(11) NOT NULL,
-  `ID_Barang` int(11) NOT NULL,
-  `ID_Gudang` int(11) NOT NULL,
-  `ID_Toko` int(11) NOT NULL,
+  `id_Transaksi` int(11) NOT NULL,
+  `id_Barang` int(11) NOT NULL,
+  `id_Gudang` int(11) NOT NULL,
+  `id_Toko` int(11) NOT NULL,
   `Tanggal_Transaksi` datetime NOT NULL DEFAULT current_timestamp(),
   `Jenis_Transaksi` enum('Masuk','Keluar') NOT NULL,
   `Jumlah_Transaksi` int(11) NOT NULL,
@@ -309,8 +309,8 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `profile_picture`, 
 -- Indeks untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  ADD PRIMARY KEY (`ID_Barang`),
-  ADD KEY `ID_Supplier` (`ID_Supplier`);
+  ADD PRIMARY KEY (`id_Barang`),
+  ADD KEY `id_Supplier` (`id_Supplier`);
 
 --
 -- Indeks untuk tabel `categories`
@@ -330,10 +330,10 @@ ALTER TABLE `departments`
 -- Indeks untuk tabel `distribusi_barang`
 --
 ALTER TABLE `distribusi_barang`
-  ADD PRIMARY KEY (`ID_Distribusi`),
-  ADD KEY `ID_Transaksi` (`ID_Transaksi`),
-  ADD KEY `ID_Gudang` (`ID_Gudang`),
-  ADD KEY `ID_Toko` (`ID_Toko`);
+  ADD PRIMARY KEY (`id_Distribusi`),
+  ADD KEY `id_Transaksi` (`id_Transaksi`),
+  ADD KEY `id_Gudang` (`id_Gudang`),
+  ADD KEY `id_Toko` (`id_Toko`);
 
 --
 -- Indeks untuk tabel `expenses`
@@ -363,50 +363,50 @@ ALTER TABLE `expense_stats`
 -- Indeks untuk tabel `gudang`
 --
 ALTER TABLE `gudang`
-  ADD PRIMARY KEY (`ID_Gudang`);
+  ADD PRIMARY KEY (`id_Gudang`);
 
 --
 -- Indeks untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  ADD PRIMARY KEY (`ID_Pengguna`),
+  ADD PRIMARY KEY (`id_Pengguna`),
   ADD UNIQUE KEY `Email` (`Email`);
 
 --
 -- Indeks untuk tabel `performa_toko`
 --
 ALTER TABLE `performa_toko`
-  ADD PRIMARY KEY (`ID_Performa`),
-  ADD KEY `ID_Toko` (`ID_Toko`);
+  ADD PRIMARY KEY (`id_Performa`),
+  ADD KEY `id_Toko` (`id_Toko`);
 
 --
 -- Indeks untuk tabel `stok`
 --
 ALTER TABLE `stok`
-  ADD PRIMARY KEY (`ID_Barang`,`ID_Gudang`,`ID_Toko`),
-  ADD KEY `ID_Gudang` (`ID_Gudang`),
-  ADD KEY `ID_Toko` (`ID_Toko`);
+  ADD PRIMARY KEY (`id_Barang`,`id_Gudang`,`id_Toko`),
+  ADD KEY `id_Gudang` (`id_Gudang`),
+  ADD KEY `id_Toko` (`id_Toko`);
 
 --
 -- Indeks untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  ADD PRIMARY KEY (`ID_Supplier`);
+  ADD PRIMARY KEY (`id_Supplier`);
 
 --
 -- Indeks untuk tabel `toko`
 --
 ALTER TABLE `toko`
-  ADD PRIMARY KEY (`ID_Toko`);
+  ADD PRIMARY KEY (`id_Toko`);
 
 --
 -- Indeks untuk tabel `transaksi_inventaris`
 --
 ALTER TABLE `transaksi_inventaris`
-  ADD PRIMARY KEY (`ID_Transaksi`),
-  ADD KEY `ID_Barang` (`ID_Barang`),
-  ADD KEY `ID_Gudang` (`ID_Gudang`),
-  ADD KEY `ID_Toko` (`ID_Toko`);
+  ADD PRIMARY KEY (`id_Transaksi`),
+  ADD KEY `id_Barang` (`id_Barang`),
+  ADD KEY `id_Gudang` (`id_Gudang`),
+  ADD KEY `id_Toko` (`id_Toko`);
 
 --
 -- Indeks untuk tabel `users`
@@ -423,7 +423,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `ID_Barang` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Barang` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `categories`
@@ -441,7 +441,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT untuk tabel `distribusi_barang`
 --
 ALTER TABLE `distribusi_barang`
-  MODIFY `ID_Distribusi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Distribusi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `expenses`
@@ -465,31 +465,31 @@ ALTER TABLE `expense_stats`
 -- AUTO_INCREMENT untuk tabel `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `ID_Pengguna` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Pengguna` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `performa_toko`
 --
 ALTER TABLE `performa_toko`
-  MODIFY `ID_Performa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Performa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `ID_Supplier` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Supplier` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `toko`
 --
 ALTER TABLE `toko`
-  MODIFY `ID_Toko` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Toko` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `transaksi_inventaris`
 --
 ALTER TABLE `transaksi_inventaris`
-  MODIFY `ID_Transaksi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Transaksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
@@ -505,15 +505,15 @@ ALTER TABLE `users`
 -- Ketidakleluasaan untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`ID_Supplier`) REFERENCES `supplier` (`ID_Supplier`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`id_Supplier`) REFERENCES `supplier` (`id_Supplier`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `distribusi_barang`
 --
 ALTER TABLE `distribusi_barang`
-  ADD CONSTRAINT `distribusi_barang_ibfk_1` FOREIGN KEY (`ID_Transaksi`) REFERENCES `transaksi_inventaris` (`ID_Transaksi`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `distribusi_barang_ibfk_2` FOREIGN KEY (`ID_Gudang`) REFERENCES `gudang` (`ID_Gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `distribusi_barang_ibfk_3` FOREIGN KEY (`ID_Toko`) REFERENCES `toko` (`ID_Toko`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `distribusi_barang_ibfk_1` FOREIGN KEY (`id_Transaksi`) REFERENCES `transaksi_inventaris` (`id_Transaksi`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `distribusi_barang_ibfk_2` FOREIGN KEY (`id_Gudang`) REFERENCES `gudang` (`id_Gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `distribusi_barang_ibfk_3` FOREIGN KEY (`id_Toko`) REFERENCES `toko` (`id_Toko`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `expenses`
@@ -538,23 +538,23 @@ ALTER TABLE `expense_stats`
 -- Ketidakleluasaan untuk tabel `performa_toko`
 --
 ALTER TABLE `performa_toko`
-  ADD CONSTRAINT `performa_toko_ibfk_1` FOREIGN KEY (`ID_Toko`) REFERENCES `toko` (`ID_Toko`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `performa_toko_ibfk_1` FOREIGN KEY (`id_Toko`) REFERENCES `toko` (`id_Toko`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `stok`
 --
 ALTER TABLE `stok`
-  ADD CONSTRAINT `stok_ibfk_1` FOREIGN KEY (`ID_Barang`) REFERENCES `barang` (`ID_Barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `stok_ibfk_2` FOREIGN KEY (`ID_Gudang`) REFERENCES `gudang` (`ID_Gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `stok_ibfk_3` FOREIGN KEY (`ID_Toko`) REFERENCES `toko` (`ID_Toko`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `stok_ibfk_1` FOREIGN KEY (`id_Barang`) REFERENCES `barang` (`id_Barang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `stok_ibfk_2` FOREIGN KEY (`id_Gudang`) REFERENCES `gudang` (`id_Gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `stok_ibfk_3` FOREIGN KEY (`id_Toko`) REFERENCES `toko` (`id_Toko`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `transaksi_inventaris`
 --
 ALTER TABLE `transaksi_inventaris`
-  ADD CONSTRAINT `transaksi_inventaris_ibfk_1` FOREIGN KEY (`ID_Barang`) REFERENCES `barang` (`ID_Barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaksi_inventaris_ibfk_2` FOREIGN KEY (`ID_Gudang`) REFERENCES `gudang` (`ID_Gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaksi_inventaris_ibfk_3` FOREIGN KEY (`ID_Toko`) REFERENCES `toko` (`ID_Toko`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `transaksi_inventaris_ibfk_1` FOREIGN KEY (`id_Barang`) REFERENCES `barang` (`id_Barang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_inventaris_ibfk_2` FOREIGN KEY (`id_Gudang`) REFERENCES `gudang` (`id_Gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_inventaris_ibfk_3` FOREIGN KEY (`id_Toko`) REFERENCES `toko` (`id_Toko`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
