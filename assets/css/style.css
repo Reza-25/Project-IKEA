@@ -3983,7 +3983,7 @@ span.select2-container.select2-container--default.select2-container--open {
   margin-left: 10px;
   font-size: 15px;
   font-weight: 500;
-  color: #333;
+  color: #ffff;
 }
 .sidebar .sidebar-menu > ul > li > a .menu-arrow {
   display: inline-block;
@@ -4025,7 +4025,8 @@ span.select2-container.select2-container--default.select2-container--open {
 }
 /* Penting */
 .sidebar .sidebar-menu > ul > li.submenu ul {
-  background: #1e4cd4;
+  background: #3486de1a;
+    color: #fff;
   border-radius: 5px;
   padding: 10px 0;
   display: none;
