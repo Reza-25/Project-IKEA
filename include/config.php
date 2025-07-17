@@ -49,4 +49,40 @@ try {
 } catch (PDOException $e) {
     die("Koneksi database gagal: " . $e->getMessage());
 }
+
+
+// MySQLi Connection (new - for brandlist.php)
+try {
+    $connection = new mysqli($host, $username, $password, $dbname);
+    
+    // Check connection
+    if ($connection->connect_error) {
+        die("MySQLi Connection failed: " . $connection->connect_error);
+    }
+    
+    // Set charset
+    $connection->set_charset("utf8mb4");
+    
+} catch (Exception $e) {
+    die("MySQLi Connection error: " . $e->getMessage());
+}
+
+// Session handling (existing code)
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['user_id'])) {
+    // Jika sesi tidak ada tetapi cookie ada, autentikasi pengguna
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_COOKIE['user_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        // Set ulang sesi
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_full_name'] = $user['full_name'];
+        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['user_profile_picture'] = $user['profile_picture'];
+    }
+}
+?>
+=======
 ?>z
+

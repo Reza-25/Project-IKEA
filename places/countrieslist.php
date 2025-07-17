@@ -1,5 +1,43 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+
+// 1. Ambil data toko aktif
+try {
+  $stmt = $pdo->query("
+      SELECT id_toko, nama_toko, kode_toko, alamat, provinsi, kota, telepon AS telephone, 
+             land_area, tahun_berdiri, status_toko, latitude, longitude
+      FROM toko
+      WHERE status = 'active'
+      ORDER BY id_toko ASC
+  ");
+  $stores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  error_log("Database error: " . $e->getMessage());
+  $stores = [];
+}
+
+// 2. Hitung total toko dan distribusi provinsi
+$totalStores = count($stores);
+$provinceDistribution = [];
+foreach ($stores as $store) {
+  $prov = $store['provinsi'] ?: 'Unknown';
+  $provinceDistribution[$prov] = ($provinceDistribution[$prov] ?? 0) + 1;
+}
+
+// 3. Warna untuk chart provinsi
+$provinceColors = [
+  'Banten'      => '#2196f3',
+  'Jawa Barat'  => '#0d47a1',
+  'DKI Jakarta' => '#64b5f6',
+  'Bali'        => '#1976d2',
+  'Unknown'     => '#9e9e9e'
+];
+
+// 4. Data dummy untuk kotak info (atau ambil dari DB jika tersedia)
+$topSatisfactionStore = 'Surabaya';
+$topStoreTraffic      = 78630;
+$avgDailyVisitors     = 4200;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -1655,5 +1693,287 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
     <script src="../assets/js/script.js"></script>
+
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+      // Data toko per provinsi dari PHP
+      const provinceData = <?php echo json_encode(array_map(function($count, $prov) use ($provinceColors) {
+      return ['count'=>$count, 'color'=>$provinceColors[$prov] ?? '#9e9e9e'];
+    }, $provinceDistribution, array_keys($provinceDistribution))); ?>;
+      
+      // Data toko lengkap untuk modal detail
+      const storeDetailData = {
+      <?php foreach ($stores as $i => $store): ?>
+        <?php $idx = $i+1; ?>
+        <?= $idx ?>: {
+          name:       <?= json_encode($store['nama_toko']) ?>,
+          id:         <?= json_encode($store['kode_toko'] ?: 'N/A') ?>,
+          address:    <?= json_encode($store['alamat']) ?>,
+          city:       <?= json_encode($store['kota'] ?: 'Unknown') ?>,
+          telephone:  <?= json_encode($store['telephone'] ?: 'N/A') ?>,
+          landArea:   <?= json_encode($store['land_area'] ?: 'N/A') ?>,
+          establish:  <?= json_encode($store['tahun_berdiri'] ?: 'N/A') ?>,
+          status:     <?= json_encode($store['status_toko'] ?: 'Open') ?>,
+          province:   <?= json_encode($store['provinsi'] ?: 'Unknown') ?>,
+          lat:        <?= $store['latitude'] ?: -6.2241 ?>,
+          lng:        <?= $store['longitude'] ?: 106.6583 ?>
+        },
+      <?php endforeach; ?>,
+    };
+
+      // Inisialisasi chart
+      const ctx = document.getElementById('provinceChart').getContext('2d');
+      const provinceChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(provinceData),
+          datasets: [{
+            data: Object.values(provinceData).map(p => p.count),
+            backgroundColor: Object.values(provinceData).map(p => p.color),
+            borderWidth: 0,
+            hoverOffset: 15
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          cutout: '65%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 11
+                },
+                padding: 15,
+                generateLabels: function(chart) {
+                  const data = chart.data;
+                  if (data.labels.length && data.datasets.length) {
+                    return data.labels.map((label, i) => {
+                      const meta = chart.getDatasetMeta(0);
+                      const style = meta.controller.getStyle(i);
+                      
+                      return {
+                        text: `${label} (${data.datasets[0].data[i]})`,
+                        fillStyle: style.backgroundColor,
+                        strokeStyle: style.borderColor,
+                        lineWidth: style.borderWidth,
+                        hidden: false,
+                        index: i
+                      };
+                    });
+                  }
+                  return [];
+                }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const label = context.label || '';
+                  const value = context.raw || 0;
+                  return `${label}: ${value} store${value > 1 ? 's' : ''}`;
+                }
+              }
+            }
+          },
+          animation: {
+            animateRotate: true,
+            animateScale: true,
+            duration: 2000,
+            easing: 'easeInOutQuart'
+          }
+        }
+      });
+      
+      // Interaksi hover pada chart
+      const chartHoverInfo = $('#chartHoverInfo');
+      const chartCanvas = $('#provinceChart');
+      
+      chartCanvas.on('mousemove', function(e) {
+        const points = provinceChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+        
+        if (points.length) {
+          const index = points[0].index;
+          const province = provinceChart.data.labels[index];
+          const count = provinceChart.data.datasets[0].data[index];
+          
+          chartHoverInfo.html(`
+            <div class="chart-hover-title">${province}</div>
+            <div class="chart-hover-stores">${count} Store${count > 1 ? 's' : ''}</div>
+          `);
+          
+          chartHoverInfo.css({
+            left: e.pageX + 15,
+            top: e.pageY + 15,
+            opacity: 1
+          });
+          
+          // Highlight toko di tabel dan peta
+          $(`tr[data-province="${province}"]`).addClass('highlight-row');
+        } else {
+          chartHoverInfo.css('opacity', 0);
+          $('tr.highlight-row').removeClass('highlight-row');
+        }
+      });
+      
+      chartCanvas.on('mouseleave', function() {
+        chartHoverInfo.css('opacity', 0);
+        $('tr.highlight-row').removeClass('highlight-row');
+      });
+      
+      // Inisialisasi peta
+      const storeMap = L.map('store-map').setView([-6.1754, 106.8272], 5);
+      
+      // Tambahkan tile layer (peta dasar)
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+      
+      // Simpan semua marker dalam array
+      const markers = [];
+      
+      // Buat marker untuk setiap toko
+      $('table.datanew tbody tr').each(function() {
+        const id = $(this).data('id');
+        const lat = $(this).data('lat');
+        const lng = $(this).data('lng');
+        const province = $(this).data('province');
+        const storeName = $(this).find('td:eq(2)').text();
+        const address = $(this).find('td:eq(3)').text();
+        const status = storeDetailData[id].status === 'Open' ? 'open' : 'progress';
+        const provinceColor = provinceData[province]?.color || '#9e9e9e';
+        
+        // Buat marker custom
+        const marker = L.marker([lat, lng], {
+          icon: L.divIcon({
+            className: 'custom-marker',
+            html: `<div class="store-marker" data-id="${id}" style="background-color: ${provinceColor};"></div>`,
+            iconSize: [24, 24],
+            iconAnchor: [12, 24]
+          })
+        }).addTo(map);
+        
+        // Tambahkan popup
+        marker.bindPopup(`
+          <div class="p-2">
+            <h6>${storeName}</h6>
+            <p class="mb-1">${address}</p>
+            <div class="d-flex justify-content-between">
+              <span class="badge ${status === 'open' ? 'bg-lightgreen' : 'bg-lightred'}">
+                ${status === 'open' ? 'Open' : 'In Progress'}
+              </span>
+              <span class="badge" style="background: ${provinceColor}">${province}</span>
+            </div>
+          </div>
+        `);
+        
+        // Simpan marker
+        markers.push({
+          id: id,
+          marker: marker,
+          element: this
+        });
+        
+        // Event untuk marker
+        marker.on('mouseover', function() {
+          $(this.getElement()).find('.store-marker').addClass('highlight');
+          const id = $(this.getElement()).find('.store-marker').data('id');
+          $(`tr[data-id="${id}"]`).addClass('highlight-row');
+        });
+        
+        marker.on('mouseout', function() {
+          $(this.getElement()).find('.store-marker').removeClass('highlight');
+          const id = $(this.getElement()).find('.store-marker').data('id');
+          $(`tr[data-id="${id}"]`).removeClass('highlight-row');
+        });
+        
+        marker.on('click', function() {
+          map.setView([lat, lng], 13);
+        });
+      });
+      
+      // Event untuk baris tabel
+      $('table.datanew tbody tr').hover(
+        function() {
+          const id = $(this).data('id');
+          $(this).addClass('highlight-row');
+          
+          // Highlight marker yang sesuai
+          markers.forEach(m => {
+            if (m.id === id) {
+              $(m.marker.getElement()).find('.store-marker').addClass('highlight');
+              map.setView(m.marker.getLatLng(), 13);
+            }
+          });
+        },
+        function() {
+          const id = $(this).data('id');
+          $(this).removeClass('highlight-row');
+          
+          // Unhighlight marker
+          markers.forEach(m => {
+            if (m.id === id) {
+              $(m.marker.getElement()).find('.store-marker').removeClass('highlight');
+            }
+          });
+        }
+      );
+      
+      // Fungsi untuk menampilkan detail toko di modal
+      function showStoreDetail(storeId) {
+        const store = storeDetailData[storeId];
+        
+        // Update modal content
+        document.getElementById('detail-store-name').textContent = store.name;
+        document.getElementById('detail-store-id').textContent = store.id;
+        document.getElementById('detail-store-address').textContent = store.address;
+        document.getElementById('detail-city').textContent = store.city;
+        document.getElementById('detail-telephone').textContent = store.telephone;
+        document.getElementById('detail-land-area').textContent = store.landArea;
+        document.getElementById('detail-establish').textContent = store.establish;
+        document.getElementById('detail-status').innerHTML = 
+          store.status === 'Open' ? 
+          '<span class="status-badge status-active">Open</span>' : 
+          '<span class="status-badge status-inprogress">In Progress</span>';
+        document.getElementById('detail-province').textContent = store.province;
+        
+        // Create mini map preview
+        const mapPreviewDiv = document.getElementById('map-preview');
+        mapPreviewDiv.innerHTML = '<div id="mini-map" style="height: 100%; width: 100%;"></div>';
+        
+        // Initialize mini map
+        const miniMap = L.map('mini-map').setView([store.lat, store.lng], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(miniMap);
+        
+        // Add marker to mini map
+        const provinceColor = provinceData[store.province]?.color || '#9e9e9e';
+        const customIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `<div class="store-marker" style="background-color: ${provinceColor};"></div>`,
+          iconSize: [24, 24],
+          iconAnchor: [12, 24]
+        });
+        
+        L.marker([store.lat, store.lng], {icon: customIcon}).addTo(miniMap)
+          .bindPopup(`<b>${store.name}</b><br>${store.address}`)
+          .openPopup();
+        
+        // Show the modal
+        const modal = new bootstrap.Modal(document.getElementById('storeDetailModal'));
+        modal.show();
+      }
+    </script>
+  </body>
+=======
 </body>
+>>>>>>> 365fc33c49903f487fc9dfa987f5c179bac0dd0c
 </html>

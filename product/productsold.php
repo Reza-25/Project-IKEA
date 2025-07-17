@@ -1,5 +1,104 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+// Ambil data tahun yang tersedia
+$tahunQuery = $pdo->query("SELECT DISTINCT year FROM product_sales ORDER BY year DESC");
+$tahunList = $tahunQuery->fetchAll(PDO::FETCH_COLUMN);
+$currentYear = isset($_GET['tahun']) ? (int)$_GET['tahun'] : (count($tahunList) ? max($tahunList) : date('Y'));
+
+// Ambil data penjualan per bulan
+$salesData = [];
+$monthlySalesQuery = $pdo->prepare("
+    SELECT month, 
+           SUM(total_sales) AS total_sold,
+           CASE 
+               WHEN SUM(furniture_sales) >= GREATEST(SUM(electronics_sales), SUM(decor_sales), SUM(lighting_sales)) THEN 'Furniture'
+               WHEN SUM(electronics_sales) >= GREATEST(SUM(furniture_sales), SUM(decor_sales), SUM(lighting_sales)) THEN 'Electronics'
+               WHEN SUM(decor_sales) >= GREATEST(SUM(furniture_sales), SUM(electronics_sales), SUM(lighting_sales)) THEN 'Decor'
+               ELSE 'Lighting'
+           END AS top_category
+    FROM product_sales
+    WHERE year = ?
+    GROUP BY month
+    ORDER BY month
+");
+$monthlySalesQuery->execute([$currentYear]);
+$monthlySales = $monthlySalesQuery->fetchAll(PDO::FETCH_ASSOC);
+
+// Format data untuk chart
+$bulanShort = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
+foreach ($bulanShort as $index => $bulan) {
+    $monthNum = $index + 1;
+    $found = false;
+    
+    foreach ($monthlySales as $sale) {
+        if ($sale['month'] == $monthNum) {
+            $salesData[] = [
+                'bulan' => $bulan,
+                'totalSold' => (int)$sale['total_sold'],
+                'topCategory' => $sale['top_category'],
+                'topProduct' => 'Sofa KVK', // Tetap menggunakan contoh produk
+                'avgSold' => round($sale['total_sold'] / 30) // Asumsi 30 hari
+            ];
+            $found = true;
+            break;
+        }
+    }
+    
+    if (!$found) {
+        $salesData[] = [
+            'bulan' => $bulan,
+            'totalSold' => 0,
+            'topCategory' => 'Furniture',
+            'topProduct' => 'Sofa KVK',
+            'avgSold' => 0
+        ];
+    }
+}
+
+// Hitung statistik utama
+$statsQuery = $pdo->prepare("
+    SELECT 
+        SUM(total_sales) AS total_sold,
+        SUM(furniture_sales) AS furniture,
+        SUM(electronics_sales) AS electronics,
+        SUM(decor_sales) AS decor,
+        SUM(lighting_sales) AS lighting
+    FROM product_sales
+    WHERE year = ?
+");
+$statsQuery->execute([$currentYear]);
+$stats = $statsQuery->fetch(PDO::FETCH_ASSOC);
+
+// Hitung total sold dari semua bulan
+$totalSold = 0;
+foreach ($salesData as $data) {
+    $totalSold += (int)$data['totalSold'];
+}
+
+// Pastikan tidak dibagi nol
+$avgSales = $totalSold > 0 ? $totalSold / 12 : 0;
+
+$totalSold = $stats['total_sold'] ?? 0;
+$categoryTotals = [
+    'Furniture' => $stats['furniture'] ?? 0,
+    'Electronics' => $stats['electronics'] ?? 0,
+    'Decor' => $stats['decor'] ?? 0,
+    'Lighting' => $stats['lighting'] ?? 0
+];
+$totalCategories = array_sum($categoryTotals);
+$categoryDistribution = [];
+foreach ($categoryTotals as $category => $total) {
+    $categoryDistribution[$category] = $totalCategories > 0 ? round(($total / $totalCategories) * 100) : 0;
+}
+
+// Ambil top category
+arsort($categoryTotals);
+$topCategory = key($categoryTotals) ?: 'Furniture';
+
+// Konversi data ke JSON untuk JS
+$salesDataJson = json_encode($salesData);
+$categoryDistributionJson = json_encode($categoryDistribution);
+
 ?>
 
 <!DOCTYPE html>
@@ -895,8 +994,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   </head>
   
   <body>
-    <div id="global-loader">
-      <div class="whirly-loader"></div>
+  <div id="global-loader">
+        <div class="whirly-loader"></div>
     </div>
     
     <div class="main-wrapper">
@@ -919,13 +1018,13 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </div>
                 </div>
 
-                <!-- Original Statistics Cards -->
+                <!-- Statistik Utama -->
                 <div class="row justify-content-end">
                     <div class="col-lg-3 col-sm-6 col-12 d-flex">
                         <a href="revenue/revenue.php" class="w-100 text-decoration-none text-dark">
                             <div class="dash-count das1">
                                 <div class="dash-counts">
-                                    <h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
+                                <h4>Rp<span class="counters" data-count="<?= $totalSold ?>" data-format="short"><?= $totalSold ?></span></h4>
                                     <h5>Total Product Sold</h5>
                                     <h2 class="stat-change">+9% from last year</h2>
                                 </div>
@@ -940,7 +1039,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="people/supplierlist.php" class="w-100 text-decoration-none text-dark">
                             <div class="dash-count das2">
                                 <div class="dash-counts">
-                                    <h4>Furniture</h4>
+                                    <h4><?= $topCategory ?></h4>
                                     <h5>Top Category</h5>
                                     <h2 class="stat-change">+9% from last year</h2>
                                 </div>
@@ -970,8 +1069,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                         <a href="expense/expensecategory.php" class="w-100 text-decoration-none text-dark">
                             <div class="dash-count das4">
                                 <div class="dash-counts">
-                                    <h4>$<span class="counters" data-count="185556.30">185,556.30</span></h4>
-                                    <h5>Avg. Product Sales</h5>
+                                <h4>Rp<span class="counters" data-count="<?= round($totalSold / 12) ?>" data-format="short"><?= round($totalSold / 12) ?></span></h4>
+                                    <h5>Average Sales</h5>
                                     <h2 class="stat-change">+6% from last year</h2>
                                 </div>
                                 <div class="icon-box bg-hijau">
@@ -993,9 +1092,11 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                                     Total Product Sold per Bulan
                                 </div>
                                 <select id="tahun" class="year-select">
-                                    <option value="2023">2023</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2025" selected>2025</option>
+                                    <?php foreach ($tahunList as $tahun): ?>
+                                        <option value="<?= $tahun ?>" <?= $tahun == $currentYear ? 'selected' : '' ?>>
+                                            <?= $tahun ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                             <div style="position: relative; height: 350px;">
@@ -1097,9 +1198,11 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                                     Category Distribution
                                 </div>
                                 <select class="year-select">
-                                    <option value="2025" selected>2025</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2023">2023</option>
+                                    <?php foreach ($tahunList as $tahun): ?>
+                                        <option value="<?= $tahun ?>" <?= $tahun == $currentYear ? 'selected' : '' ?>>
+                                            <?= $tahun ?>
+                                        </option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="donut-content">
@@ -1107,34 +1210,19 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                                     <canvas id="categoryDonutChart"></canvas>
                                 </div>
                                 <div class="donut-stats">
-                                    <div class="stat-row">
-                                        <div class="stat-info">
-                                            <div class="stat-color" style="background: #1976d2;"></div>
-                                            <div class="stat-name">Furniture</div>
+                                    <?php foreach ($categoryDistribution as $category => $percentage): ?>
+                                        <div class="stat-row">
+                                            <div class="stat-info">
+                                                <div class="stat-color" style="background: <?= 
+                                                    $category == 'Furniture' ? '#1976d2' : 
+                                                    ($category == 'Electronics' ? '#42a5f5' : 
+                                                    ($category == 'Decor' ? '#64b5f6' : '#90caf9')) 
+                                                ?>;"></div>
+                                                <div class="stat-name"><?= $category ?></div>
+                                            </div>
+                                            <div class="stat-percentage"><?= $percentage ?>%</div>
                                         </div>
-                                        <div class="stat-percentage">45%</div>
-                                    </div>
-                                    <div class="stat-row">
-                                        <div class="stat-info">
-                                            <div class="stat-color" style="background: #42a5f5;"></div>
-                                            <div class="stat-name">Electronics</div>
-                                        </div>
-                                        <div class="stat-percentage">28%</div>
-                                    </div>
-                                    <div class="stat-row">
-                                        <div class="stat-info">
-                                            <div class="stat-color" style="background: #64b5f6;"></div>
-                                            <div class="stat-name">Home Decor</div>
-                                        </div>
-                                        <div class="stat-percentage">18%</div>
-                                    </div>
-                                    <div class="stat-row">
-                                        <div class="stat-info">
-                                            <div class="stat-color" style="background: #90caf9;"></div>
-                                            <div class="stat-name">Others</div>
-                                        </div>
-                                        <div class="stat-percentage">9%</div>
-                                    </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
@@ -1352,53 +1440,23 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
     </div>
 
+
     <script>
-        // MENGGUNAKAN DATA ASLI DARI FILE ORIGINAL
-        const bulanListFull = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
+        // DATA DINAMIS DARI PHP
+        const salesData = <?= $salesDataJson ?>;
+        const categoryDistribution = <?= $categoryDistributionJson ?>;
+        const currentYear = <?= $currentYear ?>;
 
-        const bulanShort = [
-            "Jan", "Feb", "Mar", "Apr", "Mei", "Jun",
-            "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
-        ];
-
-        const produkList = ["Meja", "Kursi", "Lampu", "Sofa", "TV", "Lemari", "AC", "Kipas"];
-        const kategoriMap = {
-            "Meja": "Furniture", "Kursi": "Furniture", "Sofa": "Furniture", "Lemari": "Furniture",
-            "Lampu": "Elektronik", "TV": "Elektronik", "AC": "Elektronik", "Kipas": "Elektronik"
-        };
-
-        // DATA ASLI - TIDAK DIUBAH
-        const dataTahun = {};
-
-        for (let tahun = 2023; tahun <= 2025; tahun++) {
-            dataTahun[tahun] = bulanListFull.map((bulan, i) => {
-                const total = Math.floor(Math.random() * 500) + 100;
-                const topProduct = produkList[Math.floor(Math.random() * produkList.length)];
-                const topCategory = kategoriMap[topProduct];
-                const avg = Math.floor(total / 3);
-                return {
-                    bulan: bulanShort[i],
-                    totalSold: total,
-                    topProduct,
-                    topCategory,
-                    avgSold: avg
-                };
-            });
-        }
-
+        // Inisialisasi chart
         let chart;
         const ctx = document.getElementById('chartProduk').getContext('2d');
 
-        function renderChart(data, tahun) {
-            const labels = data.map(item => item.bulan);
-            const values = data.map(item => item.totalSold);
+        function renderChart() {
+            const labels = salesData.map(item => item.bulan);
+            const values = salesData.map(item => item.totalSold);
 
             if (chart) chart.destroy();
 
-            // Gradasi biru seperti original
             const gradient = ctx.createLinearGradient(0, 0, 0, 320);
             gradient.addColorStop(0, "#0d47a1");
             gradient.addColorStop(1, "#66bfff");
@@ -1408,7 +1466,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: `Total Produk Terjual - ${tahun}`,
+                        label: `Total Produk Terjual - ${currentYear}`,
                         data: values,
                         backgroundColor: gradient,
                         borderRadius: 6,
@@ -1425,7 +1483,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     onClick: (evt, elements) => {
                         if (elements.length > 0) {
                             const i = elements[0].index;
-                            updateNotes(data[i]);
+                            updateNotes(salesData[i]);
                         }
                     },
                     plugins: {
@@ -1445,27 +1503,29 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 }
             });
 
-            updateNotes(data[0]);
+            updateNotes(salesData[0]);
         }
 
-        function updateNotes(item) {
-            const tahun = document.getElementById("tahun").value;
-            document.getElementById("selectedMonth").textContent = item.bulan + ' - ' + tahun;
-            document.getElementById("totalSold").textContent = item.totalSold;
-            document.getElementById("topCategory").textContent = item.topCategory;
-            document.getElementById("topProduct").textContent = item.topProduct;
-            document.getElementById("avgSold").textContent = item.avgSold;
-        }
 
-        function loadData() {
-            const tahun = document.getElementById("tahun").value;
-            const data = dataTahun[tahun];
-            renderChart(data, tahun);
-        }
+// Update function updateNotes
+function updateNotes(item) {
+    document.getElementById("selectedMonth").textContent = item.bulan;
+    document.getElementById("totalSold").textContent = formatRupiahSingkat(item.totalSold);
+    document.getElementById("topCategory").textContent = item.topCategory;
+    document.getElementById("topProduct").textContent = item.topProduct;
+    document.getElementById("avgSold").textContent = formatRupiahSingkat(item.avgSold);
+}
 
-        // Initialize charts
+        // Fungsi untuk reload halaman saat tahun diubah
+        document.getElementById("tahun").addEventListener("change", function() {
+            window.location.href = `?tahun=${this.value}`;
+        });
+
+        // Inisialisasi chart saat halaman dimuat
         window.addEventListener('DOMContentLoaded', function() {
-            // Target achievement donut chart - ORIGINAL
+            renderChart();
+            
+            // Target achievement donut chart
             const ctxTarget = document.getElementById('donutTarget').getContext('2d');
             new Chart(ctxTarget, {
                 type: 'doughnut',
@@ -1487,14 +1547,14 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 }
             });
 
-            // Category distribution donut chart - NEW
+            // Category distribution donut chart
             const ctxCategory = document.getElementById('categoryDonutChart').getContext('2d');
             new Chart(ctxCategory, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Furniture', 'Electronics', 'Home Decor', 'Others'],
+                    labels: Object.keys(categoryDistribution),
                     datasets: [{
-                        data: [45, 28, 18, 9],
+                        data: Object.values(categoryDistribution),
                         backgroundColor: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9'],
                         borderWidth: 0,
                         hoverOffset: 10
@@ -1515,7 +1575,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                             cornerRadius: 8,
                             callbacks: {
                                 label: function(context) {
-                                    return context.label + ': ' + context.parsed + '%';
+                                  return context.dataset.label + ': ' + formatRupiahSingkat(context.parsed.y);
                                 }
                             }
                         }
@@ -1528,10 +1588,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             });
         });
 
-        document.getElementById("tahun").addEventListener("change", loadData);
-        window.onload = loadData;
+  
     </script>
 
+    <!-- ... (SCRIPT LAINNYA TIDAK DIUBAH) ... -->
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
     <script src="../assets/js/jquery.slimscroll.min.js"></script>

@@ -1761,7 +1761,8 @@ const barChartData = {
     insights: {
       <?php foreach ($jsBarData as $item) { ?>
       "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> menunjukkan performa yang solid dengan penjualan <?php echo number_format($item['sales'] * 1000); ?> unit per bulan.",
-      <?php } ?>
+
+      <?php } ?>,
     }
   },
   2024: {
@@ -1770,7 +1771,11 @@ const barChartData = {
     insights: {
       <?php foreach ($jsBarData as $item) { ?>
       "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> di tahun 2024 menunjukkan kinerja yang konsisten.",
-      <?php } ?>
+
+      <?php } ?>,
+
+
+
     }
   },
   2023: {
@@ -1779,7 +1784,11 @@ const barChartData = {
     insights: {
       <?php foreach ($jsBarData as $item) { ?>
       "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> di tahun 2023 masih dalam tahap pengembangan pasar.",
-      <?php } ?>
+
+      <?php } ?>,
+
+
+
     }
   }
 };
