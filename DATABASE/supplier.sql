@@ -105,7 +105,7 @@ CREATE TABLE `supplier_order_items` (
   KEY `order_id` (`order_id`),
   KEY `item_id` (`item_id`),
   FOREIGN KEY (`order_id`) REFERENCES `supplier_orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (`item_id`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE
+  FOREIGN KEY (`item_id`) REFERENCES `products` (`id_product`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 6. Buat tabel supplier_performance untuk tracking performa supplier

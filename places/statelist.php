@@ -765,7 +765,7 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
         // Search functionality
         let filteredData = [...warehouseData];
         let searchQuery = '';
-        let map, warehouseTypeChart;
+        let warehouseMap;
 
         // Initialize maps and charts
         function initializeMapsAndCharts() {
@@ -785,7 +785,7 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
                     borderWidth: 0,
                     hoverOffset: 15
                 }]
-            };
+            }
 
             warehouseTypeChart = new Chart(ctx, {
                 type: 'doughnut',
@@ -836,7 +836,7 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
 
         // Initialize Leaflet Map
         function initializeMap() {
-            map = L.map('warehouse-map').setView([-2.5489, 118.0149], 5);
+            warehouseMap = L.map('warehouse-map').setView([-2.5489, 118.0149], 5);
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
@@ -1173,7 +1173,10 @@ $(document).ready(function() {
   
   // Simpan semua marker dalam array
   const markers = [];
-  const warehouseData = {};
+  // Ensure warehouseData is not redeclared
+  if (typeof warehouseData === 'undefined') {
+    var warehouseData = {};
+  }
   
   // Buat marker untuk setiap warehouse
   $('table.datanew tbody tr').each(function() {

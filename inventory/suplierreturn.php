@@ -1144,3 +1144,4 @@ foreach ($monthlyTrends as $trend) {
     </script>
   </body>
 </html>
+<?php
