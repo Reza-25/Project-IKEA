@@ -491,6 +491,18 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             .insight-container p {
                 font-size: 0.8rem;
             }
+
+            .strategic-location-container {
+                padding: 15px;
+            }
+
+            .strategic-location-container h5 {
+                font-size: 0.85rem;
+            }
+
+            .strategic-location-container p {
+                font-size: 0.8rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -567,13 +579,13 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 250px;
+            min-height: 200px;
         }
 
         #donutChart {
             width: 100%;
-            max-width: 300px;
-            height: 250px;
+            max-width: 200px;
+            height: 200px;
         }
 
         /* Donut Legend */
@@ -620,6 +632,29 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         }
 
         .insight-container p {
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        /* Strategic Location Container */
+        .strategic-location-container {
+            padding: 18px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-top: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 0 0 12px 12px;
+            font-size: 0.85rem;
+            margin-top: auto;
+        }
+
+        .strategic-location-container h5 {
+            color: #3b82f6 !important;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .strategic-location-container p {
             color: #4a5568;
             line-height: 1.5;
             margin-bottom: 0;
@@ -871,6 +906,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     </div>
                 </div>
 
+                
+
                 <!-- Analytics Section -->
                 <div class="analytics-section">
                     <div class="row">
@@ -888,7 +925,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                                     </div>
                                 </div>
                                 <div class="insight-container">
-                                    <h5>Insight: Konsentrasi di Pulau Jawa</h5>
+                                    <h5><i class="fas fa-lightbulb" style="color: #fbbf24; margin-right: 8px;"></i>Key Insight</h5>
                                     <p>Pulau Jawa mendominasi dengan 71.4% dari total toko IKEA di Indonesia. Sumatera dan Bali masing-masing memiliki 14.3% yang menunjukkan potensi ekspansi ke pulau-pulau lain.</p>
                                 </div>
                             </div>
@@ -902,6 +939,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                                     Lokasi Toko IKEA
                                 </h5>
                                 <div id="map"></div>
+                                <div class="strategic-location-container">
+                                    <h5><i class="fas fa-map-marked-alt" style="color: #3b82f6; margin-right: 8px;"></i>Strategic Location</h5>
+                                    <p>Rekomendasi lokasi prioritas: Medan (Sumatera), Bandung (Jawa Barat), dan Makassar (Sulawesi) berdasarkan density populasi dan daya beli masyarakat.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1216,8 +1257,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 series: donutChartData.series,
                 chart: {
                     type: 'donut',
-                    height: 250,
-                    width: 300,
+                    height: 200,
+                    width: 200,
                 },
                 labels: donutChartData.labels,
                 colors: donutChartData.colors,
@@ -1225,8 +1266,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     breakpoint: 768,
                     options: {
                         chart: {
-                            width: 250,
-                            height: 200
+                            width: 180,
+                            height: 180
                         }
                     }
                 }],
