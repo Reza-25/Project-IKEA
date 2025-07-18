@@ -62,7 +62,8 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
       body,
       html {
-        height: 100%;
+        height: 100vh;
+        overflow: hidden;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f8f9fa;
       }
@@ -79,7 +80,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 40px;
+        padding: 2rem;
       }
 
       .form-section {
@@ -89,8 +90,8 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
       .form-box {
         width: 100%;
-        max-width: 500px;
-        padding: 40px;
+        max-width: 400px;
+        padding: 1.5rem;
         background-color: #fff;
         border-radius: 12px;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
@@ -98,29 +99,30 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
       .form-box .logo {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 1rem;
       }
 
       .form-box .logo img {
-        max-width: 140px;
+        max-width: 100px;
       }
 
       .form-box h3 {
         text-align: center;
-        margin-bottom: 10px;
-        font-size: 28px;
+        margin-bottom: 0.5rem;
+        font-size: 1.5rem;
         color: #0051ba;
+        font-weight: 600;
       }
 
       .form-box p {
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 1.2rem;
         color: #6c757d;
-        font-size: 16px;
+        font-size: 0.9rem;
       }
 
       .form-group {
-        margin-bottom: 25px;
+        margin-bottom: 0.8rem;
       }
 
       .input-icon {
@@ -129,52 +131,73 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
       .input-icon input {
         width: 100%;
-        padding: 14px 20px 14px 45px;
+        padding: 0.7rem 2.5rem 0.7rem 2.2rem;
         border: 1px solid #e0e0e0;
         border-radius: 8px;
-        font-size: 16px;
+        font-size: 0.9rem;
         transition: all 0.3s;
       }
 
       .input-icon input:focus {
         border-color: #0051ba;
-        box-shadow: 0 0 0 3px rgba(0, 81, 186, 0.15);
+        box-shadow: 0 0 0 2px rgba(0, 81, 186, 0.15);
         outline: none;
       }
 
       .input-icon i {
         position: absolute;
         top: 50%;
-        left: 15px;
+        left: 0.7rem;
         transform: translateY(-50%);
         color: #6c757d;
-        font-size: 18px;
+        font-size: 1rem;
+      }
+
+      .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 1.7rem;
+        transform: translateY(-50%);
+        color: #6c757d;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: color 0.2s;
+        z-index: 10;
+        padding: 0.2rem;
+      }
+
+      .password-toggle:hover {
+        color: #0051ba;
       }
 
       .btn-login {
         width: 100%;
-        background: #0051ba;
+        background: linear-gradient(to right, #0051ba, #0086d6);
         color: white;
-        padding: 14px;
+        padding: 0.7rem;
         border: none;
         border-radius: 8px;
         text-align: center;
-        font-size: 17px;
+        font-size: 0.95rem;
         font-weight: 600;
         cursor: pointer;
-        transition: background 0.3s;
+        transition: all 0.3s;
         display: block;
+        box-shadow: 0 4px 15px rgba(0, 81, 186, 0.3);
       }
 
       .btn-login:hover {
-        background: #003d8f;
+        background: linear-gradient(to right, #0040a0, #0070c0);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 81, 186, 0.4);
       }
 
       .form-options {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin: 20px 0 30px;
+        margin: 0.8rem 0;
+        font-size: 0.85rem;
       }
 
       .remember {
@@ -183,7 +206,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
       }
 
       .remember input {
-        margin-right: 8px;
+        margin-right: 0.4rem;
       }
 
       .forgot-password {
@@ -191,6 +214,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
         text-decoration: none;
         font-weight: 500;
         transition: color 0.2s;
+        font-size: 0.85rem;
       }
 
       .forgot-password:hover {
@@ -201,7 +225,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
       .divider {
         text-align: center;
         position: relative;
-        margin: 30px 0;
+        margin: 0.8rem 0;
       }
 
       .divider::before {
@@ -217,51 +241,54 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
       .divider span {
         position: relative;
-        padding: 0 15px;
+        padding: 0 0.8rem;
         background: white;
         z-index: 2;
         color: #6c757d;
-        font-size: 14px;
+        font-size: 0.8rem;
       }
 
       .form-sociallink {
-        margin-top: 25px;
+        margin-top: 0.8rem;
       }
 
       .social-btn {
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 12px;
+        padding: 0.6rem;
         border: 1px solid #e0e0e0;
         border-radius: 8px;
         color: #333;
         text-decoration: none;
-        margin-bottom: 12px;
+        margin-bottom: 0.5rem;
         transition: all 0.3s;
         font-weight: 500;
+        font-size: 0.85rem;
       }
 
       .social-btn:hover {
         background-color: #f8f9fa;
         border-color: #d0d0d0;
+        transform: translateY(-1px);
       }
 
       .social-btn img {
-        height: 22px;
-        margin-right: 12px;
+        height: 18px;
+        margin-right: 0.5rem;
       }
 
       .text-center {
         text-align: center;
-        margin-top: 30px;
+        margin-top: 0.8rem;
         color: #6c757d;
+        font-size: 0.85rem;
       }
 
       .text-center a {
         color: #0051ba;
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 600;
         transition: color 0.2s;
       }
 
@@ -336,7 +363,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
       @media screen and (max-width: 992px) {
         .form-box {
-          padding: 30px;
+          padding: 1.2rem;
         }
         
         .image-content {
@@ -348,17 +375,23 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
         .main-wrapper {
           flex-direction: column;
           height: auto;
+          overflow-y: auto;
         }
 
         .form-section,
         .image-section {
           flex: none;
           width: 100%;
-          padding: 30px 20px;
+          padding: 1.5rem 1rem;
         }
         
         .image-section {
-          padding: 50px 20px;
+          padding: 2rem 1rem;
+        }
+        
+        .form-box {
+          max-width: 90%;
+          margin: 0 auto;
         }
       }
 
@@ -394,7 +427,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
       <div class="form-section">
         <div class="form-box">
           <div class="logo">
-            <img src="assets/img/logo1.png" alt="IKEA Logo" style="width: 120px;" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/IKEA_logo.svg/240px-IKEA_logo.svg.png" alt="IKEA Logo" />
           </div>
 
           <h3>Welcome Back</h3>
@@ -410,8 +443,11 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
     <div class="form-group">
         <div class="input-icon">
-            <input type="password" name="password" placeholder="Password" required />
+            <input type="password" name="password" id="password" placeholder="Password" required />
             <i class="fas fa-lock"></i>
+            <span class="password-toggle" id="password-toggle">
+                <i class="fas fa-eye"></i>
+            </span>
         </div>
     </div>
           
@@ -433,11 +469,11 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
           <div class="form-sociallink">
             <a href="#" class="social-btn">
-              <img src="assets/img/icons/google.png" alt="Google" />
+              <i class="fab fa-google" style="color: #DB4437; margin-right: 0.5rem;"></i>
               Sign in with Google
             </a>
             <a href="#" class="social-btn">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png" alt="Facebook" />
+              <i class="fab fa-facebook-f" style="color: #4267B2; margin-right: 0.5rem;"></i>
               Sign in with Facebook
             </a>
           </div>
@@ -488,6 +524,16 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
       </div>
     </div>
     <script>
+      // Password visibility toggle
+      const passwordToggle = document.getElementById('password-toggle');
+      const passwordInput = document.getElementById('password');
+      
+      passwordToggle.addEventListener('click', function() {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+      });
+      
       // Tampilkan popup selama 3 detik
       document.addEventListener('DOMContentLoaded', function () {
             const popup = document.getElementById('popupNotification');

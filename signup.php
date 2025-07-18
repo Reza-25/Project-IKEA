@@ -91,14 +91,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         body, html {
-            height: 100%;
+            height: 100vh;
+            overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
         }
 
         .main-wrapper {
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
             width: 100%;
         }
 
@@ -107,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1rem;
         }
 
         .form-section {
@@ -117,8 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .form-box {
             width: 100%;
-            max-width: 500px;
-            padding: 2.5rem;
+            max-width: 350px;
+            padding: 1.2rem;
             background-color: white;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -126,46 +127,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .logo {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 0.8rem;
         }
 
         .logo img {
-            max-width: 140px;
+            max-width: 90px;
         }
 
         h3 {
             text-align: center;
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+            font-size: 1.4rem;
             color: #0051ba;
             font-weight: 700;
         }
 
         .subtitle {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             color: #6c757d;
-            font-size: 1.05rem;
+            font-size: 0.85rem;
         }
 
         .alert-danger {
             background-color: #f8d7da;
             color: #721c24;
             border-radius: 8px;
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 1.5rem;
+            padding: 0.4rem 0.6rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.8rem;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.7rem;
             position: relative;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
             font-weight: 500;
             color: #495057;
+            font-size: 0.8rem;
         }
 
         .input-icon {
@@ -174,36 +177,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .input-icon input {
             width: 100%;
-            padding: 0.9rem 1rem 0.9rem 3rem;
+            padding: 0.6rem 0.7rem 0.6rem 2.2rem;
             border: 1px solid #dee2e6;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
             transition: all 0.3s;
+        }
+
+        .input-icon input.password-field {
+            padding-right: 3.5rem;
         }
 
         .input-icon input:focus {
             border-color: #0051ba;
-            box-shadow: 0 0 0 3px rgba(0, 81, 186, 0.15);
+            box-shadow: 0 0 0 2px rgba(0, 81, 186, 0.15);
             outline: none;
         }
 
         .input-icon i {
             position: absolute;
             top: 50%;
-            left: 1rem;
+            left: 0.7rem;
             transform: translateY(-50%);
             color: #6c757d;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
         }
 
         .password-toggle {
             position: absolute;
             top: 50%;
-            right: 1rem;
+            right: 1.7rem;
             transform: translateY(-50%);
             color: #6c757d;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
+            z-index: 10;
+            padding: 0.2rem;
+        }
+
+        .password-toggle:hover {
+            color: #0051ba;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.6rem 0.7rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #0051ba;
+            box-shadow: 0 0 0 2px rgba(0, 81, 186, 0.15);
+            outline: none;
         }
 
         .btn-signup {
@@ -211,10 +239,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background: #0051ba;
             background: linear-gradient(to right, #0051ba, #0086d6);
             color: white;
-            padding: 0.9rem;
+            padding: 0.6rem;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -230,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .divider {
             text-align: center;
             position: relative;
-            margin: 1.5rem 0;
+            margin: 0.6rem 0;
             color: #6c757d;
         }
 
@@ -247,16 +275,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .divider span {
             position: relative;
-            padding: 0 1rem;
+            padding: 0 0.8rem;
             background: white;
             z-index: 2;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
         }
 
         .social-login {
             display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 0.6rem;
+            margin-top: 0.6rem;
         }
 
         .social-btn {
@@ -264,24 +292,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0.7rem;
+            padding: 0.5rem;
             border: 1px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 8px;
             color: #333;
             text-decoration: none;
             font-weight: 500;
             transition: all 0.2s;
+            font-size: 0.8rem;
         }
 
         .social-btn:hover {
             background-color: #f8f9fa;
             border-color: #d0d0d0;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .social-btn i {
-            margin-right: 0.5rem;
-            font-size: 1.2rem;
+            margin-right: 0.3rem;
+            font-size: 0.9rem;
         }
 
         .google-btn {
@@ -294,8 +323,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .text-center {
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 0.6rem;
             color: #6c757d;
+            font-size: 0.8rem;
         }
 
         .text-center a {
@@ -321,63 +351,88 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .image-content {
             max-width: 600px;
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .image-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            margin-bottom: 1rem;
             font-weight: 700;
         }
 
         .image-content p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
         }
 
         .features {
             text-align: left;
-            margin-top: 2.5rem;
+            margin-top: 1.5rem;
         }
 
         .feature-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .feature-icon {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1.2rem;
+            margin-right: 1rem;
             flex-shrink: 0;
         }
 
         .feature-icon i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: white;
         }
 
         .feature-text h4 {
-            margin-bottom: 0.3rem;
-            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+            font-size: 1.1rem;
         }
 
         .feature-text p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-bottom: 0;
             opacity: 0.9;
         }
 
-        @media (min-width: 992px) {
+        @media (min-width: 768px) {
             .image-section {
                 display: flex;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .main-wrapper {
+                flex-direction: column;
+            }
+            
+            .image-section {
+                display: none;
+            }
+            
+            .form-box {
+                max-width: 100%;
+                margin: 0.5rem;
+                padding: 1rem;
+            }
+            
+            .form-group {
+                margin-bottom: 0.8rem;
+            }
+            
+            .text-center {
+                margin-top: 0.8rem;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -417,7 +472,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
                     <div class="form-group">
                         <div class="input-icon">
-                            <input type="password" name="password" id="password" placeholder="Password" required />
+                            <input type="password" name="password" id="password" class="password-field" placeholder="Password" required />
                             <i class="fas fa-lock"></i>
                             <span class="password-toggle" id="password-toggle">
                                 <i class="fas fa-eye"></i>
@@ -427,8 +482,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
                     <div class="form-group">
                         <div class="input-icon">
-                            <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+                            <input type="password" name="confirm_password" id="confirm_password" class="password-field" placeholder="Confirm Password" required />
                             <i class="fas fa-lock"></i>
+                            <span class="password-toggle" id="confirm-password-toggle">
+                                <i class="fas fa-eye"></i>
+                            </span>
                         </div>
                     </div>
                     

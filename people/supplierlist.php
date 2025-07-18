@@ -73,7 +73,20 @@ $communications = $stmt_comm->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
     <style>
+    :root {
+      --white: #ffffff;
+      --primary-blue: #1976d2;
+      --secondary-blue: #42a5f5;
+      --success-green: #4caf50;
+      --danger-red: #f44336;
+    }
+
     /* Reset semua background jadi putih & style dasar kolom */
     .das1, .das2, .das3, .das4 {
       background: white !important;
@@ -540,6 +553,354 @@ $communications = $stmt_comm->fetchAll(PDO::FETCH_ASSOC);
           max-height: 240px;
         }
       }
+
+      /* Enhanced Supplier Data Table - Extended Width and Blue Gradient Headers */
+      .supplier-table-section {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+      }
+
+      .supplier-table-section:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Chart Header */
+      .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f1f5f9;
+      }
+
+      .chart-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Table Controls */
+      .table-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .search-container {
+        position: relative;
+        flex: 1;
+        max-width: 300px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 10px 40px 10px 15px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: #1976d2;
+        box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+      }
+
+      .search-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #64748b;
+        font-size: 1rem;
+      }
+
+      .export-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .export-btn {
+        padding: 8px 16px;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .export-btn.pdf {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+        color: white;
+      }
+
+      .export-btn.pdf:hover {
+        background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+      }
+
+      .export-btn.excel {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        color: white;
+      }
+
+      .export-btn.excel:hover {
+        background: linear-gradient(135deg, #047857 0%, #059669 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+      }
+
+      .supplier-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+
+      .supplier-table th {
+        background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 12px 10px;
+        text-align: left;
+        border-bottom: 2px solid #1565c0;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+
+      .supplier-table th:first-child {
+        border-top-left-radius: 8px;
+      }
+
+      .supplier-table th:last-child {
+        border-top-right-radius: 8px;
+      }
+
+      .supplier-table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.85rem;
+        color: #374151;
+        vertical-align: middle;
+      }
+
+      .supplier-table tbody tr:hover {
+        background-color: #f8fafc;
+        transition: all 0.2s ease;
+      }
+
+      .supplier-name-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .supplier-avatar {
+        width: 35px;
+        height: 35px;
+        background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.9rem;
+      }
+
+      .supplier-name {
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .supplier-code {
+        background: #f1f5f9;
+        color: #475569;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        display: inline-block;
+        font-family: 'Courier New', monospace;
+      }
+
+      .supplier-country {
+        background: #f8fafc;
+        color: #64748b;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        display: inline-block;
+        border: 1px solid #e2e8f0;
+      }
+
+      .supplier-email {
+        color: #1976d2;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .supplier-email:hover {
+        color: #0d47a1;
+        text-decoration: underline;
+      }
+
+      .supplier-status {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .status-active { 
+        background: #d1fae5; 
+        color: #065f46; 
+      }
+
+      .status-inactive { 
+        background: #fee2e2; 
+        color: #991b1b; 
+      }
+
+      .status-pending { 
+        background: #fef3c7; 
+        color: #92400e; 
+      }
+
+      /* No Results Message */
+      .no-results {
+        text-align: center;
+        padding: 40px 20px;
+        color: #64748b;
+      }
+
+      .no-results i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        color: #cbd5e1;
+      }
+
+      .no-results h5 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        color: #475569;
+      }
+
+      .no-results p {
+        font-size: 0.9rem;
+        margin-bottom: 0;
+      }
+
+      /* Pagination */
+      .table-pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .pagination-info {
+        font-size: 0.85rem;
+        color: #64748b;
+      }
+
+      .pagination-controls {
+        display: flex;
+        gap: 8px;
+      }
+
+      .pagination-btn {
+        padding: 6px 12px;
+        border: 1px solid #d1d5db;
+        background: white;
+        color: #374151;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .pagination-btn:hover {
+        background: #f3f4f6;
+        border-color: #9ca3af;
+      }
+
+      .pagination-btn.active {
+        background: #3b82f6;
+        color: white;
+        border-color: #3b82f6;
+      }
+
+      .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* Responsive for supplier table */
+      @media (max-width: 768px) {
+        .table-controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        
+        .search-container {
+          max-width: 100%;
+        }
+        
+        .export-buttons {
+          justify-content: center;
+        }
+        
+        .supplier-table {
+          font-size: 0.75rem;
+        }
+        
+        .supplier-table th,
+        .supplier-table td {
+          padding: 8px 6px;
+        }
+        
+        .supplier-name-cell {
+          flex-direction: column;
+          gap: 5px;
+          text-align: center;
+        }
+        
+        .supplier-avatar {
+          width: 30px;
+          height: 30px;
+        }
+        
+        .pagination-controls {
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+        
+        .pagination-btn {
+          padding: 6px 10px;
+          font-size: 0.75rem;
+        }
+      }
     </style>
   </head>
   <body>
@@ -683,111 +1044,104 @@ $communications = $stmt_comm->fetchAll(PDO::FETCH_ASSOC);
             </div>
           </div>
 
-          <div class="card mt-4">
-            <div class="card-body">
-              <div class="table-top">
-                <div class="search-set">
-                  <div class="search-path">
-                    <a class="btn btn-filter" id="filter_search">
-                      <img src="../assets/img/icons/filter.svg" alt="img" />
-                      <span><img src="../assets/img/icons/closes.svg" alt="img" /></span>
+          <!-- Enhanced Supplier Data Table - Full Width Professional with Search & Export -->
+          <div class="supplier-table-section">
+            <div class="chart-header">
+              <h5 class="chart-title"><i class="fas fa-users me-2"></i>Data Supplier</h5>
+              <div class="d-flex align-items-center gap-2">
+                <span style="font-size: 0.8rem; color: #64748b;" id="totalSuppliersText">Total: <?= count($suppliers) ?> suppliers</span>
+              </div>
+            </div>
+            
+            <!-- Table Controls -->
+            <div class="table-controls">
+              <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Cari supplier, kode, email, atau negara...">
+                <i class="fas fa-search search-icon"></i>
+              </div>
+              <div class="export-buttons">
+                <button class="export-btn pdf" onclick="exportToPDF()">
+                  <i class="fas fa-file-pdf"></i>
+                  Export PDF
+                </button>
+                <button class="export-btn excel" onclick="exportToExcel()">
+                  <i class="fas fa-file-excel"></i>
+                  Export Excel
+                </button>
+              </div>
+            </div>
+            
+            <table class="supplier-table" id="supplierTable">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Supplier Name</th>
+                  <th>Code</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Country</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="supplierTableBody">
+                <?php foreach ($suppliers as $index => $supplier): ?>
+                <tr>
+                  <td><?= $index + 1 ?></td>
+                  <td>
+                    <div class="supplier-name-cell">
+                      <div class="supplier-avatar">
+                        <i class="fas fa-building"></i>
+                      </div>
+                      <div class="supplier-info">
+                        <span class="supplier-name"><?= htmlspecialchars($supplier['Nama_Supplier']) ?></span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="supplier-code"><?= htmlspecialchars($supplier['kode_supplier']) ?></span>
+                  </td>
+                  <td><?= htmlspecialchars($supplier['telepon']) ?></td>
+                  <td>
+                    <a href="mailto:<?= htmlspecialchars($supplier['email']) ?>" class="supplier-email">
+                      <?= htmlspecialchars($supplier['email']) ?>
                     </a>
-                  </div>
-                  <div class="search-input">
-                    <a class="btn btn-searchset">
-                    <img src="../assets/img/icons/search-white.svg" alt="img" /></a>
-                  </div>
-                </div>
-                <div class="wordset">
-                  <ul>
-                    <li>
-                      <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="../assets/img/icons/pdf.svg" alt="img" /></a>
-                    </li>
-                    <li>
-                      <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="../assets/img/icons/excel.svg" alt="img" /></a>
-                    </li>
-                    <li>
-                      <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="../assets/img/icons/printer.svg" alt="img" /></a>
-                    </li>
-                  </ul>
-                </div>
+                  </td>
+                  <td>
+                    <span class="supplier-country"><?= htmlspecialchars($supplier['negara']) ?></span>
+                  </td>
+                  <td>
+                    <span class="supplier-status status-active">Active</span>
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+            
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+              <i class="fas fa-search"></i>
+              <h5>Tidak ada data yang ditemukan</h5>
+              <p>Coba ubah kata kunci pencarian Anda</p>
+            </div>
+            
+            <div class="table-pagination" id="tablePagination">
+              <div class="pagination-info" id="paginationInfo">
+                Menampilkan 1-<?= min(10, count($suppliers)) ?> dari <?= count($suppliers) ?> supplier
               </div>
-              <div class="card" id="filter_inputs">
-                <div class="card-body pb-0">
-                  <div class="row">
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" placeholder="Enter Supplier Code" />
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" placeholder="Enter Supplier" />
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" placeholder="Enter Phone" />
-                      </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                      <div class="form-group">
-                        <input type="text" placeholder="Enter Email" />
-                      </div>
-                    </div>
-                    <div class="col-lg-1 col-sm-6 col-12 ms-auto">
-                      <div class="form-group">
-                        <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img" /></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="table-responsive">
-                <table class="table datanew">
-                  <thead>
-                    <tr>
-                      <th>
-                        <label class="checkboxs">
-                          <input type="checkbox" id="select-all" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </th>
-                      <th>Supplier Name</th>
-                      <th>code</th>
-                      <th>Phone</th>
-                      <th>email</th>
-                      <th>Country</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php foreach ($suppliers as $supplier): ?>
-                    <tr>
-                      <td>
-                        <label class="checkboxs">
-                          <input type="checkbox" />
-                          <span class="checkmarks"></span>
-                        </label>
-                      </td>
-                      <td class="productimgname">
-                        <a href="javascript:void(0);" class="product-img">
-                          <img src="../assets/img/customer/customer1.jpg" alt="product">
-                        </a>
-                        <a href="javascript:void(0);"><?= htmlspecialchars($supplier['Nama_Supplier']) ?></a>
-                      </td>
-                      <td><?= htmlspecialchars($supplier['kode_supplier']) ?></td>
-                      <td><?= htmlspecialchars($supplier['telepon']) ?></td>
-                      <td>
-                        <a href="mailto:<?= htmlspecialchars($supplier['email']) ?>">
-                          <?= htmlspecialchars($supplier['email']) ?>
-                        </a>
-                      </td>
-                      <td><?= htmlspecialchars($supplier['negara']) ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                  </tbody>
-                </table>
+              <div class="pagination-controls">
+                <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
+                  <i class="fas fa-chevron-left"></i> Prev
+                </button>
+                <button class="pagination-btn active" id="page1Btn" onclick="goToPage(1)">1</button>
+                <?php if (count($suppliers) > 10): ?>
+                <button class="pagination-btn" id="page2Btn" onclick="goToPage(2)">2</button>
+                <?php endif; ?>
+                <?php if (count($suppliers) > 20): ?>
+                <button class="pagination-btn" id="page3Btn" onclick="goToPage(3)">3</button>
+                <?php endif; ?>
+                <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">
+                  Next <i class="fas fa-chevron-right"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -870,188 +1224,226 @@ $communications = $stmt_comm->fetchAll(PDO::FETCH_ASSOC);
         setTimeout(() => {
           chart.update('active');
         }, 500);
+
+        // Enhanced Supplier Table Search and Pagination
+        let currentPage = 1;
+        const rowsPerPage = 10;
+        let filteredData = [];
+        let allSuppliers = [];
+
+        // Collect all supplier data from the table
+        document.addEventListener('DOMContentLoaded', function() {
+          const tableRows = document.querySelectorAll('#supplierTableBody tr');
+          allSuppliers = Array.from(tableRows).map(row => {
+            const cells = row.querySelectorAll('td');
+            return {
+              no: cells[0]?.textContent?.trim() || '',
+              name: cells[1]?.querySelector('.supplier-name')?.textContent?.trim() || '',
+              code: cells[2]?.textContent?.trim() || '',
+              phone: cells[3]?.textContent?.trim() || '',
+              email: cells[4]?.textContent?.trim() || '',
+              country: cells[5]?.textContent?.trim() || '',
+              status: cells[6]?.textContent?.trim() || '',
+              element: row
+            };
+          });
+          filteredData = [...allSuppliers];
+          updateTable();
+          updatePagination();
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+          const searchTerm = e.target.value.toLowerCase();
+          
+          if (searchTerm === '') {
+            filteredData = [...allSuppliers];
+          } else {
+            filteredData = allSuppliers.filter(supplier => 
+              supplier.name.toLowerCase().includes(searchTerm) ||
+              supplier.code.toLowerCase().includes(searchTerm) ||
+              supplier.phone.toLowerCase().includes(searchTerm) ||
+              supplier.email.toLowerCase().includes(searchTerm) ||
+              supplier.country.toLowerCase().includes(searchTerm) ||
+              supplier.status.toLowerCase().includes(searchTerm)
+            );
+          }
+          
+          currentPage = 1;
+          updateTable();
+          updatePagination();
+        });
+
+        function updateTable() {
+          const tableBody = document.getElementById('supplierTableBody');
+          const noResults = document.getElementById('noResults');
+          const startIndex = (currentPage - 1) * rowsPerPage;
+          const endIndex = startIndex + rowsPerPage;
+          const pageData = filteredData.slice(startIndex, endIndex);
+          
+          // Hide all rows first
+          allSuppliers.forEach(supplier => {
+            supplier.element.style.display = 'none';
+          });
+          
+          if (pageData.length === 0) {
+            noResults.style.display = 'block';
+            document.getElementById('tablePagination').style.display = 'none';
+          } else {
+            noResults.style.display = 'none';
+            document.getElementById('tablePagination').style.display = 'flex';
+            
+            // Show only the current page data
+            pageData.forEach(supplier => {
+              supplier.element.style.display = 'table-row';
+            });
+          }
+          
+          // Update total count
+          document.getElementById('totalSuppliersText').textContent = `Total: ${filteredData.length} suppliers`;
+        }
+
+        function updatePagination() {
+          const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+          const startItem = filteredData.length === 0 ? 0 : (currentPage - 1) * rowsPerPage + 1;
+          const endItem = Math.min(currentPage * rowsPerPage, filteredData.length);
+          
+          document.getElementById('paginationInfo').textContent = 
+            `Menampilkan ${startItem}-${endItem} dari ${filteredData.length} supplier`;
+          
+          // Update pagination buttons
+          const prevBtn = document.getElementById('prevBtn');
+          const nextBtn = document.getElementById('nextBtn');
+          const page1Btn = document.getElementById('page1Btn');
+          const page2Btn = document.getElementById('page2Btn');
+          const page3Btn = document.getElementById('page3Btn');
+          
+          prevBtn.disabled = currentPage === 1;
+          nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+          
+          // Update page buttons visibility and active state
+          [page1Btn, page2Btn, page3Btn].forEach((btn, index) => {
+            if (btn) {
+              const pageNum = index + 1;
+              btn.style.display = pageNum <= totalPages ? 'inline-block' : 'none';
+              btn.classList.toggle('active', pageNum === currentPage);
+              btn.textContent = pageNum;
+            }
+          });
+        }
+
+        function changePage(direction) {
+          const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+          const newPage = currentPage + direction;
+          
+          if (newPage >= 1 && newPage <= totalPages) {
+            currentPage = newPage;
+            updateTable();
+            updatePagination();
+          }
+        }
+
+        function goToPage(page) {
+          const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+          
+          if (page >= 1 && page <= totalPages) {
+            currentPage = page;
+            updateTable();
+            updatePagination();
+          }
+        }
+
+        // Export functions
+        function exportToPDF() {
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF();
+          
+          // Add title
+          doc.setFontSize(18);
+          doc.setTextColor(25, 118, 210);
+          doc.text('Data Supplier IKEA', 20, 20);
+          
+          // Add date
+          doc.setFontSize(10);
+          doc.setTextColor(100);
+          doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 30);
+          
+          // Prepare table data
+          const tableData = filteredData.map(supplier => [
+            supplier.no,
+            supplier.name,
+            supplier.code,
+            supplier.phone,
+            supplier.email,
+            supplier.country,
+            supplier.status
+          ]);
+          
+          // Add table
+          doc.autoTable({
+            head: [['No', 'Supplier Name', 'Code', 'Phone', 'Email', 'Country', 'Status']],
+            body: tableData,
+            startY: 40,
+            theme: 'grid',
+            headStyles: {
+              fillColor: [25, 118, 210],
+              textColor: 255,
+              fontStyle: 'bold'
+            },
+            styles: {
+              fontSize: 8,
+              cellPadding: 3
+            },
+            columnStyles: {
+              0: { cellWidth: 15 },
+              1: { cellWidth: 40 },
+              2: { cellWidth: 25 },
+              3: { cellWidth: 30 },
+              4: { cellWidth: 45 },
+              5: { cellWidth: 25 },
+              6: { cellWidth: 20 }
+            }
+          });
+          
+          doc.save('supplier-data.pdf');
+        }
+
+        function exportToExcel() {
+          const data = filteredData.map(supplier => ({
+            'No': supplier.no,
+            'Supplier Name': supplier.name,
+            'Code': supplier.code,
+            'Phone': supplier.phone,
+            'Email': supplier.email,
+            'Country': supplier.country,
+            'Status': supplier.status
+          }));
+          
+          const ws = XLSX.utils.json_to_sheet(data);
+          const wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, 'Suppliers');
+          
+          // Style the header row
+          const range = XLSX.utils.decode_range(ws['!ref']);
+          for (let C = range.s.c; C <= range.e.c; ++C) {
+            const address = XLSX.utils.encode_cell({ r: 0, c: C });
+            if (!ws[address]) continue;
+            ws[address].s = {
+              font: { bold: true },
+              fill: { fgColor: { rgb: "1976D2" } },
+              color: { rgb: "FFFFFF" }
+            };
+          }
+          
+          XLSX.writeFile(wb, 'supplier-data.xlsx');
+        }
       </script>
-    </div>
-
-    <div class="modal fade" id="showpayment" tabindex="-1" aria-labelledby="showpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Show Payments</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Reference</th>
-                    <th>Amount</th>
-                    <th>Paid By</th>
-                    <th>Paid By</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="bor-b1">
-                    <td>2022-03-07</td>
-                    <td>INV/SL0101</td>
-                    <td>$ 1500.00</td>
-                    <td>Cash</td>
-                    <td>
-                      <a class="me-2" href="javascript:void(0);">
-                        <img src="../assets/img/icons/printer.svg" alt="img" />
-                      </a>
-                      <a class="me-2" href="javascript:void(0);" data-bs-target="#editpayment" data-bs-toggle="modal" data-bs-dismiss="modal">
-                        <img src="../assets/img/icons/edit.svg" alt="img" />
-                      </a>
-                      <a class="me-2 confirm-text" href="javascript:void(0);">
-                        <img src="../assets/img/icons/delete.svg" alt="img" />
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="createpayment" tabindex="-1" aria-labelledby="createpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Create Payment</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Customer</label>
-                  <div class="input-group">
-                    <input type="text" value="2022-03-07" class="datetimepicker" />
-                    <a class="scanner-set input-group-text">
-                      <img src="../assets/img/icons/datepicker.svg" alt="img" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Reference</label>
-                  <input type="text" value="INV/SL0101" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Received Amount</label>
-                  <input type="text" value="1500.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Paying Amount</label>
-                  <input type="text" value="1500.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Payment type</label>
-                  <select class="select">
-                    <option>Cash</option>
-                    <option>Online</option>
-                    <option>Inprogress</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group">
-                  <label>Note</label>
-                  <textarea class="form-control"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-submit">Submit</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="editpayment" tabindex="-1" aria-labelledby="editpayment" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Edit Payment</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Customer</label>
-                  <div class="input-group">
-                    <input type="text" value="2022-03-07" class="datetimepicker" />
-                    <a class="scanner-set input-group-text">
-                      <img src="../assets/img/icons/datepicker.svg" alt="img" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Reference</label>
-                  <input type="text" value="INV/SL0101" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Received Amount</label>
-                  <input type="text" value="1500.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Paying Amount</label>
-                  <input type="text" value="1500.00" />
-                </div>
-              </div>
-              <div class="col-lg-6 col-sm-12 col-12">
-                <div class="form-group">
-                  <label>Payment type</label>
-                  <select class="select">
-                    <option>Cash</option>
-                    <option>Online</option>
-                    <option>Inprogress</option>
-                  </select>
-                </div>
-              </div>
-              <div class="col-lg-12">
-                <div class="form-group">
-                  <label>Note</label>
-                  <textarea class="form-control"></textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-submit">Submit</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="../assets/js/jquery-3.6.0.min.js"></script>
     <script src="../assets/js/feather.min.js"></script>
     <script src="../assets/js/jquery.slimscroll.min.js"></script>
-    <script src="../assets/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/plugins/select2/js/select2.min.js"></script>
     <script src="../assets/js/moment.min.js"></script>
