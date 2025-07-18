@@ -840,7 +840,7 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+            }).addTo(warehouseMap);
             
             // Debug: Check warehouse data structure
             console.log('Warehouse data:', warehouseData);
@@ -865,7 +865,7 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
                             iconSize: [30, 30],
                             iconAnchor: [15, 30]
                         })
-                    }).addTo(map);
+                    }).addTo(warehouseMap);
                     
                     marker.bindPopup(`
                         <div class="p-2">
@@ -915,7 +915,7 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
                             iconSize: [30, 30],
                             iconAnchor: [15, 30]
                         })
-                    }).addTo(map);
+                    }).addTo(warehouseMap);
                     
                     marker.bindPopup(`
                         <div class="p-2">
@@ -1164,22 +1164,10 @@ $(document).ready(function() {
   });
   
   // Inisialisasi peta
-  const map = L.map('warehouse-map').setView([-2.5489, 118.0149], 5);
-  
-  // Tambahkan tile layer (peta dasar)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-  
-  // Simpan semua marker dalam array
-  const markers = [];
-  // Ensure warehouseData is not redeclared
-  if (typeof warehouseData === 'undefined') {
-    var warehouseData = {};
-  }
+  // Pastikan tidak ada duplikasi - gunakan fungsi yang sudah ada
   
   // Buat marker untuk setiap warehouse
-  $('table.datanew tbody tr').each(function() {
+  $('table.warehouse-table tbody tr').each(function() {
     const id = $(this).data('id');
     const lat = $(this).data('lat');
     const lng = $(this).data('lng');
@@ -1205,7 +1193,7 @@ $(document).ready(function() {
         iconSize: [30, 30],
         iconAnchor: [15, 30]
       })
-    }).addTo(map);
+    }).addTo(warehouseMap);
     
     // Tambahkan popup
     marker.bindPopup(`
@@ -1233,7 +1221,7 @@ $(document).ready(function() {
       $(this.getElement()).find('.warehouse-marker').addClass('highlight');
       const id = $(this.getElement()).find('.warehouse-marker').data('id');
       $(warehouseData[id].element).addClass('highlight-row');
-      map.setView(marker.getLatLng(), 8);
+      warehouseMap.setView(marker.getLatLng(), 8);
     });
     
     marker.on('mouseout', function() {
@@ -1243,7 +1231,7 @@ $(document).ready(function() {
     });
     
     marker.on('click', function() {
-      map.setView([lat, lng], 13);
+      warehouseMap.setView([lat, lng], 13);
     });
   });
   
@@ -1257,7 +1245,7 @@ $(document).ready(function() {
       markers.forEach(m => {
         if (m.id === id) {
           $(m.marker.getElement()).find('.warehouse-marker').addClass('highlight');
-          map.setView(m.marker.getLatLng(), 8);
+          warehouseMap.setView(m.marker.getLatLng(), 8);
         }
       });
     },

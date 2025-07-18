@@ -5,23 +5,107 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-  /* CSS untuk Sidebar Kanan */
+  /* CSS untuk Sidebar Toggle Button */
+  #toggle-btn {
+    position: fixed;
+    top: 70px;
+    right: 15px;
+    cursor: pointer;
+    font-size: 12px; /* Smaller font size */
+    background: rgba(0, 123, 255, 0.3); /* More transparent (30%) */
+    color: white;
+    border-radius: 50%; /* Makes it circular */
+    width: 35px; /* Smaller width */
+    height: 35px; /* Smaller height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 4px rgba(0, 123, 255, 0.2); /* Softer shadow */
+    z-index: 1001;
+    border: 1px solid rgba(0, 123, 255, 0.2); /* Thinner border */
+    backdrop-filter: blur(3px); /* Less blur effect */
+  }
+
+  #toggle-btn:hover {
+    background-color: rgba(0, 123, 255, 0.6); /* Less transparent on hover */
+    border-color: rgba(0, 123, 255, 0.4);
+    transform: scale(1.05); /* Smaller scale on hover */
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  }
+
+  /* Tooltip for toggle button */
+  #toggle-btn::after {
+    content: "Widget Panel";
+    position: absolute;
+    left: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    color: #0066cc;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border: 1px solid #e9ecef;
+  }
+
+  #toggle-btn::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid white;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    pointer-events: none;
+  }
+
+  #toggle-btn:hover::after,
+  #toggle-btn:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* CSS untuk Sidebar Kanan - Dropdown Panel */
   #side-panel {
     position: fixed;
-    top: 60.8px;
-    right: 0;
-    width: 50px; /* Lebar normal */
-    height: 100vh;
+    top: 120px; /* Positioned below toggle button */
+    right: 15px;
+    width: 60px;
+    max-height: 0;
     background-color: #f8f9fa;
-    border-left: 1px solid #dee2e6;
+    border: 1px solid #dee2e6;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: -2px 0 8px rgba(0,0,0,0.1);
-    transition: width 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
     z-index: 1000;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  #side-panel.show {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* Wrapper ikon */
@@ -29,9 +113,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    padding-top: 60px; /* Memberi ruang untuk tombol toggle */
+    gap: 15px;
+    padding: 15px 0;
     flex-grow: 1;
+    width: 100%;
   }
 
   .icon {
@@ -44,11 +129,12 @@
     justify-content: center;
     border-radius: 8px;
     background-color: #ffffff;
-    color: #0066cc; /* Changed from #495057 to blue */
+    color: #0066cc;
     transition: all 0.2s ease;
     border: 1px solid #e9ecef;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     position: relative;
+    overflow: visible;
   }
 
   .icon:hover {
@@ -56,55 +142,35 @@
     background-color: #0066cc;
     color: white;
     box-shadow: 0 4px 8px rgba(0,102,204,0.2);
+    z-index: 1001;
   }
 
-  /* Tooltip styling */
+  /* Tooltip styling - Removed all tooltips */
   .icon::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    right: 45px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.6);
-    color: #0066cc;
-    padding: 6px 10px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 10000;
-    border: 1px solid #e9ecef;
-    backdrop-filter: blur(10px);
+    display: none;
   }
 
   .icon::before {
-    content: '';
-    position: absolute;
-    right: 36px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 6px solid rgba(255, 255, 255, 0.6);
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    z-index: 10000;
+    display: none;
   }
 
   .icon:hover::after,
   .icon:hover::before {
-    opacity: 1;
-    visibility: visible;
+    display: none;
+  }
+
+  /* Ensure tooltips appear above other elements */
+  .icon::after {
+    display: none;
+  }
+
+  @keyframes tooltipFadeIn {
+    /* Animation removed since tooltips are disabled */
   }
 
   .plus-icon {
-    margin-bottom: 20px;
-    font-size: 14px; /* Changed from 20px to 14px */
+    margin-top: 5px;
+    font-size: 14px;
     background-color: #0066cc;
     color: white;
   }
@@ -113,43 +179,62 @@
     background-color: #0052a3;
   }
 
+  /* Remove unused collapsed styles */
   #side-panel.collapsed {
-    width: 0;
-    overflow: visible;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
   }
 
-  #toggle-btn {
-    position: absolute;
-    top: 5px;
-    left: -20px;
-    cursor: pointer;
+  /* Arrow animation for toggle button */
+  #toggle-btn .arrow {
+    transition: transform 0.3s ease;
     font-size: 14px;
-    background: #0066cc; /* Changed from #ffffff to blue */
-    color: white; /* Changed from #495057 to white */
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    user-select: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0,102,204,0.3); /* Updated shadow color */
-    z-index: 1001;
-    border: 1px solid #0066cc; /* Changed border color */
+    font-weight: bold;
   }
 
-  #toggle-btn:hover {
-    background-color: #0052a3; /* Changed hover color */
-    transform: scale(1.05);
-  }
-
-  #side-panel.collapsed #icons-wrapper {
-    display: none;
-  }
-
-  #side-panel.collapsed #toggle-btn {
+  #toggle-btn.active .arrow {
     transform: rotate(180deg);
-    left: -15px;
+  }
+
+  /* Smooth dropdown animation */
+  #side-panel {
+    transform-origin: top center;
+  }
+
+  #side-panel.show {
+    animation: dropdownOpen 0.3s ease-out;
+  }
+
+  @keyframes dropdownOpen {
+    0% {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px) scaleY(0.8);
+    }
+    100% {
+      max-height: 500px;
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+  }
+
+  /* Close animation */
+  #side-panel:not(.show) {
+    animation: dropdownClose 0.3s ease-in;
+  }
+
+  @keyframes dropdownClose {
+    0% {
+      max-height: 500px;
+      opacity: 1;
+      transform: translateY(0) scaleY(1);
+    }
+    100% {
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px) scaleY(0.8);
+    }
   }
 
   #popup-container {
@@ -162,7 +247,7 @@
     z-index: 2000;
     min-width: 200px;
     max-width: 400px;
-    max-height: 80vh;
+    max-height: 65vh; /* Reduced from 80vh to 50vh */
     overflow-y: auto;
   }
 
@@ -182,7 +267,7 @@
     background: linear-gradient(135deg, #dc3545, #c82333);
     color: white;
     border: none;
-    border-radius: 50%;
+    border-radius: 6px; /* Changed from 50% to 6px for rounded square */
     width: 28px;
     height: 28px;
     display: flex;
@@ -206,18 +291,20 @@
   }
 </style>
 
-<div id="side-panel">
-  <!-- Tombol Toggle -->
-  <div id="toggle-btn" href="javascript:void(0);" onclick="togglePanel()">«</div>
+<!-- Tombol Toggle dengan Arrow -->
+<div id="toggle-btn" onclick="togglePanel()">
+  <span class="arrow">▼</span>
+</div>
 
-  <!-- Wrapper ikon yang akan disembunyikan/ditampilkan -->
+<div id="side-panel">
+  <!-- Wrapper ikon yang akan muncul dengan animasi dropdown -->
   <div id="icons-wrapper">
-    <div class="icon" data-tooltip="Calendar" onclick="showPopup('calendar')"><i class="fas fa-calendar"></i></div>
-    <div class="icon" data-tooltip="Notes" onclick="showPopup('note')"><i class="fas fa-sticky-note"></i></div>
-    <div class="icon" data-tooltip="Tasks" onclick="showPopup('task')"><i class="fas fa-check-circle"></i></div>
-    <div class="icon" data-tooltip="Chat" onclick="showPopup('chat')"><i class="fas fa-comments"></i></div>
-    <div class="icon" data-tooltip="Gmail" onclick="showPopup('gmail')"><i class="fas fa-envelope"></i></div>
-    <div class="icon plus-icon" data-tooltip="Add More" onclick="showPopup('addon')"><i class="fas fa-plus"></i></div>
+    <div class="icon" onclick="showPopup('calendar')"><i class="fas fa-calendar"></i></div>
+    <div class="icon" onclick="showPopup('note')"><i class="fas fa-sticky-note"></i></div>
+    <div class="icon" onclick="showPopup('task')"><i class="fas fa-check-circle"></i></div>
+    <div class="icon" onclick="showPopup('chat')"><i class="fas fa-comments"></i></div>
+    <div class="icon" onclick="showPopup('gmail')"><i class="fas fa-envelope"></i></div>
+    <div class="icon plus-icon" onclick="showPopup('addon')"><i class="fas fa-plus"></i></div>
   </div>
 </div>
 
@@ -825,12 +912,18 @@
     const panel = document.getElementById('side-panel');
     const toggleBtn = document.getElementById('toggle-btn');
     
-    panel.classList.toggle('collapsed');
+    // Toggle the show class for dropdown animation
+    panel.classList.toggle('show');
     
-    if (panel.classList.contains('collapsed')) {
-      toggleBtn.innerHTML = '»';
+    // Toggle the active class on button for arrow rotation
+    toggleBtn.classList.toggle('active');
+    
+    // Update arrow direction
+    const arrow = toggleBtn.querySelector('.arrow');
+    if (panel.classList.contains('show')) {
+      arrow.textContent = '▲';
     } else {
-      toggleBtn.innerHTML = '«';
+      arrow.textContent = '▼';
     }
   }
 
@@ -1795,4 +1888,32 @@
     
     eventsList.innerHTML = filteredEvents;
   }
+
+  // Close side panel when clicking outside
+  document.addEventListener('click', function(event) {
+    const panel = document.getElementById('side-panel');
+    const toggleBtn = document.getElementById('toggle-btn');
+    
+    // Check if click is outside both panel and toggle button
+    if (!panel.contains(event.target) && !toggleBtn.contains(event.target)) {
+      if (panel.classList.contains('show')) {
+        togglePanel();
+      }
+    }
+  });
+
+  // Initialize panel as closed
+  document.addEventListener('DOMContentLoaded', function() {
+    const panel = document.getElementById('side-panel');
+    const toggleBtn = document.getElementById('toggle-btn');
+    
+    // Ensure panel starts closed
+    panel.classList.remove('show');
+    toggleBtn.classList.remove('active');
+    
+    const arrow = toggleBtn.querySelector('.arrow');
+    if (arrow) {
+      arrow.textContent = '▼';
+    }
+  });
 </script>
