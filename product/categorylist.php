@@ -1,11 +1,16 @@
 <?php
 require_once __DIR__ . '/../include/config.php';
+require_once 'ai_helper_category.php';
 
 // Koneksi database
 $db = new mysqli('localhost', 'root', '','ikea');
 if ($db->connect_error) {
     die("Koneksi database gagal: " . $db->connect_error);
 }
+
+// Get AI Insight
+$aiInsight = getCategoryAIInsight();
+$aiData = $aiInsight['data'];
 
 // Query untuk stat cards
 $totalCategories = $db->query("SELECT COUNT(*) as total FROM categories_product")->fetch_assoc()['total'];
@@ -86,8 +91,7 @@ if ($otherProducts < 0) {
     $otherProducts = 300;
 }
 
-
-// Query untuk line chart - DIUBAH
+// Query untuk line chart
 $lineChartData = [];
 foreach ($years as $year) {
     $result = $db->query("
@@ -131,7 +135,6 @@ foreach ($years as $year) {
     
     $lineChartData[$year] = $series;
 }
-
 
 // Query untuk sidebar
 $prediction = $db->query("
@@ -185,7 +188,7 @@ $popularCategories = $db->query("
     LIMIT 3
 ");
 
-// Query untuk tabel utama - DIUBAH
+// Query untuk tabel utama
 $categoryTableResult = $db->query("
     SELECT 
         c.id,
@@ -214,7 +217,6 @@ $db->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Bagian head tetap sama seperti sebelumnya -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 <title>IKEA - Category Dashboard</title>
@@ -795,7 +797,8 @@ a {
     font-size: 12px;
   }
 }
-/* Suggestion Card */
+
+/* AI Suggestion Card */
 .suggestion-card {
   background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
@@ -862,9 +865,35 @@ a {
   margin: 0;
   opacity: 0.95;
 }
+
+.refresh-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.refresh-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(180deg);
+}
+
+.refresh-btn.loading {
+  animation: spin 1s linear infinite;
+}
 </style>
 <body>
-<!-- ... (kode HTML sebelumnya) ... -->
 <div id="global-loader">
   <div class="whirly-loader"></div>
 </div>
@@ -887,7 +916,8 @@ a {
           </a>
         </div>
       </div>
-<!-- Stat Cards - Diubah dengan data dari database -->
+
+<!-- Stat Cards -->
 <div class="row justify-content-end">
     <div class="col-lg-3 col-sm-6 col-12 d-flex">
         <a href="#" class="w-100 text-decoration-none text-dark">
@@ -1126,19 +1156,34 @@ a {
                         <?php $count++; endwhile; ?>
                     </div>
                 </div>
-
-                <!-- AI Suggestion -->
-                <div class="suggestion-card">
+                                        <!-- AI Suggestion Card -->
+                                        <div class="suggestion-card" id="aiSuggestionCard">
+                    <button class="refresh-btn" id="refreshAiBtn" onclick="refreshAISuggestion()" title="Refresh AI Suggestion">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
                     <div class="suggestion-header">
                         <div class="suggestion-icon">
                             <i class="fas fa-brain"></i>
                         </div>
-                        <h4 class="suggestion-title">AI Suggestion: Produk Baru yang Potensial</h4>
+                        <h4 class="suggestion-title" id="aiSuggestionTitle">
+                            AI Suggestion: <?= formatInsightType($aiData['insight_type']) ?>
+                        </h4>
                     </div>
-                        <p class="suggestion-content">"Pencarian untuk 'rak dinding kayu minimalis' meningkat 45% dalam 3 bulan terakhir. Pertimbangkan menambahkan varian ini di koleksi LACK."</p>
+                    <p class="suggestion-content" id="aiSuggestionContent">
+                        <?= htmlspecialchars($aiData['recommendation']) ?>
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small style="opacity: 0.8;" id="aiSuggestionMeta">
+                            <?= $aiData['category_name'] ?? 'General' ?> • <?= formatUrgency($aiData['urgency']) ?>
+                        </small>
+                        <small style="opacity: 0.7;" id="aiSuggestionTime">
+                            <?= date('d M H:i', strtotime($aiData['generated_at'])) ?>
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Category Table -->
         <div class="category-table-section">
@@ -1201,7 +1246,7 @@ a {
     <?php $counter++; endforeach; ?>
 </tbody>
             </table>
-            <!-- ... (pagination dan lainnya) ... -->
+            
             <div class="no-results" id="noResults" style="display: none;">
               <i class="fas fa-search"></i>
               <h5>Tidak ada data yang ditemukan</h5>
@@ -1247,6 +1292,52 @@ let filteredData = [...categoryData];
 let searchQuery = '';
 
 let barChart, donutChart, lineChart;
+
+// AI Suggestion Functions
+function refreshAISuggestion() {
+    const refreshBtn = document.getElementById('refreshAiBtn');
+    const suggestionTitle = document.getElementById('aiSuggestionTitle');
+    const suggestionContent = document.getElementById('aiSuggestionContent');
+    const suggestionMeta = document.getElementById('aiSuggestionMeta');
+    const suggestionTime = document.getElementById('aiSuggestionTime');
+    
+    // Add loading state
+    refreshBtn.classList.add('loading');
+    refreshBtn.disabled = true;
+    
+    // Show loading message
+    suggestionContent.textContent = 'Generating new AI insight...';
+    
+    fetch('refresh_ai_suggestion_category.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                suggestionTitle.textContent = `AI Suggestion: ${data.data.insight_type}`;
+                suggestionContent.textContent = data.data.recommendation;
+                suggestionMeta.textContent = `${data.data.category_name} • ${data.data.urgency}`;
+                suggestionTime.textContent = data.data.generated_at;
+                
+                // Add success animation
+                const card = document.getElementById('aiSuggestionCard');
+                card.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 200);
+            } else {
+                suggestionContent.textContent = data.data.recommendation;
+                console.error('AI Refresh Error:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Network Error:', error);
+            suggestionContent.textContent = 'Failed to refresh AI suggestion. Please try again.';
+        })
+        .finally(() => {
+            // Remove loading state
+            refreshBtn.classList.remove('loading');
+            refreshBtn.disabled = false;
+        });
+}
 
 // Inisialisasi chart dengan data dari database
 function initBarChart(year) {
@@ -1512,7 +1603,7 @@ function initLineChart(year) {
     }
 }
 
-/// Di fungsi performSearch - PERBAIKI PENCARIAN
+// Di fungsi performSearch - PERBAIKI PENCARIAN
 function performSearch(query) {
   searchQuery = query.toLowerCase();
   
@@ -1770,7 +1861,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- ... (script lainnya) ... -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>

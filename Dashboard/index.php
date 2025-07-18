@@ -3,6 +3,7 @@ session_start();
 require_once __DIR__ . '/../include/config.php'; // Import config.php
 $userFullName = isset($_SESSION['user_full_name']) ? $_SESSION['user_full_name'] : 'Guest';
 require_once __DIR__ . '/../include/popup.php';
+require_once __DIR__ . '/../AI integrated/AI-CHAT.PHP';
 // Cek apakah perlu menampilkan notifikasi login
 if (isset($_SESSION['show_login_notification']) && $_SESSION['show_login_notification']) {
   $showNotification = true;
@@ -44,7 +45,7 @@ include __DIR__ . '/../include/sidepanel.php';
 
 <?php include __DIR__ . '/../include/header.php'; ?>
 <?php include BASE_PATH . '/include/sidebar.php'; ?>
-<?php include __DIR__ . '/../include/ai.php'; ?>
+
 <div class="page-wrapper">
   <!-- Tampilkan popup jika diperlukan -->
 <?php if ($showNotification): ?>

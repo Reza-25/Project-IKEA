@@ -1,5 +1,9 @@
+
 <?php
 require_once __DIR__ . '/../include/config.php';
+
+// *** TAMBAHAN: Include AI Helper ***
+require_once __DIR__ . '/ai_helper.php';
 
 // Database connection
 $servername = "localhost";
@@ -59,6 +63,16 @@ $salesHistorySql = "SELECT b.brand_name, bsh.year, bsh.month, bsh.units_sold
 $salesHistoryStmt = $pdo->prepare($salesHistorySql);
 $salesHistoryStmt->execute();
 $salesHistory = $salesHistoryStmt->fetchAll(PDO::FETCH_ASSOC);
+
+// *** TAMBAHAN: Ambil AI Suggestion ***
+$aiSuggestion = getLatestAISuggestion();
+
+// Fallback jika tidak ada AI suggestion
+if (!$aiSuggestion) {
+    $aiSuggestionText = "Berdasarkan data penjualan, kategori " . ($brandStats['dominant_category'] ?? 'Furniture') . " menunjukkan potensi pertumbuhan. Pertimbangkan menambahkan varian baru di koleksi " . ($allBrands[0]['brand_name'] ?? 'Brand Terbaik') . ".";
+} else {
+    $aiSuggestionText = $aiSuggestion['recommendation'];
+}
 
 // Process data for JavaScript
 $jsBarData = [];
@@ -141,6 +155,7 @@ foreach ($allBrands as $index => $brand) {
 <meta name="robots" content="noindex, nofollow">
 <title>IKEA</title>
 
+<!-- Link CSS - TETAP SAMA -->
 <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/css/animate.css">
@@ -160,6 +175,7 @@ foreach ($allBrands as $index => $brand) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
+
    a {
     text-decoration: none !important;
   }
@@ -1079,19 +1095,99 @@ foreach ($allBrands as $index => $brand) {
   cursor: not-allowed;
 }
 
-/* Suggestion Card */
+/* AI Suggestion Card */
 .suggestion-card {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
 .suggestion-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+}
+
+.suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.suggestion-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.suggestion-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.suggestion-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.suggestion-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+}
+
+.refresh-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.refresh-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(180deg);
+}
+
+.refresh-btn.loading {
+  animation: spin 1s linear infinite;
 }
 
 /* Responsive */
@@ -1241,14 +1337,14 @@ foreach ($allBrands as $index => $brand) {
       </div>
     </div>
 
-    <!-- Revenue, Suppliers, Product Sold, Budget Spent -->
+    <!-- Revenue, Suppliers, Product Sold, Budget Spent - TETAP SAMA -->
           <div class="row justify-content-end">
           <!-- 🔢 Total Active Brands -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="<?php echo $brandStats['total_brands']; ?>"><?php echo $brandStats['total_brands']; ?>,0</span></h4>
+                    <h4><span class="counters" data-count="<?php echo $brandStats['total_brands']; ?>"><?php echo $brandStats['total_brands']; ?></span></h4>
                     <h5>Total Active Brands</h5>
                     <h2 class="stat-change">+2% from last year</h2>
                     </div>
@@ -1280,7 +1376,7 @@ foreach ($allBrands as $index => $brand) {
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="<?php echo round($brandStats['avg_stock_availability']); ?>"><?php echo round($brandStats['avg_stock_availability']); ?>,0</span>%</h4> 
+                  <h4><span class="counters" data-count="<?php echo round($brandStats['avg_stock_availability']); ?>"><?php echo round($brandStats['avg_stock_availability']); ?></span>%</h4> 
                   <h5>Stock Availability</h5>                 
                     <h2 class="stat-change">+15% from last year</h2>
                   </div>
@@ -1317,7 +1413,7 @@ foreach ($allBrands as $index => $brand) {
           <!-- Charts Section dalam row terpisah -->
           <div class="row mb-4">
             <div class="col-lg-8">
-              <!-- Bar Chart -->
+              <!-- Bar Chart - TETAP SAMA -->
               <div class="chart-section">
                 <div class="chart-header">
                   <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Top 5 Brands with Highest Sales</h5>
@@ -1339,7 +1435,7 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- Donut Chart -->
+              <!-- Donut Chart - TETAP SAMA -->
               <div class="chart-section">
                 <div class="chart-header">
                   <h5 class="chart-title"><i class="fas fa-chart-pie me-2"></i>Brand Contribution to Total Sales</h5>
@@ -1357,7 +1453,7 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- Line Chart -->
+              <!-- Line Chart - TETAP SAMA -->
               <div class="chart-section">
                 <div class="chart-header">
                   <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Brand Growth Trend (Top 5 Brands)</h5>
@@ -1379,7 +1475,7 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- Insight Produk Bersaing -->
+              <!-- Insight Produk Bersaing - TETAP SAMA SAMPAI AKHIR SECTION -->
               <div class="chart-section">
                 <div class="chart-header">
                   <h5 class="chart-title"><i class="fas fa-chess-board me-2"></i>Insight "Produk Bersaing" Antar Brand</h5>
@@ -1458,7 +1554,7 @@ foreach ($allBrands as $index => $brand) {
 
             <!-- Right Column - Sidebar tetap di samping charts -->
             <div class="col-lg-4">
-              <!-- Prediksi Penjualan -->
+              <!-- Prediksi Penjualan - TETAP SAMA SAMPAI SEBELUM AI SUGGESTION -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
                   <i class="fas fa-calculator me-2"></i>Prediksi Penjualan Brand per Bulan
@@ -1493,7 +1589,7 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- Notifikasi Kritis -->
+              <!-- Notifikasi Kritis - TETAP SAMA -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
                   <i class="fas fa-bell me-2"></i>Notifikasi Kritis Otomatis
@@ -1552,7 +1648,7 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- Health Score -->
+              <!-- Health Score - TETAP SAMA -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
                   <i class="fas fa-heartbeat me-2"></i>Health Score untuk Brand
@@ -1599,7 +1695,7 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- Compact Brand Readiness -->
+              <!-- Compact Brand Readiness - TETAP SAMA -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
                   <i class="fas fa-bolt me-2"></i>Brand Readiness Index
@@ -1640,7 +1736,7 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- Distribusi Lokasi -->
+              <!-- Distribusi Lokasi - TETAP SAMA -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
                   <i class="fas fa-map-marker-alt me-2"></i>Distribusi Lokasi Penjualan Terbanyak
@@ -1666,18 +1762,35 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-              <!-- AI Suggestion -->
-              <div class="suggestion-card">
-                <div class="insight-card-header">
-                  <i class="fas fa-brain text-white"></i>
-                  <h4 class="mb-0 text-white">AI Suggestion: Produk Baru yang Potensial</h4>
+                <!-- AI Suggestion Card -->
+                <div class="suggestion-card" id="aiSuggestionCard">
+                <button class="refresh-btn" id="refreshAiBtn" onclick="refreshAISuggestion()" title="Refresh AI Suggestion">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+                <div class="suggestion-header">
+                  <div class="suggestion-icon">
+                  <i class="fas fa-brain"></i>
+                  </div>
+                  <h4 class="suggestion-title" id="aiSuggestionTitle">
+                  AI Suggestion: Produk Baru yang Potensial
+                  </h4>
                 </div>
-                <p class="mb-0" style="font-size: 0.85rem;">"Berdasarkan data penjualan, kategori <?php echo $brandStats['dominant_category']; ?> menunjukkan potensi pertumbuhan. Pertimbangkan menambahkan varian baru di koleksi <?php echo $allBrands[0]['brand_name']; ?>."</p>
+                <p class="suggestion-content" id="aiSuggestionContent">
+                  <?php echo htmlspecialchars($aiSuggestionText); ?>
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <small style="opacity: 0.8;" id="aiSuggestionMeta">
+                  <?php echo $brandStats['dominant_category'] ?: 'General'; ?> • High Priority
+                  </small>
+                  <small style="opacity: 0.7;" id="aiSuggestionTime">
+                  <?php echo date('d M H:i'); ?>
+                  </small>
+                </div>
+                </div>
               </div>
-            </div>
-          </div>
+              </div>
 
-          <!-- Enhanced Brand Data Table - Full Width Professional with Search & Export -->
+          <!-- Enhanced Brand Data Table - Full Width Professional with Search & Export - TETAP SAMA -->
           <div class="brand-table-section">
             <div class="chart-header">
               <h5 class="chart-title"><i class="fas fa-table me-2"></i>Data Brand IKEA</h5>
@@ -1753,15 +1866,49 @@ foreach ($allBrands as $index => $brand) {
 </div>
 
 <script>
-// Data dari database PHP - dikonversi ke JavaScript
+// *** TAMBAHAN: Fungsi refresh AI suggestion ***
+function refreshAISuggestion() {
+    const refreshBtn = document.querySelector('.ai-refresh-btn');
+    const suggestionText = document.getElementById('aiSuggestionText');
+    
+    // Show loading state
+    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    refreshBtn.disabled = true;
+    
+    fetch('refresh_ai_suggestion.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && data.suggestion) {
+            // Update suggestion text
+            suggestionText.textContent = '"' + data.suggestion.recommendation + '"';
+        } else {
+            console.log('No new suggestion available');
+        }
+    })
+    .catch(error => {
+        console.error('Error refreshing AI suggestion:', error);
+    })
+    .finally(() => {
+        // Reset button
+        refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+        refreshBtn.disabled = false;
+    });
+}
+
+// Data dari database PHP - dikonversi ke JavaScript - TETAP SAMA
 const barChartData = {
   2025: {
     brands: <?php echo json_encode(array_column($jsBarData, 'brand')); ?>,
     sales: <?php echo json_encode(array_column($jsBarData, 'sales')); ?>,
     insights: {
       <?php foreach ($jsBarData as $item) { ?>
-      "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> menunjukkan performa yang solid dengan penjualan <?php echo number_format($item['sales'] * 1000); ?> unit per bulan.",
-      <?php } ?>
+      "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> menunjukkan performa yang solid dengan penjualan <?php echo number_format($item['sales'] * 1000); ?> unit per bulan."<?php if ($item !== end($jsBarData)) echo ','; ?>
+      <?php } ?>,
     }
   },
   2024: {
@@ -1769,8 +1916,8 @@ const barChartData = {
     sales: <?php echo json_encode(array_map(function($x) { return $x * 0.9; }, array_column($jsBarData, 'sales'))); ?>,
     insights: {
       <?php foreach ($jsBarData as $item) { ?>
-      "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> di tahun 2024 menunjukkan kinerja yang konsisten.",
-      <?php } ?>
+      "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> di tahun 2024 menunjukkan kinerja yang konsisten."<?php if ($item !== end($jsBarData)) echo ','; ?>
+      <?php } ?>,
     }
   },
   2023: {
@@ -1778,8 +1925,8 @@ const barChartData = {
     sales: <?php echo json_encode(array_map(function($x) { return $x * 0.8; }, array_column($jsBarData, 'sales'))); ?>,
     insights: {
       <?php foreach ($jsBarData as $item) { ?>
-      "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> di tahun 2023 masih dalam tahap pengembangan pasar.",
-      <?php } ?>
+      "<?php echo $item['brand']; ?>": "Brand <?php echo $item['brand']; ?> di tahun 2023 masih dalam tahap pengembangan pasar."<?php if ($item !== end($jsBarData)) echo ','; ?>
+      <?php } ?>,
     }
   }
 };
@@ -2489,3 +2636,5 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
 <script src="../assets/js/script.js"></script>
+</body>
+</html>
