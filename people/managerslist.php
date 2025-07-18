@@ -64,6 +64,11 @@ $avgCompletion = $db->query("
 <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
 <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
 <link rel="stylesheet" href="../assets/css/style.css">
+
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 /* Reset semua background jadi putih & style dasar kolom */
 .das1, .das2, .das3, .das4 {
@@ -209,6 +214,214 @@ $avgCompletion = $db->query("
     border-radius: 6px;
     vertical-align: middle;
 }
+
+/* Enhanced Manager Data Table - Extended Width and Blue Gradient Headers */
+.brand-table-section {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.brand-table-section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Chart Header */
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.chart-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.chart-title i {
+  color: #1976d2;
+}
+
+/* Table Controls */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.search-container {
+  position: relative;
+  flex: 1;
+  max-width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.export-btn {
+  padding: 8px 16px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.export-btn.pdf {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: white;
+}
+
+.export-btn.pdf:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.export-btn.excel {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+}
+
+.export-btn.excel:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.brand-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.brand-table th {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 2px solid #1565c0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.brand-table th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.brand-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.brand-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.85rem;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.brand-table tbody tr:hover {
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.brand-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.brand-id {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+}
+
+.brand-category {
+  background: #f8fafc;
+  color: #64748b;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  border: 1px solid #e2e8f0;
+}
+
+/* No Results Message */
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
+
+.no-results i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #cbd5e1;
+}
+
+.no-results h5 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #475569;
+}
+
+.no-results p {
+  font-size: 0.9rem;
+  margin: 0;
+}
 </style>
 </head>
 <body>
@@ -297,104 +510,78 @@ $avgCompletion = $db->query("
     </div>
 </div>
 
-<div class="card">
-    <div class="card-body">
-        <div class="table-top">
-            <div class="search-set">
-                <div class="search-path">
-                    <a class="btn btn-filter" id="filter_search">
-                        <img src="../assets/img/icons/filter.svg" alt="img">
-                        <span><img src="../assets/img/icons/closes.svg" alt="img"></span>
-                    </a>
-                </div>
-                <div class="search-input">
-                    <a class="btn btn-searchset"><img src="../assets/img/icons/search-white.svg" alt="img"></a>
-                </div>
-            </div>
-            <div class="wordset">
-                <ul>
-                    <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="../assets/img/icons/pdf.svg" alt="img"></a>
-                    </li>
-                    <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="../assets/img/icons/excel.svg" alt="img"></a>
-                    </li>
-                    <li>
-                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="../assets/img/icons/printer.svg" alt="img"></a>
-                    </li>
-                </ul>
-            </div>
+<!-- Enhanced Manager Data Table - Full Width Professional with Search & Export -->
+<div class="brand-table-section">
+    <div class="chart-header">
+        <h5 class="chart-title"><i class="fas fa-users me-2"></i>Data Manager IKEA</h5>
+        <div class="d-flex align-items-center gap-2">
+            <span style="font-size: 0.8rem; color: #64748b;" id="totalManagersText">Total: <?= count($managers) ?> managers</span>
         </div>
-
-        <div class="card" id="filter_inputs">
-            <div class="card-body pb-0">
-                <div class="row">
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Manager Code">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Manager Name">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Phone Number">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-sm-6 col-12">
-                        <div class="form-group">
-                            <input type="text" placeholder="Enter Email">
-                        </div>
-                    </div>
-                    <div class="col-lg-1 col-sm-6 col-12  ms-auto">
-                        <div class="form-group">
-                            <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    </div>
+    
+    <!-- Table Controls -->
+    <div class="table-controls">
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Cari manager, email, atau branch...">
+            <i class="fas fa-search search-icon"></i>
         </div>
-
-        <div class="table-responsive">
-            <table class="table datanew">
-                <thead>
+        <div class="export-buttons">
+            <button class="export-btn pdf" onclick="exportToPDF()">
+                <i class="fas fa-file-pdf"></i>
+                Export PDF
+            </button>
+            <button class="export-btn excel" onclick="exportToExcel()">
+                <i class="fas fa-file-excel"></i>
+                Export Excel
+            </button>
+        </div>
+    </div>
+    
+    <table class="brand-table" id="managerTable">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Manager Name</th>
+                <th>Code</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Branch</th>
+            </tr>
+        </thead>
+        <tbody id="managerTableBody">
+            <?php if (empty($managers)): ?>
+                <tr>
+                    <td colspan="6" class="text-center">No managers found</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($managers as $index => $manager): ?>
                     <tr>
-                        <th>NO</th>
-                        <th>Manager Name</th>
-                        <th>Code</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Branch</th>
+                        <td><?= $index + 1 ?></td>
+                        <td class="productimgname">
+                            <div class="d-flex align-items-center">
+                                <img src="../assets/img/profiles/<?= $manager['foto_profil'] ?: 'default.jpg' ?>" alt="<?= htmlspecialchars($manager['nama']) ?>" width="40" height="40" class="rounded-circle me-2">
+                                <span class="brand-name"><?= htmlspecialchars($manager['nama']) ?></span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="brand-id"><?= htmlspecialchars($manager['kode_manager']) ?></span>
+                        </td>
+                        <td><?= htmlspecialchars($manager['telepon']) ?></td>
+                        <td><?= htmlspecialchars($manager['email']) ?></td>
+                        <td>
+                            <span class="brand-category"><?= htmlspecialchars($manager['branch']) ?></span>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($managers)): ?>
-                        <tr>
-                            <td colspan="6" class="text-center">No managers found</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($managers as $index => $manager): ?>
-                            <tr>
-                                <td><?= $index + 1 ?></td>
-                                <td class="productimgname">
-                                    <a href="javascript:void(0);" class="product-img">
-                                        <img src="../assets/img/profiles/<?= $manager['foto_profil'] ?: 'default.jpg' ?>" alt="<?= htmlspecialchars($manager['nama']) ?>" width="40" height="40">
-                                    </a>
-                                    <a href="javascript:void(0);"><?= htmlspecialchars($manager['nama']) ?></a>
-                                </td>
-                                <td><?= htmlspecialchars($manager['kode_manager']) ?></td>
-                                <td><?= htmlspecialchars($manager['telepon']) ?></td>
-                                <td><?= htmlspecialchars($manager['email']) ?></td>
-                                <td><?= htmlspecialchars($manager['branch']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+    
+    <!-- No Results Message -->
+    <div class="no-results" id="noResults" style="display: none;">
+        <i class="fas fa-search"></i>
+        <h5>Tidak ada data yang ditemukan</h5>
+        <p>Coba ubah kata kunci pencarian Anda</p>
     </div>
 </div>
 
@@ -415,5 +602,105 @@ $avgCompletion = $db->query("
 <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
 <script src="../assets/js/script.js"></script>
+
+<script>
+// Search functionality
+document.getElementById('searchInput').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const tableRows = document.querySelectorAll('#managerTableBody tr');
+    const noResults = document.getElementById('noResults');
+    let visibleRows = 0;
+
+    tableRows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let matchFound = false;
+        
+        cells.forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(searchTerm)) {
+                matchFound = true;
+            }
+        });
+        
+        if (matchFound) {
+            row.style.display = '';
+            visibleRows++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Show/hide no results message
+    if (visibleRows === 0 && searchTerm !== '') {
+        noResults.style.display = 'block';
+        document.querySelector('.brand-table').style.display = 'none';
+    } else {
+        noResults.style.display = 'none';
+        document.querySelector('.brand-table').style.display = 'table';
+    }
+});
+
+// Export to PDF function
+function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Title
+    doc.setFontSize(16);
+    doc.text('Data Manager IKEA', 14, 15);
+    
+    // Get table data
+    const table = document.getElementById('managerTable');
+    const rows = [];
+    
+    // Headers
+    const headers = ['No', 'Manager Name', 'Code', 'Phone', 'Email', 'Branch'];
+    rows.push(headers);
+    
+    // Data rows
+    const dataRows = table.querySelectorAll('tbody tr');
+    dataRows.forEach(row => {
+        if (row.style.display !== 'none') {
+            const cells = row.querySelectorAll('td');
+            const rowData = [];
+            cells.forEach((cell, index) => {
+                if (index === 1) {
+                    // For manager name column, get text content only
+                    rowData.push(cell.querySelector('.brand-name')?.textContent || cell.textContent.trim());
+                } else if (index === 2) {
+                    // For code column, get text content only
+                    rowData.push(cell.querySelector('.brand-id')?.textContent || cell.textContent.trim());
+                } else if (index === 5) {
+                    // For branch column, get text content only
+                    rowData.push(cell.querySelector('.brand-category')?.textContent || cell.textContent.trim());
+                } else {
+                    rowData.push(cell.textContent.trim());
+                }
+            });
+            rows.push(rowData);
+        }
+    });
+    
+    // Generate table
+    doc.autoTable({
+        head: [headers],
+        body: rows.slice(1),
+        startY: 25,
+        theme: 'grid',
+        headStyles: {
+            fillColor: [25, 118, 210],
+            textColor: 255
+        }
+    });
+    
+    doc.save('data-manager-ikea.pdf');
+}
+
+// Export to Excel function
+function exportToExcel() {
+    const table = document.getElementById('managerTable');
+    const wb = XLSX.utils.table_to_book(table, {sheet: "Managers"});
+    XLSX.writeFile(wb, 'data-manager-ikea.xlsx');
+}
+</script>
 </body>
 </html>
