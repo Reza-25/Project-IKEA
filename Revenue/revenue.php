@@ -659,8 +659,13 @@ function formatPercentage($percent) {
                     <canvas id="barChart"></canvas>
                   </div>
                   <div class="insight-container">
-                    <h5>Performance Analysis</h5>
-                    <p>Top performing stores show consistent growth. Focus on replicating successful strategies across all locations.</p>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                      <div>
+                        <h5 style="font-size: 0.9rem;">Performance Analysis</h5>
+                        <p class="mb-0">Top performing stores show consistent growth. Focus on replicating successful strategies across all locations.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -675,8 +680,13 @@ function formatPercentage($percent) {
                     <canvas id="lineChart"></canvas>
                   </div>
                   <div class="insight-container">
-                    <h5>Trend Analysis</h5>
-                    <p>Monthly profits show steady improvement. Continue current growth strategies for optimal results.</p>
+                    <div class="d-flex align-items-center">
+                      <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                      <div>
+                        <h5 style="font-size: 0.9rem;">Trend Analysis</h5>
+                        <p class="mb-0">Monthly profits show steady improvement. Continue current growth strategies for optimal results.</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
