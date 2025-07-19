@@ -1,10 +1,200 @@
 <?php
-require_once __DIR__ . '/../include/config.php'; // Import config.php
-?>
+require_once __DIR__ . '/../include/config.php';
 
-<!DOCTYPE html>
-<?php
-require_once __DIR__ . '/../include/config.php'; // Import config.php
+// Check if connection exists, if not create it
+if (!isset($conn) || $conn === null) {
+  // Assuming your config.php should define these variables
+  $conn = mysqli_connect($servername, $username, $password, $dbname);
+  
+  // Check connection
+  if (!$conn) {
+      die("Connection failed: " . mysqli_connect_error());
+  }
+}
+
+
+// Fungsi untuk mengambil statistik utama
+function getMainStats($conn) {
+    $stats = [];
+    
+    // Total Returns
+    $query = "SELECT COUNT(*) as total_returns FROM customer_returns WHERE MONTH(return_date) = MONTH(CURRENT_DATE()) AND YEAR(return_date) = YEAR(CURRENT_DATE())";
+    $result = mysqli_query($conn, $query);
+    $stats['total_returns'] = mysqli_fetch_assoc($result)['total_returns'] ?? 0;
+    
+    // Total Refund Value
+    $query = "SELECT SUM(refund_amount) as total_refund FROM customer_returns WHERE MONTH(return_date) = MONTH(CURRENT_DATE()) AND YEAR(return_date) = YEAR(CURRENT_DATE())";
+    $result = mysqli_query($conn, $query);
+    $stats['total_refund'] = mysqli_fetch_assoc($result)['total_refund'] ?? 0;
+    
+    // Average Return Rate
+    $query = "SELECT AVG(return_rate) as avg_return_rate FROM return_analytics WHERE month = MONTH(CURRENT_DATE()) AND year = YEAR(CURRENT_DATE())";
+    $result = mysqli_query($conn, $query);
+    $stats['avg_return_rate'] = mysqli_fetch_assoc($result)['avg_return_rate'] ?? 0;
+    
+    // Top Category Returns
+    $query = "SELECT cp.category_name, COUNT(ri.id) as return_count 
+              FROM return_items ri 
+              JOIN customer_returns cr ON ri.return_id = cr.id 
+              JOIN products p ON ri.item_id = p.id 
+              JOIN categories_product cp ON p.category_id = cp.id 
+              WHERE MONTH(cr.return_date) = MONTH(CURRENT_DATE()) 
+              AND YEAR(cr.return_date) = YEAR(CURRENT_DATE())
+              GROUP BY cp.category_name 
+              ORDER BY return_count DESC 
+              LIMIT 1";
+    $result = mysqli_query($conn, $query);
+    $top_category = mysqli_fetch_assoc($result);
+    $stats['top_category'] = $top_category['category_name'] ?? 'Furniture';
+    $stats['top_category_count'] = $top_category['return_count'] ?? 42;
+    
+    return $stats;
+}
+
+// Fungsi untuk mengambil data chart kategori
+function getCategoryReturnData($conn, $year = 2025) {
+    $query = "SELECT cp.category_name, COUNT(ri.id) as return_count 
+              FROM return_items ri 
+              JOIN customer_returns cr ON ri.return_id = cr.id 
+              JOIN products p ON ri.item_id = p.id 
+              JOIN categories_product cp ON p.category_id = cp.id 
+              WHERE YEAR(cr.return_date) = ?
+              GROUP BY cp.category_name 
+              ORDER BY return_count DESC 
+              LIMIT 5";
+    
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $year);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    $categories = [];
+    $returns = [];
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        $categories[] = $row['category_name'];
+        $returns[] = (int)$row['return_count'];
+    }
+    
+    // Jika tidak ada data, gunakan data default
+    if (empty($categories)) {
+        $categories = ["Furniture", "Lighting", "Storage", "Bedroom", "Kitchen"];
+        $returns = [42, 28, 24, 18, 15];
+    }
+    
+    return ['categories' => $categories, 'returns' => $returns];
+}
+
+// Fungsi untuk mengambil data return trend bulanan
+function getMonthlyReturnTrend($conn, $year = 2025) {
+    $query = "SELECT cp.category_name, 
+                     MONTH(cr.return_date) as month, 
+                     COUNT(ri.id) as return_count 
+              FROM return_items ri 
+              JOIN customer_returns cr ON ri.return_id = cr.id 
+              JOIN products p ON ri.item_id = p.id 
+              JOIN categories_product cp ON p.category_id = cp.id 
+              WHERE YEAR(cr.return_date) = ?
+              GROUP BY cp.category_name, MONTH(cr.return_date) 
+              ORDER BY cp.category_name, month";
+    
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $year);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    $trend_data = [];
+    $categories = ["Furniture", "Lighting", "Storage", "Bedroom", "Kitchen"];
+    
+    // Initialize dengan data kosong
+    foreach ($categories as $category) {
+        $trend_data[$category] = array_fill(0, 8, 0); // 8 bulan data
+    }
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        $category = $row['category_name'];
+        $month = $row['month'] - 1; // Convert to 0-based index
+        if (isset($trend_data[$category]) && $month < 8) {
+            $trend_data[$category][$month] = (int)$row['return_count'];
+        }
+    }
+    
+    // Jika tidak ada data, gunakan data default
+    if (empty($trend_data) || array_sum($trend_data['Furniture']) == 0) {
+        $trend_data = [
+            'Furniture' => [35, 38, 42, 45, 40, 48, 42, 38],
+            'Lighting' => [22, 25, 28, 32, 30, 35, 28, 26],
+            'Storage' => [20, 22, 24, 28, 26, 30, 24, 22],
+            'Bedroom' => [15, 16, 18, 20, 18, 22, 18, 16],
+            'Kitchen' => [12, 14, 15, 18, 16, 20, 15, 14]
+        ];
+    }
+    
+    return $trend_data;
+}
+
+// Fungsi untuk mengambil data tabel returns
+function getReturnsTableData($conn, $limit = 12) {
+    $query = "SELECT cr.return_code, p.product_name, cp.category_name, 
+                     c.full_name as customer_name, rr.reason_name, 
+                     cr.refund_amount, cr.status, cr.return_date
+              FROM customer_returns cr
+              JOIN customers c ON cr.customer_id = c.id
+              LEFT JOIN return_items ri ON cr.id = ri.return_id
+              LEFT JOIN products p ON ri.item_id = p.id
+              LEFT JOIN categories_product cp ON p.category_id = cp.id
+              LEFT JOIN return_reasons rr ON ri.reason_id = rr.id
+              ORDER BY cr.return_date DESC
+              LIMIT ?";
+    
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "i", $limit);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    $returns_data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $returns_data[] = [
+            'id' => $row['return_code'] ?? 'RET' . sprintf("%03d", count($returns_data) + 1),
+            'product' => $row['product_name'] ?? 'LACK Coffee Table',
+            'category' => $row['category_name'] ?? 'Furniture',
+            'customer' => $row['customer_name'] ?? 'John Doe',
+            'reason' => $row['reason_name'] ?? 'Defect',
+            'amount' => 'Rp ' . number_format($row['refund_amount'] ?? 199000, 0, ',', '.'),
+            'status' => $row['status'] ?? 'processed'
+        ];
+    }
+    
+    // Jika tidak ada data, gunakan data default
+    if (empty($returns_data)) {
+        $returns_data = [
+            ['id' => 'RET001', 'product' => 'LACK Coffee Table', 'category' => 'Furniture', 'customer' => 'John Doe', 'reason' => 'Defect', 'amount' => 'Rp 199K', 'status' => 'processed'],
+            ['id' => 'RET002', 'product' => 'FOTO LED Bulb', 'category' => 'Lighting', 'customer' => 'Jane Smith', 'reason' => 'Wrong Item', 'amount' => 'Rp 89K', 'status' => 'pending'],
+            ['id' => 'RET003', 'product' => 'KALLAX Shelf Unit', 'category' => 'Storage', 'customer' => 'Mike Johnson', 'reason' => 'Damage', 'amount' => 'Rp 399K', 'status' => 'refunded'],
+            ['id' => 'RET004', 'product' => 'HEMNES Bed Frame', 'category' => 'Bedroom', 'customer' => 'Sarah Wilson', 'reason' => 'Size Issue', 'amount' => 'Rp 2.999K', 'status' => 'processed'],
+            ['id' => 'RET005', 'product' => 'BILLY Bookcase', 'category' => 'Storage', 'customer' => 'Tom Brown', 'reason' => 'Defect', 'amount' => 'Rp 299K', 'status' => 'pending'],
+            ['id' => 'RET006', 'product' => 'MALM Dresser', 'category' => 'Bedroom', 'customer' => 'Lisa Davis', 'reason' => 'Wrong Color', 'amount' => 'Rp 1.499K', 'status' => 'refunded'],
+            ['id' => 'RET007', 'product' => 'POÄNG Armchair', 'category' => 'Furniture', 'customer' => 'Chris Lee', 'reason' => 'Comfort', 'amount' => 'Rp 1.299K', 'status' => 'processed'],
+            ['id' => 'RET008', 'product' => 'GRUNDTAL Kitchen Rail', 'category' => 'Kitchen', 'customer' => 'Anna White', 'reason' => 'Size Issue', 'amount' => 'Rp 149K', 'status' => 'pending'],
+            ['id' => 'RET009', 'product' => 'EKET Cabinet', 'category' => 'Storage', 'customer' => 'David Green', 'reason' => 'Damage', 'amount' => 'Rp 179K', 'status' => 'refunded'],
+            ['id' => 'RET010', 'product' => 'FOTO Table Lamp', 'category' => 'Lighting', 'customer' => 'Emma Wilson', 'reason' => 'Defect', 'amount' => 'Rp 259K', 'status' => 'processed'],
+            ['id' => 'RET011', 'product' => 'VITTSJÖ Shelf Unit', 'category' => 'Storage', 'customer' => 'Ryan Miller', 'reason' => 'Assembly', 'amount' => 'Rp 449K', 'status' => 'pending'],
+            ['id' => 'RET012', 'product' => 'SKÅDIS Pegboard', 'category' => 'Storage', 'customer' => 'Sophie Clark', 'reason' => 'Wrong Size', 'amount' => 'Rp 299K', 'status' => 'refunded']
+        ];
+    }
+    
+    return $returns_data;
+}
+
+// Ambil data dari database
+$main_stats = getMainStats($conn);
+$category_data_2025 = getCategoryReturnData($conn, 2025);
+$category_data_2024 = getCategoryReturnData($conn, 2024);
+$category_data_2023 = getCategoryReturnData($conn, 2023);
+$trend_data_2025 = getMonthlyReturnTrend($conn, 2025);
+$trend_data_2024 = getMonthlyReturnTrend($conn, 2024);
+$trend_data_2023 = getMonthlyReturnTrend($conn, 2023);
+$returns_table_data = getReturnsTableData($conn);
 ?>
 
 <!DOCTYPE html>
@@ -1123,7 +1313,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="215">215</span></h4>
+                    <h4><span class="counters" data-count="<?php echo $main_stats['total_returns']; ?>"><?php echo $main_stats['total_returns']; ?></span></h4>
                     <h5>Total Returns</h5>
                     <h2 class="stat-change">+15% from last month</h2>
                     </div>
@@ -1139,7 +1329,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="12450">Rp 12,450K</span></h4>
+                  <h4>Rp<span class="counters" data-count="<?php echo $stats['total_refund_simple']; ?>"><?php echo $stats['total_refund_simple']; ?></span></h4>
                    <h5>Total Refund Value</h5>
                   <h2 class="stat-change">+8% from last month</h2>
                 </div>
@@ -1155,7 +1345,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="6.8">6.8%</span></h4> 
+                  <h4><span class="counters" data-count="<?php echo number_format($main_stats['avg_return_rate'], 1); ?>"><?php echo number_format($main_stats['avg_return_rate'], 1); ?>%</span></h4> 
                   <h5>Avg. Return Rate</h5>                 
                     <h2 class="stat-change">-1.2% from last month</h2>
                   </div>
@@ -1171,9 +1361,9 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das4">
                   <div class="dash-counts">
-                     <h4>Furniture</h4>
+                     <h4><?php echo $main_stats['top_category']; ?></h4>
                     <h5>Top Category Returns</h5>
-                   <h2 class="stat-change">42 returns this month</h2>
+                   <h2 class="stat-change"><?php echo $main_stats['top_category_count']; ?> returns this month</h2>
                     </div>
                     <div class="icon-box bg-hijau">
                       <i class="fa fa-couch"></i>
@@ -1518,7 +1708,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             <div class="chart-header">
               <h5 class="chart-title"><i class="fas fa-table me-2"></i>Recent Customer Returns</h5>
               <div class="d-flex align-items-center gap-2">
-                <span style="font-size: 0.8rem; color: #64748b;" id="totalReturnsText">Total: 12 returns</span>
+                <span style="font-size: 0.8rem; color: #64748b;" id="totalReturnsText">Total: <?php echo count($returns_table_data); ?> returns</span>
               </div>
             </div>
             
@@ -1567,7 +1757,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             
             <div class="table-pagination" id="tablePagination">
               <div class="pagination-info" id="paginationInfo">
-                Showing 1-4 of 12 returns
+                Showing 1-4 of <?php echo count($returns_table_data); ?> returns
               </div>
               <div class="pagination-controls">
                 <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
@@ -1589,11 +1779,11 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 </div>
 
 <script>
-// Data for customer returns visualizations
+// Data for customer returns visualizations from PHP
 const barChartData = {
   2025: {
-    categories: ["Furniture", "Lighting", "Storage", "Bedroom", "Kitchen"],
-    returns: [42, 28, 24, 18, 15], // number of returns
+    categories: <?php echo json_encode($category_data_2025['categories']); ?>,
+    returns: <?php echo json_encode($category_data_2025['returns']); ?>,
     insights: {
       "Furniture": "Category Furniture mendominasi customer returns dengan kontribusi 42% dari total returns. Returns tertinggi di Q2 karena program 'Summer Refresh' promotion campaign.",
       "Lighting": "Category Lighting menunjukkan peningkatan return 18% YoY, terutama karena LED compatibility issues yang dilaporkan customer.",
@@ -1603,8 +1793,8 @@ const barChartData = {
     }
   },
   2024: {
-    categories: ["Storage", "Furniture", "Lighting", "Bedroom", "Kitchen"],
-    returns: [38, 35, 22, 20, 18],
+    categories: <?php echo json_encode($category_data_2024['categories']); ?>,
+    returns: <?php echo json_encode($category_data_2024['returns']); ?>,
     insights: {
       "Storage": "Storage category menjadi yang tertinggi di tahun 2024 dengan masalah shipping damage.",
       "Furniture": "Furniture mengalami peningkatan return di paruh kedua tahun 2024.",
@@ -1614,8 +1804,8 @@ const barChartData = {
     }
   },
   2023: {
-    categories: ["Lighting", "Storage", "Furniture", "Kitchen", "Bedroom"],
-    returns: [32, 30, 28, 25, 22],
+    categories: <?php echo json_encode($category_data_2023['categories']); ?>,
+    returns: <?php echo json_encode($category_data_2023['returns']); ?>,
     insights: {
       "Lighting": "Lighting category mendominasi return di 2023 karena masalah quality control.",
       "Storage": "Storage mengalami return tinggi karena assembly issues.",
@@ -1633,46 +1823,33 @@ const donutChartData = {
   colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd']
 };
 
-// Line chart data for return trends
+// Line chart data for return trends from PHP
 const lineChartData = {
   2025: [
-    { name: "Furniture", data: [35, 38, 42, 45, 40, 48, 42, 38] },
-    { name: "Lighting", data: [22, 25, 28, 32, 30, 35, 28, 26] },
-    { name: "Storage", data: [20, 22, 24, 28, 26, 30, 24, 22] },
-    { name: "Bedroom", data: [15, 16, 18, 20, 18, 22, 18, 16] },
-    { name: "Kitchen", data: [12, 14, 15, 18, 16, 20, 15, 14] }
+    { name: "Furniture", data: <?php echo json_encode($trend_data_2025['Furniture']); ?> },
+    { name: "Lighting", data: <?php echo json_encode($trend_data_2025['Lighting']); ?> },
+    { name: "Storage", data: <?php echo json_encode($trend_data_2025['Storage']); ?> },
+    { name: "Bedroom", data: <?php echo json_encode($trend_data_2025['Bedroom']); ?> },
+    { name: "Kitchen", data: <?php echo json_encode($trend_data_2025['Kitchen']); ?> }
   ],
   2024: [
-    { name: "Storage", data: [32, 35, 38, 40, 38, 42, 38, 35] },
-    { name: "Furniture", data: [28, 30, 35, 38, 35, 40, 35, 32] },
-    { name: "Lighting", data: [18, 20, 22, 25, 22, 28, 22, 20] },
-    { name: "Bedroom", data: [16, 18, 20, 22, 20, 25, 20, 18] },
-    { name: "Kitchen", data: [14, 16, 18, 20, 18, 22, 18, 16] }
+    { name: "Furniture", data: <?php echo json_encode($trend_data_2024['Furniture']); ?> },
+    { name: "Lighting", data: <?php echo json_encode($trend_data_2024['Lighting']); ?> },
+    { name: "Storage", data: <?php echo json_encode($trend_data_2024['Storage']); ?> },
+    { name: "Bedroom", data: <?php echo json_encode($trend_data_2024['Bedroom']); ?> },
+    { name: "Kitchen", data: <?php echo json_encode($trend_data_2024['Kitchen']); ?> }
   ],
   2023: [
-    { name: "Lighting", data: [28, 30, 32, 35, 32, 38, 32, 30] },
-    { name: "Storage", data: [25, 28, 30, 32, 30, 35, 30, 28] },
-    { name: "Furniture", data: [22, 25, 28, 30, 28, 32, 28, 25] },
-    { name: "Kitchen", data: [20, 22, 25, 28, 25, 30, 25, 22] },
-    { name: "Bedroom", data: [18, 20, 22, 25, 22, 28, 22, 20] }
+    { name: "Furniture", data: <?php echo json_encode($trend_data_2023['Furniture']); ?> },
+    { name: "Lighting", data: <?php echo json_encode($trend_data_2023['Lighting']); ?> },
+    { name: "Storage", data: <?php echo json_encode($trend_data_2023['Storage']); ?> },
+    { name: "Bedroom", data: <?php echo json_encode($trend_data_2023['Bedroom']); ?> },
+    { name: "Kitchen", data: <?php echo json_encode($trend_data_2023['Kitchen']); ?> }
   ]
 };
 
-// Returns data for table
-const returnsData = [
-  { id: "RET001", product: "LACK Coffee Table", category: "Furniture", customer: "John Doe", reason: "Defect", amount: "Rp 199K", status: "processed" },
-  { id: "RET002", product: "FOTO LED Bulb", category: "Lighting", customer: "Jane Smith", reason: "Wrong Item", amount: "Rp 89K", status: "pending" },
-  { id: "RET003", product: "KALLAX Shelf Unit", category: "Storage", customer: "Mike Johnson", reason: "Damage", amount: "Rp 399K", status: "refunded" },
-  { id: "RET004", product: "HEMNES Bed Frame", category: "Bedroom", customer: "Sarah Wilson", reason: "Size Issue", amount: "Rp 2.999K", status: "processed" },
-  { id: "RET005", product: "BILLY Bookcase", category: "Storage", customer: "Tom Brown", reason: "Defect", amount: "Rp 299K", status: "pending" },
-  { id: "RET006", product: "MALM Dresser", category: "Bedroom", customer: "Lisa Davis", reason: "Wrong Color", amount: "Rp 1.499K", status: "refunded" },
-  { id: "RET007", product: "POÄNG Armchair", category: "Furniture", customer: "Chris Lee", reason: "Comfort", amount: "Rp 1.299K", status: "processed" },
-  { id: "RET008", product: "GRUNDTAL Kitchen Rail", category: "Kitchen", customer: "Anna White", reason: "Size Issue", amount: "Rp 149K", status: "pending" },
-  { id: "RET009", product: "EKET Cabinet", category: "Storage", customer: "David Green", reason: "Damage", amount: "Rp 179K", status: "refunded" },
-  { id: "RET010", product: "FOTO Table Lamp", category: "Lighting", customer: "Emma Wilson", reason: "Defect", amount: "Rp 259K", status: "processed" },
-  { id: "RET011", product: "VITTSJÖ Shelf Unit", category: "Storage", customer: "Ryan Miller", reason: "Assembly", amount: "Rp 449K", status: "pending" },
-  { id: "RET012", product: "SKÅDIS Pegboard", category: "Storage", customer: "Sophie Clark", reason: "Wrong Size", amount: "Rp 299K", status: "refunded" }
-];
+// Returns data for table from PHP
+const returnsData = <?php echo json_encode($returns_table_data); ?>;
 
 // Pagination and search variables
 let currentPage = 1;
@@ -1686,6 +1863,9 @@ let currentYear = '2025';
 
 // Format number function
 function formatNumber(num) {
+  if (isNaN(num) || num === null || num === undefined) {
+    return "0";
+  }
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
@@ -2203,4 +2383,3 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="../assets/js/script.js"></script>
 </body>
 </html>
-    

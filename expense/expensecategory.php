@@ -1049,7 +1049,7 @@ for ($i = 1; $i <= 12; $i++) {
               <a href="../revenue/revenue.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                  <h4>$<span class="counters" data-count="<?= $summaryData['total_expenses']['total'] ?? 0 ?>"><?= number_format($summaryData['total_expenses']['total'] ?? 0, 2) ?></span></h4>
+                  <h4>Rp<span class="counters" data-count="<?= $summaryData['total_expenses']['total'] ?? 0 ?>"><?= number_format($summaryData['total_expenses']['total'] ?? 0, 2) ?></span></h4>
                     <h5>Total Expenses</h5>
                     <h2 class="stat-change">+8% from last year</h2>
                     </div>
@@ -1081,7 +1081,7 @@ for ($i = 1; $i <= 12; $i++) {
               <a href="product/productsold.php" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="<?= $summaryData['top_expense']['max_amount'] ?? 0 ?>"><?= number_format($summaryData['top_expense']['max_amount'] ?? 0) ?></span></h4>
+                  <h4>Rp<span class="counters" data-count="<?= $summaryData['top_expense']['max_amount'] ?? 0 ?>"><?= number_format($summaryData['top_expense']['max_amount'] ?? 0) ?></span></h4>
                     <h5>Top Single Expense</h5>
                     <h2 class="stat-change">+18% over averange</h2>
                   </div>

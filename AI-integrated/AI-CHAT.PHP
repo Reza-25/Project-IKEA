@@ -86,9 +86,12 @@ $ikea_stats = getIkeaQuickStats();
 </head>
 <body>
 
-<!-- AI Button -->
+<!-- AI Tooltip -->
+<div class="ai-tooltip" id="aiTooltip">IKEA AI Assistant, we're ready to help</div>
+
+<!-- AI Button (Moved from ai.php) -->
 <div class="ai-button" id="aiButton">
-    <img src="../assets/img/logo1.png" alt="AI Logo" />
+    <img src="../assets/img/ikeamaskot.png" alt="AI Mascot" />
     <div class="ai-notification" id="aiNotification">1</div>
 </div>
 
@@ -181,7 +184,39 @@ $ikea_stats = getIkeaQuickStats();
 </div>
 
 <style>
-/* AI Button */
+/* AI Tooltip (Moved from ai.php) */
+.ai-tooltip {
+    position: fixed;
+    bottom: 90px !important;
+    right: 1% !important;
+    background-color: #001F3F;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1002;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    transform: none !important;
+}
+
+/* Panah tooltip */
+.ai-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 85%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #001F3F transparent transparent transparent;
+}
+
+
+/* AI Button (Moved and updated from ai.php) */
 .ai-button {
     position: fixed;
     bottom: 20px;
@@ -197,7 +232,6 @@ $ikea_stats = getIkeaQuickStats();
     cursor: pointer;
     z-index: 1000;
     transition: all 0.3s ease;
-    position: relative;
 }
 
 .ai-button:hover {
@@ -206,9 +240,9 @@ $ikea_stats = getIkeaQuickStats();
 }
 
 .ai-button img {
-    width: 35px;
-    height: 35px;
-    filter: brightness(0) invert(1);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 .ai-notification {
@@ -243,66 +277,11 @@ $ikea_stats = getIkeaQuickStats();
     border: none;
 }
 
-/* AI Popup */
-.ai-popup {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    width: 380px;
-    max-height: 600px;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-    display: none;
-    z-index: 1001;
-    overflow: hidden;
-    border: 1px solid #e0e0e0;
-}
-
-.ai-header {
-    background: linear-gradient(135deg, #001F3F, #0056b3);
-    color: #fff;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.ai-header-info h5 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.ai-status {
-    font-size: 12px;
-    opacity: 0.9;
-}
-
-.close-popup {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.2s;
-}
-
-.close-popup:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
 /* Quick Templates */
 .ai-templates {
     background: #f8f9fa;
     border-bottom: 1px solid #e0e0e0;
+    flex-shrink: 0; /* Pastikan tidak mengecil */
 }
 
 .template-header {
@@ -355,12 +334,75 @@ $ikea_stats = getIkeaQuickStats();
     transform: translateY(-1px);
 }
 
+/* AI Popup */
+.ai-popup {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 380px;
+    max-height: 80vh;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    display: none; /* Kembali ke none untuk initial state */
+    z-index: 1001;
+    border: 1px solid #e0e0e0;
+    flex-direction: column; /* Siap untuk flexbox ketika ditampilkan */
+}
+
+.ai-header {
+    background: linear-gradient(135deg, #001F3F, #0056b3);
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-header-info h5 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ai-status {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.close-popup {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-popup:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
 /* Chat Body */
 .ai-body {
-    height: 300px;
+    flex: 1;
+    min-height: 200px;
+    max-height: 300px; /* Batasi tinggi maksimal untuk memastikan scrolling */
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 15px;
     background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    /* Pastikan scrolling behavior smooth */
+    scroll-behavior: smooth;
 }
 
 .ai-body::-webkit-scrollbar {
@@ -572,6 +614,13 @@ $ikea_stats = getIkeaQuickStats();
     }
 }
 
+/* Hidden state for button */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.8);
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     .ai-popup {
@@ -587,7 +636,7 @@ $ikea_stats = getIkeaQuickStats();
 </style>
 
 <script>
-// AI Chat System - UPDATED untuk Python API
+// AI Chat System - UPDATED untuk Python API dengan button integration
 class IkeaAIChat {
     constructor() {
         this.isOpen = false;
@@ -621,6 +670,7 @@ class IkeaAIChat {
     
     initializeElements() {
         this.aiButton = document.getElementById('aiButton');
+        this.aiTooltip = document.getElementById('aiTooltip');
         this.aiPopup = document.getElementById('aiPopup');
         this.closePopup = document.getElementById('closePopup');
         this.chatInput = document.getElementById('chatInput');
@@ -636,9 +686,33 @@ class IkeaAIChat {
     }
     
     bindEvents() {
-        // Toggle popup
+        // Toggle popup (Updated from ai.php)
         this.aiButton.addEventListener('click', () => this.togglePopup());
         this.closePopup.addEventListener('click', () => this.closeChat());
+        
+        // Tooltip hover effects (From ai.php)
+        this.aiButton.addEventListener('mouseenter', () => {
+            this.aiTooltip.style.opacity = '1';
+        });
+        
+        this.aiButton.addEventListener('mouseleave', () => {
+            this.aiTooltip.style.opacity = '0';
+        });
+        
+        this.aiPopup.addEventListener('mouseenter', () => {
+            this.aiTooltip.style.opacity = '0';
+        });
+        
+        // Close popup when clicking outside (From ai.php)
+        document.addEventListener('click', (e) => {
+            if (
+                this.aiPopup.style.display === 'block' &&
+                !this.aiPopup.contains(e.target) &&
+                !this.aiButton.contains(e.target)
+            ) {
+                this.closeChat();
+            }
+        });
         
         // Send message
         this.sendBtn.addEventListener('click', () => this.sendMessage());
@@ -702,7 +776,10 @@ class IkeaAIChat {
     }
     
     openChat() {
-        this.aiPopup.style.display = 'block';
+        // Hide button with animation (From ai.php)
+        this.aiButton.classList.add('hidden');
+        
+        this.aiPopup.style.display = 'flex'; // Ubah dari 'block' ke 'flex'
         this.isOpen = true;
         this.chatInput.focus();
         this.hideNotification();
@@ -717,6 +794,7 @@ class IkeaAIChat {
             this.aiPopup.style.transition = 'all 0.3s ease';
             this.aiPopup.style.opacity = '1';
             this.aiPopup.style.transform = 'translateY(0)';
+            this.ensureScrollable(); // Tambahkan ini
         }, 10);
     }
     
@@ -726,6 +804,8 @@ class IkeaAIChat {
         setTimeout(() => {
             this.aiPopup.style.display = 'none';
             this.isOpen = false;
+            // Show button again (From ai.php)
+            this.aiButton.classList.remove('hidden');
         }, 300);
     }
     
@@ -766,6 +846,21 @@ class IkeaAIChat {
         }
     }
     
+    // Tambahkan method ini di dalam class IkeaAIChat setelah method scrollToBottom()
+    ensureScrollable() {
+        // Pastikan chat body bisa di-scroll
+        const chatBody = this.chatBody;
+        if (chatBody.scrollHeight > chatBody.clientHeight) {
+            chatBody.style.overflowY = 'auto';
+        }
+        
+        // Reset scroll position jika diperlukan
+        if (chatBody.scrollTop === 0 && chatBody.scrollHeight > chatBody.clientHeight) {
+            chatBody.scrollTop = 1; // Trigger scroll capability
+        }
+    }
+
+    // Update method addUserMessage untuk memastikan scrolling
     addUserMessage(message) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'user-message';
@@ -777,9 +872,11 @@ class IkeaAIChat {
         `;
         
         this.chatBody.appendChild(messageDiv);
+        this.ensureScrollable(); // Tambahkan ini
         this.scrollToBottom();
     }
-    
+
+    // Update method addAIMessage untuk memastikan scrolling
     addAIMessage(message) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'ai-message';
@@ -791,6 +888,7 @@ class IkeaAIChat {
         `;
         
         this.chatBody.appendChild(messageDiv);
+        this.ensureScrollable(); // Tambahkan ini
         this.scrollToBottom();
     }
     

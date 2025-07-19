@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../include/config.php'; // Import config.php
 $userFullName = isset($_SESSION['user_full_name']) ? $_SESSION['user_full_name'] : 'Guest';
 require_once __DIR__ . '/../include/popup.php';
-require_once __DIR__ . '/../AI integrated/AI-CHAT.PHP';
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 // Cek apakah perlu menampilkan notifikasi login
 if (isset($_SESSION['show_login_notification']) && $_SESSION['show_login_notification']) {
   $showNotification = true;
