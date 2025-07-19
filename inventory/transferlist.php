@@ -1,135 +1,7 @@
 <?php
-require_once __DIR__ . '/../include/config.php';
-
-// Function to get transfer statistics
-function getTransferStats($pdo) {
-    $stats = [];
-    
-    // Total active transfers
-    $stmt = $pdo->query("SELECT COUNT(*) as total FROM transfer_requests WHERE status IN ('Pending', 'In Progress')");
-    $stats['active_transfers'] = $stmt->fetch()['total'];
-    
-    // Average transfer time
-    $stmt = $pdo->query("
-        SELECT AVG(DATEDIFF(actual_date, request_date)) as avg_days 
-        FROM transfer_requests 
-        WHERE status = 'Completed' AND actual_date IS NOT NULL
-    ");
-    $result = $stmt->fetch();
-    $stats['avg_transfer_time'] = $result['avg_days'] ? round($result['avg_days'], 1) : 2.4;
-    
-    // Success rate
-    $stmt = $pdo->query("
-        SELECT 
-            (COUNT(CASE WHEN status = 'Completed' THEN 1 END) * 100.0 / COUNT(*)) as success_rate
-        FROM transfer_requests
-    ");
-    $result = $stmt->fetch();
-    $stats['success_rate'] = $result['success_rate'] ? round($result['success_rate']) : 89;
-    
-    // Top category
-    $stmt = $pdo->query("
-        SELECT b.Kategori, COUNT(*) as transfer_count
-        FROM transfer_items ti
-        JOIN barang b ON ti.item_id = b.ID_Barang
-        JOIN transfer_requests tr ON ti.transfer_id = tr.id
-        WHERE tr.status = 'Completed'
-        GROUP BY b.Kategori
-        ORDER BY transfer_count DESC
-        LIMIT 1
-    ");
-    $result = $stmt->fetch();
-    $stats['top_category'] = $result ? $result['Kategori'] : 'Furniture';
-    
-    return $stats;
-}
-
-// Function to get branch distribution data
-function getBranchDistribution($pdo) {
-    $stmt = $pdo->query("
-        SELECT 
-            t.Nama_Toko,
-            COUNT(tr.id) as transfer_count,
-            ROUND((COUNT(tr.id) * 100.0 / (SELECT COUNT(*) FROM transfer_requests)), 1) as percentage
-        FROM toko t
-        LEFT JOIN transfer_requests tr ON t.ID_Toko = tr.from_store_id OR t.ID_Toko = tr.to_store_id
-        GROUP BY t.ID_Toko, t.Nama_Toko
-        ORDER BY transfer_count DESC
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Function to get monthly trend data
-function getMonthlyTrends($pdo) {
-    $stmt = $pdo->query("
-        SELECT 
-            t.Nama_Toko,
-            MONTH(tr.request_date) as month,
-            COUNT(tr.id) as transfer_count
-        FROM toko t
-        LEFT JOIN transfer_requests tr ON t.ID_Toko = tr.from_store_id
-        WHERE YEAR(tr.request_date) = 2025
-        GROUP BY t.ID_Toko, t.Nama_Toko, MONTH(tr.request_date)
-        ORDER BY t.Nama_Toko, month
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Function to get transfer list
-function getTransferList($pdo, $limit = 12) {
-    $stmt = $pdo->prepare("
-        SELECT 
-            tr.id,
-            tr.transfer_code,
-            t1.Nama_Toko as from_store,
-            t2.Nama_Toko as to_store,
-            GROUP_CONCAT(b.Kategori SEPARATOR ', ') as categories,
-            tr.total_value,
-            tr.status,
-            tr.request_date
-        FROM transfer_requests tr
-        JOIN toko t1 ON tr.from_store_id = t1.ID_Toko
-        JOIN toko t2 ON tr.to_store_id = t2.ID_Toko
-        LEFT JOIN transfer_items ti ON tr.id = ti.transfer_id
-        LEFT JOIN barang b ON ti.item_id = b.ID_Barang
-        GROUP BY tr.id
-        ORDER BY tr.request_date DESC
-        LIMIT :limit
-    ");
-    
-    // Bind parameter dengan PDO::PARAM_INT
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Get data for the dashboard
-$stats = getTransferStats($pdo);
-$branchDistribution = getBranchDistribution($pdo);
-$monthlyTrends = getMonthlyTrends($pdo);
-$transferList = getTransferList($pdo);
-
-// Prepare data for JavaScript
-$distributionData = [];
-$distributionLabels = [];
-foreach ($branchDistribution as $branch) {
-    $distributionLabels[] = $branch['Nama_Toko'];
-    $distributionData[] = $branch['percentage'];
-}
-
-// Prepare trend data for JavaScript
-$trendData = [];
-$stores = [];
-foreach ($monthlyTrends as $trend) {
-    if (!in_array($trend['Nama_Toko'], $stores)) {
-        $stores[] = $trend['Nama_Toko'];
-        $trendData[$trend['Nama_Toko']] = array_fill(0, 12, 0);
-    }
-    $trendData[$trend['Nama_Toko']][$trend['month'] - 1] = $trend['transfer_count'];
-}
+require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
-
+<!-- wawawagit -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -220,32 +92,33 @@ foreach ($monthlyTrends as $trend) {
       }
 
       /* Chart Containers */
-      .chart-container {
-        background: white;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        margin-bottom: 24px;
-      }
-      .chart-container.fixed-height {
-        height: 400px;
-        max-height: 400px;
-        min-height: 400px;
-        overflow: hidden;
-        position: relative;
-      }
+.chart-container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+}
+.chart-container.fixed-height {
+  height: 400px;
+  max-height: 400px;
+  min-height: 400px;
+  overflow: hidden;
+  position: relative;
+}
 
-      .chart-container.fixed-height canvas {
-        height: 100% !important;
-      }
-      .chart-container canvas {
-        max-height: 300px;
-        height: 100% !important;
-      }
-      .trend-chart-wrapper {
-        height: 100% !important;
-        max-height: 300px;
-      }
+.chart-container.fixed-height canvas {
+  height: 100% !important;
+}
+.chart-container canvas {
+  max-height: 300px;
+  height: 100% !important;
+}
+.trend-chart-wrapper {
+  height: 100% !important;
+  max-height: 300px;
+}
+
 
       .chart-title {
         font-size: 1.3rem;
@@ -521,28 +394,28 @@ foreach ($monthlyTrends as $trend) {
           <div class="row">
             <div class="col-lg-3 col-md-6">
               <div class="metric-card blue">
-                <div class="metric-number"><?= $stats['active_transfers'] ?></div>
+                <div class="metric-number">156</div>
                 <div class="metric-label">Total Active Transfers</div>
                 <div class="metric-change">+12% from last month</div>
               </div>
             </div>
             <div class="col-lg-3 col-md-6">
               <div class="metric-card purple">
-                <div class="metric-number"><?= $stats['avg_transfer_time'] ?></div>
+                <div class="metric-number">2.4</div>
                 <div class="metric-label">Avg Transfer Time (Days)</div>
                 <div class="metric-change">+8.3% from last year</div>
               </div>
             </div>
             <div class="col-lg-3 col-md-6">
               <div class="metric-card orange">
-                <div class="metric-number"><?= $stats['success_rate'] ?>%</div>
+                <div class="metric-number">89%</div>
                 <div class="metric-label">Success Rate</div>
                 <div class="metric-change">+15% from last month</div>
               </div>
             </div>
             <div class="col-lg-3 col-md-6">
               <div class="metric-card teal">
-                <div class="metric-number"><?= $stats['top_category'] ?></div>
+                <div class="metric-number">Furniture</div>
                 <div class="metric-label">Top Transfer Category</div>
                 <div class="metric-change">Dominated by HEMNES</div>
               </div>
@@ -553,7 +426,7 @@ foreach ($monthlyTrends as $trend) {
           <div class="row">
             <!-- Transfer Distribution Chart -->
             <div class="col-lg-8">
-              <div class="chart-container">
+              <div class="chart-container ">
                 <div class="chart-title">
                   <i class="fas fa-chart-pie"></i>
                   Branch Transfer Distribution
@@ -561,15 +434,30 @@ foreach ($monthlyTrends as $trend) {
                 
                 <!-- Legend -->
                 <div class="mb-3">
-                  <?php 
-                  $colors = ['#4285f4', '#9c27b0', '#00bcd4', '#3f51b5', '#e91e63', '#ff9800'];
-                  foreach ($branchDistribution as $index => $branch): 
-                  ?>
                   <div class="legend-item">
-                    <div class="legend-color" style="background: <?= $colors[$index % count($colors)] ?>;"></div>
-                    <?= $branch['Nama_Toko'] ?> (<?= $branch['percentage'] ?>%)
+                    <div class="legend-color" style="background: #4285f4;"></div>
+                    IKEA Alam Sutera (28%)
                   </div>
-                  <?php endforeach; ?>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: #9c27b0;"></div>
+                    IKEA Jakarta Garden City (22%)
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: #00bcd4;"></div>
+                    IKEA Sentul City (18%)
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: #3f51b5;"></div>
+                    IKEA Bali (15%)
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: #e91e63;"></div>
+                    IKEA Kota Baru Parahyangan (12%)
+                  </div>
+                  <div class="legend-item">
+                    <div class="legend-color" style="background: #00bcd4;"></div>
+                    Others (5%)
+                  </div>
                 </div>
 
                 <canvas id="distributionChart" height="300"></canvas>
@@ -669,7 +557,7 @@ foreach ($monthlyTrends as $trend) {
                       <div class="d-flex justify-content-between align-items-center">
                         <div>
                           <div class="brand-name">IKEA ALAM SUTERA</div>
-                          <div class="brand-stats">4.6⭐ | <?= $stats['active_transfers'] ?> transfers | <?= $stats['avg_transfer_time'] ?> days avg</div>
+                          <div class="brand-stats">4.6⭐ | 156 transfers | 2.1 days avg</div>
                         </div>
                         <div class="vs-badge">VS</div>
                         <div>
@@ -678,7 +566,7 @@ foreach ($monthlyTrends as $trend) {
                         </div>
                       </div>
                       <div class="mt-2">
-                        <span class="badge bg-primary"><?= $stats['top_category'] ?></span>
+                        <span class="badge bg-primary">Furniture</span>
                       </div>
                     </div>
                   </div>
@@ -736,12 +624,8 @@ foreach ($monthlyTrends as $trend) {
               </div>
               
               <div class="analytics-card">
-                <?php 
-                $topStores = array_slice($branchDistribution, 0, 2);
-                foreach ($topStores as $store): 
-                ?>
                 <div class="mb-3">
-                  <strong><?= $store['Nama_Toko'] ?></strong>
+                  <strong>IKEA ALAM SUTERA</strong>
                   <div class="text-muted small">Most transfers to:</div>
                   <div class="mt-2">
                     <span class="city-tag">Jakarta GC</span>
@@ -750,7 +634,17 @@ foreach ($monthlyTrends as $trend) {
                     <span class="city-tag secondary">Bandung</span>
                   </div>
                 </div>
-                <?php endforeach; ?>
+                
+                <div class="mb-3">
+                  <strong>IKEA JAKARTA GC</strong>
+                  <div class="text-muted small">Popular destinations:</div>
+                  <div class="mt-2">
+                    <span class="city-tag secondary">Bandung</span>
+                    <span class="city-tag">Alam Sutera</span>
+                    <span class="city-tag secondary">Sentul</span>
+                    <span class="city-tag secondary">Bali</span>
+                  </div>
+                </div>
               </div>
 
               <div class="blue-header-card">
@@ -798,7 +692,7 @@ foreach ($monthlyTrends as $trend) {
                   <thead>
                     <tr>
                       <th>No</th>
-                      <th>Transfer Code</th>
+                      <th>Category ID</th>
                       <th>From Branch</th>
                       <th>To Branch</th>
                       <th>Items</th>
@@ -808,33 +702,36 @@ foreach ($monthlyTrends as $trend) {
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach($transferList as $index => $transfer): ?>
+                    <?php 
+                    $branches = ['Alam Sutera', 'Jakarta Garden City', 'Sentul City', 'Bali', 'Kota Baru Parahyangan', 'Mal Taman Anggrek'];
+                    $categories = ['Furniture', 'Lighting', 'Storage', 'Bedroom', 'Living Room', 'Kitchen', 'Dining'];
+                    for($i=1; $i<=12; $i++): 
+                    ?>
                     <tr>
-                      <td><?= $index + 1 ?></td>
-                      <td><?= $transfer['transfer_code'] ?></td>
-                      <td><?= $transfer['from_store'] ?></td>
-                      <td><?= $transfer['to_store'] ?></td>
-                      <td><?= $transfer['categories'] ?: 'Mixed Items' ?></td>
-                      <td>Rp <?= number_format($transfer['total_value'], 0, ',', '.') ?></td>
+                      <td><?= $i ?></td>
+                      <td>TR-<?= str_pad($i, 3, '0', STR_PAD_LEFT) ?></td>
+                      <td>IKEA <?= $branches[array_rand($branches)] ?></td>
+                      <td>IKEA <?= $branches[array_rand($branches)] ?></td>
+                      <td><?= $categories[array_rand($categories)] ?></td>
+                      <td>Rp <?= number_format(rand(100000, 5000000), 0, ',', '.') ?></td>
                       <td>
                         <?php 
-                        $statusClass = '';
-                        switch($transfer['status']) {
-                          case 'Completed': $statusClass = 'status-completed'; break;
-                          case 'In Progress': $statusClass = 'status-progress'; break;
-                          case 'Pending': $statusClass = 'status-pending'; break;
-                          default: $statusClass = 'status-pending';
-                        }
+                        $statuses = [
+                          ['Completed', 'status-completed'],
+                          ['In Progress', 'status-progress'], 
+                          ['Pending', 'status-pending']
+                        ];
+                        $status = $statuses[array_rand($statuses)];
                         ?>
-                        <span class="status-badge <?= $statusClass ?>"><?= $transfer['status'] ?></span>
+                        <span class="status-badge <?= $status[1] ?>"><?= $status[0] ?></span>
                       </td>
                       <td>
-                        <button class="btn btn-sm btn-outline-primary" onclick="viewTransfer(<?= $transfer['id'] ?>)">
+                        <button class="btn btn-sm btn-outline-primary">
                           <i class="fas fa-eye"></i>
                         </button>
                       </td>
                     </tr>
-                    <?php endforeach; ?>
+                    <?php endfor; ?>
                   </tbody>
                 </table>
               </div>
@@ -858,26 +755,21 @@ foreach ($monthlyTrends as $trend) {
     <script src="../assets/js/script.js"></script>
 
     <script>
-      // PHP data to JavaScript
-      const distributionData = <?= json_encode(array_values($distributionData)) ?>;
-      const distributionLabels = <?= json_encode($distributionLabels) ?>;
-      const trendData = <?= json_encode($trendData) ?>;
-
       // Distribution Pie Chart
       const distributionCtx = document.getElementById('distributionChart').getContext('2d');
       const distributionChart = new Chart(distributionCtx, {
         type: 'doughnut',
         data: {
-          labels: distributionLabels,
+          labels: ['IKEA Alam Sutera', 'IKEA Jakarta GC', 'IKEA Sentul City', 'IKEA Bali', 'IKEA Kota Baru Parahyangan', 'Others'],
           datasets: [{
-            data: distributionData,
+            data: [28, 22, 18, 15, 12, 5],
             backgroundColor: [
               '#4285f4',
               '#9c27b0', 
               '#00bcd4',
               '#3f51b5',
               '#e91e63',
-              '#ff9800'
+              '#00bcd4'
             ],
             borderWidth: 0,
             cutout: '60%'
@@ -896,27 +788,52 @@ foreach ($monthlyTrends as $trend) {
 
       // Transfer Trend Line Chart
       const trendCtx = document.getElementById('trendChart').getContext('2d');
-      const datasets = [];
-      const colors = ['#4285f4', '#9c27b0', '#00bcd4', '#3f51b5', '#e91e63'];
-      let colorIndex = 0;
-
-      Object.keys(trendData).forEach(storeName => {
-        datasets.push({
-          label: storeName,
-          data: trendData[storeName],
-          borderColor: colors[colorIndex % colors.length],
-          backgroundColor: colors[colorIndex % colors.length] + '20',
-          tension: 0.4,
-          fill: false
-        });
-        colorIndex++;
-      });
-
       const trendChart = new Chart(trendCtx, {
         type: 'line',
         data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: datasets
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+          datasets: [
+            {
+              label: 'IKEA Alam Sutera',
+              data: [320, 350, 380, 410, 440, 420, 450, 480],
+              borderColor: '#4285f4',
+              backgroundColor: 'rgba(66, 133, 244, 0.1)',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: 'IKEA Jakarta GC',
+              data: [280, 290, 310, 330, 340, 350, 370, 380],
+              borderColor: '#9c27b0',
+              backgroundColor: 'rgba(156, 39, 176, 0.1)',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: 'IKEA Sentul City',
+              data: [250, 260, 270, 290, 300, 320, 330, 350],
+              borderColor: '#00bcd4',
+              backgroundColor: 'rgba(0, 188, 212, 0.1)',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: 'IKEA Bali',
+              data: [200, 210, 220, 230, 240, 250, 260, 270],
+              borderColor: '#3f51b5',
+              backgroundColor: 'rgba(63, 81, 181, 0.1)',
+              tension: 0.4,
+              fill: false
+            },
+            {
+              label: 'IKEA Kota Baru Parahyangan',
+              data: [180, 190, 200, 210, 220, 230, 240, 250],
+              borderColor: '#e91e63',
+              backgroundColor: 'rgba(233, 30, 99, 0.1)',
+              tension: 0.4,
+              fill: false
+            }
+          ]
         },
         options: {
           responsive: true,
@@ -932,7 +849,7 @@ foreach ($monthlyTrends as $trend) {
           },
           scales: {
             y: {
-              beginAtZero: true,
+              beginAtZero: false,
               grid: {
                 color: '#f0f0f0'
               }
@@ -950,8 +867,7 @@ foreach ($monthlyTrends as $trend) {
       $(document).ready(function() {
         $('.metric-number').each(function() {
           const $this = $(this);
-          const text = $this.text();
-          const countTo = parseInt(text) || 0;
+          const countTo = parseInt($this.text()) || 0;
           
           if (countTo > 0) {
             $({ countNum: 0 }).animate({
@@ -963,19 +879,12 @@ foreach ($monthlyTrends as $trend) {
                 $this.text(Math.floor(this.countNum));
               },
               complete: function() {
-                $this.text(text);
-      
+                $this.text(countTo);
               }
             });
           }
         });
       });
-
-      // View transfer function
-      function viewTransfer(transferId) {
-        // Implement view transfer details
-        alert('View transfer details for ID: ' + transferId);
-      }
     </script>
   </body>
 </html>

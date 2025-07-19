@@ -1,224 +1,5 @@
 <?php
-require_once __DIR__ . '/../include/config.php';
-
-// Function to get supplier return statistics
-function getSupplierReturnStats($pdo) {
-    $stats = [];
-    
-    // Total returns this month
-    $stmt = $pdo->query("
-        SELECT COUNT(*) as total 
-        FROM supplier_returns 
-        WHERE MONTH(return_date) = MONTH(CURRENT_DATE()) 
-        AND YEAR(return_date) = YEAR(CURRENT_DATE())
-    ");
-    $stats['total_returns'] = $stmt->fetch()['total'];
-    
-    // Total value this month
-    $stmt = $pdo->query("
-        SELECT SUM(total_amount) as total_value 
-        FROM supplier_returns 
-        WHERE MONTH(return_date) = MONTH(CURRENT_DATE()) 
-        AND YEAR(return_date) = YEAR(CURRENT_DATE())
-    ");
-    $result = $stmt->fetch();
-    $stats['total_value'] = $result['total_value'] ? $result['total_value'] : 0;
-    
-    // Average processing time
-    $stmt = $pdo->query("
-        SELECT AVG(DATEDIFF(completed_at, return_date)) as avg_days 
-        FROM supplier_returns 
-        WHERE status = 'Completed' AND completed_at IS NOT NULL
-    ");
-    $result = $stmt->fetch();
-    $stats['avg_processing_time'] = $result['avg_days'] ? round($result['avg_days'], 1) : 3.2;
-    
-    // Top supplier by returns
-    $stmt = $pdo->query("
-        SELECT s.nama_supplier, COUNT(sr.id) as return_count
-        FROM supplier s
-        LEFT JOIN supplier_returns sr ON s.id_supplier = sr.supplier_id
-        WHERE sr.return_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-        GROUP BY s.id_supplier, s.nama_supplier
-        ORDER BY return_count DESC
-        LIMIT 1
-    ");
-    $result = $stmt->fetch();
-    $stats['top_supplier'] = $result ? $result['nama_supplier'] : 'Apex Computers';
-    $stats['top_supplier_count'] = $result ? $result['return_count'] : 28;
-    
-    return $stats;
-}
-
-// Function to get return reasons distribution
-function getReturnReasons($pdo) {
-    $stmt = $pdo->query("
-        SELECT 
-            srr.reason_name,
-            COUNT(sri.id) as count,
-            ROUND((COUNT(sri.id) * 100.0 / (SELECT COUNT(*) FROM supplier_return_items)), 1) as percentage
-        FROM supplier_return_reasons srr
-        LEFT JOIN supplier_return_items sri ON srr.id = sri.reason_id
-        GROUP BY srr.id, srr.reason_name
-        ORDER BY count DESC
-        LIMIT 6
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Function to get monthly return trends by category
-function getMonthlyTrends($pdo) {
-    $stmt = $pdo->query("
-        SELECT 
-            b.kategori,
-            MONTH(sr.return_date) as month,
-            COUNT(sr.id) as return_count
-        FROM supplier_returns sr
-        JOIN supplier_return_items sri ON sr.id = sri.return_id
-        JOIN barang b ON sri.item_id = b.id_barang
-        WHERE YEAR(sr.return_date) = 2025
-        GROUP BY b.kategori, MONTH(sr.return_date)
-        ORDER BY b.kategori, month
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Function to get top suppliers by return count
-function getTopSuppliers($pdo) {
-    $stmt = $pdo->query("
-        SELECT 
-            s.nama_supplier,
-            COUNT(sr.id) as return_count,
-            AVG(sra.quality_score) as quality_score,
-            SUM(sr.total_amount) as total_value
-        FROM supplier s
-        LEFT JOIN supplier_returns sr ON s.id_supplier = sr.supplier_id
-        LEFT JOIN supplier_return_analytics sra ON s.id_supplier = sra.supplier_id
-        WHERE sr.return_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-        GROUP BY s.id_supplier, s.nama_supplier
-        ORDER BY return_count DESC
-        LIMIT 5
-    ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Function to get recent supplier returns
-function getRecentSupplierReturns($pdo, $limit = 12) {
-    // Change the query to use named parameter
-    $stmt = $pdo->prepare("
-        SELECT 
-            sr.return_code,
-            s.nama_supplier,
-            b.nama_barang as product_name,
-            b.kategori as category,
-            sri.quantity_returned,
-            t.nama_toko as store_name,
-            sr.return_date,
-            sr.status,
-            sr.total_amount,
-            sr.refund_amount,
-            srr.reason_name,
-            sri.unit_price
-        FROM supplier_returns sr
-        JOIN supplier s ON sr.supplier_id = s.id_supplier
-        JOIN supplier_return_items sri ON sr.id = sri.return_id
-        JOIN barang b ON sri.item_id = b.id_barang
-        JOIN toko t ON sr.store_id = t.id_toko
-        JOIN supplier_return_reasons srr ON sri.reason_id = srr.id
-        ORDER BY sr.return_date DESC
-        LIMIT :limit
-    ");
-
-    // Bind parameter with explicit type
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    
-    // Execute the statement
-    $stmt->execute();
-    
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-// Function to get critical notifications
-function getCriticalNotifications($pdo) {
-    $notifications = [];
-    
-    // High value pending returns
-    $stmt = $pdo->query("
-        SELECT COUNT(*) as count, SUM(total_amount) as total_value
-        FROM supplier_returns 
-        WHERE status = 'Pending' AND total_amount > 1000000
-    ");
-    $highValue = $stmt->fetch();
-    if ($highValue['count'] > 0) {
-        $notifications[] = [
-            'type' => 'critical',
-            'title' => 'High Value Returns Pending',
-            'message' => $highValue['count'] . ' returns worth $' . number_format($highValue['total_value']/15000, 0) . ' awaiting approval',
-            'badge' => 'Critical'
-        ];
-    }
-    
-    // Quality issues
-    $stmt = $pdo->query("
-        SELECT COUNT(*) as count
-        FROM supplier_returns sr
-        JOIN supplier_return_items sri ON sr.id = sri.return_id
-        JOIN supplier_return_reasons srr ON sri.reason_id = srr.id
-        WHERE srr.reason_code = 'QUAL' 
-        AND sr.return_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
-    ");
-    $qualityIssues = $stmt->fetch();
-    if ($qualityIssues['count'] > 0) {
-        $notifications[] = [
-            'type' => 'warning',
-            'title' => 'Quality Issues Alert',
-            'message' => $qualityIssues['count'] . ' quality-related returns this week',
-            'badge' => 'Warning'
-        ];
-    }
-    
-    // Supplier performance alert
-    $stmt = $pdo->query("
-        SELECT s.nama_supplier, COUNT(sr.id) as return_count
-        FROM supplier s
-        JOIN supplier_returns sr ON s.id_supplier = sr.supplier_id
-        WHERE sr.return_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
-        GROUP BY s.id_supplier, s.nama_supplier
-        HAVING return_count > 5
-        ORDER BY return_count DESC
-        LIMIT 1
-    ");
-    $topReturner = $stmt->fetch();
-    if ($topReturner) {
-        $notifications[] = [
-            'type' => 'info',
-            'title' => 'Supplier Performance Alert',
-            'message' => $topReturner['nama_supplier'] . ' has ' . $topReturner['return_count'] . ' returns this month',
-            'badge' => 'Info'
-        ];
-    }
-    
-    return $notifications;
-}
-
-// Get data for dashboard
-$stats = getSupplierReturnStats($pdo);
-$returnReasons = getReturnReasons($pdo);
-$monthlyTrends = getMonthlyTrends($pdo);
-$topSuppliers = getTopSuppliers($pdo);
-$recentReturns = getRecentSupplierReturns($pdo);
-$notifications = getCriticalNotifications($pdo);
-
-// Prepare trend data for JavaScript
-$trendData = [];
-$categories = [];
-foreach ($monthlyTrends as $trend) {
-    if (!in_array($trend['kategori'], $categories)) {
-        $categories[] = $trend['kategori'];
-        $trendData[$trend['kategori']] = array_fill(0, 12, 0);
-    }
-    $trendData[$trend['kategori']][$trend['month'] - 1] = $trend['return_count'];
-}
+require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
 
 <!DOCTYPE html>
@@ -681,7 +462,6 @@ foreach ($monthlyTrends as $trend) {
       .badge-success { background: #E8F5E8; color: #2E7D32; }
       .badge-warning { background: #FFF3E0; color: #F57C00; }
       .badge-danger { background: #FFEBEE; color: #D32F2F; }
-      .badge-info { background: #E3F2FD; color: #1976D2; }
 
       @media (max-width: 768px) {
         .chart-section {
@@ -716,7 +496,7 @@ foreach ($monthlyTrends as $trend) {
               <h6>Comprehensive returns analytics and management</h6>
             </div>
             <div class="page-btn">
-              <a href="addsupplierreturn.php" class="btn btn-primary">
+              <a href="addreturn.php" class="btn btn-primary">
                 <i class="fas fa-plus me-2"></i>New Return
               </a>
             </div>
@@ -727,7 +507,7 @@ foreach ($monthlyTrends as $trend) {
             <div class="stat-card blue">
               <div class="stat-header">
                 <div>
-                  <div class="stat-value"><?= $stats['total_returns'] ?></div>
+                  <div class="stat-value">124</div>
                   <div class="stat-label">Total Returns</div>
                   <div class="stat-change">+8% from last month</div>
                 </div>
@@ -740,7 +520,7 @@ foreach ($monthlyTrends as $trend) {
             <div class="stat-card purple">
               <div class="stat-header">
                 <div>
-                  <div class="stat-value">$<?= number_format($stats['total_value']/15000, 0) ?></div>
+                  <div class="stat-value">$8,650</div>
                   <div class="stat-label">Total Value</div>
                   <div class="stat-change">+12% from last month</div>
                 </div>
@@ -753,7 +533,7 @@ foreach ($monthlyTrends as $trend) {
             <div class="stat-card orange">
               <div class="stat-header">
                 <div>
-                  <div class="stat-value"><?= $stats['avg_processing_time'] ?></div>
+                  <div class="stat-value">3.2</div>
                   <div class="stat-label">Avg. Processing Days</div>
                   <div class="stat-change">-0.8 days improvement</div>
                 </div>
@@ -766,9 +546,9 @@ foreach ($monthlyTrends as $trend) {
             <div class="stat-card green">
               <div class="stat-header">
                 <div>
-                  <div class="stat-value"><?= $stats['top_supplier_count'] ?></div>
+                  <div class="stat-value">28</div>
                   <div class="stat-label">Top Supplier Returns</div>
-                  <div class="stat-change"><?= $stats['top_supplier'] ?></div>
+                  <div class="stat-change">Apex Computers</div>
                 </div>
                 <div class="stat-icon green">
                   <i class="fas fa-user-tie"></i>
@@ -892,35 +672,44 @@ foreach ($monthlyTrends as $trend) {
               <h4 class="insight-title">Critical Return Notifications</h4>
             </div>
             
-            <?php foreach($notifications as $notification): ?>
             <div class="notification-item">
-              <div class="notification-icon <?= $notification['type'] ?>">
-                <i class="fas fa-<?= $notification['type'] == 'critical' ? 'exclamation-triangle' : ($notification['type'] == 'warning' ? 'exclamation-circle' : 'info-circle') ?>"></i>
+              <div class="notification-icon critical">
+                <i class="fas fa-exclamation-triangle"></i>
               </div>
               <div class="notification-content">
                 <div class="notification-title">
-                  <?= $notification['title'] ?>
-                  <span class="notification-badge badge-<?= $notification['type'] ?>"><?= $notification['badge'] ?></span>
+                  Furniture - High Return Rate Alert
+                  <span class="notification-badge badge-critical">Critical</span>
                 </div>
-                <div class="notification-desc"><?= $notification['message'] ?></div>
+                <div class="notification-desc">Critical stock levels, restock required immediately</div>
               </div>
             </div>
-            <?php endforeach; ?>
-            
-            <?php if(empty($notifications)): ?>
+
+            <div class="notification-item">
+              <div class="notification-icon warning">
+                <i class="fas fa-exclamation-circle"></i>
+              </div>
+              <div class="notification-content">
+                <div class="notification-title">
+                  Furniture - 5 Products Low Stock
+                  <span class="notification-badge badge-warning">Warning</span>
+                </div>
+                <div class="notification-desc">Evaluate marketing strategy for these products</div>
+              </div>
+            </div>
+
             <div class="notification-item">
               <div class="notification-icon info">
-                <i class="fas fa-check-circle"></i>
+                <i class="fas fa-comment"></i>
               </div>
               <div class="notification-content">
                 <div class="notification-title">
-                  All Systems Normal
+                  Customer Complaints - 8 Negative Reviews This Week
                   <span class="notification-badge badge-info">Info</span>
                 </div>
-                <div class="notification-desc">No critical alerts at this time</div>
+                <div class="notification-desc">Main complaint: damaged during shipping</div>
               </div>
             </div>
-            <?php endif; ?>
           </div>
 
           <!-- Returns Table -->
@@ -947,45 +736,48 @@ foreach ($monthlyTrends as $trend) {
                   </tr>
                 </thead>
                 <tbody>
-                  <?php foreach($recentReturns as $index => $return): 
-                    $statusClass = '';
-                    switch($return['status']) {
-                      case 'Completed': $statusClass = 'badge-success'; break;
-                      case 'Processing': $statusClass = 'badge-warning'; break;
-                      case 'Approved': $statusClass = 'badge-info'; break;
-                      case 'Pending': $statusClass = 'badge-danger'; break;
-                      default: $statusClass = 'badge-danger';
-                    }
-                    
-                    $paymentStatus = $return['refund_amount'] > 0 ? 'Paid' : 'Unpaid';
-                    $paymentClass = $paymentStatus == 'Paid' ? 'badge-success' : 'badge-danger';
-                    $due = $return['total_amount'] - $return['refund_amount'];
+                  <?php 
+                  $suppliers = ['Apex Computers', 'Modern Automobile', 'AIM Infotech', 'Best Power Tools', 'Hatimi Hardware & Tools'];
+                  $stores = ['IKEA Alam Sutera', 'IKEA Sentul City', 'IKEA Jakarta Garden City', 'IKEA Kota Baru Parahyangan', 'IKEA Bali', 'IKEA Mal Taman Anggrek'];
+                  $products = ['product1.jpg', 'product2.jpg', 'product3.jpg', 'product4.jpg', 'product5.jpg', 'product6.jpg', 'product7.jpg', 'product8.jpg', 'product9.jpg', 'product10.jpg'];
+                  
+                  for($i=1; $i<=12; $i++): 
+                    $status = ['Received', 'Ordered', 'Pending'][rand(0,2)];
+                    $paymentStatus = ['Paid', 'Partial', 'Unpaid'][rand(0,2)];
+                    $total = rand(200, 5000);
+                    $paid = $paymentStatus == 'Paid' ? $total : ($paymentStatus == 'Partial' ? rand(100, $total-100) : 0);
                   ?>
                   <tr>
-                    <td><?= $index + 1 ?></td>
+                    <td><?= $i ?></td>
                     <td>
-                      <img src="../assets/img/product/product<?= rand(1,10) ?>.jpg" alt="product" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover;" />
+                      <img src="../assets/img/product/<?= $products[rand(0,9)] ?>" alt="product" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover;" />
                     </td>
-                    <td><?= date('m/d/Y', strtotime($return['return_date'])) ?></td>
-                    <td><?= $return['nama_supplier'] ?></td>
-                    <td><?= $return['store_name'] ?></td>
-                    <td><?= $return['return_code'] ?></td>
-                    <td><?= number_format($return['total_amount']/15000, 2) ?></td>
-                    <td><?= number_format($return['refund_amount']/15000, 2) ?></td>
-                    <td><?= number_format($due/15000, 2) ?></td>
+                    <td><?= rand(1,12).'/'.rand(1,28).'/2022' ?></td>
+                    <td><?= $suppliers[rand(0,4)] ?></td>
+                    <td><?= $stores[rand(0,5)] ?></td>
+                    <td>RT<?= str_pad($i, 4, '0', STR_PAD_LEFT) ?></td>
+                    <td><?= number_format($total, 2) ?></td>
+                    <td><?= number_format($paid, 2) ?></td>
+                    <td><?= number_format($total - $paid, 2) ?></td>
                     <td>
-                      <span class="status-badge <?= $paymentClass ?>"><?= $paymentStatus ?></span>
+                      <span class="status-badge <?= 
+                        $paymentStatus == 'Paid' ? 'badge-success' : 
+                        ($paymentStatus == 'Partial' ? 'badge-warning' : 'badge-danger') 
+                      ?>"><?= $paymentStatus ?></span>
                     </td>
                     <td>
-                      <span class="status-badge <?= $statusClass ?>"><?= $return['status'] ?></span>
+                      <span class="status-badge <?= 
+                        $status == 'Received' ? 'badge-success' : 
+                        ($status == 'Ordered' ? 'badge-warning' : 'badge-danger') 
+                      ?>"><?= $status ?></span>
                     </td>
                     <td>
-                      <a class="btn btn-sm btn-outline-primary" href="editsupplierreturn.php?code=<?= $return['return_code'] ?>">
+                      <a class="btn btn-sm btn-outline-primary" href="editreturn.php?id=<?= $i ?>">
                         <i class="fas fa-edit"></i>
                       </a>
                     </td>
                   </tr>
-                  <?php endforeach; ?>
+                  <?php endfor; ?>
                 </tbody>
               </table>
             </div>
@@ -1008,55 +800,32 @@ foreach ($monthlyTrends as $trend) {
     <script src="../assets/js/script.js"></script>
 
     <script>
-      // PHP data to JavaScript
-      const trendData = <?= json_encode($trendData) ?>;
-      const categories = <?= json_encode($categories) ?>;
-
       // Trend Chart
       const trendCtx = document.getElementById('trendChart').getContext('2d');
-      const datasets = [];
-      const colors = ['#F44336', '#2196F3', '#4CAF50', '#FF9800', '#9C27B0'];
-      let colorIndex = 0;
-
-      categories.forEach(category => {
-        if (trendData[  '#9C27B0'];
-      let colorIndex = 0;
-
-      categories.forEach(category => {
-        if (trendData[category]) {
-          datasets.push({
-            label: category,
-            data: trendData[category],
-            borderColor: colors[colorIndex % colors.length],
-            backgroundColor: colors[colorIndex % colors.length] + '20',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: colors[colorIndex % colors.length],
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 6
-          });
-          colorIndex++;
-        }
-      });
-
       const trendChart = new Chart(trendCtx, {
         type: 'line',
         data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          datasets: datasets
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+          datasets: [{
+            label: 'Furniture Returns',
+            data: [1000, 400, 800, 530, 620, 150, 900, 800],
+            borderColor: '#F44336',
+            backgroundColor: 'rgba(244, 67, 54, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#F44336',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 6
+          }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
             legend: {
-              position: 'bottom',
-              labels: {
-                usePointStyle: true,
-                padding: 20
-              }
+              display: false
             },
             tooltip: {
               backgroundColor: 'rgba(0,0,0,0.8)',
@@ -1097,51 +866,35 @@ foreach ($monthlyTrends as $trend) {
       $(document).ready(function() {
         $('.stat-value').each(function() {
           const $this = $(this);
-          let countTo;
+          const countTo = parseInt($this.text().replace(/[^0-9.]/g, ''));
           
-          if ($this.text().includes('$')) {
-            countTo = parseInt($this.text().replace(/[^0-9]/g, ''));
-          } else if ($this.text().includes('.')) {
-            countTo = parseFloat($this.text());
-          } else {
-            countTo = parseInt($this.text());
-          }
-          
-          if (countTo > 0) {
-            $({ countNum: 0 }).animate({
-              countNum: countTo
-            }, {
-              duration: 2000,
-              easing: 'swing',
-              step: function() {
-                if ($this.text().includes('$')) {
-                  $this.text('$' + Math.floor(this.countNum).toLocaleString());
-                } else if ($this.text().includes('.')) {
-                  $this.text((this.countNum).toFixed(1));
-                } else {
-                  $this.text(Math.floor(this.countNum));
-                }
-              },
-              complete: function() {
-                if ($this.text().includes('$')) {
-                  $this.text('$' + countTo.toLocaleString());
-                } else if (countTo === <?= $stats['avg_processing_time'] ?>) {
-                  $this.text('<?= $stats['avg_processing_time'] ?>');
-                } else {
-                  $this.text(countTo);
-                }
+          $({ countNum: 0 }).animate({
+            countNum: countTo
+          }, {
+            duration: 2000,
+            easing: 'swing',
+            step: function() {
+              const formattedNumber = Math.floor(this.countNum);
+              if ($this.text().includes('$')) {
+                $this.text('$' + formattedNumber.toLocaleString());
+              } else if ($this.text().includes('.')) {
+                $this.text((this.countNum).toFixed(1));
+              } else {
+                $this.text(formattedNumber.toLocaleString());
               }
-            });
-          }
+            },
+            complete: function() {
+              if ($this.text().includes('$')) {
+                $this.text('$' + countTo.toLocaleString());
+              } else if (countTo === 3.2) {
+                $this.text('3.2');
+              } else {
+                $this.text(countTo.toLocaleString());
+              }
+            }
+          });
         });
       });
-
-      // View return function
-      function viewReturn(returnCode) {
-        // Implement view return details
-        alert('View return details for: ' + returnCode);
-      }
     </script>
   </body>
 </html>
-<?php

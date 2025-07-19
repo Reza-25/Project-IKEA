@@ -1,8 +1,4 @@
-<?php
-require_once __DIR__ . '/../include/config.php'; // Import config.php
-?>
 
-<!DOCTYPE html>
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
@@ -16,7 +12,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
 <meta name="author" content="Dreamguys - Bootstrap Admin Template">
 <meta name="robots" content="noindex, nofollow">
-<title>IKEA - Customer Returns Dashboard</title>
+<title>IKEA</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -1089,16 +1085,20 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   color: var(--danger-red);
 }
 </style>
+
 </head>
 <body>
 <div id="global-loader">
+
 <div class="whirly-loader"> </div>
 </div>
+
 
 <div class="main-wrapper">
 <!-- Include sidebar -->
 <?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
 <!-- /Include sidebar -->
+
 
 <!-- BAGIAN ATAS -->
 <div class="page-wrapper">
@@ -1106,82 +1106,84 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
     <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
   <div class="page-header">
       <div class="page-title">
-        <h4>Customer Returns Dashboard</h4>
-        <h6>Comprehensive customer return analytics and insights</h6>
+        <h4>Product Category list</h4>
+        <h6>View/Search product Category</h6>
       </div>
       <div class="page-btn">
-        <a href="addreturn.php" class="btn btn-added">
-          <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">New Return
+        <a href="addcategory.php" class="btn btn-added">
+          <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">Add Category
         </a>
       </div>
     </div>
 
-    <!-- Revenue, Returns, Refunds, Return Rate -->
+    <!-- Revenue, Suppliers, Product Sold, Budget Spent -->
           <div class="row justify-content-end">
-          <!-- 🔢 Total Returns -->
+          <!-- 🔢 Total Active Brands -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="215">215</span></h4>
-                    <h5>Total Returns</h5>
-                    <h2 class="stat-change">+15% from last month</h2>
+                    <h4><span class="counters" data-count="12">12,0</span></h4>
+                    <h5>Total Active Brands</h5>
+                    <h2 class="stat-change">+2% from last year</h2>
                     </div>
                     <div class="icon-box bg-ungu">
-                      <i class="fa fa-undo"></i>
+                      <i class="fa fa-box"></i>
                     </div>
                 </div>
               </a>
             </div>
 
-            <!-- 💰 Total Refund Value -->
+            <!-- 🛒 Avg Monthly Sales per Brand -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="12450">Rp 12,450K</span></h4>
-                   <h5>Total Refund Value</h5>
-                  <h2 class="stat-change">+8% from last month</h2>
+                  <h4><span class="counters" data-count="1240">1240,0</span></h4>
+                   <h5>Avg Month Brand</h5>
+                  <h2 class="stat-change">+6.3% from last year</h2>
                 </div>
                 <div class="icon-box bg-biru">
-                  <i class="fa fa-dollar-sign"></i>
+                  <i class="fa fa-chart-line"></i>
                 </div>
                 </div>
               </a>
             </div>
 
-             <!-- 📊 Average Return Rate -->
+             <!-- 📦 Stock Availability -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="6.8">6.8%</span></h4> 
-                  <h5>Avg. Return Rate</h5>                 
-                    <h2 class="stat-change">-1.2% from last month</h2>
+                  <h4><span class="counters" data-count="89%">89,0</span></h4> 
+                  <h5>Stock Availability</h5>                 
+                    <h2 class="stat-change">+15% from last year</h2>
                   </div>
                   <div class="icon-box bg-merah">
-                    <i class="fa fa-percentage"></i>
+                    <i class="fa fa-box-open"></i>
                   </div>
                 </div>
               </a>
             </div>
 
-            <!-- 🏆 Top Category Returns -->
+            <!-- 🗂️ Dominant Category -->
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das4">
                   <div class="dash-counts">
                      <h4>Furniture</h4>
-                    <h5>Top Category Returns</h5>
-                   <h2 class="stat-change">42 returns this month</h2>
+                    <h5>Dominant Category</h5>
+                   <h2 class="stat-change">Dominated by HEMNES</h2>
                     </div>
                     <div class="icon-box bg-hijau">
-                      <i class="fa fa-couch"></i>
+                      <i class="fa fa-trophy"></i>
                     </div>
                 </div>
               </a>
             </div>
           </div>
+          <!-- END KOLOM  -->
+
     
       <!-- Main Content -->
       <div class="row">
@@ -1193,7 +1195,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <!-- Bar Chart -->
               <div class="chart-section">
                 <div class="chart-header">
-                  <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Top 5 Categories with Highest Returns</h5>
+                  <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Top 5 Brands with Highest Sales</h5>
                   <select class="chart-select" id="barChartYear">
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
@@ -1205,8 +1207,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   <div class="d-flex align-items-center">
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
-                      <h5 style="font-size: 0.9rem;">Insight: Dominasi Return Furniture</h5>
-                      <p class="mb-0">Category Furniture mendominasi customer returns dengan kontribusi 42% dari total returns. Returns tertinggi di Q2 karena program "Summer Refresh" promotion campaign.</p>
+                      <h5 style="font-size: 0.9rem;">Insight: Dominasi Brand LACK</h5>
+                      <p class="mb-0">Brand LACK mendominasi penjualan dengan kontribusi 28% dari total revenue. Penjualan tertinggi di Q2 karena program promo "Summer Refresh".</p>
                     </div>
                   </div>
                 </div>
@@ -1215,7 +1217,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <!-- Donut Chart -->
               <div class="chart-section">
                 <div class="chart-header">
-                  <h5 class="chart-title"><i class="fas fa-chart-pie me-2"></i>Category Return Contribution to Total Returns</h5>
+                  <h5 class="chart-title"><i class="fas fa-chart-pie me-2"></i>Brand Contribution to Total Sales</h5>
                 </div>
                 <div id="donutChart" style="height: 200px;"></div>
                 <div class="donut-legend" id="donutLegend"></div>
@@ -1223,8 +1225,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   <div class="d-flex align-items-center">
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
-                      <h5 style="font-size: 0.9rem;">Insight: Distribusi Return</h5>
-                      <p class="mb-0">Top 5 categories menyumbang 78% total customer returns. Furniture category menunjukkan peningkatan return terbesar (+12% YoY).</p>
+                      <h5 style="font-size: 0.9rem;">Insight: Distribusi Merata</h5>
+                      <p class="mb-0">Top 5 brand menyumbang 72% total penjualan. Brand SKÅDIS menunjukkan peningkatan kontribusi terbesar (+5% YoY).</p>
                     </div>
                   </div>
                 </div>
@@ -1233,7 +1235,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <!-- Line Chart -->
               <div class="chart-section">
                 <div class="chart-header">
-                  <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Return Trend (Top 5 Categories)</h5>
+                  <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Brand Growth Trend (Top 5 Brands)</h5>
                   <select class="chart-select" id="lineChartYear">
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
@@ -1245,70 +1247,70 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   <div class="d-flex align-items-center">
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
-                      <h5 id="lineChartInsightTitle" style="font-size: 0.9rem;">Insight: Tren Return Furniture</h5>
-                      <p class="mb-0" id="lineChartInsightText">Category Furniture menunjukkan tren return yang meningkat dengan puncak di bulan Juni. Penurunan return di bulan Juli setelah perbaikan quality control.</p>
+                      <h5 id="lineChartInsightTitle" style="font-size: 0.9rem;">Insight: Tren Brand LACK</h5>
+                      <p class="mb-0" id="lineChartInsightText">Brand LACK menunjukkan pertumbuhan stabil dengan peningkatan 8% QoQ. Penurunan kecil di bulan Juni karena masalah stok.</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Insight Produk yang Sering Dikembalikan -->
+              <!-- Insight Produk Bersaing -->
               <div class="chart-section">
                 <div class="chart-header">
-                  <h5 class="chart-title"><i class="fas fa-exclamation-triangle me-2"></i>Insight "Produk yang Sering Dikembalikan"</h5>
+                  <h5 class="chart-title"><i class="fas fa-chess-board me-2"></i>Insight "Produk Bersaing" Antar Brand</h5>
                 </div>
                 <div class="row">
                   <div class="col-md-6 mb-3">
-                    <div class="p-3" style="background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%); border-radius: 10px; border: 1px solid rgba(244, 67, 54, 0.1);">
+                    <div class="p-3" style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); border-radius: 10px; border: 1px solid rgba(25, 118, 210, 0.1);">
                       <div class="text-center mb-2">
-                        <h6 class="mb-1" style="color: #d32f2f; font-weight: 600;">LACK vs HEMNES</h6>
-                        <span style="background: #d32f2f; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Furniture</span>
+                        <h6 class="mb-1" style="color: var(--primary-blue); font-weight: 600;">SKÅDIS vs VARIERA</h6>
+                        <span style="background: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Organizer</span>
                       </div>
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="text-center" style="flex: 1;">
-                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ff5722 0%, #d32f2f 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: white;">
-                            <i class="fas fa-times" style="font-size: 0.8rem;"></i>
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #b8860b;">
+                            <i class="fas fa-crown" style="font-size: 0.8rem;"></i>
                           </div>
-                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">LACK</h6>
-                          <small style="font-size: 0.7rem; color: #666;">18 returns | Alasan: Defect</small>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">SKÅDIS</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.6⭐ | Rp 299K | 1.240/bln</small>
                         </div>
                         <div style="margin: 0 10px;">
                           <div style="width: 25px; height: 25px; background: var(--danger-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.6rem; font-weight: 700;">VS</div>
                         </div>
                         <div class="text-center" style="flex: 1;">
-                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffcc02 0%, #ff9800 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: white;">
-                            <i class="fas fa-exclamation" style="font-size: 0.8rem;"></i>
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #666;">
+                            <i class="fas fa-medal" style="font-size: 0.8rem;"></i>
                           </div>
-                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">HEMNES</h6>
-                          <small style="font-size: 0.7rem; color: #666;">12 returns | Alasan: Size</small>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">VARIERA</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.3⭐ | Rp 249K | 1.050/bln</small>
                         </div>
                       </div>
                     </div>
                   </div>
                   
                   <div class="col-md-6 mb-3">
-                    <div class="p-3" style="background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); border-radius: 10px; border: 1px solid rgba(255, 152, 0, 0.1);">
+                    <div class="p-3" style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); border-radius: 10px; border: 1px solid rgba(25, 118, 210, 0.1);">
                       <div class="text-center mb-2">
-                        <h6 class="mb-1" style="color: #f57c00; font-weight: 600;">KALLAX vs BILLY</h6>
-                        <span style="background: #f57c00; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Storage</span>
+                        <h6 class="mb-1" style="color: var(--primary-blue); font-weight: 600;">LACK vs HEMNES</h6>
+                        <span style="background: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Furniture</span>
                       </div>
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="text-center" style="flex: 1;">
-                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: white;">
-                            <i class="fas fa-times" style="font-size: 0.8rem;"></i>
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #b8860b;">
+                            <i class="fas fa-crown" style="font-size: 0.8rem;"></i>
                           </div>
-                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">KALLAX</h6>
-                          <small style="font-size: 0.7rem; color: #666;">15 returns | Alasan: Damage</small>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">LACK</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.5⭐ | Rp 199K | 1.850/bln</small>
                         </div>
                         <div style="margin: 0 10px;">
-                          <div style="width: 25px; height: 25px; background: var(--warning-orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.6rem; font-weight: 700;">VS</div>
+                          <div style="width: 25px; height: 25px; background: var(--danger-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.6rem; font-weight: 700;">VS</div>
                         </div>
                         <div class="text-center" style="flex: 1;">
-                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: white;">
-                            <i class="fas fa-exclamation" style="font-size: 0.8rem;"></i>
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #666;">
+                            <i class="fas fa-medal" style="font-size: 0.8rem;"></i>
                           </div>
-                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">BILLY</h6>
-                          <small style="font-size: 0.7rem; color: #666;">10 returns | Alasan: Wrong item</small>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">HEMNES</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.7⭐ | Rp 599K | 1.420/bln</small>
                         </div>
                       </div>
                     </div>
@@ -1318,8 +1320,8 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   <div class="d-flex align-items-center">
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
-                      <h5 style="font-size: 0.9rem;">Insight: Return Pattern Analysis</h5>
-                      <p class="mb-0">LACK furniture menunjukkan tingkat return tertinggi karena defect issues. KALLAX storage mengalami return karena shipping damage. Perlu peningkatan quality control dan packaging.</p>
+                      <h5 style="font-size: 0.9rem;">Insight: Kompetisi Brand</h5>
+                      <p class="mb-0">SKÅDIS unggul di rating dan penjualan, sementara VARIERA unggul di harga. LACK mendominasi dengan volume penjualan tertinggi meski HEMNES memiliki rating terbaik.</p>
                     </div>
                   </div>
                 </div>
@@ -1328,19 +1330,19 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 
             <!-- Right Column - Sidebar tetap di samping charts -->
             <div class="col-lg-4">
-              <!-- Prediksi Return -->
+              <!-- Prediksi Penjualan -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
-                  <i class="fas fa-chart-line me-2"></i>Prediksi Return per Bulan
+                  <i class="fas fa-calculator me-2"></i>Prediksi Penjualan Brand per Bulan
                 </div>
                 <div class="sidebar-card-body">
                   <div class="d-flex align-items-center mb-2">
                     <div class="bg-light p-2 rounded-circle me-2" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                      <i class="fas fa-undo text-danger" style="font-size: 1.2rem;"></i>
+                      <i class="fas fa-chart-line text-primary" style="font-size: 1.2rem;"></i>
                     </div>
                     <div>
-                      <h5 class="mb-1" style="font-size: 1rem;">Furniture</h5>
-                      <p class="mb-0" style="font-size: 0.85rem;">diprediksi <span class="fw-bold">52 returns</span> di Agustus 2025</p>
+                      <h5 class="mb-1" style="font-size: 1rem;">LACK</h5>
+                      <p class="mb-0" style="font-size: 0.85rem;">diprediksi terjual <span class="fw-bold">2.100 unit</span> di Agustus 2025</p>
                     </div>
                     <div class="ms-auto">
                       <span class="trend-indicator trend-up" style="font-size: 1.5rem;">▲</span>
@@ -1350,14 +1352,14 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                     <div>
                       <p class="mb-1" style="font-size: 0.8rem;">Akurasi prediksi:</p>
                       <div class="progress" style="height: 6px; width: 100px;">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 88%" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
-                      <span class="fw-bold" style="font-size: 0.8rem;">82%</span>
+                      <span class="fw-bold" style="font-size: 0.8rem;">88%</span>
                     </div>
                     <div>
                       <p class="mb-1" style="font-size: 0.8rem;">Bandingkan dengan:</p>
-                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Jul 2025: 48 returns</p>
-                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Ags 2024: 45 returns</p>
+                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Jul 2025: 1.950 unit</p>
+                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Ags 2024: 1.820 unit</p>
                     </div>
                   </div>
                 </div>
@@ -1366,30 +1368,30 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <!-- Notifikasi Kritis -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
-                  <i class="fas fa-bell me-2"></i>Critical Return Alerts
+                  <i class="fas fa-bell me-2"></i>Notifikasi Kritis Otomatis
                 </div>
                 <div class="sidebar-card-body">
-                  <div class="notification-card danger">
-                    <i class="fas fa-exclamation-triangle text-danger"></i>
+                  <div class="notification-card warning">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
                     <div>
-                      <h5 class="mb-1">Furniture - High Return Rate</h5>
-                      <p class="mb-0">15% MoM increase, rating dropped to 4.1</p>
+                      <h5 class="mb-1">LACK - Stok Tinggal 6 Unit</h5>
+                      <p class="mb-0">Stok kritis, restock diperlukan segera</p>
                     </div>
                   </div>
                   
-                  <div class="notification-card warning">
-                    <i class="fas fa-sync-alt text-warning"></i>
+                  <div class="notification-card danger">
+                    <i class="fas fa-sync-alt text-danger"></i>
                     <div>
-                      <h5 class="mb-1">LACK - 8 Defective Returns This Week</h5>
-                      <p class="mb-0">Quality issues detected in recent shipments</p>
+                      <h5 class="mb-1">SKÅDIS - 4x Restock dalam 30 Hari</h5>
+                      <p class="mb-0">Permintaan melonjak 45% dari bulan lalu</p>
                     </div>
                   </div>
                   
                   <div class="notification-card info">
-                    <i class="fas fa-comment text-info"></i>
+                    <i class="fas fa-thumbs-down text-info"></i>
                     <div>
-                      <h5 class="mb-1">Lighting - Return Spike</h5>
-                      <p class="mb-0">Customer complaints about LED compatibility</p>
+                      <h5 class="mb-1">VITTSJÖ - 8 Review Negatif Minggu Ini</h5>
+                      <p class="mb-0">Keluhan utama: kerusakan sudut saat pengiriman</p>
                     </div>
                   </div>
                 </div>
@@ -1398,69 +1400,69 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <!-- Health Score -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
-                  <i class="fas fa-heartbeat me-2"></i>Return Management Health Score
+                  <i class="fas fa-heartbeat me-2"></i>Health Score untuk Brand
                 </div>
                 <div class="sidebar-card-body">
                   <div class="health-score-item">
                     <div class="health-brand-info">
-                      <h6>Storage Category</h6>
-                      <p>Low return rate (3.2%), good customer satisfaction</p>
+                      <h6>HEMNES</h6>
+                      <p>Stok stabil (95%), rating 4.7, restock normal</p>
                     </div>
                     <div class="health-score-value">
-                      <div class="health-score good">92/100</div>
+                      <div class="health-score good">87/100</div>
                       <div class="health-progress">
-                        <div class="health-fill good" style="width: 92%"></div>
+                        <div class="health-fill good" style="width: 87%"></div>
                       </div>
                     </div>
                   </div>
                   
                   <div class="health-score-item">
                     <div class="health-brand-info">
-                      <h6>Furniture Category</h6>
-                      <p>High return rate (8.5%), quality issues reported</p>
+                      <h6>FJÄLLBO</h6>
+                      <p>Penurunan penjualan 15% MoM, rating turun ke 4.1</p>
                     </div>
                     <div class="health-score-value">
-                      <div class="health-score poor">58/100</div>
+                      <div class="health-score poor">62/100</div>
                       <div class="health-progress">
-                        <div class="health-fill poor" style="width: 58%"></div>
+                        <div class="health-fill poor" style="width: 62%"></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Compact Category Readiness -->
+              <!-- Compact Brand Readiness -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
-                  <i class="fas fa-shield-alt me-2"></i>Return Prevention Index
+                  <i class="fas fa-bolt me-2"></i>Brand Readiness Index
                 </div>
                 <div class="sidebar-card-body">
                   <div class="readiness-compact">
-                    <div class="readiness-score-compact">89%</div>
-                    <div class="readiness-brand-compact">Furniture</div>
-                    <div class="readiness-label-compact">Return Management Score</div>
+                    <div class="readiness-score-compact">92%</div>
+                    <div class="readiness-brand-compact">KALLAX</div>
+                    <div class="readiness-label-compact">Promo-Ready Score</div>
                     
                     <div class="readiness-features-compact">
                       <div class="readiness-feature-compact">
-                        <i class="fas fa-shield-alt text-success"></i>
-                        <p>Stable</p>
+                        <i class="fas fa-box-open text-success"></i>
+                        <p>Stok Tinggi</p>
                       </div>
                       <div class="readiness-feature-compact">
                         <i class="fas fa-star text-warning"></i>
-                        <p>Rating 4.7</p>
+                        <p>Rating 4.6</p>
                       </div>
                       <div class="readiness-feature-compact">
                         <i class="fas fa-chart-line text-primary"></i>
-                        <p>Normal</p>
+                        <p>Stabil</p>
                       </div>
                     </div>
                     
                     <div class="readiness-progress-compact">
-                      <div class="readiness-fill-compact" style="width: 89%"></div>
+                      <div class="readiness-fill-compact" style="width: 92%"></div>
                     </div>
                     
                     <div class="readiness-status-compact">
-                      ✓ Normal Return Level
+                      ✓ Siap Promo Flash Sale
                     </div>
                   </div>
                 </div>
@@ -1469,15 +1471,15 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <!-- Distribusi Lokasi -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
-                  <i class="fas fa-map-marker-alt me-2"></i>Return Distribution by Location
+                  <i class="fas fa-map-marker-alt me-2"></i>Distribusi Lokasi Penjualan Terbanyak
                 </div>
                 <div class="sidebar-card-body">
                   <div class="location-brand-section">
                     <div class="location-brand-header">
-                      <h6 class="location-brand-name">Furniture</h6>
-                      <span class="location-status-badge top">Top Returns</span>
+                      <h6 class="location-brand-name">HEMNES</h6>
+                      <span class="location-status-badge top">Top Seller</span>
                     </div>
-                    <p class="location-description">Most returns from:</p>
+                    <p class="location-description">Paling banyak terjual di:</p>
                     <div class="location-tags">
                       <span class="location-tag highlight">Jakarta</span>
                       <span class="location-tag">Surabaya</span>
@@ -1488,10 +1490,10 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                   
                   <div class="location-brand-section">
                     <div class="location-brand-header">
-                      <h6 class="location-brand-name">Storage</h6>
-                      <span class="location-status-badge rising">Rising</span>
+                      <h6 class="location-brand-name">SKÅDIS</h6>
+                      <span class="location-status-badge rising">Rising Star</span>
                     </div>
-                    <p class="location-description">Popular returns in:</p>
+                    <p class="location-description">Populer di:</p>
                     <div class="location-tags">
                       <span class="location-tag">Bandung</span>
                       <span class="location-tag highlight">Yogyakarta</span>
@@ -1505,27 +1507,27 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               <!-- AI Suggestion -->
               <div class="suggestion-card">
                 <div class="insight-card-header">
-                  <i class="fas fa-robot text-white"></i>
-                  <h4 class="mb-0 text-white">AI Suggestion: Return Optimization</h4>
+                  <i class="fas fa-brain text-white"></i>
+                  <h4 class="mb-0 text-white">AI Suggestion: Produk Baru yang Potensial</h4>
                 </div>
-                <p class="mb-0" style="font-size: 0.85rem;">"Analysis shows 'furniture defects' increased 45% in the last 3 months. AI Recommendation: Implement quality control + restock strategy for KALLAX series"</p>
+                <p class="mb-0" style="font-size: 0.85rem;">"Pencarian untuk 'rak dinding kayu minimalis' meningkat 45% dalam 3 bulan terakhir. Pertimbangkan menambahkan varian ini di koleksi LACK."</p>
               </div>
             </div>
           </div>
 
-          <!-- Enhanced Return Data Table - Full Width Professional with Search & Export -->
+          <!-- Enhanced Brand Data Table - Full Width Professional with Search & Export -->
           <div class="brand-table-section">
             <div class="chart-header">
-              <h5 class="chart-title"><i class="fas fa-table me-2"></i>Recent Customer Returns</h5>
+              <h5 class="chart-title"><i class="fas fa-table me-2"></i>Data Brand IKEA</h5>
               <div class="d-flex align-items-center gap-2">
-                <span style="font-size: 0.8rem; color: #64748b;" id="totalReturnsText">Total: 12 returns</span>
+                <span style="font-size: 0.8rem; color: #64748b;" id="totalBrandsText">Total: 12 brands</span>
               </div>
             </div>
             
             <!-- Table Controls -->
             <div class="table-controls">
               <div class="search-container">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search return ID, category, product...">
+                <input type="text" class="search-input" id="searchInput" placeholder="Cari brand, kategori, atau status...">
                 <i class="fas fa-search search-icon"></i>
               </div>
               <div class="export-buttons">
@@ -1540,20 +1542,20 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
               </div>
             </div>
             
-            <table class="brand-table" id="returnsTable">
+            <table class="brand-table" id="brandTable">
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Return ID</th>
-                  <th>Product</th>
-                  <th>Category</th>
-                  <th>Customer</th>
-                  <th>Reason</th>
-                  <th>Amount</th>
+                  <th>ID Brand</th>
+                  <th>Brand</th>
+                  <th>Kategori</th>
+                  <th>Rating</th>
+                  <th>Penjualan/Bulan</th>
+                  <th>Harga Rata-rata</th>
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody id="returnsTableBody">
+              <tbody id="brandTableBody">
                 <!-- Data akan diisi oleh JavaScript -->
               </tbody>
             </table>
@@ -1561,13 +1563,13 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             <!-- No Results Message -->
             <div class="no-results" id="noResults" style="display: none;">
               <i class="fas fa-search"></i>
-              <h5>No returns found</h5>
-              <p>Try adjusting your search keywords</p>
+              <h5>Tidak ada data yang ditemukan</h5>
+              <p>Coba ubah kata kunci pencarian Anda</p>
             </div>
             
             <div class="table-pagination" id="tablePagination">
               <div class="pagination-info" id="paginationInfo">
-                Showing 1-4 of 12 returns
+                Menampilkan 1-4 dari 12 brand
               </div>
               <div class="pagination-controls">
                 <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
@@ -1589,102 +1591,101 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 </div>
 
 <script>
-// Data for customer returns visualizations
+// Data dummy untuk visualisasi - MENGGUNAKAN DATA ASLI DARI FILE ORIGINAL
 const barChartData = {
   2025: {
-    categories: ["Furniture", "Lighting", "Storage", "Bedroom", "Kitchen"],
-    returns: [42, 28, 24, 18, 15], // number of returns
+    brands: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ"],
+    sales: [385, 315, 280, 265, 240], // dalam juta
     insights: {
-      "Furniture": "Category Furniture mendominasi customer returns dengan kontribusi 42% dari total returns. Returns tertinggi di Q2 karena program 'Summer Refresh' promotion campaign.",
-      "Lighting": "Category Lighting menunjukkan peningkatan return 18% YoY, terutama karena LED compatibility issues yang dilaporkan customer.",
-      "Storage": "Storage category mengalami return stabil dengan perbaikan packaging yang menurunkan return rate sebesar 5%.",
-      "Bedroom": "Bedroom products menunjukkan return rate rendah dengan kepuasan customer yang tinggi.",
-      "Kitchen": "Kitchen category mengalami sedikit peningkatan return karena masalah ukuran dan compatibility."
+      "LACK": "Brand LACK mendominasi penjualan dengan kontribusi 28% dari total revenue. Penjualan tertinggi di Q2 karena program promo 'Summer Refresh'.",
+      "SKÅDIS": "Brand SKÅDIS menunjukkan pertumbuhan pesat dengan peningkatan 18% YoY, terutama karena produk organizer yang populer di kalangan urban.",
+      "HEMNES": "HEMNES tetap menjadi favorit dengan penjualan stabil. Koleksi kayu solidnya masih menjadi pilihan utama konsumen kelas menengah atas.",
+      "KALLAX": "KALLAX mengalami peningkatan 5% di kuartal ini setelah peluncuran varian warna baru yang lebih modern.",
+      "VITTSJÖ": "VITTSJÖ menunjukkan potensi dengan peningkatan penjualan di segmen furniture logam, terutama untuk ruang kerja."
     }
   },
   2024: {
-    categories: ["Storage", "Furniture", "Lighting", "Bedroom", "Kitchen"],
-    returns: [38, 35, 22, 20, 18],
+    brands: ["HEMNES", "LACK", "KALLAX", "SKÅDIS", "VITTSJÖ"],
+    sales: [325, 310, 290, 275, 220],
     insights: {
-      "Storage": "Storage category menjadi yang tertinggi di tahun 2024 dengan masalah shipping damage.",
-      "Furniture": "Furniture mengalami peningkatan return di paruh kedua tahun 2024.",
-      "Lighting": "Lighting category stabil dengan return rate yang dapat diterima.",
-      "Bedroom": "Bedroom products menunjukkan kinerja konsisten.",
-      "Kitchen": "Kitchen category mulai menunjukkan peningkatan return rate."
+      "HEMNES": "HEMNES menjadi brand terlaris di tahun 2024 dengan koleksi kayu solidnya yang tahan lama dan desain klasik.",
+      "LACK": "LACK tetap menjadi favorit dengan harga terjangkau, meskipun sempat mengalami penurunan stok di Q3.",
+      "KALLAX": "KALLAX menunjukkan kinerja konsisten dengan sistem penyimpanan modular yang fleksibel.",
+      "SKÅDIS": "SKÅDIS mulai menunjukkan potensi dengan peningkatan 12% di paruh kedua tahun 2024.",
+      "VITTSJÖ": "VITTSJÖ mulai dikenal di pasar dengan desain industrial yang minimalis."
     }
   },
   2023: {
-    categories: ["Lighting", "Storage", "Furniture", "Kitchen", "Bedroom"],
-    returns: [32, 30, 28, 25, 22],
+    brands: ["KALLAX", "HEMNES", "LACK", "VITTSJÖ", "SKÅDIS"],
+    sales: [295, 285, 265, 240, 210],
     insights: {
-      "Lighting": "Lighting category mendominasi return di 2023 karena masalah quality control.",
-      "Storage": "Storage mengalami return tinggi karena assembly issues.",
-      "Furniture": "Furniture category menunjukkan return rate yang stabil.",
-      "Kitchen": "Kitchen products mengalami return karena size issues.",
-      "Bedroom": "Bedroom category menunjukkan performance terbaik."
+      "KALLAX": "KALLAX mendominasi penjualan di 2023 dengan sistem penyimpanan modular yang sangat populer.",
+      "HEMNES": "HEMNES tetap menjadi pilihan utama untuk furniture kayu berkualitas dengan desain timeless.",
+      "LACK": "LACK mulai dikenal sebagai brand dengan harga terjangkau dan desain modern.",
+      "VITTSJÖ": "VITTSJÖ baru memasuki pasar dengan koleksi furniture logam industrial.",
+      "SKÅDIS": "SKÅDIS masih dalam tahap pengenalan dengan produk organizer plastik."
     }
   }
 };
 
-// Donut chart data for return distribution
+// Beautiful Blue, Purple, and Teal Color Variations for Charts
 const donutChartData = {
-  labels: ["Furniture", "Lighting", "Storage", "Bedroom", "Kitchen", "Others"],
-  series: [42, 28, 24, 18, 15, 8], // percentage
-  colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd']
+  labels: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ", "Lainnya"],
+  series: [28, 22, 18, 15, 12, 5], // persentase
+  colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd'] // Updated colors matching productsold.php
 };
 
-// Line chart data for return trends
 const lineChartData = {
   2025: [
-    { name: "Furniture", data: [35, 38, 42, 45, 40, 48, 42, 38] },
-    { name: "Lighting", data: [22, 25, 28, 32, 30, 35, 28, 26] },
-    { name: "Storage", data: [20, 22, 24, 28, 26, 30, 24, 22] },
-    { name: "Bedroom", data: [15, 16, 18, 20, 18, 22, 18, 16] },
-    { name: "Kitchen", data: [12, 14, 15, 18, 16, 20, 15, 14] }
+    { name: "LACK", data: [320, 350, 380, 410, 440, 420, 450, 480] },
+    { name: "SKÅDIS", data: [220, 240, 260, 290, 310, 330, 350, 380] },
+    { name: "HEMNES", data: [280, 290, 310, 300, 320, 330, 340, 350] },
+    { name: "KALLAX", data: [260, 250, 270, 280, 290, 300, 310, 320] },
+    { name: "VITTSJÖ", data: [190, 200, 210, 220, 230, 240, 250, 260] }
   ],
   2024: [
-    { name: "Storage", data: [32, 35, 38, 40, 38, 42, 38, 35] },
-    { name: "Furniture", data: [28, 30, 35, 38, 35, 40, 35, 32] },
-    { name: "Lighting", data: [18, 20, 22, 25, 22, 28, 22, 20] },
-    { name: "Bedroom", data: [16, 18, 20, 22, 20, 25, 20, 18] },
-    { name: "Kitchen", data: [14, 16, 18, 20, 18, 22, 18, 16] }
+    { name: "HEMNES", data: [310, 300, 290, 300, 310, 320, 330, 340] },
+    { name: "LACK", data: [290, 310, 330, 350, 370, 360, 380, 400] },
+    { name: "KALLAX", data: [280, 270, 260, 270, 280, 290, 300, 310] },
+    { name: "SKÅDIS", data: [180, 200, 220, 240, 260, 280, 300, 320] },
+    { name: "VITTSJÖ", data: [170, 180, 190, 200, 210, 220, 230, 240] }
   ],
   2023: [
-    { name: "Lighting", data: [28, 30, 32, 35, 32, 38, 32, 30] },
-    { name: "Storage", data: [25, 28, 30, 32, 30, 35, 30, 28] },
-    { name: "Furniture", data: [22, 25, 28, 30, 28, 32, 28, 25] },
-    { name: "Kitchen", data: [20, 22, 25, 28, 25, 30, 25, 22] },
-    { name: "Bedroom", data: [18, 20, 22, 25, 22, 28, 22, 20] }
+    { name: "KALLAX", data: [300, 290, 280, 290, 300, 310, 320, 330] },
+    { name: "HEMNES", data: [280, 270, 280, 290, 300, 310, 320, 330] },
+    { name: "LACK", data: [250, 270, 290, 310, 330, 320, 340, 360] },
+    { name: "VITTSJÖ", data: [150, 160, 170, 180, 190, 200, 210, 220] },
+    { name: "SKÅDIS", data: [150, 170, 190, 210, 230, 250, 270, 290] }
   ]
 };
 
-// Returns data for table
-const returnsData = [
-  { id: "RET001", product: "LACK Coffee Table", category: "Furniture", customer: "John Doe", reason: "Defect", amount: "Rp 199K", status: "processed" },
-  { id: "RET002", product: "FOTO LED Bulb", category: "Lighting", customer: "Jane Smith", reason: "Wrong Item", amount: "Rp 89K", status: "pending" },
-  { id: "RET003", product: "KALLAX Shelf Unit", category: "Storage", customer: "Mike Johnson", reason: "Damage", amount: "Rp 399K", status: "refunded" },
-  { id: "RET004", product: "HEMNES Bed Frame", category: "Bedroom", customer: "Sarah Wilson", reason: "Size Issue", amount: "Rp 2.999K", status: "processed" },
-  { id: "RET005", product: "BILLY Bookcase", category: "Storage", customer: "Tom Brown", reason: "Defect", amount: "Rp 299K", status: "pending" },
-  { id: "RET006", product: "MALM Dresser", category: "Bedroom", customer: "Lisa Davis", reason: "Wrong Color", amount: "Rp 1.499K", status: "refunded" },
-  { id: "RET007", product: "POÄNG Armchair", category: "Furniture", customer: "Chris Lee", reason: "Comfort", amount: "Rp 1.299K", status: "processed" },
-  { id: "RET008", product: "GRUNDTAL Kitchen Rail", category: "Kitchen", customer: "Anna White", reason: "Size Issue", amount: "Rp 149K", status: "pending" },
-  { id: "RET009", product: "EKET Cabinet", category: "Storage", customer: "David Green", reason: "Damage", amount: "Rp 179K", status: "refunded" },
-  { id: "RET010", product: "FOTO Table Lamp", category: "Lighting", customer: "Emma Wilson", reason: "Defect", amount: "Rp 259K", status: "processed" },
-  { id: "RET011", product: "VITTSJÖ Shelf Unit", category: "Storage", customer: "Ryan Miller", reason: "Assembly", amount: "Rp 449K", status: "pending" },
-  { id: "RET012", product: "SKÅDIS Pegboard", category: "Storage", customer: "Sophie Clark", reason: "Wrong Size", amount: "Rp 299K", status: "refunded" }
+// Brand Data for Table - Extended to 12 entries with IDs
+const brandData = [
+  { id: "BRD001", brand: "LACK", category: "Furniture", rating: 4.5, sales: 1850, price: "Rp 199K", status: "active" },
+  { id: "BRD002", brand: "SKÅDIS", category: "Organizer", rating: 4.6, sales: 1240, price: "Rp 299K", status: "trending" },
+  { id: "BRD003", brand: "HEMNES", category: "Furniture", rating: 4.7, sales: 1420, price: "Rp 599K", status: "active" },
+  { id: "BRD004", brand: "KALLAX", category: "Storage", rating: 4.4, sales: 1180, price: "Rp 399K", status: "stable" },
+  { id: "BRD005", brand: "VITTSJÖ", category: "Furniture", rating: 4.2, sales: 980, price: "Rp 449K", status: "stable" },
+  { id: "BRD006", brand: "VARIERA", category: "Organizer", rating: 4.3, sales: 1050, price: "Rp 249K", status: "active" },
+  { id: "BRD007", brand: "FJÄLLBO", category: "Furniture", rating: 4.1, sales: 720, price: "Rp 799K", status: "stable" },
+  { id: "BRD008", brand: "IVAR", category: "Storage", rating: 4.5, sales: 890, price: "Rp 349K", status: "active" },
+  { id: "BRD009", brand: "BILLY", category: "Storage", rating: 4.6, sales: 1320, price: "Rp 199K", status: "trending" },
+  { id: "BRD010", brand: "MALM", category: "Furniture", rating: 4.4, sales: 1150, price: "Rp 899K", status: "active" },
+  { id: "BRD011", brand: "POÄNG", category: "Furniture", rating: 4.8, sales: 950, price: "Rp 1.299K", status: "trending" },
+  { id: "BRD012", brand: "EKET", category: "Storage", rating: 4.3, sales: 780, price: "Rp 179K", status: "stable" }
 ];
 
 // Pagination and search variables
 let currentPage = 1;
 let itemsPerPage = 4;
-let filteredData = [...returnsData];
+let filteredData = [...brandData];
 let searchQuery = '';
 
-// Initialize charts
+// Inisialisasi chart
 let barChart, donutChart, lineChart;
 let currentYear = '2025';
 
-// Format number function
+// Fungsi untuk memformat angka
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
@@ -1694,39 +1695,39 @@ function performSearch(query) {
   searchQuery = query.toLowerCase();
   
   if (searchQuery === '') {
-    filteredData = [...returnsData];
+    filteredData = [...brandData];
   } else {
-    filteredData = returnsData.filter(returnItem => 
-      returnItem.product.toLowerCase().includes(searchQuery) ||
-      returnItem.category.toLowerCase().includes(searchQuery) ||
-      returnItem.customer.toLowerCase().includes(searchQuery) ||
-      returnItem.reason.toLowerCase().includes(searchQuery) ||
-      returnItem.id.toLowerCase().includes(searchQuery)
+    filteredData = brandData.filter(brand => 
+      brand.brand.toLowerCase().includes(searchQuery) ||
+      brand.category.toLowerCase().includes(searchQuery) ||
+      brand.status.toLowerCase().includes(searchQuery) ||
+      brand.id.toLowerCase().includes(searchQuery)
     );
   }
   
   currentPage = 1;
   updateTotalPages();
-  renderReturnsTable(currentPage);
-  updateTotalReturnsText();
+  renderBrandTable(currentPage);
+  updateTotalBrandsText();
 }
 
 // Update total pages based on filtered data
 function updateTotalPages() {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   
+  // Show/hide pagination buttons based on total pages
   document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
   document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
   document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
 }
 
-// Update total returns text
-function updateTotalReturnsText() {
-  const totalText = document.getElementById('totalReturnsText');
+// Update total brands text
+function updateTotalBrandsText() {
+  const totalText = document.getElementById('totalBrandsText');
   if (searchQuery === '') {
-    totalText.textContent = `Total: ${returnsData.length} returns`;
+    totalText.textContent = `Total: ${brandData.length} brands`;
   } else {
-    totalText.textContent = `Found: ${filteredData.length} of ${returnsData.length} returns`;
+    totalText.textContent = `Ditemukan: ${filteredData.length} dari ${brandData.length} brands`;
   }
 }
 
@@ -1735,26 +1736,30 @@ function exportToPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   
+  // Add title
   doc.setFontSize(16);
-  doc.text('Customer Returns Data - IKEA', 14, 22);
+  doc.text('Data Brand IKEA', 14, 22);
   
+  // Add export date
   doc.setFontSize(10);
   doc.text(`Exported on: ${new Date().toLocaleDateString('id-ID')}`, 14, 30);
   
-  const tableData = filteredData.map((returnItem, index) => [
+  // Prepare table data
+  const tableData = filteredData.map((brand, index) => [
     index + 1,
-    returnItem.id,
-    returnItem.product,
-    returnItem.category,
-    returnItem.customer,
-    returnItem.reason,
-    returnItem.amount,
-    returnItem.status === 'processed' ? 'Processed' : 
-    returnItem.status === 'pending' ? 'Pending' : 'Refunded'
+    brand.id,
+    brand.brand,
+    brand.category,
+    brand.rating.toString(),
+    brand.sales.toLocaleString(),
+    brand.price,
+    brand.status === 'active' ? 'Aktif' : 
+    brand.status === 'trending' ? 'Trending' : 'Stabil'
   ]);
   
+  // Add table
   doc.autoTable({
-    head: [['No', 'Return ID', 'Product', 'Category', 'Customer', 'Reason', 'Amount', 'Status']],
+    head: [['No', 'ID Brand', 'Brand', 'Kategori', 'Rating', 'Penjualan/Bulan', 'Harga Rata-rata', 'Status']],
     body: tableData,
     startY: 35,
     styles: {
@@ -1767,32 +1772,37 @@ function exportToPDF() {
     }
   });
   
-  doc.save('customer-returns-data.pdf');
+  // Save the PDF
+  doc.save('data-brand-ikea.pdf');
 }
 
 // Export to Excel function
 function exportToExcel() {
-  const excelData = filteredData.map((returnItem, index) => ({
+  // Prepare data for Excel
+  const excelData = filteredData.map((brand, index) => ({
     'No': index + 1,
-    'Return ID': returnItem.id,
-    'Product': returnItem.product,
-    'Category': returnItem.category,
-    'Customer': returnItem.customer,
-    'Reason': returnItem.reason,
-    'Amount': returnItem.amount,
-    'Status': returnItem.status === 'processed' ? 'Processed' : 
-              returnItem.status === 'pending' ? 'Pending' : 'Refunded'
+    'ID Brand': brand.id,
+    'Brand': brand.brand,
+    'Kategori': brand.category,
+    'Rating': brand.rating,
+    'Penjualan/Bulan': brand.sales,
+    'Harga Rata-rata': brand.price,
+    'Status': brand.status === 'active' ? 'Aktif' : 
+              brand.status === 'trending' ? 'Trending' : 'Stabil'
   }));
   
+  // Create workbook and worksheet
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.json_to_sheet(excelData);
   
-  XLSX.utils.book_append_sheet(wb, ws, 'Customer Returns');
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(wb, ws, 'Data Brand IKEA');
   
-  XLSX.writeFile(wb, 'customer-returns-data.xlsx');
+  // Save the Excel file
+  XLSX.writeFile(wb, 'data-brand-ikea.xlsx');
 }
 
-// Create donut legend
+// Membuat custom legend untuk donut chart
 function createDonutLegend() {
   const legendContainer = document.getElementById('donutLegend');
   legendContainer.innerHTML = '';
@@ -1814,16 +1824,16 @@ function createDonutLegend() {
   });
 }
 
-// Update bar chart insight
-function updateBarChartInsight(category) {
-  const insight = barChartData[currentYear].insights[category] || 
-                 `Category ${category} shows interesting return patterns worth analyzing.`;
+// Update insight untuk bar chart
+function updateBarChartInsight(brand) {
+  const insight = barChartData[currentYear].insights[brand] || 
+                 `Brand ${brand} menunjukkan kinerja yang solid dengan kontribusi signifikan terhadap total penjualan.`;
 
   const insightHTML = `
     <div class="d-flex align-items-center">
       <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
       <div>
-        <h5 style="font-size: 0.9rem;">Insight: Return Pattern ${category}</h5>
+        <h5 style="font-size: 0.9rem;">Insight: Brand ${brand}</h5>
         <p class="mb-0">${insight}</p>
       </div>
     </div>
@@ -1832,15 +1842,16 @@ function updateBarChartInsight(category) {
   document.getElementById('barChartInsight').innerHTML = insightHTML;
 }
 
-// Update line chart insight
-function updateLineChartInsight(category) {
-  const insight = `Tren return category ${category} menunjukkan pola musiman dengan puncak di bulan tertentu.`;
+// Update insight untuk line chart
+function updateLineChartInsight(brand) {
+  const insight = lineInsights[brand] || 
+                `Tren penjualan brand ${brand} menunjukkan pola yang menarik dengan fluktuasi musiman.`;
 
   const insightHTML = `
     <div class="d-flex align-items-center">
       <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
       <div>
-        <h5 style="font-size: 0.9rem;">Insight: Tren Return ${category}</h5>
+        <h5 style="font-size: 0.9rem;">Insight: Tren Brand ${brand}</h5>
         <p class="mb-0">${insight}</p>
       </div>
     </div>
@@ -1849,13 +1860,13 @@ function updateLineChartInsight(category) {
   document.getElementById('lineChartInsight').innerHTML = insightHTML;
 }
 
-// Render Returns Table
-function renderReturnsTable(page = 1) {
+// Render Brand Table with Row Numbers and IDs
+function renderBrandTable(page = 1) {
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const pageData = filteredData.slice(startIndex, endIndex);
 
-  const tableBody = document.getElementById('returnsTableBody');
+  const tableBody = document.getElementById('brandTableBody');
   const noResults = document.getElementById('noResults');
   const tablePagination = document.getElementById('tablePagination');
   
@@ -1871,36 +1882,43 @@ function renderReturnsTable(page = 1) {
 
   tableBody.innerHTML = '';
 
-  pageData.forEach((returnItem, index) => {
+  pageData.forEach((brand, index) => {
     const row = document.createElement('tr');
     
-    const statusClass = returnItem.status === 'processed' ? 'status-active' : 
-                       returnItem.status === 'pending' ? 'status-trending' : 'status-stable';
-    const statusText = returnItem.status === 'processed' ? 'Processed' : 
-                      returnItem.status === 'pending' ? 'Pending' : 'Refunded';
+    const statusClass = brand.status === 'active' ? 'status-active' : 
+                       brand.status === 'trending' ? 'status-trending' : 'status-stable';
+    const statusText = brand.status === 'active' ? 'Aktif' : 
+                      brand.status === 'trending' ? 'Trending' : 'Stabil';
     
     const rowNumber = startIndex + index + 1;
     
     row.innerHTML = `
       <td style="color: #374151; font-weight: 600;">${rowNumber}</td>
-      <td><span class="brand-id">${returnItem.id}</span></td>
-      <td><span class="brand-name">${returnItem.product}</span></td>
-      <td><span class="brand-category">${returnItem.category}</span></td>
-      <td>${returnItem.customer}</td>
-      <td>${returnItem.reason}</td>
-      <td><span class="brand-price">${returnItem.amount}</span></td>
+      <td><span class="brand-id">${brand.id}</span></td>
+      <td><span class="brand-name">${brand.brand}</span></td>
+      <td><span class="brand-category">${brand.category}</span></td>
+      <td>
+        <div class="brand-rating">
+          <span class="stars">★</span>
+          <span class="brand-rating-value">${brand.rating}</span>
+        </div>
+      </td>
+      <td><span class="brand-sales">${brand.sales.toLocaleString()}</span></td>
+      <td><span class="brand-price">${brand.price}</span></td>
       <td><span class="brand-status ${statusClass}">${statusText}</span></td>
     `;
     
     tableBody.appendChild(row);
   });
 
+  // Update pagination info
   const totalItems = filteredData.length;
   const startItem = startIndex + 1;
   const endItem = Math.min(endIndex, totalItems);
   document.getElementById('paginationInfo').textContent = 
-    `Showing ${startItem}-${endItem} of ${totalItems} returns`;
+    `Menampilkan ${startItem}-${endItem} dari ${totalItems} brand`;
 
+  // Update pagination buttons
   updatePaginationButtons(page);
 }
 
@@ -1911,10 +1929,12 @@ function updatePaginationButtons(page) {
   document.getElementById('prevBtn').disabled = page === 1;
   document.getElementById('nextBtn').disabled = page === totalPages;
 
+  // Update page buttons
   document.getElementById('page1Btn').classList.toggle('active', page === 1);
   document.getElementById('page2Btn').classList.toggle('active', page === 2);
   document.getElementById('page3Btn').classList.toggle('active', page === 3);
   
+  // Hide/show page buttons based on total pages
   document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
   document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
   document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
@@ -1926,7 +1946,7 @@ function changePage(direction) {
   const newPage = currentPage + direction;
   if (newPage >= 1 && newPage <= totalPages) {
     currentPage = newPage;
-    renderReturnsTable(currentPage);
+    renderBrandTable(currentPage);
   }
 }
 
@@ -1935,18 +1955,18 @@ function goToPage(page) {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
   if (page >= 1 && page <= totalPages) {
     currentPage = page;
-    renderReturnsTable(currentPage);
+    renderBrandTable(currentPage);
   }
 }
 
-// Initialize Bar Chart
+// Inisialisasi Bar Chart
 function initBarChart(year) {
   const data = barChartData[year];
   currentYear = year;
 
   const options = {
     series: [{
-      data: data.returns
+      data: data.sales
     }],
     chart: {
       type: 'bar',
@@ -1956,8 +1976,8 @@ function initBarChart(year) {
       },
       events: {
         dataPointSelection: function(event, chartContext, config) {
-          const category = data.categories[config.dataPointIndex];
-          updateBarChartInsight(category);
+          const brand = data.brands[config.dataPointIndex];
+          updateBarChartInsight(brand);
         }
       }
     },
@@ -1992,21 +2012,21 @@ function initBarChart(year) {
       colors: ['transparent']
     },
     xaxis: {
-      categories: data.categories,
+      categories: data.brands,
     },
     yaxis: {
       title: {
       },
       labels: {
         formatter: function(val) {
-          return val + ' returns';
+          return 'Rp ' + formatNumber(val);
         }
       }
     },
     tooltip: {
       y: {
         formatter: function(val) {
-          return val + ' returns';
+          return 'Rp ' + formatNumber(val) + ' juta';
         }
       }
     },
@@ -2026,7 +2046,7 @@ function initBarChart(year) {
   barChart.render();
 }
 
-// Initialize Donut Chart
+// Inisialisasi Donut Chart
 function initDonutChart() {
   const options = {
     series: donutChartData.series,
@@ -2035,7 +2055,7 @@ function initDonutChart() {
       height: 200,
     },
     labels: donutChartData.labels,
-    colors: donutChartData.colors,
+    colors: donutChartData.colors, // Using blue gradient colors matching productsold.php
     responsive: [{
       breakpoint: 480,
       options: {
@@ -2084,10 +2104,11 @@ function initDonutChart() {
   donutChart = new ApexCharts(document.querySelector("#donutChart"), options);
   donutChart.render();
 
+  // Buat custom legend setelah chart di-render
   createDonutLegend();
 }
 
-// Initialize Line Chart
+// Inisialisasi Line Chart
 function initLineChart(year) {
   const data = lineChartData[year];
 
@@ -2104,12 +2125,12 @@ function initLineChart(year) {
       },
       events: {
         dataPointSelection: function(event, chartContext, config) {
-          const category = data[config.seriesIndex].name;
-          updateLineChartInsight(category);
+          const brand = data[config.seriesIndex].name;
+          updateLineChartInsight(brand);
         },
         legendClick: function(chartContext, seriesIndex, config) {
-          const category = data[seriesIndex].name;
-          updateLineChartInsight(category);
+          const brand = data[seriesIndex].name;
+          updateLineChartInsight(brand);
         }
       }
     },
@@ -2120,7 +2141,7 @@ function initLineChart(year) {
       curve: 'smooth',
       width: 2,
     },
-    colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb'],
+    colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb'], // Updated colors matching productsold.php
     markers: {
       size: 4,
       strokeWidth: 0,
@@ -2135,7 +2156,7 @@ function initLineChart(year) {
       }
     },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags'],
     },
     yaxis: {
       title: {
@@ -2144,7 +2165,7 @@ function initLineChart(year) {
     tooltip: {
       y: {
         formatter: function(val) {
-          return val + ' returns';
+          return val + ' unit';
         }
       }
     }
@@ -2170,12 +2191,14 @@ document.getElementById('lineChartYear').addEventListener('change', function() {
   initLineChart(year);
 });
 
+// Search input event listener
 document.getElementById('searchInput').addEventListener('input', function() {
   performSearch(this.value);
 });
 
-// Initialize when page loads
+// Inisialisasi saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function() {
+  // Hide loader
   setTimeout(function() {
     document.getElementById('global-loader').style.display = 'none';
   }, 1000);
@@ -2183,11 +2206,14 @@ document.addEventListener('DOMContentLoaded', function() {
   initBarChart('2025');
   initDonutChart();
   initLineChart('2025');
-  renderReturnsTable(1);
-  updateTotalReturnsText();
+  renderBrandTable(1);
+  updateTotalBrandsText();
 });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/feather.min.js"></script>
@@ -2203,4 +2229,3 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="../assets/js/script.js"></script>
 </body>
 </html>
-    

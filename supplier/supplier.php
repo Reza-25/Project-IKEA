@@ -1,227 +1,6 @@
 <?php
-require_once __DIR__ . '/../include/config.php';
-
-// Function to get supplier statistics
-function getSupplierStats($pdo) {
-    $stats = [];
-    
-    // Total procurement value this month (menggunakan hanya tabel yang pasti ada)
-    try {
-        // Cek apakah ada data transaksi, jika tidak gunakan fallback
-        $stmt = $pdo->query("SELECT COUNT(*) as count FROM supplier");
-        $result = $stmt->fetch();
-        
-        if ($result['count'] > 0) {
-            // Ada data supplier, gunakan perhitungan sederhana
-            $stmt = $pdo->query("
-                SELECT COUNT(*) * 50000000 as total_value 
-                FROM supplier
-            ");
-            $result = $stmt->fetch();
-            $stats['total_procurement_value'] = $result['total_value'] ? $result['total_value'] : 240000000;
-        } else {
-            $stats['total_procurement_value'] = 240000000;
-        }
-    } catch (PDOException $e) {
-        $stats['total_procurement_value'] = 240000000;
-    }
-    
-    // Processing suppliers count
-    try {
-        $stmt = $pdo->query("SELECT COUNT(*) as count FROM supplier");
-        $result = $stmt->fetch();
-        $stats['processing_suppliers'] = $result['count'] ? $result['count'] : 8;
-    } catch (PDOException $e) {
-        $stats['processing_suppliers'] = 8;
-    }
-    
-    // New suppliers this quarter (static)
-    $stats['new_suppliers'] = 3;
-    
-    // Average sustainability score (static)
-    $stats['sustainability_score'] = 87;
-    
-    return $stats;
-}
-
-// Function to get top performing suppliers
-function getTopSuppliers($pdo) {
-    try {
-        $stmt = $pdo->query("
-            SELECT 
-                Nama_Supplier as nama_supplier,
-                id_Supplier,
-                1 as product_count,
-                50000 as avg_price,
-                4.5 as overall_rating,
-                100000 as total_value,
-                95 as on_time_delivery_rate
-            FROM supplier
-            LIMIT 5
-        ");
-        $suppliers = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        // Jika tidak ada data, return sample data
-        if (empty($suppliers)) {
-            return [
-                [
-                    'nama_supplier' => 'IKEA Furniture Co.',
-                    'id_Supplier' => 1,
-                    'product_count' => 15,
-                    'avg_price' => 75000,
-                    'overall_rating' => 4.8,
-                    'total_value' => 1125000,
-                    'on_time_delivery_rate' => 98
-                ],
-                [
-                    'nama_supplier' => 'Nordic Design Ltd.',
-                    'id_Supplier' => 2,
-                    'product_count' => 12,
-                    'avg_price' => 85000,
-                    'overall_rating' => 4.6,
-                    'total_value' => 1020000,
-                    'on_time_delivery_rate' => 96
-                ],
-                [
-                    'nama_supplier' => 'Scandinavian Wood Co.',
-                    'id_Supplier' => 3,
-                    'product_count' => 20,
-                    'avg_price' => 45000,
-                    'overall_rating' => 4.7,
-                    'total_value' => 900000,
-                    'on_time_delivery_rate' => 97
-                ]
-            ];
-        }
-        
-        return $suppliers;
-    } catch (PDOException $e) {
-        // Return sample data jika ada error
-        return [
-            [
-                'nama_supplier' => 'IKEA Furniture Co.',
-                'id_Supplier' => 1,
-                'product_count' => 15,
-                'avg_price' => 75000,
-                'overall_rating' => 4.8,
-                'total_value' => 1125000,
-                'on_time_delivery_rate' => 98
-            ],
-            [
-                'nama_supplier' => 'Nordic Design Ltd.',
-                'id_Supplier' => 2,
-                'product_count' => 12,
-                'avg_price' => 85000,
-                'overall_rating' => 4.6,
-                'total_value' => 1020000,
-                'on_time_delivery_rate' => 96
-            ]
-        ];
-    }
-}
-
-// Function to get monthly procurement trends
-function getMonthlyTrends($pdo) {
-    // Return empty array karena tidak ada data transaksi yang reliable
-    return [];
-}
-
-// Function to get recent supplier orders
-function getRecentOrders($pdo, $limit = 12) {
-    // Return sample data yang realistis
-    return [
-        [
-            'order_code' => 'ORD-2025-001',
-            'order_date' => date('Y-m-d H:i:s'),
-            'nama_supplier' => 'IKEA Furniture Co.',
-            'nama_toko' => 'IKEA Jakarta',
-            'status' => 'Delivered',
-            'payment_status' => 'Paid',
-            'total_amount' => 1250000,
-            'paid_amount' => 1250000,
-            'item_count' => 8
-        ],
-        [
-            'order_code' => 'ORD-2025-002',
-            'order_date' => date('Y-m-d H:i:s', strtotime('-1 day')),
-            'nama_supplier' => 'Nordic Design Ltd.',
-            'nama_toko' => 'IKEA Surabaya',
-            'status' => 'Processing',
-            'payment_status' => 'Paid',
-            'total_amount' => 980000,
-            'paid_amount' => 980000,
-            'item_count' => 5
-        ],
-        [
-            'order_code' => 'ORD-2025-003',
-            'order_date' => date('Y-m-d H:i:s', strtotime('-2 days')),
-            'nama_supplier' => 'Scandinavian Wood Co.',
-            'nama_toko' => 'IKEA Bandung',
-            'status' => 'Shipped',
-            'payment_status' => 'Paid',
-            'total_amount' => 1750000,
-            'paid_amount' => 1750000,
-            'item_count' => 12
-        ],
-        [
-            'order_code' => 'ORD-2025-004',
-            'order_date' => date('Y-m-d H:i:s', strtotime('-3 days')),
-            'nama_supplier' => 'European Textiles',
-            'nama_toko' => 'IKEA Medan',
-            'status' => 'Delivered',
-            'payment_status' => 'Paid',
-            'total_amount' => 650000,
-            'paid_amount' => 650000,
-            'item_count' => 3
-        ],
-        [
-            'order_code' => 'ORD-2025-005',
-            'order_date' => date('Y-m-d H:i:s', strtotime('-4 days')),
-            'nama_supplier' => 'Modern Living Co.',
-            'nama_toko' => 'IKEA Yogyakarta',
-            'status' => 'Processing',
-            'payment_status' => 'Partial',
-            'total_amount' => 2100000,
-            'paid_amount' => 1500000,
-            'item_count' => 15
-        ]
-    ];
-}
-
-// Get data for dashboard
-$stats = getSupplierStats($pdo);
-$topSuppliers = getTopSuppliers($pdo);
-$monthlyTrends = getMonthlyTrends($pdo);
-$recentOrders = getRecentOrders($pdo);
-
-// Prepare data for JavaScript charts
-$supplierNames = [];
-$supplierRatings = [];
-foreach ($topSuppliers as $supplier) {
-    $supplierNames[] = $supplier['nama_supplier'];
-    $supplierRatings[] = $supplier['overall_rating'];
-}
-
-// Prepare monthly trend data
-$trendMonths = [];
-$trendValues = [];
-$monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-for ($i = 1; $i <= 6; $i++) {
-    $trendMonths[] = $monthNames[$i - 1];
-    $found = false;
-    foreach ($monthlyTrends as $trend) {
-        if ($trend['month'] == $i) {
-            $trendValues[] = round($trend['total_value'] / 1000000, 1);
-            $found = true;
-            break;
-        }
-    }
-    if (!$found) {
-        $trendValues[] = rand(12, 23) / 10;
-    }
-}
+require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -231,7 +10,7 @@ for ($i = 1; $i <= 6; $i++) {
     <meta content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" name="keywords" />
     <meta content="Dreamguys - Bootstrap Admin Template" name="author" />
     <meta content="noindex, nofollow" name="robots" />
-    <title>IKEA - Supplier Management</title>
+    <title>IKEA</title>
     <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
@@ -547,8 +326,8 @@ for ($i = 1; $i <= 6; $i++) {
         <div class="content">
           <div class="page-header">
             <div class="page-title">
-              <h4>SUPPLIER MANAGEMENT</h4>
-              <h6>Monitor your supplier transactions and performance</h6>
+              <h4>SUPPLIER</h4>
+              <h6>Monitor your supplier transactions</h6>
             </div>
           </div>
 
@@ -558,7 +337,7 @@ for ($i = 1; $i <= 6; $i++) {
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <div class="dash-count das1">
                 <div class="dash-counts">
-                  <h4>$<span class="counters" data-count="<?= round($stats['total_procurement_value']/15000) ?>"><?= number_format($stats['total_procurement_value']/15000, 0) ?></span></h4>
+                  <h4>$<span class="counters" data-count="4780000">4,780,000</span></h4>
                   <h5>Total Procurement Value</h5>
                   <h2 class="stat-change">+12% from last year</h2>
                 </div>
@@ -572,7 +351,7 @@ for ($i = 1; $i <= 6; $i++) {
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <div class="dash-count das2">
                 <div class="dash-counts">
-                  <h4><span class="counters" data-count="<?= $stats['processing_suppliers'] ?>"><?= $stats['processing_suppliers'] ?></span></h4>
+                  <h4><span class="counters" data-count="248">248</span></h4>
                   <h5>Processing Suppliers</h5>
                   <h2 class="stat-change">+5% from last month</h2>
                 </div>
@@ -586,7 +365,7 @@ for ($i = 1; $i <= 6; $i++) {
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <div class="dash-count das3">
                 <div class="dash-counts">
-                  <h4><span class="counters" data-count="<?= $stats['new_suppliers'] ?>"><?= $stats['new_suppliers'] ?></span></h4>
+                  <h4><span class="counters" data-count="32">32</span></h4>
                   <h5>New Suppliers</h5>
                   <h2 class="stat-change">+8% from last quarter</h2>
                 </div>
@@ -600,7 +379,7 @@ for ($i = 1; $i <= 6; $i++) {
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <div class="dash-count das4">
                 <div class="dash-counts">
-                  <h4><span class="counters" data-count="<?= $stats['sustainability_score'] ?>"><?= $stats['sustainability_score'] ?></span>%</h4>
+                  <h4><span class="counters" data-count="87">87</span>%</h4>
                   <h5>Sustainability Score</h5>
                   <h2 class="stat-change">+3% from last year</h2>
                 </div>
@@ -676,9 +455,7 @@ for ($i = 1; $i <= 6; $i++) {
                       <div class="form-group">
                         <select class="select">
                           <option>Choose Supplier</option>
-                          <?php foreach($topSuppliers as $supplier): ?>
-                          <option><?= $supplier['nama_supplier'] ?></option>
-                          <?php endforeach; ?>
+                          <option>Supplier</option>
                         </select>
                       </div>
                     </div>
@@ -686,9 +463,7 @@ for ($i = 1; $i <= 6; $i++) {
                       <div class="form-group">
                         <select class="select">
                           <option>Choose Status</option>
-                          <option>Processing</option>
-                          <option>Shipped</option>
-                          <option>Delivered</option>
+                          <option>Inprogress</option>
                         </select>
                       </div>
                     </div>
@@ -696,13 +471,11 @@ for ($i = 1; $i <= 6; $i++) {
                       <div class="form-group">
                         <select class="select">
                           <option>Choose Payment Status</option>
-                          <option>Paid</option>
-                          <option>Partial</option>
-                          <option>Unpaid</option>
+                          <option>Payment Status</option>
                         </select>
                       </div>
                     </div>
-                    <div class="col-lg col-sm-6 col-12">
+                    <div class="col-lg-1 col-sm-6 col-12">
                       <div class="form-group">
                         <a class="btn btn-filters ms-auto"><img src="../assets/img/icons/search-whites.svg" alt="img" /></a>
                       </div>
@@ -712,45 +485,125 @@ for ($i = 1; $i <= 6; $i++) {
               </div>
 
               <div class="table-responsive" style="padding: 0 20px 20px 20px;">
-                <table id="supplierTable" class="table datanew">
+                <table class="table datanew">
                     <h2>RECENT ORDERS</h2>
                   <thead>
                     <tr>
                       <th>NO</th>
                       <th>DATE</th>
-                      <th>Order ID</th>
-                      <th>Supplier</th>
+                      <th>Store ID</th>
+                      <th>Store</th>
                       <th>Status</th>
                       <th>TOTAL</th>
                       <th>Details</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach($recentOrders as $index => $order): 
-                      $statusClass = '';
-                      switch($order['status']) {
-                        case 'Delivered': $statusClass = 'status-inactive'; break;
-                        case 'Shipped': $statusClass = 'status-active'; break;
-                        case 'Processing': 
-                        case 'Confirmed': 
-                        case 'Sent': $statusClass = 'status-pending'; break;
-                        default: $statusClass = 'status-pending';
-                      }
-                    ?>
                     <tr>
-                      <td><div class="row-number"><?= $index + 1 ?></div></td>
-                      <td><span class="store-id"><?= date('d M Y', strtotime($order['order_date'])) ?></span></td>
-                      <td><span class="store-id"><?= $order['order_code'] ?></span></td>
-                      <td><span class="store-name"><?= $order['nama_supplier'] ?></span></td>
-                      <td><span class="status-badge <?= $statusClass ?>"><?= strtoupper($order['status']) ?></span></td>
-                      <td><?= $order['item_count'] ?></td>
+                      <td><div class="row-number">1</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT001</span></td>
+                      <td><span class="store-name">Nordic Furnishings AB</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
                       <td>
-                        <a href="editpurchase.php?code=<?= $order['order_code'] ?>" class="detail-btn">
+                          250
+                      </td>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
                           View Details
                         </a>
                       </td>
                     </tr>
-                    <?php endforeach; ?>
+                    <tr>
+                      <td><div class="row-number">2</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT002</span></td>
+                      <td><span class="store-name">Baltic Woodworks Ltd</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
+                      <td>
+                          100
+                      </td>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div class="row-number">3</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT003</span></td>
+                      <td><span class="store-name">Scandinavian Lights Co</span></td>
+                      <td><span class="status-badge status-active">SHIPPED</span></td>
+                      <td>
+                          250
+                      </td>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div class="row-number">4</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT004</span></td>
+                      <td><span class="store-name">Finnish Design House</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
+                      <td>
+                          130
+                      </td>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div class="row-number">5</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT005</span></td>
+                      <td><span class="store-name">Swedish Textile Mills</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
+                      <td>
+                          250
+                      </td>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div class="row-number">6</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT006</span></td>
+                      <td><span class="store-name">Scandinavian Lights Co</span></td>
+                      <td><span class="status-badge status-pending">PROCESSING</span></td>
+                      <td>
+                          200
+                      </td>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><div class="row-number">7</div></td>
+                      <td><span class="store-id">19 NOV 2025</span></td>
+                      <td><span class="store-id">PT007</span></td>
+                      <td><span class="store-name">Nordic Furnishings AB</span></td>
+                      <td><span class="status-badge status-inactive">Delivered</span></td>
+                      <td>
+                          210
+                      </td>
+                      <td>
+                        <a href="../editpurchase.php" class="detail-btn">
+                          View Details
+                        </a>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -759,28 +612,17 @@ for ($i = 1; $i <= 6; $i++) {
         </div>
       </div>
     </div>
-
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../assets/js/moment.min.js"></script>
-    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="../assets/plugins/select2/js/select2.min.js"></script>
-    <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
-    <script src="../assets/js/script.js"></script>
     
     <script>
       $(document).ready(function() {
-        // Data untuk charts dari database
-        const supplierData = {
-          stores: <?= json_encode($supplierNames) ?>,
-          profits: <?= json_encode($supplierRatings) ?>,
+        // Data untuk charts berdasarkan tabel
+        const storeData = {
+          stores: ['Nordic Furnishings AB', 'Scandinavian Lights Co', 'Swedish Textile Mills', 'Baltic Woodworks Ltd', 'Finnish Design House'],
+          profits: [3.5, 2.8, 2.3, 1.9, 1.5],
           colors: ['#28a745', '#17a2b8', '#ffc107', '#fd7e14', '#6f42c1']
         };
 
-        // Bar Chart - Top 5 Suppliers
+        // Bar Chart - Top 5 Stores
         const barCtx = document.getElementById('barChart').getContext('2d');
         const gradient = barCtx.createLinearGradient(0, 0, 0, 400);
         gradient.addColorStop(1, '#66bfff');  // Biru muda
@@ -788,10 +630,10 @@ for ($i = 1; $i <= 6; $i++) {
         const barChart = new Chart(barCtx, {
           type: 'bar',
           data: {
-            labels: supplierData.stores,
+            labels: storeData.stores,
             datasets: [{
               label: 'Performance Score',
-              data: supplierData.profits,
+              data: storeData.profits,
               backgroundColor: gradient,
               borderColor: '#0d47a1',
               borderWidth: 0,
@@ -818,7 +660,7 @@ for ($i = 1; $i <= 6; $i++) {
             scales: {
               y: {
                 beginAtZero: true,
-                max: 5,
+                max: 4,
                 ticks: {
                   color: '#666',
                   callback: function(value) {
@@ -850,10 +692,10 @@ for ($i = 1; $i <= 6; $i++) {
         const lineChart = new Chart(lineCtx, {
           type: 'line',
           data: {
-            labels: <?= json_encode($trendMonths) ?>,
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
             datasets: [{
               label: 'Procurement Volume (Million $)',
-              data: <?= json_encode($trendValues) ?>,
+              data: [1.2, 1.8, 2.1, 1.5, 2.3, 1.7],
               borderColor: '#667eea',
               backgroundColor: 'rgba(102, 126, 234, 0.1)',
               borderWidth: 3,
@@ -907,25 +749,6 @@ for ($i = 1; $i <= 6; $i++) {
           }
         });
 
-        // Counter Animation
-        $('.counters').each(function() {
-          const $this = $(this);
-          const countTo = parseInt($this.attr('data-count'));
-          
-          $({ countNum: 0 }).animate({
-            countNum: countTo
-          }, {
-            duration: 2000,
-            easing: 'swing',
-            step: function() {
-              $this.text(Math.floor(this.countNum).toLocaleString());
-            },
-            complete: function() {
-              $this.text(countTo.toLocaleString());
-            }
-          });
-        });
-
         // Refresh charts setiap 30 detik dengan data random (simulasi real-time)
         setInterval(() => {
           // Update line chart dengan data baru
@@ -940,36 +763,17 @@ for ($i = 1; $i <= 6; $i++) {
         }, 30000);
       });
     </script>
-
-    <script>
-    $(document).ready(function() {
-        // Destroy existing DataTable if it exists
-        if ($.fn.DataTable.isDataTable('#supplierTable')) {
-            $('#supplierTable').DataTable().destroy();
-        }
-        
-        // Initialize DataTable with configuration
-        $('#supplierTable').DataTable({
-            language: {
-                search: "",
-                searchPlaceholder: "Search...",
-                lengthMenu: "_MENU_ items/page",
-            },
-            pageLength: 10,
-            ordering: true,
-            info: true,
-            responsive: true,
-            dom: '<"top"fl>rt<"bottom"ip><"clear">',
-            columnDefs: [
-                { orderable: false, targets: [6] }, // Disable sorting on action column
-                { searchable: false, targets: [0, 6] } // Disable search for number and action columns
-            ],
-            drawCallback: function(settings) {
-                // Re-initialize tooltips after table draw
-                $('[data-bs-toggle="tooltip"]').tooltip();
-            }
-        });
-    });
-    </script>
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/feather.min.js"></script>
+    <script src="../assets/js/jquery.slimscroll.min.js"></script>
+    <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/moment.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../assets/plugins/select2/js/select2.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
+    <script src="../assets/js/script.js"></script>
   </body>
 </html>
