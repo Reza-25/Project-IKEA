@@ -175,7 +175,7 @@ $ikea_stats = getIkeaQuickStats();
             </div>
         </div>
         <div class="chat-footer-info">
-            <small>AI powered by Python + Groq | IKEA Management System</small>
+            <small>AI powered by Groq | IKEA Management System</small>
         </div>
     </div>
 </div>

@@ -127,7 +127,7 @@ def generate_groq_insight(brand_data):
                 }
             ],
             temperature=0.5,
-            max_tokens=50
+            max_tokens=60
         )
         
         recommendation = response.choices[0].message.content.strip()
@@ -181,7 +181,7 @@ def generate_category_insight(category_data):
                 }
             ],
             temperature=0.5,
-            max_tokens=50
+            max_tokens=60
         )
         
         recommendation = response.choices[0].message.content.strip()

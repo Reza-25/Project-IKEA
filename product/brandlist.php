@@ -65,13 +65,17 @@ $salesHistoryStmt->execute();
 $salesHistory = $salesHistoryStmt->fetchAll(PDO::FETCH_ASSOC);
 
 // *** TAMBAHAN: Ambil AI Suggestion ***
-$aiSuggestion = getLatestAISuggestion();
-
 // Fallback jika tidak ada AI suggestion
 if (!$aiSuggestion) {
-    $aiSuggestionText = "Berdasarkan data penjualan, kategori " . ($brandStats['dominant_category'] ?? 'Furniture') . " menunjukkan potensi pertumbuhan. Pertimbangkan menambahkan varian baru di koleksi " . ($allBrands[0]['brand_name'] ?? 'Brand Terbaik') . ".";
+  $aiSuggestionText = "Berdasarkan data penjualan, kategori " . ($brandStats['dominant_category'] ?? 'Furniture') . " menunjukkan potensi pertumbuhan. Pertimbangkan menambahkan varian baru di koleksi " . ($allBrands[0]['brand_name'] ?? 'Brand Terbaik') . ".";
+  $aiSolutions = [
+      "Analisis mendalam performa kategori dalam 1 minggu",
+      "Buat action plan spesifik untuk optimasi produk",
+      "Monitor KPI kategori secara real-time selama 30 hari"
+  ];
 } else {
-    $aiSuggestionText = $aiSuggestion['recommendation'];
+  $aiSuggestionText = $aiSuggestion['recommendation'];
+  $aiSolutions = $aiSuggestion['solutions'] ?? [];
 }
 
 // Process data for JavaScript
@@ -1095,75 +1099,8 @@ foreach ($allBrands as $index => $brand) {
   cursor: not-allowed;
 }
 
-/* AI Suggestion Card */
-.suggestion-card {
-  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
-  color: white;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 15px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
-  position: relative;
-  overflow: hidden;
-}
-
-.suggestion-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
-}
-
-.suggestion-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-
-.suggestion-card:hover::before {
-  top: -30%;
-  right: -30%;
-}
-
-.suggestion-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  gap: 10px;
-}
-
-.suggestion-icon {
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.suggestion-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.suggestion-content {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin: 0;
-  opacity: 0.95;
-}
-
-.refresh-btn {
+/* NEW: Solution Button (Lightbulb) */
+.solution-btn {
   position: absolute;
   top: 15px;
   right: 15px;
@@ -1178,16 +1115,155 @@ foreach ($allBrands as $index => $brand) {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
-.refresh-btn:hover {
+.solution-btn:hover {
   background: rgba(255, 255, 255, 0.3);
-  transform: rotate(180deg);
+  transform: scale(1.1);
 }
 
-.refresh-btn.loading {
-  animation: spin 1s linear infinite;
+.solution-btn.loading {
+  animation: pulse 1.5s infinite;
+}
+
+/* NEW: Tooltip */
+.solution-tooltip {
+  position: absolute;
+  bottom: 45px;
+  right: -10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.solution-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 20px;
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+.solution-btn:hover .solution-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-5px);
+}
+
+/* NEW: Solution Bubble */
+.solution-bubble {
+  position: absolute;
+  top: 60px;
+  right: -20px;
+  width: 280px;
+  background: white;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.95);
+  transition: all 0.3s ease;
+  z-index: 1001;
+  border: 1px solid rgba(25, 118, 210, 0.2);
+}
+
+.solution-bubble.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.solution-bubble::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  right: 25px;
+  border: 8px solid transparent;
+  border-bottom-color: white;
+}
+
+.solution-bubble-header {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  padding: 12px 15px;
+  border-radius: 12px 12px 0 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.solution-close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.solution-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.solution-bubble-body {
+  padding: 15px;
+}
+
+.solution-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.solution-item:hover {
+  background: #f8fafc;
+}
+
+.solution-item:last-child {
+  margin-bottom: 0;
+}
+
+.solution-number {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.solution-text {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #374151;
 }
 
 /* Responsive */
@@ -1307,6 +1383,211 @@ foreach ($allBrands as $index => $brand) {
 
 .trend-down {
   color: var(--danger-red);
+}
+
+/* AI Suggestion Card */
+.suggestion-card {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.suggestion-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+}
+
+.suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.suggestion-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.suggestion-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.suggestion-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.suggestion-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* NEW: Separate AI Solutions Card */
+.ai-solutions-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-solutions-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #1976d2;
+}
+
+.ai-solutions-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+}
+
+.solutions-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+  position: relative;
+}
+
+.solutions-icon {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+
+.solutions-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.solutions-tooltip {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: rgba(59, 130, 246, 0.1);
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.solutions-body {
+  margin-bottom: 15px;
+}
+
+.solution-item-card {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.solution-item-card:hover {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  transform: translateX(5px);
+}
+
+.solution-item-card:last-child {
+  margin-bottom: 0;
+}
+
+.solution-number {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+
+.solution-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #374151;
+  font-weight: 500;
+}
+
+.solutions-footer {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.solutions-footer small {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+/* Remove old solution button styles */
+.solution-btn,
+.solution-tooltip,
+.solution-bubble {
+  display: none !important;
 }
 </style>
 
@@ -1762,17 +2043,14 @@ foreach ($allBrands as $index => $brand) {
                 </div>
               </div>
 
-                <!-- AI Suggestion Card -->
-                <div class="suggestion-card" id="aiSuggestionCard">
-                <button class="refresh-btn" id="refreshAiBtn" onclick="refreshAISuggestion()" title="Refresh AI Suggestion">
-                  <i class="fas fa-sync-alt"></i>
-                </button>
+              <!-- AI Suggestion Card - Simplified -->
+              <div class="suggestion-card" id="aiSuggestionCard">
                 <div class="suggestion-header">
                   <div class="suggestion-icon">
-                  <i class="fas fa-brain"></i>
+                    <i class="fas fa-brain"></i>
                   </div>
                   <h4 class="suggestion-title" id="aiSuggestionTitle">
-                  AI Suggestion: Produk Baru yang Potensial
+                    AI Suggestion: Produk Baru yang Potensial
                   </h4>
                 </div>
                 <p class="suggestion-content" id="aiSuggestionContent">
@@ -1780,15 +2058,39 @@ foreach ($allBrands as $index => $brand) {
                 </p>
                 <div class="d-flex justify-content-between align-items-center mt-3">
                   <small style="opacity: 0.8;" id="aiSuggestionMeta">
-                  <?php echo $brandStats['dominant_category'] ?: 'General'; ?> • High Priority
+                    <?php echo $brandStats['dominant_category'] ?: 'General'; ?> • High Priority
                   </small>
                   <small style="opacity: 0.7;" id="aiSuggestionTime">
-                  <?php echo date('d M H:i'); ?>
+                    <?php echo date('d M H:i'); ?>
                   </small>
                 </div>
+              </div>
+                            <!-- NEW: Separate AI Solutions Card -->
+                            <div class="ai-solutions-card" id="aiSolutionsCard">
+                <div class="solutions-header">
+                  <div class="solutions-icon">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <h5 class="solutions-title">Solusi AI Actionable</h5>
+                  <div class="solutions-tooltip">
+                    Solusi berdasarkan AI suggestion di atas
+                  </div>
+                </div>
+                <div class="solutions-body">
+                  <?php foreach ($aiSolutions as $index => $solution) { ?>
+                  <div class="solution-item-card">
+                    <div class="solution-number"><?php echo $index + 1; ?></div>
+                    <div class="solution-text"><?php echo htmlspecialchars($solution); ?></div>
+                  </div>
+                  <?php } ?>
+                </div>
+                <div class="solutions-footer">
+                  <small><i class="fas fa-robot me-1"></i>Generated by AI • <?php echo date('H:i'); ?></small>
                 </div>
               </div>
-              </div>
+            </div>
+          </div>
+        </div>
 
           <!-- Enhanced Brand Data Table - Full Width Professional with Search & Export - TETAP SAMA -->
           <div class="brand-table-section">
@@ -1867,37 +2169,9 @@ foreach ($allBrands as $index => $brand) {
 
 <script>
 // *** TAMBAHAN: Fungsi refresh AI suggestion ***
-function refreshAISuggestion() {
-    const refreshBtn = document.querySelector('.ai-refresh-btn');
-    const suggestionText = document.getElementById('aiSuggestionText');
-    
-    // Show loading state
-    refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    refreshBtn.disabled = true;
-    
-    fetch('refresh_ai_suggestion.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success && data.suggestion) {
-            // Update suggestion text
-            suggestionText.textContent = '"' + data.suggestion.recommendation + '"';
-        } else {
-            console.log('No new suggestion available');
-        }
-    })
-    .catch(error => {
-        console.error('Error refreshing AI suggestion:', error);
-    })
-    .finally(() => {
-        // Reset button
-        refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
-        refreshBtn.disabled = false;
-    });
+function refreshAISolutions() {
+    // Optional: Add refresh functionality for solutions if needed
+    console.log('AI Solutions refreshed');
 }
 
 // Data dari database PHP - dikonversi ke JavaScript - TETAP SAMA
@@ -1979,6 +2253,18 @@ const donutChartData = {
   series: <?php echo json_encode(array_column($jsDonutData, 'value')); ?>,
   colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd']
 };
+
+// Fallback data jika data dari database kosong
+if (!donutChartData.labels || donutChartData.labels.length === 0) {
+  console.warn('Donut chart data is empty, using fallback data');
+  window.donutChartData = {
+    labels: ["LACK", "SKÅDIS", "HEMNES", "KALLAX", "VITTSJÖ", "Lainnya"],
+    series: [28, 22, 18, 15, 12, 5],
+    colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd']
+  };
+} else {
+  window.donutChartData = donutChartData;
+}
 
 // Fallback data jika data dari database kosong
 if (!donutChartData.labels || donutChartData.labels.length === 0) {

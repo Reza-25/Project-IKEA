@@ -98,9 +98,9 @@ function createAITablesIfNotExists() {
         if ($checkData == 0) {
             $sampleData = "
             INSERT INTO ai_recommendations (brand_id, insight_type, recommendation, urgency, generated_at) VALUES
-            (1, 'stock', 'Berdasarkan data penjualan terkini, brand ini menunjukkan potensi pertumbuhan yang signifikan. Disarankan untuk meningkatkan stok sebesar 20% untuk mengantisipasi lonjakan permintaan.', 'medium', NOW()),
-            (2, 'promotion', 'Brand ini memiliki rating tinggi namun penjualan masih bisa ditingkatkan. Pertimbangkan strategi promosi bundling dengan produk komplementer untuk meningkatkan volume penjualan.', 'low', NOW() - INTERVAL 1 HOUR),
-            (3, 'hr', 'Performa brand menunjukkan tren positif. Tim sales perlu dilatih untuk fokus pada upselling produk premium dalam kategori ini untuk meningkatkan margin keuntungan.', 'high', NOW() - INTERVAL 2 HOUR)
+            (1, 'stock', 'Berdasarkan data penjualan terkini, kategori Furniture menunjukkan potensi pertumbuhan yang signifikan. Pertimbangkan menambahkan varian baru di koleksi LACK dengan desain minimalis yang sedang trending.', 'medium', NOW()),
+            (2, 'promotion', 'Brand SKÅDIS memiliki rating tinggi namun penjualan masih bisa ditingkatkan. Pertimbangkan strategi promosi bundling dengan produk komplementer untuk meningkatkan volume penjualan hingga 25%.', 'low', NOW() - INTERVAL 1 HOUR),
+            (3, 'hr', 'Performa brand HEMNES menunjukkan tren positif. Tim sales perlu dilatih untuk fokus pada upselling produk premium dalam kategori ini untuk meningkatkan margin keuntungan sebesar 15%.', 'high', NOW() - INTERVAL 2 HOUR)
             ";
             $pdo->exec($sampleData);
         }
@@ -119,6 +119,62 @@ createAITablesIfNotExists();
 // Test function untuk memastikan file ter-load dengan benar
 function testAIHelper() {
     return "AI Helper loaded successfully!";
+}
+
+// Tambahkan fungsi untuk extract solusi dari AI recommendation
+function extractSolutionsFromAI($recommendation) {
+    // Analisis recommendation untuk menghasilkan 3 solusi actionable
+    $solutions = [];
+    
+    // Deteksi kata kunci untuk menentukan jenis solusi
+    $text = strtolower($recommendation);
+    
+    if (strpos($text, 'stok') !== false || strpos($text, 'stock') !== false) {
+        $solutions = [
+            "Tingkatkan stok produk sebesar 25% untuk 2 minggu ke depan",
+            "Buat alert otomatis ketika stok di bawah 30%", 
+            "Koordinasi dengan supplier untuk fast-track delivery"
+        ];
+    } elseif (strpos($text, 'promo') !== false || strpos($text, 'promosi') !== false) {
+        $solutions = [
+            "Buat bundle promo dengan produk komplementer",
+            "Jalankan flash sale di weekend dengan diskon 15%",
+            "Aktifkan push notification untuk member premium"
+        ];
+    } elseif (strpos($text, 'penjualan') !== false || strpos($text, 'sales') !== false) {
+        $solutions = [
+            "Training tim sales fokus upselling produk premium",
+            "Buat incentive khusus untuk sales terbaik",
+            "Workshop product knowledge untuk semua staff"
+        ];
+    } elseif (strpos($text, 'harga') !== false || strpos($text, 'pricing') !== false) {
+        $solutions = [
+            "Review harga vs kompetitor dalam 3 hari",
+            "Test A/B pricing dengan variasi 5-10%",
+            "Buat strategi dynamic pricing berdasarkan demand"
+        ];
+    } else {
+        // Default solutions berdasarkan brand yang disebutkan
+        preg_match('/\b([A-Z][A-Z]+)\b/', $recommendation, $matches);
+        $brandName = isset($matches[0]) ? $matches[0] : 'produk';
+        
+        $solutions = [
+            "Analisis mendalam performa {$brandName} dalam 1 minggu",
+            "Buat action plan spesifik untuk optimasi {$brandName}",
+            "Monitor KPI {$brandName} secara real-time selama 30 hari"
+        ];
+    }
+    
+    return $solutions;
+}
+
+// Update fungsi getLatestAISuggestion untuk include solutions
+function getLatestAISuggestionWithSolutions() {
+    $suggestion = getLatestAISuggestion();
+    if ($suggestion) {
+        $suggestion['solutions'] = extractSolutionsFromAI($suggestion['recommendation']);
+    }
+    return $suggestion;
 }
 
 ?>
