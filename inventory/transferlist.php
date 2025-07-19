@@ -1083,6 +1083,55 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 .trend-down {
   color: var(--danger-red);
 }
+
+/* Modal Styling */
+.info-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.info-item strong {
+  min-width: 140px;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Print Styles */
+@media print {
+  .modal-header, .modal-footer {
+    display: none !important;
+  }
+  
+  .modal-body {
+    padding: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  
+  .modal-content {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
 </style>
 
 </head>
@@ -1479,7 +1528,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             <div class="chart-header">
               <h5 class="chart-title"><i class="fas fa-table me-2"></i>Recent Transfer Records</h5>
               <div class="d-flex align-items-center gap-2">
-                <span style="font-size: 0.8rem; color: #64748b;" id="totalTransfersText">Total: 12 transfers</span>
+                <span style="font-size: 0.8rem; color: #64748b;" id="totalTransfersText">Total: 24 transfers</span>
               </div>
             </div>
             
@@ -1528,7 +1577,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             
             <div class="table-pagination" id="tablePagination">
               <div class="pagination-info" id="paginationInfo">
-                Showing 1-4 of 12 transfers
+                Showing 1-6 of 24 transfers
               </div>
               <div class="pagination-controls">
                 <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
@@ -1537,6 +1586,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 <button class="pagination-btn active" id="page1Btn" onclick="goToPage(1)">1</button>
                 <button class="pagination-btn" id="page2Btn" onclick="goToPage(2)">2</button>
                 <button class="pagination-btn"  id="page3Btn" onclick="goToPage(3)">3</button>
+                <button class="pagination-btn" id="page4Btn" onclick="goToPage(4)">4</button>
                 <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">
                   Next <i class="fas fa-chevron-right"></i>
                 </button>
@@ -1547,6 +1597,180 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       </div>
     </div>
   </div>
+
+<!-- Transfer Details Modal -->
+<div class="modal fade" id="transferDetailsModal" tabindex="-1" aria-labelledby="transferDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%); color: white;">
+        <h5 class="modal-title" id="transferDetailsModalLabel">
+          <i class="fas fa-exchange-alt me-2"></i>Transfer Details
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <!-- Left Column -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <h6 class="text-primary mb-3"><i class="fas fa-info-circle me-2"></i>Transfer Information</h6>
+              <div class="info-item mb-2">
+                <strong>Transfer ID:</strong>
+                <span id="modalTransferId" class="ms-2 badge bg-light text-dark">TR-001</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Transfer Date:</strong>
+                <span id="modalTransferDate" class="ms-2">2025-01-20</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Category:</strong>
+                <span id="modalCategory" class="ms-2 badge bg-info">Furniture</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Status:</strong>
+                <span id="modalStatus" class="ms-2 badge bg-success">Completed</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h6 class="text-primary mb-3"><i class="fas fa-map-marker-alt me-2"></i>Location Details</h6>
+              <div class="info-item mb-2">
+                <strong>From Branch:</strong>
+                <span id="modalFromBranch" class="ms-2">IKEA Alam Sutera</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>To Branch:</strong>
+                <span id="modalToBranch" class="ms-2">IKEA Jakarta Garden City</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Distance:</strong>
+                <span id="modalDistance" class="ms-2">45 km</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Estimated Time:</strong>
+                <span id="modalEstimatedTime" class="ms-2">2.5 hours</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="col-md-6">
+            <div class="mb-4">
+              <h6 class="text-primary mb-3"><i class="fas fa-dollar-sign me-2"></i>Financial Details</h6>
+              <div class="info-item mb-2">
+                <strong>Transfer Value:</strong>
+                <span id="modalValue" class="ms-2 text-success fw-bold">Rp 2.450.000</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Transport Cost:</strong>
+                <span id="modalTransportCost" class="ms-2">Rp 150.000</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Insurance:</strong>
+                <span id="modalInsurance" class="ms-2">Rp 25.000</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Total Cost:</strong>
+                <span id="modalTotalCost" class="ms-2 text-primary fw-bold">Rp 2.625.000</span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <h6 class="text-primary mb-3"><i class="fas fa-chart-line me-2"></i>Transfer Analytics</h6>
+              <div class="info-item mb-2">
+                <strong>Processing Time:</strong>
+                <span id="modalProcessingTime" class="ms-2">2.1 days</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Success Rate:</strong>
+                <span id="modalSuccessRate" class="ms-2 text-success">98%</span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Branch Rating:</strong>
+                <span id="modalBranchRating" class="ms-2">
+                  <span class="text-warning">★★★★☆</span> 4.6/5.0
+                </span>
+              </div>
+              <div class="info-item mb-2">
+                <strong>Priority Level:</strong>
+                <span id="modalPriority" class="ms-2 badge bg-warning">High</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Details Section -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <div class="card" style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); border: 1px solid rgba(25, 118, 210, 0.2);">
+              <div class="card-body">
+                <h6 class="text-primary mb-3"><i class="fas fa-boxes me-2"></i>Items Details</h6>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="text-center">
+                      <div style="width: 80px; height: 80px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
+                        <i class="fas fa-couch" style="font-size: 2rem; color: #1976d2;"></i>
+                      </div>
+                      <small class="text-muted">Product Image</small>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="info-item mb-2">
+                      <strong>Items Count:</strong>
+                      <span id="modalItemsCount" class="ms-2">156 units</span>
+                    </div>
+                    <div class="info-item mb-2">
+                      <strong>Weight:</strong>
+                      <span id="modalWeight" class="ms-2">2,450 kg</span>
+                    </div>
+                    <div class="info-item mb-2">
+                      <strong>Volume:</strong>
+                      <span id="modalVolume" class="ms-2">45 m³</span>
+                    </div>
+                    <div class="info-item mb-2">
+                      <strong>Special Instructions:</strong>
+                      <span id="modalInstructions" class="ms-2 text-muted">Handle with care - fragile items</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-2"></i>Close
+        </button>
+        <button type="button" class="btn btn-primary" onclick="editTransfer()">
+          <i class="fas fa-edit me-2"></i>Edit Transfer
+        </button>
+        <button type="button" class="btn btn-success" onclick="printTransferDetails()">
+          <i class="fas fa-print me-2"></i>Print Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Print Modal -->
+<div class="modal fade" id="printModal" tabindex="-1" aria-labelledby="printModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="printModalLabel">Print Transfer Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="printContent">
+        <!-- Print content will be generated here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 <script>
@@ -1618,7 +1842,7 @@ const lineChartData = {
   ]
 };
 
-// Transfer Data for Table
+// Extended Transfer Data for Table - 24 records
 const transfersData = [
   { 
     id: 1, 
@@ -1727,12 +1951,120 @@ const transfersData = [
     items: "Kitchen", 
     value: "Rp 1.750.000", 
     status: "Pending" 
+  },
+  { 
+    id: 13, 
+    categoryId: "TR-013", 
+    fromBranch: "IKEA Alam Sutera", 
+    toBranch: "IKEA Sentul City", 
+    items: "Textiles", 
+    value: "Rp 1.320.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 14, 
+    categoryId: "TR-014", 
+    fromBranch: "IKEA Jakarta Garden City", 
+    toBranch: "IKEA Bali", 
+    items: "Decoration", 
+    value: "Rp 980.000", 
+    status: "In Progress" 
+  },
+  { 
+    id: 15, 
+    categoryId: "TR-015", 
+    fromBranch: "IKEA Sentul City", 
+    toBranch: "IKEA Kota Baru Parahyangan", 
+    items: "Furniture", 
+    value: "Rp 2.650.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 16, 
+    categoryId: "TR-016", 
+    fromBranch: "IKEA Bali", 
+    toBranch: "IKEA Mal Taman Anggrek", 
+    items: "Storage", 
+    value: "Rp 1.780.000", 
+    status: "Pending" 
+  },
+  { 
+    id: 17, 
+    categoryId: "TR-017", 
+    fromBranch: "IKEA Kota Baru Parahyangan", 
+    toBranch: "IKEA Alam Sutera", 
+    items: "Lighting", 
+    value: "Rp 1.450.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 18, 
+    categoryId: "TR-018", 
+    fromBranch: "IKEA Mal Taman Anggrek", 
+    toBranch: "IKEA Jakarta Garden City", 
+    items: "Bedroom", 
+    value: "Rp 3.100.000", 
+    status: "In Progress" 
+  },
+  { 
+    id: 19, 
+    categoryId: "TR-019", 
+    fromBranch: "IKEA Alam Sutera", 
+    toBranch: "IKEA Kota Baru Parahyangan", 
+    items: "Kitchen", 
+    value: "Rp 2.890.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 20, 
+    categoryId: "TR-020", 
+    fromBranch: "IKEA Jakarta Garden City", 
+    toBranch: "IKEA Sentul City", 
+    items: "Living Room", 
+    value: "Rp 2.200.000", 
+    status: "Pending" 
+  },
+  { 
+    id: 21, 
+    categoryId: "TR-021", 
+    fromBranch: "IKEA Sentul City", 
+    toBranch: "IKEA Alam Sutera", 
+    items: "Dining", 
+    value: "Rp 1.560.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 22, 
+    categoryId: "TR-022", 
+    fromBranch: "IKEA Bali", 
+    toBranch: "IKEA Kota Baru Parahyangan", 
+    items: "Textiles", 
+    value: "Rp 1.120.000", 
+    status: "In Progress" 
+  },
+  { 
+    id: 23, 
+    categoryId: "TR-023", 
+    fromBranch: "IKEA Kota Baru Parahyangan", 
+    toBranch: "IKEA Jakarta Garden City", 
+    items: "Decoration", 
+    value: "Rp 850.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 24, 
+    categoryId: "TR-024", 
+    fromBranch: "IKEA Mal Taman Anggrek", 
+    toBranch: "IKEA Bali", 
+    items: "Furniture", 
+    value: "Rp 2.750.000", 
+    status: "Pending" 
   }
 ];
 
 // Pagination and search variables
 let currentPage = 1;
-let itemsPerPage = 4;
+let itemsPerPage = 6;
 let filteredData = [...transfersData];
 let searchQuery = '';
 
@@ -1775,6 +2107,7 @@ function updateTotalPages() {
   document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
   document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
   document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
+  document.getElementById('page4Btn').style.display = totalPages >= 4 ? 'inline-block' : 'none';
 }
 
 // Update total transfers text
@@ -1959,9 +2292,9 @@ function renderTransfersTable(page = 1) {
       <td><span class="brand-price">${item.value}</span></td>
       <td><span class="brand-status ${statusClass}">${item.status}</span></td>
       <td>
-        <a class="btn btn-sm btn-outline-primary" href="edittransfer.php?id=${item.id}">
+        <button class="btn btn-sm btn-outline-primary" onclick="showTransferDetails(${JSON.stringify(item).replace(/"/g, '&quot;')})">
           <i class="fas fa-eye"></i>
-        </a>
+        </button>
       </td>
     `;
     
@@ -1990,11 +2323,13 @@ function updatePaginationButtons(page) {
   document.getElementById('page1Btn').classList.toggle('active', page === 1);
   document.getElementById('page2Btn').classList.toggle('active', page === 2);
   document.getElementById('page3Btn').classList.toggle('active', page === 3);
+  document.getElementById('page4Btn').classList.toggle('active', page === 4);
   
   // Hide/show page buttons based on total pages
   document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
   document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
   document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
+  document.getElementById('page4Btn').style.display = totalPages >= 4 ? 'inline-block' : 'none';
 }
 
 // Change Page Function
@@ -2252,6 +2587,102 @@ document.getElementById('lineChartYear').addEventListener('change', function() {
 document.getElementById('searchInput').addEventListener('input', function() {
   performSearch(this.value);
 });
+
+// Show Transfer Details Modal
+function showTransferDetails(transfer) {
+  // Populate modal with transfer data
+  document.getElementById('modalTransferId').textContent = transfer.categoryId;
+  document.getElementById('modalTransferDate').textContent = new Date().toLocaleDateString();
+  document.getElementById('modalCategory').textContent = transfer.items;
+  document.getElementById('modalFromBranch').textContent = transfer.fromBranch;
+  document.getElementById('modalToBranch').textContent = transfer.toBranch;
+  document.getElementById('modalValue').textContent = transfer.value;
+  
+  // Set status with appropriate badge color
+  const statusElement = document.getElementById('modalStatus');
+  statusElement.textContent = transfer.status;
+  statusElement.className = 'ms-2 badge ' + 
+    (transfer.status === 'Completed' ? 'bg-success' : 
+     transfer.status === 'In Progress' ? 'bg-warning' : 'bg-secondary');
+  
+  // Set additional mock data
+  document.getElementById('modalDistance').textContent = Math.floor(Math.random() * 100) + 20 + ' km';
+  document.getElementById('modalEstimatedTime').textContent = (Math.random() * 3 + 1).toFixed(1) + ' hours';
+  document.getElementById('modalTransportCost').textContent = 'Rp ' + (Math.floor(Math.random() * 200000) + 100000).toLocaleString();
+  document.getElementById('modalInsurance').textContent = 'Rp ' + (Math.floor(Math.random() * 50000) + 20000).toLocaleString();
+  document.getElementById('modalTotalCost').textContent = 'Rp ' + (Math.floor(Math.random() * 500000) + 2000000).toLocaleString();
+  document.getElementById('modalProcessingTime').textContent = (Math.random() * 2 + 1).toFixed(1) + ' days';
+  document.getElementById('modalSuccessRate').textContent = (Math.floor(Math.random() * 10) + 90) + '%';
+  document.getElementById('modalBranchRating').innerHTML = '<span class="text-warning">★★★★☆</span> ' + (Math.random() * 1 + 4).toFixed(1) + '/5.0';
+  
+  const priorities = ['High', 'Medium', 'Low'];
+  const priorityColors = ['bg-danger', 'bg-warning', 'bg-success'];
+  const randomPriority = Math.floor(Math.random() * 3);
+  const priorityElement = document.getElementById('modalPriority');
+  priorityElement.textContent = priorities[randomPriority];
+  priorityElement.className = 'ms-2 badge ' + priorityColors[randomPriority];
+  
+  document.getElementById('modalItemsCount').textContent = Math.floor(Math.random() * 200) + 50 + ' units';
+  document.getElementById('modalWeight').textContent = (Math.random() * 3000 + 1000).toFixed(0) + ' kg';
+  document.getElementById('modalVolume').textContent = Math.floor(Math.random() * 50) + 20 + ' m³';
+  document.getElementById('modalInstructions').textContent = 'Handle with care - ' + transfer.items.toLowerCase() + ' items';
+  
+  // Show the modal
+  const modal = new bootstrap.Modal(document.getElementById('transferDetailsModal'));
+  modal.show();
+}
+
+// Edit Transfer Function
+function editTransfer() {
+  alert('Edit transfer functionality would redirect to edit page');
+  // In real implementation: window.location.href = 'edittransfer.php?id=' + transferId;
+}
+
+// Print Transfer Details
+function printTransferDetails() {
+  const transferId = document.getElementById('modalTransferId').textContent;
+  const fromBranch = document.getElementById('modalFromBranch').textContent;
+  const toBranch = document.getElementById('modalToBranch').textContent;
+  const value = document.getElementById('modalValue').textContent;
+  const status = document.getElementById('modalStatus').textContent;
+  const category = document.getElementById('modalCategory').textContent;
+  
+  const printContent = `
+    <div style="text-align: center; margin-bottom: 30px;">
+      <h2 style="color: #1976d2; margin-bottom: 5px;">IKEA Transfer Details</h2>
+      <p style="color: #666; margin: 0;">Transfer Management System</p>
+      <hr style="border: 1px solid #1976d2; width: 200px; margin: 20px auto;">
+    </div>
+    
+    <div style="margin-bottom: 25px;">
+      <h4 style="color: #1976d2; border-bottom: 2px solid #e3f2fd; padding-bottom: 8px;">Transfer Information</h4>
+      <table style="width: 100%; margin-top: 15px;">
+        <tr><td style="padding: 8px 0; font-weight: bold; width: 30%;">Transfer ID:</td><td>${transferId}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold;">Date:</td><td>${new Date().toLocaleDateString()}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold;">Category:</td><td>${category}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold;">Status:</td><td>${status}</td></tr>
+      </table>
+    </div>
+    
+    <div style="margin-bottom: 25px;">
+      <h4 style="color: #1976d2; border-bottom: 2px solid #e3f2fd; padding-bottom: 8px;">Location Details</h4>
+      <table style="width: 100%; margin-top: 15px;">
+        <tr><td style="padding: 8px 0; font-weight: bold; width: 30%;">From Branch:</td><td>${fromBranch}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold;">To Branch:</td><td>${toBranch}</td></tr>
+        <tr><td style="padding: 8px 0; font-weight: bold;">Transfer Value:</td><td style="color: #4caf50; font-weight: bold;">${value}</td></tr>
+      </table>
+    </div>
+    
+    <div style="margin-top: 40px; text-align: center; color: #666; font-size: 12px;">
+      <p>Generated on ${new Date().toLocaleString()}</p>
+      <p>IKEA Transfer Management System</p>
+    </div>
+  `;
+  
+  document.getElementById('printContent').innerHTML = printContent;
+  const printModal = new bootstrap.Modal(document.getElementById('printModal'));
+  printModal.show();
+}
 
 // Inisialisasi saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function() {
