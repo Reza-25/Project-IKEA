@@ -22,7 +22,7 @@ if (isset($_SESSION['show_login_notification']) && $_SESSION['show_login_notific
 <meta content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive" name="keywords"/>
 <meta content="Dreamguys - Bootstrap Admin Template" name="author"/>
 <meta content="noindex, nofollow" name="robots"/>
-<title>IKEA</title>
+<title>RuanGku</title>
 <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon"/>
 <link href="../assets/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="../assets/css/animate.css" rel="stylesheet"/>

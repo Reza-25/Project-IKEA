@@ -44,7 +44,7 @@ $avgDailyVisitors     = 4200;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>IKEA - Store List</title>
+    <title>RuanGku</title>
     
     <!-- Same CSS includes as brandlist.php -->
     <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">

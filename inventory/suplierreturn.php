@@ -324,7 +324,7 @@ try {
 <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
 <meta name="author" content="Dreamguys - Bootstrap Admin Template">
 <meta name="robots" content="noindex, nofollow">
-<title>IKEA - Supplier Returns</title>
+<title>RuanGku</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css">

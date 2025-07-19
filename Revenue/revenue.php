@@ -84,7 +84,7 @@ function formatPercentage($percent) {
     <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" />
     <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>IKEA</title>
+    <title>RuanGku</title>
 
     <!-- Same CSS includes as statelist.php -->
     <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
