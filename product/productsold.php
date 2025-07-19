@@ -1,5 +1,9 @@
 <?php
-require_once __DIR__ . '/../include/config.php'; // Import config.php
+require_once __DIR__ . '/../include/config.php';
+
+// *** TAMBAHAN: Include AI Helper ***
+require_once __DIR__ . '/ai_helper_productsold.php';
+
 // Ambil data tahun yang tersedia
 $tahunQuery = $pdo->query("SELECT DISTINCT year FROM product_sales ORDER BY year DESC");
 $tahunList = $tahunQuery->fetchAll(PDO::FETCH_COLUMN);
@@ -104,6 +108,10 @@ if (array_sum($categoryDistribution) == 0) {
 // Ambil top category
 arsort($categoryTotals);
 $topCategory = key($categoryTotals) ?: 'Furniture';
+
+// *** TAMBAHAN: Ambil AI Suggestion ***
+$aiSuggestion = getProductSoldAIInsightWithSolutions();
+$aiData = $aiSuggestion['data'];
 
 // Konversi data ke JSON untuk JS
 $salesDataJson = json_encode($salesData);
@@ -305,265 +313,6 @@ $categoryDistributionJson = json_encode($categoryDistribution);
     .tag-yogya { background: #1976d2; color: white; }
     .tag-malang { background: #e3f2fd; color: #1976d2; }
     .tag-denpasar { background: #e3f2fd; color: #1976d2; }
-
-    /* AI Suggestion box */
-    .ai-suggestion {
-      background: linear-gradient(135deg, #1976d2, #42a5f5);
-      color: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-
-    .ai-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-
-    /* Bottom section layout */
-    .bottom-section {
-      display: flex;
-      gap: 20px;
-    }
-
-    .bottom-left {
-      flex: 0 0 65%;
-    }
-
-    .bottom-right {
-      flex: 0 0 33%;
-    }
-
-    /* Brand comparison cards */
-    .comparison-section {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .comparison-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #1a73e8;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .comparison-row {
-      display: flex;
-      gap: 30px;
-      margin-bottom: 30px;
-    }
-
-    .comparison-item {
-      flex: 1;
-      text-align: center;
-      padding: 15px;
-      border-radius: 8px;
-      background: #f8f9fa;
-    }
-
-    .vs-divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: #ff5722;
-      color: white;
-      border-radius: 50%;
-      font-weight: bold;
-      align-self: center;
-    }
-
-    .brand-name {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .brand-category {
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 8px;
-    }
-
-    .brand-rating {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      margin-bottom: 5px;
-    }
-
-    .brand-price {
-      font-size: 12px;
-      color: #666;
-    }
-
-    /* Right side components */
-    .prediction-card {
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .prediction-header {
-      background: linear-gradient(135deg, #1976d2, #42a5f5);
-      color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
-      margin: -15px -15px 15px -15px;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .prediction-content {
-      text-align: center;
-    }
-
-    .prediction-brand {
-      font-size: 18px;
-      font-weight: bold;
-      color: #1976d2;
-      margin-bottom: 5px;
-    }
-
-    .prediction-text {
-      font-size: 12px;
-      color: #666;
-      margin-bottom: 10px;
-    }
-
-    .prediction-accuracy {
-      font-size: 12px;
-      color: #666;
-    }
-
-    .prediction-details {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-      font-size: 12px;
-    }
-
-    /* Notification cards */
-    .notification-card {
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .notification-header {
-      background: linear-gradient(135deg, #1976d2, #42a5f5);
-      color: white;
-      padding: 10px 15px;
-      border-radius: 6px;
-      margin: -15px -15px 15px -15px;
-      font-weight: 600;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .notification-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .notification-item:last-child {
-      border-bottom: none;
-    }
-
-    .notification-icon {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: white;
-    }
-
-    .notification-text {
-      flex: 1;
-      font-size: 13px;
-    }
-
-    .notification-title {
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .notification-subtitle {
-      color: #666;
-      font-size: 11px;
-    }
-
-    /* Health score section */
-    .health-score-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .health-score-item:last-child {
-      border-bottom: none;
-    }
-
-    .health-brand {
-      font-weight: 600;
-    }
-
-    .health-subtitle {
-      font-size: 11px;
-      color: #666;
-    }
-
-    .health-score {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .score-good { color: #4caf50; }
-    .score-warning { color: #ff9800; }
-
-    /* Brand readiness */
-    .readiness-section {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .readiness-score {
-      font-size: 48px;
-      font-weight: bold;
-      color: #1976d2;
-      margin-bottom: 5px;
-    }
-
-    .readiness-brand {
-      font-size: 16px;
-      font-weight: 600;
-      color: #333;
-    }
 
     /* Statistics cards - keep original styling */
     .das1, .das2, .das3, .das4 {
@@ -977,18 +726,6 @@ $categoryDistributionJson = json_encode($categoryDistribution);
       width: 100%; /* Full width karena AI suggestion dihapus */
     }
 
-    /* Hapus AI suggestion container styles */
-    .ai-suggestion-container,
-    .ai-suggestion-enhanced,
-    .ai-header-enhanced,
-    .ai-icon-enhanced,
-    .ai-content-enhanced,
-    .ai-features,
-    .ai-feature,
-    .ai-feature-icon {
-      display: none !important;
-    }
-
     /* Responsive adjustments */
     @media (max-width: 1200px) {
       .donut-content {
@@ -1011,12 +748,265 @@ $categoryDistributionJson = json_encode($categoryDistribution);
         height: 160px;
       }
     }
+
+    /* AI Suggestion Card */
+    .suggestion-card {
+      background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .suggestion-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+    }
+
+    .suggestion-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .suggestion-card:hover::before {
+      top: -30%;
+      right: -30%;
+    }
+
+    .suggestion-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+    }
+
+    .suggestion-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .suggestion-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .suggestion-content {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    .refresh-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .refresh-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(180deg);
+    }
+
+    .refresh-btn.loading {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* AI Solutions Card */
+    .ai-solutions-card {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-solutions-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      border-color: #1976d2;
+    }
+
+    .ai-solutions-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+    }
+
+    .solutions-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      gap: 10px;
+      position: relative;
+    }
+
+    .solutions-icon {
+      width: 35px;
+      height: 35px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+    }
+
+    .solutions-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0;
+      color: #1e293b;
+      line-height: 1.3;
+    }
+
+    .solutions-tooltip {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: rgba(59, 130, 246, 0.1);
+      color: #1976d2;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .solutions-body {
+      margin-bottom: 15px;
+    }
+
+    .solution-item-card {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: white;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      border: 1px solid #f1f5f9;
+    }
+
+    .solution-item-card:hover {
+      background: #f8fafc;
+      border-color: #e2e8f0;
+      transform: translateX(5px);
+    }
+
+    .solution-item-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .solution-number {
+      background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 12px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+    }
+
+    .solution-text {
+      font-size: 0.85rem;
+      line-height: 1.5;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .solutions-footer {
+      text-align: center;
+      padding-top: 10px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .solutions-footer small {
+      color: #64748b;
+      font-size: 0.75rem;
+    }
+
+    /* Loading Animation */
+    #global-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .whirly-loader {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #1976d2;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
    </style>
   </head>
   
   <body>
   <div id="global-loader">
-        <div class="whirly-loader"></div>
+        <div class="whirly-loader"> </div>
     </div>
     
     <div class="main-wrapper">
@@ -1193,15 +1183,51 @@ $categoryDistributionJson = json_encode($categoryDistribution);
                             </div>
                         </div>
 
-                        <!-- AI Suggestion -->
-                        <div class="ai-suggestion">
-                            <div class="ai-header">
-                                <i class="fas fa-robot"></i>
-                                AI Suggestion: Produk Baru yang Potensial
+                        <!-- AI Suggestion Card -->
+                        <div class="suggestion-card" id="aiSuggestionCard">
+                            <div class="suggestion-header">
+                                <div class="suggestion-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <h4 class="suggestion-title" id="aiSuggestionTitle">
+                                    AI Suggestion: <?= formatProductInsightType($aiData['insight_type']) ?>
+                                </h4>
                             </div>
-                            <p style="margin: 0; font-size: 13px;">
-                                "Berdasarkan data penjualan, produk furniture menunjukkan tren positif. Pertimbangkan untuk menambah variasi produk sofa untuk meningkatkan penjualan."
+                            <p class="suggestion-content" id="aiSuggestionContent">
+                                <?= htmlspecialchars($aiData['recommendation']) ?>
                             </p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small style="opacity: 0.8;" id="aiSuggestionMeta">
+                                    <?= $aiData['product_name'] ?? 'General' ?> • <?= formatProductUrgency($aiData['urgency']) ?>
+                                </small>
+                                <small style="opacity: 0.7;" id="aiSuggestionTime">
+                                    <?= date('d M H:i', strtotime($aiData['generated_at'])) ?>
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- AI Solutions Card -->
+                        <div class="ai-solutions-card" id="aiSolutionsCard">
+                            <div class="solutions-header">
+                                <div class="solutions-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h5 class="solutions-title">Solusi AI Actionable</h5>
+                                <div class="solutions-tooltip">
+                                    Solusi berdasarkan AI suggestion di atas
+                                </div>
+                            </div>
+                            <div class="solutions-body">
+                                <?php foreach ($aiData['solutions'] as $index => $solution) { ?>
+                                <div class="solution-item-card">
+                                    <div class="solution-number"><?php echo $index + 1; ?></div>
+                                    <div class="solution-text"><?php echo htmlspecialchars($solution); ?></div>
+                                </div>
+                                <?php } ?>
+                            </div>
+                            <div class="solutions-footer">
+                                <small><i class="fas fa-robot me-1"></i>Generated by AI • <?php echo date('H:i'); ?></small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1480,6 +1506,52 @@ $categoryDistributionJson = json_encode($categoryDistribution);
 
 
     <script>
+        // *** TAMBAHAN: Fungsi refresh AI suggestion ***
+        function refreshAISuggestion() {
+            const refreshBtn = document.getElementById('refreshAiBtn');
+            const suggestionTitle = document.getElementById('aiSuggestionTitle');
+            const suggestionContent = document.getElementById('aiSuggestionContent');
+            const suggestionMeta = document.getElementById('aiSuggestionMeta');
+            const suggestionTime = document.getElementById('aiSuggestionTime');
+            
+            // Add loading state
+            refreshBtn.classList.add('loading');
+            refreshBtn.disabled = true;
+            
+            // Show loading message
+            suggestionContent.textContent = 'Generating new AI insight...';
+            
+            fetch('refresh_ai_suggestion_productsold.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        suggestionTitle.textContent = `AI Suggestion: ${data.data.insight_type}`;
+                        suggestionContent.textContent = data.data.recommendation;
+                        suggestionMeta.textContent = `${data.data.product_name} • ${data.data.urgency}`;
+                        suggestionTime.textContent = data.data.generated_at;
+                        
+                        // Add success animation
+                        const card = document.getElementById('aiSuggestionCard');
+                        card.style.transform = 'scale(1.02)';
+                        setTimeout(() => {
+                            card.style.transform = 'scale(1)';
+                        }, 200);
+                    } else {
+                        suggestionContent.textContent = data.data.recommendation;
+                        console.error('AI Refresh Error:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Network Error:', error);
+                    suggestionContent.textContent = 'Failed to refresh AI suggestion. Please try again.';
+                })
+                .finally(() => {
+                    // Remove loading state
+                    refreshBtn.classList.remove('loading');
+                    refreshBtn.disabled = false;
+                });
+        }
+
         // DATA DINAMIS DARI PHP
         const salesData = <?= $salesDataJson ?>;
         const categoryDistribution = <?= $categoryDistributionJson ?>;
@@ -1657,6 +1729,10 @@ function updateNotes(item) {
             }, 100); // Delay 100ms untuk memastikan DOM siap
         });
 
+        // Hide loader
+        setTimeout(function() {
+            document.getElementById('global-loader').style.display = 'none';
+        }, 1000);
   
     </script>
 

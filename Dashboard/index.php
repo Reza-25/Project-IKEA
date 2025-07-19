@@ -78,7 +78,7 @@ include __DIR__ . '/../include/sidepanel.php';
 <a class="w-100 text-decoration-none text-dark" href="../revenue/revenue.php">
 <div class="dash-count das1">
 <div class="dash-counts">
-<h4>$<span class="counters" data-count="385656.50">385,656.50</span></h4>
+<h4>Rp<span class="counters" data-count="385656.50">385,656.50</span></h4>
 <h5>Revenue</h5>
 <h2 style="font-size: 11px; font-weight: normal; margin-top: 4px;">+9% from last year</h2>
 </div>

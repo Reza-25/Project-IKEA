@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../include/config.php';
-require_once 'ai_helper_category.php';
+
+// *** TAMBAHAN: Include AI Helper untuk Category ***
+require_once __DIR__ . '/ai_helper_category.php';
 
 // Koneksi database
 $db = new mysqli('localhost', 'root', '','ikea');
@@ -8,9 +10,47 @@ if ($db->connect_error) {
     die("Koneksi database gagal: " . $db->connect_error);
 }
 
-// Get AI Insight
+// *** TAMBAHAN: Get AI Insight ***
 $aiInsight = getCategoryAIInsight();
 $aiData = $aiInsight['data'];
+
+// *** TAMBAHAN: Extract solutions dari AI recommendation ***
+function extractCategorySolutions($recommendation) {
+    $solutions = [];
+    $text = strtolower($recommendation);
+    
+    if (strpos($text, 'ekspansi') !== false || strpos($text, 'expansion') !== false) {
+        $solutions = [
+            "Riset pasar untuk kategori baru dalam 2 minggu",
+            "Buat roadmap ekspansi produk untuk Q4 2025",
+            "Analisis kompetitor di segmen premium selama 1 bulan"
+        ];
+    } elseif (strpos($text, 'optimasi') !== false || strpos($text, 'optimization') !== false) {
+        $solutions = [
+            "Audit performa kategori existing dalam 1 minggu",
+            "Implementasi strategi cross-selling antar kategori",
+            "Review dan update deskripsi kategori untuk SEO"
+        ];
+    } elseif (strpos($text, 'marketing') !== false || strpos($text, 'promosi') !== false) {
+        $solutions = [
+            "Buat campaign khusus untuk kategori underperform",
+            "Tingkatkan visibility kategori di homepage",
+            "Jalankan A/B test untuk kategori layout baru"
+        ];
+    } else {
+        // Default solutions
+        $categoryName = $aiData['category_name'] ?? 'kategori';
+        $solutions = [
+            "Analisis mendalam performa {$categoryName} dalam 1 minggu",
+            "Buat action plan spesifik untuk optimasi {$categoryName}",
+            "Monitor KPI {$categoryName} secara real-time selama 30 hari"
+        ];
+    }
+    
+    return $solutions;
+}
+
+$aiSolutions = extractCategorySolutions($aiData['recommendation']);
 
 // Query untuk stat cards
 $totalCategories = $db->query("SELECT COUNT(*) as total FROM categories_product")->fetch_assoc()['total'];
@@ -231,9 +271,14 @@ $db->close();
 <link rel="stylesheet" href="../assets/css/style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-</head>
+
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <style>
-    body {
+body {
   background-color: #f8f9fa;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -750,55 +795,7 @@ a {
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .content {
-    padding: 15px;
-  }
-  
-  .chart-header {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-  
-  .table-controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .search-container {
-    max-width: 100%;
-  }
-  
-  .export-buttons {
-    justify-content: center;
-  }
-  
-  .dash-count {
-    min-height: 70px;
-    padding: 12px;
-  }
-  
-  .dash-counts h4 {
-    font-size: 16px;
-  }
-  
-  .dash-counts h5 {
-    font-size: 11px;
-  }
-  
-  .icon-box {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .icon-box i {
-    font-size: 12px;
-  }
-}
-
-/* AI Suggestion Card */
+/* AI Suggestion Card - SAMA SEPERTI BRANDLIST */
 .suggestion-card {
   background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
@@ -866,33 +863,186 @@ a {
   opacity: 0.95;
 }
 
-.refresh-btn {
+/* AI Solutions Card - SAMA SEPERTI BRANDLIST */
+.ai-solutions-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-solutions-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #1976d2;
+}
+
+.ai-solutions-card::before {
+  content: '';
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+}
+
+.solutions-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+  position: relative;
+}
+
+.solutions-icon {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
 }
 
-.refresh-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: rotate(180deg);
+.solutions-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+  line-height: 1.3;
 }
 
-.refresh-btn.loading {
-  animation: spin 1s linear infinite;
+.solutions-tooltip {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: rgba(59, 130, 246, 0.1);
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.solutions-body {
+  margin-bottom: 15px;
+}
+
+.solution-item-card {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.solution-item-card:hover {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  transform: translateX(5px);
+}
+
+.solution-item-card:last-child {
+  margin-bottom: 0;
+}
+
+.solution-number {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+
+.solution-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #374151;
+  font-weight: 500;
+}
+
+.solutions-footer {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.solutions-footer small {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+  
+  .chart-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-container {
+    max-width: 100%;
+  }
+  
+  .export-buttons {
+    justify-content: center;
+  }
+  
+  .dash-count {
+    min-height: 70px;
+    padding: 12px;
+  }
+  
+  .dash-counts h4 {
+    font-size: 16px;
+  }
+  
+  .dash-counts h5 {
+    font-size: 11px;
+  }
+  
+  .icon-box {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .icon-box i {
+    font-size: 12px;
+  }
 }
 </style>
+</head>
+
 <body>
 <div id="global-loader">
   <div class="whirly-loader"></div>
@@ -1156,11 +1306,9 @@ a {
                         <?php $count++; endwhile; ?>
                     </div>
                 </div>
-                                        <!-- AI Suggestion Card -->
-                                        <div class="suggestion-card" id="aiSuggestionCard">
-                    <button class="refresh-btn" id="refreshAiBtn" onclick="refreshAISuggestion()" title="Refresh AI Suggestion">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
+
+                <!-- AI Suggestion Card - SAMA SEPERTI BRANDLIST -->
+                <div class="suggestion-card" id="aiSuggestionCard">
                     <div class="suggestion-header">
                         <div class="suggestion-icon">
                             <i class="fas fa-brain"></i>
@@ -1181,16 +1329,39 @@ a {
                         </small>
                     </div>
                 </div>
+
+                <!-- AI Solutions Card - SAMA SEPERTI BRANDLIST -->
+                <div class="ai-solutions-card" id="aiSolutionsCard">
+                    <div class="solutions-header">
+                        <div class="solutions-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h5 class="solutions-title">Solusi AI Actionable</h5>
+                        <div class="solutions-tooltip">
+                            Solusi berdasarkan AI suggestion di atas
+                        </div>
+                    </div>
+                    <div class="solutions-body">
+                        <?php foreach ($aiSolutions as $index => $solution) { ?>
+                        <div class="solution-item-card">
+                            <div class="solution-number"><?php echo $index + 1; ?></div>
+                            <div class="solution-text"><?php echo htmlspecialchars($solution); ?></div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                    <div class="solutions-footer">
+                        <small><i class="fas fa-robot me-1"></i>Generated by AI • <?php echo date('H:i'); ?></small>
+                    </div>
+                </div>
             </div>
         </div>
-
 
         <!-- Category Table -->
         <div class="category-table-section">
             <div class="chart-header">
               <h5 class="chart-title"><i class="fas fa-table me-2"></i>Data Kategori IKEA</h5>
               <div class="d-flex align-items-center gap-2">
-                <span style="font-size: 0.8rem; color: #64748b;" id="totalCategoriesText">Total: 21 categories</span>
+                <span style="font-size: 0.8rem; color: #64748b;" id="totalCategoriesText">Total: <?= count($categoryTableData) ?> categories</span>
               </div>
             </div>
 
@@ -1226,25 +1397,8 @@ a {
                     </tr>
                 </thead>
                 <tbody id="categoryTableBody">
-    <?php $counter = 1; foreach ($categoryTableData as $row): ?>
-    <tr>
-        <td style="color: #374151; font-weight: 600;"><?= $counter ?></td>
-        <td><span class="category-id"><?= $row['category_code'] ?></span></td>
-        <td><span class="category-name"><?= $row['category_name'] ?></span></td>
-        <td><?= $row['description'] ?></td>
-        <td><span class="fw-bold text-primary"><?= number_format($row['product_count']) ?></span></td>
-        <td><?= $row['created_date'] ?></td>
-        <td><?= $row['created_by'] ?></td>
-        <td>
-            <span class="category-status 
-                status-<?= strtolower($row['status']) ?>">
-                <?= $row['status'] ?>
-            </span>
-        </td>
-        <td><span class="fw-bold" style="color: #059669;"><?= (int)$row['popularity_index'] ?></span></td>
-    </tr>
-    <?php $counter++; endforeach; ?>
-</tbody>
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
             </table>
             
             <div class="no-results" id="noResults" style="display: none;">
@@ -1255,7 +1409,7 @@ a {
             
             <div class="table-pagination" id="tablePagination">
               <div class="pagination-info" id="paginationInfo">
-                Menampilkan 1-8 dari 21 kategori
+                Menampilkan 1-7 dari <?= count($categoryTableData) ?> kategori
               </div>
               <div class="pagination-controls">
                 <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
@@ -1275,6 +1429,12 @@ a {
 </div>
 
 <script>
+// *** TAMBAHAN: Fungsi refresh AI suggestion - SAMA SEPERTI BRANDLIST ***
+function refreshAISolutions() {
+    console.log('AI Solutions refreshed for categories');
+    // Optional: Add refresh functionality for solutions if needed
+}
+
 // Data dari PHP diubah menjadi format JS
 const barChartData = <?= json_encode($barChartData) ?>;
 const top5Categories = <?= json_encode($top5Categories) ?>;
@@ -1283,7 +1443,7 @@ const otherProducts = <?= $otherProducts ?>;
 const lineChartData = <?= json_encode($lineChartData) ?>;
 
 // Data tabel dari PHP
-const categoryData =  <?= json_encode($categoryTableData) ?>;
+const categoryData = <?= json_encode($categoryTableData) ?>;
 
 // Table functionality
 let currentPage = 1;
@@ -1292,52 +1452,6 @@ let filteredData = [...categoryData];
 let searchQuery = '';
 
 let barChart, donutChart, lineChart;
-
-// AI Suggestion Functions
-function refreshAISuggestion() {
-    const refreshBtn = document.getElementById('refreshAiBtn');
-    const suggestionTitle = document.getElementById('aiSuggestionTitle');
-    const suggestionContent = document.getElementById('aiSuggestionContent');
-    const suggestionMeta = document.getElementById('aiSuggestionMeta');
-    const suggestionTime = document.getElementById('aiSuggestionTime');
-    
-    // Add loading state
-    refreshBtn.classList.add('loading');
-    refreshBtn.disabled = true;
-    
-    // Show loading message
-    suggestionContent.textContent = 'Generating new AI insight...';
-    
-    fetch('refresh_ai_suggestion_category.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                suggestionTitle.textContent = `AI Suggestion: ${data.data.insight_type}`;
-                suggestionContent.textContent = data.data.recommendation;
-                suggestionMeta.textContent = `${data.data.category_name} • ${data.data.urgency}`;
-                suggestionTime.textContent = data.data.generated_at;
-                
-                // Add success animation
-                const card = document.getElementById('aiSuggestionCard');
-                card.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    card.style.transform = 'scale(1)';
-                }, 200);
-            } else {
-                suggestionContent.textContent = data.data.recommendation;
-                console.error('AI Refresh Error:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Network Error:', error);
-            suggestionContent.textContent = 'Failed to refresh AI suggestion. Please try again.';
-        })
-        .finally(() => {
-            // Remove loading state
-            refreshBtn.classList.remove('loading');
-            refreshBtn.disabled = false;
-        });
-}
 
 // Inisialisasi chart dengan data dari database
 function initBarChart(year) {
@@ -1535,6 +1649,7 @@ function initLineChart(year) {
         console.error(`Line chart data is empty for year: ${year}`);
         return;
     }
+    
     const options = {
         series: data,
         chart: {
@@ -1603,7 +1718,7 @@ function initLineChart(year) {
     }
 }
 
-// Di fungsi performSearch - PERBAIKI PENCARIAN
+// Search functionality
 function performSearch(query) {
   searchQuery = query.toLowerCase();
   
@@ -1685,8 +1800,8 @@ function renderCategoryTable(page = 1) {
           ${category.status}
         </span>
       </td>
-  <td><span class="fw-bold" style="color: #059669;">${parseInt(category.popularity_index)}</span></td>
-`;
+      <td><span class="fw-bold" style="color: #059669;">${parseInt(category.popularity_index)}</span></td>
+    `;
     
     tableBody.appendChild(row);
   });
@@ -1742,7 +1857,7 @@ function exportToPDF() {
   
   const tableData = filteredData.map((category, index) => [
     index + 1,
-    category.id_category,
+    category.category_code,
     category.category_name,
     category.description,
     parseInt(category.product_count).toLocaleString(),
@@ -1772,7 +1887,7 @@ function exportToPDF() {
 function exportToExcel() {
   const excelData = filteredData.map((category, index) => ({
     'No': index + 1,
-    'ID Category': category.id_category,
+    'ID Category': category.category_code,
     'Category': category.category_name,
     'Description': category.description,
     'Product Count': parseInt(category.product_count),
@@ -1789,7 +1904,7 @@ function exportToExcel() {
   XLSX.writeFile(wb, 'data-kategori-ikea.xlsx');
 }
 
-// Event listeners dan inisialisasi lainnya
+// Event listeners dan inisialisasi
 document.addEventListener('DOMContentLoaded', function() {
     // Cek apakah ApexCharts sudah ter-load
     if (typeof ApexCharts === 'undefined') {
