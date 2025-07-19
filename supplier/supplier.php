@@ -289,27 +289,32 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
       }
 
       /* Chart Styles */
-      .chart-container {
-        position: relative;
-        height: 400px;
-        width: 100%;
+      .chart-section {
         background: #fff;
         border-radius: 16px;
-        padding: 20px;
+        padding: 20px 20px 10px 20px;
         box-shadow: 0 6px 16px rgba(0,0,0,0.1);
         margin-bottom: 20px;
+        transition: all 0.3s ease;
       }
-
-      .chart-container canvas {
-        width: 100% !important;
-        height: 100% !important;
+      .chart-section:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.13);
       }
-
+      .chart-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
       .chart-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 600;
-        margin-bottom: 15px;
-        color: #333;
+        color: #1976d2;
+        margin: 0;
+      }
+      @media (max-width: 991px) {
+        .chart-section { padding: 12px 6px 6px 6px; }
+        .chart-title { font-size: 1rem; }
       }
     </style>
   </head>
@@ -394,17 +399,25 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
           <div class="row mb-4">
             <!-- Bar Chart - Top 5 Suppliers -->
             <div class="col-lg-8">
-              <div class="chart-container">
-                <div class="chart-title">Top 5 Performing Suppliers</div>
-                <canvas id="barChart"></canvas>
+              <div class="chart-section">
+                <div class="chart-header">
+                  <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Top 5 Performing Suppliers</h5>
+                </div>
+                <div style="height: 320px;">
+                  <canvas id="barChart" style="width:100%;height:100%"></canvas>
+                </div>
               </div>
             </div>
             
             <!-- Line Chart - Monthly Trend -->
             <div class="col-lg-4">
-              <div class="chart-container">
-                <div class="chart-title">Monthly Procurement Trend</div>
-                <canvas id="lineChart"></canvas>
+              <div class="chart-section">
+                <div class="chart-header">
+                  <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Monthly Procurement Trend</h5>
+                </div>
+                <div style="height: 320px;">
+                  <canvas id="lineChart" style="width:100%;height:100%"></canvas>
+                </div>
               </div>
             </div>
           </div>
@@ -612,6 +625,19 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         </div>
       </div>
     </div>
+
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../assets/js/feather.min.js"></script>
+    <script src="../assets/js/jquery.slimscroll.min.js"></script>
+    <script src="../assets/js/jquery.dataTables.min.js"></script>
+    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/moment.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="../assets/plugins/select2/js/select2.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
+    <script src="../assets/js/script.js"></script>
     
     <script>
       $(document).ready(function() {
@@ -763,17 +789,5 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         }, 30000);
       });
     </script>
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <script src="../assets/js/feather.min.js"></script>
-    <script src="../assets/js/jquery.slimscroll.min.js"></script>
-    <script src="../assets/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/moment.min.js"></script>
-    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="../assets/plugins/select2/js/select2.min.js"></script>
-    <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
-    <script src="../assets/js/script.js"></script>
   </body>
 </html>

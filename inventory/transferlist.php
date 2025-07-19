@@ -1,890 +1,2288 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
-<!-- wawawagit -->
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0, user-scalable=0" name="viewport" />
-    <meta content="POS - Bootstrap Admin Template" name="description" />
-    <meta content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" name="keywords" />
-    <meta content="Dreamguys - Bootstrap Admin Template" name="author" />
-    <meta content="noindex, nofollow" name="robots" />
-    <title>IKEA Transfer Analytics</title>
-    <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../assets/css/animate.css" rel="stylesheet" />
-    <link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="../assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-    <link href="../assets/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/fontawesome/css/fontawesome.min.css" rel="stylesheet" />
-    <link href="../assets/plugins/fontawesome/css/all.min.css" rel="stylesheet" />
-    <link href="../assets/css/style.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+<meta name="description" content="POS - Bootstrap Admin Template">
+<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+<meta name="author" content="Dreamguys - Bootstrap Admin Template">
+<meta name="robots" content="noindex, nofollow">
+<title>IKEA - Transfer Analytics</title>
 
-    <style>
-      body {
-        background-color: #f8f9fa;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
+<link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/css/animate.css">
+<link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="../assets/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+<link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-      a {
-        text-decoration: none !important;
-      }
+<!-- Export Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-      .ikea-header {
-        background-color: #0051BA !important;
-      }
+<style>
+   a {
+    text-decoration: none !important;
+  }
 
-      /* Main Dashboard Cards */
-      .analytics-card {
-        background: white;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        border: none;
-        margin-bottom: 24px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
+    .ikea-select {
+      background-color: #E6F0FF !important; /* Soft blue */
+      border: 2px solid #ccc;
+      color: #333;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.85rem;
+      appearance: none;
+      width: 140px; /* Lebar diperpanjang */
+      background-image: url("data:image/svg+xml,%3Csvg fill='%230051BA' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.6rem center;
+      background-size: 14px;
+      transition: border-color 0.3s ease;
+    }
 
-      .analytics-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-      }
+  .ikea-select:hover {
+    border-color: #0051BA;
+  }
 
-      /* Metric Cards */
-      .metric-card {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: left;
-        border-left: 4px solid;
-        margin-bottom: 16px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      }
+  .ikea-select:focus {
+    outline: none;
+    border-color: #0051BA;
+    box-shadow: 0 0 0 3px rgba(230, 240, 255, 0.8); /* glow soft blue */
+  }
 
-      .metric-card.blue { border-left-color: #4285f4; }
-      .metric-card.purple { border-left-color: #9c27b0; }
-      .metric-card.orange { border-left-color: #ff9800; }
-      .metric-card.teal { border-left-color: #009688; }
+  .card-header h5 {
+    color: white;
+  }
+  
+  .ikea-note-card {
+    background-color: #fffbea;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    border-left: 8px solid #FFCC00;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #notesCarousel::-webkit-scrollbar {
+    height: 8px;
+  }
 
-      .metric-number {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin: 0;
-        color: #333;
-      }
+  #notesCarousel::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+  .note-card p {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+  }
 
-      .metric-label {
-        font-size: 0.9rem;
-        color: #666;
-        margin: 4px 0;
-        font-weight: 500;
-      }
+  .note-card strong {
+    font-size: 16px;
+  }
 
-      .metric-change {
-        font-size: 0.8rem;
-        color: #28a745;
-        font-weight: 600;
-      }
+  .card-body::-webkit-scrollbar {
+    width: 6px;
+  }
 
-      /* Chart Containers */
-.chart-container {
-  background: white;
-  border-radius: 16px;
+  .card-body::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+/* Reset semua background jadi putih & style dasar kolom */
+.das1, .das2, .das3, .das4 {
+  background: white !important;
+  border-radius: 20px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Struktur utama card */
+.dash-count {
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  margin-bottom: 24px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.chart-container.fixed-height {
-  height: 400px;
-  max-height: 400px;
-  min-height: 400px;
+
+/* Efek saat hover */
+.dash-count:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+}
+
+/* Penyesuaian tampilan angka dan label */
+.dash-counts h4 {
+  font-size: 24px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.dash-counts h5 {
+  font-size: 14px;
+  margin: 0;
+}
+.stat-change {
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 4px;
+  color: #6c757d;
+}
+
+/* Gaya icon kanan */
+.dash-imgs i {
+  font-size: 32px;
+}
+
+/* Kolom 1 - Biru Laut */
+.das1 {
+  border-top: 6px solid #1a5ea7;
+}
+.das1 * {
+  color: #1a5ea7 !important;
+}
+
+/* Kolom 2 - Ungu */
+.das2 {
+  border-top: 6px solid #751e8d;
+}
+.das2 * {
+  color: #751e8d !important;
+}
+
+/* Kolom 3 - Kuning/Oranye */
+.das3 {
+  border-top: 6px solid #e78001;
+}
+.das3 * {
+  color: #e78001 !important;
+}
+
+/* Kolom 4 - Tosca */
+.das4 {
+  border-top: 6px solid #018679;
+}
+.das4 * {
+  color: #018679 !important;
+}
+
+.stat-change {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;         /* Warna teks */
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Icon Box Style */
+.icon-box {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.2);
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.icon-box i {
+  color: #ffffff !important;
+  font-size: 16 px;
+}
+/* Efek hover dan active */
+.icon-box:hover,
+.icon-box:active {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  transform: scale(1.08);
+}
+.bg-ungu {
+  background: linear-gradient(135deg, #2196f3 0%, #0d47a1 100%);
+}
+.bg-biru {
+  background: linear-gradient(135deg, #a259c6 0%, #6d28d9 100%);
+}
+.bg-hijau {
+  background: linear-gradient(135deg,rgb(89, 236, 222) 0%, #018679 100%);
+}
+.bg-merah {
+  background: linear-gradient(135deg, #ff5858 0%, #e78001 100%);
+}
+/* END - CSS Kolom */
+
+/* Custom CSS Variables */
+:root {
+  --primary-blue: #1976d2;
+  --secondary-blue: #42a5f5;
+  --success-green: #4caf50;
+  --warning-orange: #ff9800;
+  --danger-red: #f44336;
+  --info-cyan: #00bcd4;
+  --light-gray: #f5f5f5;
+  --white: #ffffff;
+  --text-dark: #333333;
+  --border-color: #e0e0e0;
+}
+
+
+/* Chart Section */
+.chart-section {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.chart-section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin: 0;
+}
+
+.chart-select {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 12px;
+  background: var(--white);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+}
+
+.chart-select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+/* Insight Container */
+.insight-container {
+  padding: 15px;
+  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+  border-top: 1px solid rgba(25, 118, 210, 0.1);
+  border-radius: 0 0 12px 12px;
+  font-size: 0.85rem;
+  margin-top: 20px;
+}
+
+.insight-container h5 {
+  color: var(--primary-blue) !important;
+  font-weight: 600;
+}
+
+.insight-container p {
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.stats-card {
+  background: var(--white);
+  padding: 15px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+  min-height: 120px;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stats-card i {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.stats-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 6px 0;
+}
+
+.stats-card p {
+  color: #6c757d;
+  margin-bottom: 0;
+  font-size: 0.8rem;
+}
+
+/* Insight Cards */
+.insight-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.insight-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.insight-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.insight-card-header i {
+  font-size: 1.2rem;
+  color: var(--primary-blue);
+}
+
+.insight-card-header h4 {
+  font-size: 1rem !important;
+  margin: 0;
+  font-weight: 600;
+}
+
+/* Notification Cards */
+.notification-card {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.notification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.notification-card i {
+  font-size: 1.1rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+.notification-card.warning {
+  background-color: #fefbf3;
+  border-left-color: #d97706;
+}
+
+.notification-card.danger {
+  background-color: #fef2f2;
+  border-left-color: #dc2626;
+}
+
+.notification-card.info {
+  background-color: #f0f9ff;
+  border-left-color: #0ea5e9;
+}
+
+.notification-card h5 {
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+.notification-card p {
+  font-size: 0.8rem;
+  margin-bottom: 0;
+  color: #6b7280;
+}
+
+/* Sidebar Cards */
+.sidebar-card {
+  background: var(--white);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+.sidebar-card-header {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  color: white;
+  padding: 12px 15px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.sidebar-card-body {
+  padding: 15px;
+}
+
+/* Professional Health Score */
+.health-score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.health-score-item:last-child {
+  border-bottom: none;
+}
+
+.health-brand-info h6 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #1e293b;
+}
+
+.health-brand-info p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 0;
+}
+
+.health-score-value {
+  text-align: right;
+}
+
+.health-score {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.health-score.good { color: #059669; }
+.health-score.poor { color: #dc2626; }
+
+.health-progress {
+  width: 60px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1.5s ease-out;
+}
+
+.health-fill.good { background: #059669; }
+.health-fill.poor { background: #dc2626; }
+
+/* Compact Brand Readiness */
+.readiness-compact {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+}
+
+.readiness-score-compact {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0ea5e9;
+  margin-bottom: 5px;
+}
+
+.readiness-brand-compact {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 3px;
+}
+
+.readiness-label-compact {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.readiness-features-compact {
+  display: flex;
+  justify-content: space-around;
+  margin: 12px 0;
+}
+
+.readiness-feature-compact {
+  text-align: center;
+  flex: 1;
+}
+
+.readiness-feature-compact i {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.readiness-feature-compact p {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #374151;
+}
+
+.readiness-progress-compact {
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.readiness-fill-compact {
+  height: 100%;
+  background: linear-gradient(90deg, #0ea5e9 0%, #0284c7 100%);
+  border-radius: 2px;
+  transition: width 2s ease-out;
+}
+
+.readiness-status-compact {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0c4a6e;
+  padding: 6px 10px;
+  border-radius: 15px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Professional Location Distribution */
+.location-brand-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #fafbfc;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.location-brand-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.location-brand-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0;
+}
+
+.location-status-badge {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.location-status-badge.top { background: #dbeafe; color: #1e40af; }
+.location-status-badge.rising { background: #d1fae5; color: #065f46; }
+
+.location-description {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.location-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.location-tag {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.location-tag.highlight {
+  background: #3b82f6;
+  color: white;
+}
+
+.location-tag:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Donut Legend */
+.donut-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* Enhanced Brand Data Table - Extended Width and Blue Gradient Headers */
+.brand-table-section {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.brand-table-section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Table Controls */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.search-container {
   position: relative;
+  flex: 1;
+  max-width: 300px;
 }
 
-.chart-container.fixed-height canvas {
-  height: 100% !important;
-}
-.chart-container canvas {
-  max-height: 300px;
-  height: 100% !important;
-}
-.trend-chart-wrapper {
-  height: 100% !important;
-  max-height: 300px;
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
 }
 
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
 
-      .chart-title {
-        font-size: 1.3rem;
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-      }
+.search-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-size: 1rem;
+}
 
-      .chart-title i {
-        margin-right: 8px;
-        color: #4285f4;
-      }
+.export-buttons {
+  display: flex;
+  gap: 10px;
+}
 
-      /* Insight Boxes */
-      .insight-box {
-        background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-left: 4px solid #4285f4;
-      }
+.export-btn {
+  padding: 8px 16px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-      .insight-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #4285f4;
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-      }
+.export-btn.pdf {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: white;
+}
 
-      .insight-title i {
-        margin-right: 8px;
-      }
+.export-btn.pdf:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
 
-      .insight-text {
-        color: #666;
-        font-size: 0.9rem;
-        line-height: 1.5;
-      }
+.export-btn.excel {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  color: white;
+}
 
-      /* Blue Header Cards */
-      .blue-header-card {
-        background: linear-gradient(135deg, #4285f4 0%, #1976d2 100%);
-        color: white;
-        border-radius: 16px;
-        padding: 20px;
-        margin-bottom: 24px;
-      }
+.export-btn.excel:hover {
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+}
 
-      .blue-header-card h5 {
-        margin: 0;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-      }
+.brand-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
 
-      .blue-header-card i {
-        margin-right: 8px;
-      }
+.brand-table th {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 2px solid #1565c0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
 
-      /* Brand Comparison Cards */
-      .comparison-card {
-        background: white;
-        border-radius: 12px;
-        padding: 20px;
-        text-align: center;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        margin-bottom: 16px;
-      }
+.brand-table th:first-child {
+  border-top-left-radius: 8px;
+}
 
-      .vs-badge {
-        background: #dc3545;
-        color: white;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        margin: 10px auto;
-      }
+.brand-table th:last-child {
+  border-top-right-radius: 8px;
+}
 
-      .brand-name {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin: 10px 0 5px 0;
-      }
+.brand-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.85rem;
+  color: #374151;
+  vertical-align: middle;
+}
 
-      .brand-stats {
-        font-size: 0.85rem;
-        color: #666;
-      }
+.brand-table tbody tr:hover {
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
 
-      /* Status Badges */
-      .status-badge {
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-      }
+.brand-name {
+  font-weight: 600;
+  color: #1e293b;
+}
 
-      .status-completed { background: #d4edda; color: #155724; }
-      .status-progress { background: #fff3cd; color: #856404; }
-      .status-pending { background: #f8d7da; color: #721c24; }
+.brand-id {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+}
 
-      /* Legend */
-      .legend-item {
-        display: inline-flex;
-        align-items: center;
-        margin-right: 20px;
-        margin-bottom: 8px;
-        font-size: 0.85rem;
-      }
+.brand-category {
+  background: #f8fafc;
+  color: #64748b;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  border: 1px solid #e2e8f0;
+}
 
-      .legend-color {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        margin-right: 6px;
-      }
+.brand-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-      /* Notification Cards */
-      .notification-card {
-        background: white;
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 12px;
-        border-left: 4px solid;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      }
+.brand-rating .stars {
+  color: #fbbf24;
+}
 
-      .notification-card.warning { border-left-color: #ff9800; }
-      .notification-card.danger { border-left-color: #dc3545; }
-      .notification-card.info { border-left-color: #17a2b8; }
+.brand-rating-value {
+  color: #1e293b;
+  font-weight: 600;
+}
 
-      .notification-title {
-        font-weight: 600;
-        margin-bottom: 4px;
-        font-size: 0.9rem;
-      }
+.brand-sales {
+  font-weight: 600;
+  color: #059669;
+}
 
-      .notification-text {
-        font-size: 0.8rem;
-        color: #666;
-      }
+.brand-price {
+  font-weight: 600;
+  color: #1e293b;
+}
 
-      /* Table Improvements */
-      .modern-table {
-        background: white;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      }
+.brand-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+}
 
-      .modern-table .table thead th {
-        background: linear-gradient(135deg, #4285f4 0%, #1976d2 100%);
-        color: white;
-        font-weight: 600;
-        border: none;
-        padding: 16px;
-      }
+.status-active { background: #d1fae5; color: #065f46; }
+.status-trending { background: #fef3c7; color: #92400e; }
+.status-stable { background: #dbeafe; color: #1e40af; }
 
-      .modern-table .table tbody td {
-        padding: 14px 16px;
-        border-bottom: 1px solid #f0f0f0;
-        vertical-align: middle;
-      }
+/* No Results Message */
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748b;
+}
 
-      /* City Tags */
-      .city-tag {
-        display: inline-block;
-        background: #4285f4;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 16px;
-        font-size: 0.8rem;
-        margin: 2px;
-      }
+.no-results i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: #cbd5e1;
+}
 
-      .city-tag.secondary {
-        background: #6c757d;
-      }
+.no-results h5 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #475569;
+}
 
-      /* Score Display */
-      .score-display {
-        text-align: center;
-        padding: 20px;
-      }
+.no-results p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
 
-      .score-number {
-        font-size: 3rem;
-        font-weight: 700;
-        color: #4285f4;
-        margin: 0;
-      }
+/* Pagination */
+.table-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+}
 
-      .score-label {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #333;
-        margin: 8px 0;
-      }
+.pagination-info {
+  font-size: 0.85rem;
+  color: #64748b;
+}
 
-      .score-subtitle {
-        font-size: 0.9rem;
-        color: #666;
-      }
+.pagination-controls {
+  display: flex;
+  gap: 8px;
+}
 
-      .score-indicators {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 16px;
-      }
+.pagination-btn {
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #374151;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-      .score-indicator {
-        text-align: center;
-      }
+.pagination-btn:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
 
-      .score-indicator i {
-        font-size: 1.2rem;
-        margin-bottom: 4px;
-      }
+.pagination-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
 
-      .score-indicator .label {
-        font-size: 0.8rem;
-        font-weight: 600;
-      }
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
-      .progress-bar-custom {
-        height: 6px;
-        border-radius: 3px;
-        background: #e9ecef;
-        margin: 12px 0;
-      }
+/* Suggestion Card */
+.suggestion-card {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  color: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
 
-      .progress-fill {
-        height: 100%;
-        border-radius: 3px;
-        background: linear-gradient(90deg, #4285f4, #1976d2);
-      }
-    </style>
-  </head>
-  <body>
-    <div id="global-loader">
-      <div class="whirly-loader"></div>
+.suggestion-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+  
+  .chart-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-container {
+    max-width: 100%;
+  }
+  
+  .export-buttons {
+    justify-content: center;
+  }
+  
+  .dash-count {
+    min-height: 70px;
+    padding: 12px;
+  }
+  
+  .dash-counts h4 {
+    font-size: 16px;
+  }
+  
+  .dash-counts h5 {
+    font-size: 11px;
+  }
+  
+  .icon-box {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .icon-box i {
+    font-size: 12px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  
+  .brand-table {
+    font-size: 0.75rem;
+  }
+  
+  .brand-table th,
+  .brand-table td {
+    padding: 12px 8px;
+  }
+  
+  .table-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .pagination-controls {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  
+  .pagination-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Loading Animation */
+#global-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.whirly-loader {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid var(--primary-blue);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.trend-indicator {
+  font-size: 1rem;
+  display: inline-block;
+  margin-left: 4px;
+}
+
+.trend-up {
+  color: var(--success-green);
+}
+
+.trend-down {
+  color: var(--danger-red);
+}
+</style>
+
+</head>
+<body>
+<div id="global-loader">
+<div class="whirly-loader"> </div>
+</div>
+
+<div class="main-wrapper">
+<!-- Include sidebar -->
+<?php include BASE_PATH . '/include/sidebar.php'; ?> <!-- Import sidebar -->
+<!-- /Include sidebar -->
+
+<!-- BAGIAN ATAS -->
+<div class="page-wrapper">
+  <div class="content">
+    <?php include __DIR__ . '/../include/header.php'; ?> <!-- Import header -->
+  <div class="page-header">
+      <div class="page-title">
+        <h4>Transfer Analytics Dashboard</h4>
+        <h6>Comprehensive transfer insights and branch distribution analysis</h6>
+      </div>
+      <div class="page-btn">
+        <a href="addtransfer.php" class="btn btn-added">
+          <img src="../assets/img/icons/plus.svg" class="me-1" alt="img">New Transfer
+        </a>
+      </div>
     </div>
 
-    <div class="main-wrapper">
-      <?php include BASE_PATH . '/include/sidebar.php'; ?>
-      <?php include __DIR__ . '/../include/header.php'; ?>
-
-      <div class="page-wrapper">
-        <div class="content">
-          <!-- Header -->
-          <div class="page-header mb-4">
-            <div class="page-title">
-              <h4>Transfer Analytics Dashboard</h4>
-              <h6>Comprehensive transfer insights and branch distribution analysis</h6>
+    <!-- Revenue, Suppliers, Product Sold, Budget Spent -->
+          <div class="row justify-content-end">
+          <!-- 🔢 Total Active Transfers -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="#" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das1">
+                  <div class="dash-counts">
+                    <h4><span class="counters" data-count="156">156</span></h4>
+                    <h5>Total Active Transfers</h5>
+                    <h2 class="stat-change">+12% from last month</h2>
+                    </div>
+                    <div class="icon-box bg-ungu">
+                      <i class="fa fa-exchange-alt"></i>
+                    </div>
+                </div>
+              </a>
             </div>
-            <div class="page-btn">
-              <a href="addtransfer.php" class="btn btn-primary">
-                <i class="fas fa-plus me-2"></i>New Transfer
+
+            <!-- 🛒 Avg Transfer Time -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="#" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das2">
+                  <div class="dash-counts">
+                  <h4><span class="counters" data-count="2.4">2.4</span></h4>
+                   <h5>Avg Transfer Time (Days)</h5>
+                  <h2 class="stat-change">+8.3% from last year</h2>
+                </div>
+                <div class="icon-box bg-biru">
+                  <i class="fa fa-clock"></i>
+                </div>
+                </div>
+              </a>
+            </div>
+
+             <!-- 📦 Success Rate -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="#" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das3">
+                  <div class="dash-counts">
+                  <h4><span class="counters" data-count="89">89%</span></h4> 
+                  <h5>Success Rate</h5>                 
+                    <h2 class="stat-change">+15% from last month</h2>
+                  </div>
+                  <div class="icon-box bg-merah">
+                    <i class="fa fa-check-circle"></i>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- 🗂️ Top Transfer Category -->
+            <div class="col-lg-3 col-sm-6 col-12 d-flex">
+              <a href="#" class="w-100 text-decoration-none text-dark">
+                <div class="dash-count das4">
+                  <div class="dash-counts">
+                     <h4>Furniture</h4>
+                    <h5>Top Transfer Category</h5>
+                   <h2 class="stat-change">Dominated by HEMNES</h2>
+                    </div>
+                    <div class="icon-box bg-hijau">
+                      <i class="fa fa-couch"></i>
+                    </div>
+                </div>
               </a>
             </div>
           </div>
+          <!-- END KOLOM  -->
 
-          <!-- Top Metrics Row -->
-          <div class="row">
-            <div class="col-lg-3 col-md-6">
-              <div class="metric-card blue">
-                <div class="metric-number">156</div>
-                <div class="metric-label">Total Active Transfers</div>
-                <div class="metric-change">+12% from last month</div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="metric-card purple">
-                <div class="metric-number">2.4</div>
-                <div class="metric-label">Avg Transfer Time (Days)</div>
-                <div class="metric-change">+8.3% from last year</div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="metric-card orange">
-                <div class="metric-number">89%</div>
-                <div class="metric-label">Success Rate</div>
-                <div class="metric-change">+15% from last month</div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-              <div class="metric-card teal">
-                <div class="metric-number">Furniture</div>
-                <div class="metric-label">Top Transfer Category</div>
-                <div class="metric-change">Dominated by HEMNES</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Main Analytics Row -->
-          <div class="row">
-            <!-- Transfer Distribution Chart -->
+    
+      <!-- Main Content -->
+      <div class="row">
+        <!-- Left Column - Charts - Extended Width -->
+        <div class="col-lg-12">
+          <!-- Charts Section dalam row terpisah -->
+          <div class="row mb-4">
             <div class="col-lg-8">
-              <div class="chart-container ">
-                <div class="chart-title">
-                  <i class="fas fa-chart-pie"></i>
-                  Branch Transfer Distribution
-                </div>
-                
-                <!-- Legend -->
-                <div class="mb-3">
-                  <div class="legend-item">
-                    <div class="legend-color" style="background: #4285f4;"></div>
-                    IKEA Alam Sutera (28%)
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background: #9c27b0;"></div>
-                    IKEA Jakarta Garden City (22%)
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background: #00bcd4;"></div>
-                    IKEA Sentul City (18%)
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background: #3f51b5;"></div>
-                    IKEA Bali (15%)
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background: #e91e63;"></div>
-                    IKEA Kota Baru Parahyangan (12%)
-                  </div>
-                  <div class="legend-item">
-                    <div class="legend-color" style="background: #00bcd4;"></div>
-                    Others (5%)
-                  </div>
-                </div>
-
-                <canvas id="distributionChart" height="300"></canvas>
-                
-                <div class="insight-box mt-3">
-                  <div class="insight-title">
-                    <i class="fas fa-lightbulb"></i>
-                    Insight: Branch Distribution
-                  </div>
-                  <div class="insight-text">
-                    Top 3 branches account for 68% of total transfers. IKEA Jakarta Garden City shows highest growth (+5% YoY) in transfer volume.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Transfer Readiness Index -->
-            <div class="col-lg-4">
-              <div class="blue-header-card">
-                <h5><i class="fas fa-bolt"></i> Transfer Readiness Index</h5>
-              </div>
-              
-              <div class="analytics-card">
-                <div class="score-display">
-                  <div class="score-number">92%</div>
-                  <div class="score-label">IKEA ALAM SUTERA</div>
-                  <div class="score-subtitle">Transfer-Ready Score</div>
-                  
-                  <div class="score-indicators">
-                    <div class="score-indicator">
-                      <i class="fas fa-boxes text-success"></i>
-                      <div class="label">Stock Ready</div>
-                    </div>
-                    <div class="score-indicator">
-                      <i class="fas fa-star text-warning"></i>
-                      <div class="label">Rating 4.6</div>
-                    </div>
-                    <div class="score-indicator">
-                      <i class="fas fa-chart-line text-primary"></i>
-                      <div class="label">Stable</div>
-                    </div>
-                  </div>
-                  
-                  <div class="progress-bar-custom">
-                    <div class="progress-fill" style="width: 92%;"></div>
-                  </div>
-                  
-                  <div class="text-center mt-2">
-                    <small class="text-success">✓ Ready for Flash Transfer</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Transfer Trend Chart -->
-          <div class="row">
-            <div class="col-12">
-              <div class="chart-container fixed-height">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <div class="chart-title">
-                    <i class="fas fa-chart-line"></i>
-                    Transfer Growth Trend (Top 5 Branches)
-                  </div>
-                  <select class="form-select" style="width: auto;">
-                    <option>2025</option>
-                    <option>2024</option>
+              <!-- Bar Chart -->
+              <div class="chart-section">
+                <div class="chart-header">
+                  <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Transfer Growth Trend (Top 5 Branches)</h5>
+                  <select class="chart-select" id="barChartYear">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
                   </select>
                 </div>
-                <canvas id="trendChart"></canvas>
-                
-                <div class="insight-box mt-3">
-                  <div class="insight-title">
-                    <i class="fas fa-lightbulb"></i>
-                    Insight: Transfer Trend Analysis
-                  </div>
-                  <div class="insight-text">
-                    IKEA Alam Sutera shows consistent growth with 8% QoQ improvement. Slight decline in June due to inventory optimization program.
+                <div id="barChart" style="height: 250px;"></div>
+                <div class="insight-container" id="barChartInsight">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                    <div>
+                      <h5 style="font-size: 0.9rem;">Insight: Transfer Branch Trends</h5>
+                      <p class="mb-0">IKEA Alam Sutera shows consistent growth with 8% QoQ improvement. Slight decline in June due to inventory optimization program.</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Branch Comparison and Insights -->
-          <div class="row">
-            <div class="col-lg-8">
-              <div class="analytics-card">
-                <div class="chart-title">
-                  <i class="fas fa-balance-scale"></i>
-                  Branch Performance Comparison
+              <!-- Donut Chart -->
+              <div class="chart-section">
+                <div class="chart-header">
+                  <h5 class="chart-title"><i class="fas fa-chart-pie me-2"></i>Branch Transfer Distribution</h5>
                 </div>
-                
+                <div id="donutChart" style="height: 200px;"></div>
+                <div class="donut-legend" id="donutLegend"></div>
+                <div class="insight-container">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                    <div>
+                      <h5 style="font-size: 0.9rem;">Insight: Branch Distribution</h5>
+                      <p class="mb-0">Top 3 branches account for 68% of total transfers. IKEA Jakarta Garden City shows highest growth (+5% YoY) in transfer volume.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Line Chart -->
+              <div class="chart-section">
+                <div class="chart-header">
+                  <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Monthly Transfer Trend (Top 5 Branches)</h5>
+                  <select class="chart-select" id="lineChartYear">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                  </select>
+                </div>
+                <div id="lineChart" style="height: 250px;"></div>
+                <div class="insight-container" id="lineChartInsight">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                    <div>
+                      <h5 id="lineChartInsightTitle" style="font-size: 0.9rem;">Insight: Transfer Trends</h5>
+                      <p class="mb-0" id="lineChartInsightText">IKEA Alam Sutera shows consistent transfer pattern with 12% increase QoQ. Peak transfers in Q2 due to seasonal factors.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Insight Branch Comparison -->
+              <div class="chart-section">
+                <div class="chart-header">
+                  <h5 class="chart-title"><i class="fas fa-balance-scale me-2"></i>Branch Performance Comparison</h5>
+                </div>
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="comparison-card">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <div class="brand-name">IKEA ALAM SUTERA</div>
-                          <div class="brand-stats">4.6⭐ | 156 transfers | 2.1 days avg</div>
-                        </div>
-                        <div class="vs-badge">VS</div>
-                        <div>
-                          <div class="brand-name">IKEA SENTUL CITY</div>
-                          <div class="brand-stats">4.3⭐ | 98 transfers | 2.8 days avg</div>
-                        </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="p-3" style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); border-radius: 10px; border: 1px solid rgba(25, 118, 210, 0.1);">
+                      <div class="text-center mb-2">
+                        <h6 class="mb-1" style="color: var(--primary-blue); font-weight: 600;">IKEA Alam Sutera vs IKEA Sentul City</h6>
+                        <span style="background: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Furniture</span>
                       </div>
-                      <div class="mt-2">
-                        <span class="badge bg-primary">Furniture</span>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #b8860b;">
+                            <i class="fas fa-crown" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">IKEA Alam Sutera</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.6⭐ | 156 transfers | 2.1 days avg</small>
+                        </div>
+                        <div style="margin: 0 10px;">
+                          <div style="width: 25px; height: 25px; background: var(--danger-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.6rem; font-weight: 700;">VS</div>
+                        </div>
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #666;">
+                            <i class="fas fa-medal" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">IKEA Sentul City</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.3⭐ | 98 transfers | 2.8 days avg</small>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  <div class="col-md-6">
-                    <div class="comparison-card">
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                          <div class="brand-name">IKEA JAKARTA GC</div>
-                          <div class="brand-stats">4.5⭐ | 142 transfers | 2.3 days avg</div>
-                        </div>
-                        <div class="vs-badge">VS</div>
-                        <div>
-                          <div class="brand-name">IKEA BALI</div>
-                          <div class="brand-stats">4.7⭐ | 89 transfers | 3.1 days avg</div>
-                        </div>
+                  <div class="col-md-6 mb-3">
+                    <div class="p-3" style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); border-radius: 10px; border: 1px solid rgba(25, 118, 210, 0.1);">
+                      <div class="text-center mb-2">
+                        <h6 class="mb-1" style="color: var(--primary-blue); font-weight: 600;">IKEA Jakarta GC vs IKEA Bali</h6>
+                        <span style="background: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Storage</span>
                       </div>
-                      <div class="mt-2">
-                        <span class="badge bg-info">Storage</span>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #b8860b;">
+                            <i class="fas fa-crown" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">IKEA Jakarta GC</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.5⭐ | 142 transfers | 2.3 days avg</small>
+                        </div>
+                        <div style="margin: 0 10px;">
+                          <div style="width: 25px; height: 25px; background: var(--danger-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.6rem; font-weight: 700;">VS</div>
+                        </div>
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #666;">
+                            <i class="fas fa-medal" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">IKEA Bali</h6>
+                          <small style="font-size: 0.7rem; color: #666;">4.7⭐ | 89 transfers | 3.1 days avg</small>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                
-                <div class="insight-box mt-3">
-                  <div class="insight-title">
-                    <i class="fas fa-lightbulb"></i>
-                    Insight: Branch Competition
-                  </div>
-                  <div class="insight-text">
-                    Alam Sutera leads in efficiency and volume, while Sentul City excels in customer satisfaction. Jakarta GC dominates furniture category transfers.
+                <div class="insight-container">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+                    <div>
+                      <h5 style="font-size: 0.9rem;">Insight: Branch Competition</h5>
+                      <p class="mb-0">Alam Sutera leads in efficiency and volume, while Sentul City excels in customer satisfaction. Jakarta GC dominates furniture category transfers.</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- AI Suggestions and Notifications -->
+            <!-- Right Column - Sidebar tetap di samping charts -->
             <div class="col-lg-4">
-              <div class="blue-header-card">
-                <h5><i class="fas fa-robot"></i> AI Transfer Optimization</h5>
-              </div>
-              
-              <div class="analytics-card">
-                <div class="insight-title">
-                  <i class="fas fa-lightbulb"></i>
-                  AI Suggestion: Route Optimization
+              <!-- Transfer Readiness Index -->
+              <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                  <i class="fas fa-bolt me-2"></i>Transfer Readiness Index
                 </div>
-                <div class="insight-text mb-3">
-                  "Consider direct transfer route for furniture items to reduce 45% transfer time. Optimize Jakarta-Bali corridor for better efficiency."
-                </div>
-              </div>
-
-              <div class="blue-header-card">
-                <h5><i class="fas fa-map-marker-alt"></i> Top Transfer Locations</h5>
-              </div>
-              
-              <div class="analytics-card">
-                <div class="mb-3">
-                  <strong>IKEA ALAM SUTERA</strong>
-                  <div class="text-muted small">Most transfers to:</div>
-                  <div class="mt-2">
-                    <span class="city-tag">Jakarta GC</span>
-                    <span class="city-tag secondary">Sentul City</span>
-                    <span class="city-tag secondary">Bali</span>
-                    <span class="city-tag secondary">Bandung</span>
-                  </div>
-                </div>
-                
-                <div class="mb-3">
-                  <strong>IKEA JAKARTA GC</strong>
-                  <div class="text-muted small">Popular destinations:</div>
-                  <div class="mt-2">
-                    <span class="city-tag secondary">Bandung</span>
-                    <span class="city-tag">Alam Sutera</span>
-                    <span class="city-tag secondary">Sentul</span>
-                    <span class="city-tag secondary">Bali</span>
+                <div class="sidebar-card-body">
+                  <div class="readiness-compact">
+                    <div class="readiness-score-compact">92%</div>
+                    <div class="readiness-brand-compact">IKEA ALAM SUTERA</div>
+                    <div class="readiness-label-compact">Transfer-Ready Score</div>
+                    
+                    <div class="readiness-features-compact">
+                      <div class="readiness-feature-compact">
+                        <i class="fas fa-boxes text-success"></i>
+                        <p>Stock Ready</p>
+                      </div>
+                      <div class="readiness-feature-compact">
+                        <i class="fas fa-star text-warning"></i>
+                        <p>Rating 4.6</p>
+                      </div>
+                      <div class="readiness-feature-compact">
+                        <i class="fas fa-chart-line text-primary"></i>
+                        <p>Stable</p>
+                      </div>
+                    </div>
+                    
+                    <div class="readiness-progress-compact">
+                      <div class="readiness-fill-compact" style="width: 92%"></div>
+                    </div>
+                    
+                    <div class="readiness-status-compact">
+                      ✓ Ready for Flash Transfer
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div class="blue-header-card">
-                <h5><i class="fas fa-exclamation-triangle"></i> Critical Notifications</h5>
+              <!-- AI Transfer Optimization -->
+              <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                  <i class="fas fa-robot me-2"></i>AI Transfer Optimization
+                </div>
+                <div class="sidebar-card-body">
+                  <div class="d-flex align-items-center mb-2">
+                    <div class="bg-light p-2 rounded-circle me-2" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                      <i class="fas fa-lightbulb text-primary" style="font-size: 1.2rem;"></i>
+                    </div>
+                    <div>
+                      <h5 class="mb-1" style="font-size: 1rem;">Route Optimization</h5>
+                      <p class="mb-0" style="font-size: 0.85rem;">AI suggests <span class="fw-bold">direct transfer route</span> for furniture items</p>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <p class="mb-1" style="font-size: 0.8rem;">Efficiency gain:</p>
+                      <div class="progress" style="height: 6px; width: 100px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <span class="fw-bold" style="font-size: 0.8rem;">45%</span>
+                    </div>
+                    <div>
+                      <p class="mb-1" style="font-size: 0.8rem;">Optimize corridor:</p>
+                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Jakarta-Bali</p>
+                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Better efficiency</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              <div class="notification-card warning">
-                <div class="notification-title">⚠️ IKEA ALAM SUTERA - High Volume Alert</div>
-                <div class="notification-text">Transfer volume critical, optimize routing immediately</div>
+
+              <!-- Top Transfer Locations -->
+              <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                  <i class="fas fa-map-marker-alt me-2"></i>Top Transfer Locations
+                </div>
+                <div class="sidebar-card-body">
+                  <div class="location-brand-section">
+                    <div class="location-brand-header">
+                      <h6 class="location-brand-name">IKEA ALAM SUTERA</h6>
+                      <span class="location-status-badge top">Most Transfers</span>
+                    </div>
+                    <p class="location-description">Most transfers to:</p>
+                    <div class="location-tags">
+                      <span class="location-tag highlight">Jakarta GC</span>
+                      <span class="location-tag">Sentul City</span>
+                      <span class="location-tag">Bali</span>
+                      <span class="location-tag">Bandung</span>
+                    </div>
+                  </div>
+                  
+                  <div class="location-brand-section">
+                    <div class="location-brand-header">
+                      <h6 class="location-brand-name">IKEA JAKARTA GC</h6>
+                      <span class="location-status-badge rising">Popular Destinations</span>
+                    </div>
+                    <p class="location-description">Transfer destinations:</p>
+                    <div class="location-tags">
+                      <span class="location-tag">Bandung</span>
+                      <span class="location-tag highlight">Alam Sutera</span>
+                      <span class="location-tag">Sentul</span>
+                      <span class="location-tag">Bali</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              <div class="notification-card danger">
-                <div class="notification-title">🔄 IKEA JAKARTA GC - 4x Restocks in 30 Days</div>
-                <div class="notification-text">Inventory requests increased 45% from last month</div>
+
+              <!-- Critical Notifications -->
+              <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                  <i class="fas fa-exclamation-triangle me-2"></i>Critical Notifications
+                </div>
+                <div class="sidebar-card-body">
+                  <div class="notification-card warning">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                    <div>
+                      <h5 class="mb-1">IKEA ALAM SUTERA - High Volume Alert</h5>
+                      <p class="mb-0">Transfer volume critical, optimize routing immediately</p>
+                    </div>
+                  </div>
+                  
+                  <div class="notification-card danger">
+                    <i class="fas fa-sync-alt text-danger"></i>
+                    <div>
+                      <h5 class="mb-1">IKEA JAKARTA GC - 4x Restocks in 30 Days</h5>
+                      <p class="mb-0">Inventory requests increased 45% from last month</p>
+                    </div>
+                  </div>
+                  
+                  <div class="notification-card info">
+                    <i class="fas fa-chart-line text-info"></i>
+                    <div>
+                      <h5 class="mb-1">Transfer Prediction Ready</h5>
+                      <p class="mb-0">IKEA Bali predicted to need 2,100 units in August 2025</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              <div class="notification-card info">
-                <div class="notification-title">📊 Transfer Prediction Ready</div>
-                <div class="notification-text">IKEA Bali predicted to need 2,100 units in August 2025</div>
+
+              <!-- AI Suggestion -->
+              <div class="suggestion-card">
+                <div class="insight-card-header">
+                  <i class="fas fa-brain text-white"></i>
+                  <h4 class="mb-0 text-white">AI Suggestion: Transfer Pattern Analysis</h4>
+                </div>
+                <p class="mb-0" style="font-size: 0.85rem;">"Transfer patterns show 35% increase in furniture category. Consider direct transfer routes to reduce 45% transfer time and optimize Jakarta-Bali corridor."</p>
               </div>
             </div>
           </div>
 
-          <!-- Transfer List Table -->
-          <div class="modern-table mt-4">
-            <div class="card-body">
-              <div class="table-top mb-3">
-                <div class="search-set">
-                  <div class="search-input">
-                    <input type="text" placeholder="Search transfers..." class="form-control" />
-                  </div>
-                </div>
-                <div class="wordset">
-                  <button class="btn btn-primary btn-sm me-2">
-                    <i class="fas fa-file-excel"></i> Export Excel
-                  </button>
-                  <button class="btn btn-danger btn-sm">
-                    <i class="fas fa-file-pdf"></i> Export PDF
-                  </button>
-                </div>
+          <!-- Enhanced Transfer Data Table - Full Width Professional with Search & Export -->
+          <div class="brand-table-section">
+            <div class="chart-header">
+              <h5 class="chart-title"><i class="fas fa-table me-2"></i>Recent Transfer Records</h5>
+              <div class="d-flex align-items-center gap-2">
+                <span style="font-size: 0.8rem; color: #64748b;" id="totalTransfersText">Total: 12 transfers</span>
               </div>
-
-              <div class="table-responsive">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Category ID</th>
-                      <th>From Branch</th>
-                      <th>To Branch</th>
-                      <th>Items</th>
-                      <th>Value</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php 
-                    $branches = ['Alam Sutera', 'Jakarta Garden City', 'Sentul City', 'Bali', 'Kota Baru Parahyangan', 'Mal Taman Anggrek'];
-                    $categories = ['Furniture', 'Lighting', 'Storage', 'Bedroom', 'Living Room', 'Kitchen', 'Dining'];
-                    for($i=1; $i<=12; $i++): 
-                    ?>
-                    <tr>
-                      <td><?= $i ?></td>
-                      <td>TR-<?= str_pad($i, 3, '0', STR_PAD_LEFT) ?></td>
-                      <td>IKEA <?= $branches[array_rand($branches)] ?></td>
-                      <td>IKEA <?= $branches[array_rand($branches)] ?></td>
-                      <td><?= $categories[array_rand($categories)] ?></td>
-                      <td>Rp <?= number_format(rand(100000, 5000000), 0, ',', '.') ?></td>
-                      <td>
-                        <?php 
-                        $statuses = [
-                          ['Completed', 'status-completed'],
-                          ['In Progress', 'status-progress'], 
-                          ['Pending', 'status-pending']
-                        ];
-                        $status = $statuses[array_rand($statuses)];
-                        ?>
-                        <span class="status-badge <?= $status[1] ?>"><?= $status[0] ?></span>
-                      </td>
-                      <td>
-                        <button class="btn btn-sm btn-outline-primary">
-                          <i class="fas fa-eye"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <?php endfor; ?>
-                  </tbody>
-                </table>
+            </div>
+            
+            <!-- Table Controls -->
+            <div class="table-controls">
+              <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search transfers, branches, or status...">
+                <i class="fas fa-search search-icon"></i>
+              </div>
+              <div class="export-buttons">
+                <button class="export-btn pdf" onclick="exportToPDF()">
+                  <i class="fas fa-file-pdf"></i>
+                  Export PDF
+                </button>
+                <button class="export-btn excel" onclick="exportToExcel()">
+                  <i class="fas fa-file-excel"></i>
+                  Export Excel
+                </button>
+              </div>
+            </div>
+            
+            <table class="brand-table" id="transfersTable">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Category ID</th>
+                  <th>From Branch</th>
+                  <th>To Branch</th>
+                  <th>Items</th>
+                  <th>Value</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="transfersTableBody">
+                <!-- Data akan diisi oleh JavaScript -->
+              </tbody>
+            </table>
+            
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+              <i class="fas fa-search"></i>
+              <h5>No data found</h5>
+              <p>Try changing your search keywords</p>
+            </div>
+            
+            <div class="table-pagination" id="tablePagination">
+              <div class="pagination-info" id="paginationInfo">
+                Showing 1-4 of 12 transfers
+              </div>
+              <div class="pagination-controls">
+                <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
+                  <i class="fas fa-chevron-left"></i> Prev
+                </button>
+                <button class="pagination-btn active" id="page1Btn" onclick="goToPage(1)">1</button>
+                <button class="pagination-btn" id="page2Btn" onclick="goToPage(2)">2</button>
+                <button class="pagination-btn"  id="page3Btn" onclick="goToPage(3)">3</button>
+                <button class="pagination-btn" id="nextBtn" onclick="changePage(1)">
+                  Next <i class="fas fa-chevron-right"></i>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <script src="../assets/js/feather.min.js"></script>
-    <script src="../assets/js/jquery.slimscroll.min.js"></script>
-    <script src="../assets/js/jquery.dataTables.min.js"></script>
-    <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/moment.min.js"></script>
-    <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="../assets/plugins/select2/js/select2.min.js"></script>
-    <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-    <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
-    <script src="../assets/js/script.js"></script>
+<script>
+// Data dummy untuk visualisasi - MENGGUNAKAN DATA TRANSFER
+const barChartData = {
+  2025: {
+    branches: ["IKEA Alam Sutera", "IKEA Jakarta GC", "IKEA Sentul City", "IKEA Bali", "IKEA Kota Baru Parahyangan"],
+    transfers: [156, 142, 98, 89, 67], // dalam unit
+    insights: {
+      "IKEA Alam Sutera": "IKEA Alam Sutera shows consistent growth with 8% QoQ improvement. Slight decline in June due to inventory optimization program.",
+      "IKEA Jakarta GC": "IKEA Jakarta GC transfers increased 15% due to high demand from furniture category transfers.",
+      "IKEA Sentul City": "IKEA Sentul City transfers remain consistent with seasonal patterns, mainly furniture and storage items.",
+      "IKEA Bali": "IKEA Bali transfers decreased 5% after implementing better inventory management with suppliers.",
+      "IKEA Kota Baru Parahyangan": "IKEA Kota Baru Parahyangan shows steady performance with consistent transfer patterns throughout 2025."
+    }
+  },
+  2024: {
+    branches: ["IKEA Jakarta GC", "IKEA Alam Sutera", "IKEA Sentul City", "IKEA Bali", "IKEA Kota Baru Parahyangan"],
+    transfers: [138, 145, 92, 85, 62],
+    insights: {
+      "IKEA Jakarta GC": "IKEA Jakarta GC dominated transfers in 2024 with consistent growth from furniture category.",
+      "IKEA Alam Sutera": "IKEA Alam Sutera maintained stable transfer volumes throughout 2024 with seasonal variations.",
+      "IKEA Sentul City": "IKEA Sentul City showed improvement in Q4 2024 after branch optimization programs.",
+      "IKEA Bali": "IKEA Bali transfers increased slightly due to tourism season demand patterns.",
+      "IKEA Kota Baru Parahyangan": "IKEA Kota Baru Parahyangan had steady transfers in 2024 with excellent branch coordination."
+    }
+  },
+  2023: {
+    branches: ["IKEA Alam Sutera", "IKEA Jakarta GC", "IKEA Sentul City", "IKEA Bali", "IKEA Kota Baru Parahyangan"],
+    transfers: [132, 125, 88, 78, 58],
+    insights: {
+      "IKEA Alam Sutera": "IKEA Alam Sutera led transfers in 2023 during the initial branch expansion period.",
+      "IKEA Jakarta GC": "IKEA Jakarta GC transfers were moderate with gradual branch improvements.",
+      "IKEA Sentul City": "IKEA Sentul City maintained steady transfer patterns throughout 2023.",
+      "IKEA Bali": "IKEA Bali transfers started moderate but improved significantly by year-end.",
+      "IKEA Kota Baru Parahyangan": "IKEA Kota Baru Parahyangan had lowest transfers in 2023 with excellent branch relationships."
+    }
+  }
+};
 
-    <script>
-      // Distribution Pie Chart
-      const distributionCtx = document.getElementById('distributionChart').getContext('2d');
-      const distributionChart = new Chart(distributionCtx, {
-        type: 'doughnut',
-        data: {
-          labels: ['IKEA Alam Sutera', 'IKEA Jakarta GC', 'IKEA Sentul City', 'IKEA Bali', 'IKEA Kota Baru Parahyangan', 'Others'],
-          datasets: [{
-            data: [28, 22, 18, 15, 12, 5],
-            backgroundColor: [
-              '#4285f4',
-              '#9c27b0', 
-              '#00bcd4',
-              '#3f51b5',
-              '#e91e63',
-              '#00bcd4'
-            ],
-            borderWidth: 0,
-            cutout: '60%'
-          }]
+// Beautiful Blue, Purple, and Teal Color Variations for Charts
+const donutChartData = {
+  labels: ["IKEA Alam Sutera", "IKEA Jakarta GC", "IKEA Sentul City", "IKEA Bali", "IKEA Kota Baru Parahyangan", "Others"],
+  series: [28, 22, 18, 15, 12, 5], // persentase
+  colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd']
+};
+
+const lineChartData = {
+  2025: [
+    { name: "IKEA Alam Sutera", data: [320, 350, 380, 410, 440, 420, 450, 480] },
+    { name: "IKEA Jakarta GC", data: [280, 290, 310, 330, 340, 350, 370, 380] },
+    { name: "IKEA Sentul City", data: [220, 240, 260, 270, 280, 290, 300, 320] },
+    { name: "IKEA Bali", data: [200, 210, 220, 230, 240, 250, 260, 270] },
+    { name: "IKEA Kota Baru Parahyangan", data: [180, 190, 200, 210, 220, 230, 240, 250] }
+  ],
+  2024: [
+    { name: "IKEA Jakarta GC", data: [275, 285, 305, 325, 335, 345, 365, 375] },
+    { name: "IKEA Alam Sutera", data: [290, 310, 330, 350, 370, 390, 410, 430] },
+    { name: "IKEA Sentul City", data: [210, 230, 250, 260, 270, 280, 290, 310] },
+    { name: "IKEA Bali", data: [190, 200, 210, 220, 230, 240, 250, 260] },
+    { name: "IKEA Kota Baru Parahyangan", data: [170, 180, 190, 200, 210, 220, 230, 240] }
+  ],
+  2023: [
+    { name: "IKEA Alam Sutera", data: [260, 280, 300, 320, 340, 360, 380, 400] },
+    { name: "IKEA Jakarta GC", data: [250, 270, 290, 310, 330, 350, 370, 390] },
+    { name: "IKEA Sentul City", data: [200, 220, 240, 250, 260, 270, 280, 300] },
+    { name: "IKEA Bali", data: [180, 190, 200, 210, 220, 230, 240, 250] },
+    { name: "IKEA Kota Baru Parahyangan", data: [160, 170, 180, 190, 200, 210, 220, 230] }
+  ]
+};
+
+// Transfer Data for Table
+const transfersData = [
+  { 
+    id: 1, 
+    categoryId: "TR-001", 
+    fromBranch: "IKEA Alam Sutera", 
+    toBranch: "IKEA Jakarta Garden City", 
+    items: "Furniture", 
+    value: "Rp 2.450.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 2, 
+    categoryId: "TR-002", 
+    fromBranch: "IKEA Jakarta Garden City", 
+    toBranch: "IKEA Sentul City", 
+    items: "Storage", 
+    value: "Rp 1.850.000", 
+    status: "In Progress" 
+  },
+  { 
+    id: 3, 
+    categoryId: "TR-003", 
+    fromBranch: "IKEA Sentul City", 
+    toBranch: "IKEA Bali", 
+    items: "Lighting", 
+    value: "Rp 1.950.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 4, 
+    categoryId: "TR-004", 
+    fromBranch: "IKEA Bali", 
+    toBranch: "IKEA Kota Baru Parahyangan", 
+    items: "Bedroom", 
+    value: "Rp 1.420.000", 
+    status: "Pending" 
+  },
+  { 
+    id: 5, 
+    categoryId: "TR-005", 
+    fromBranch: "IKEA Kota Baru Parahyangan", 
+    toBranch: "IKEA Mal Taman Anggrek", 
+    items: "Living Room", 
+    value: "Rp 3.200.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 6, 
+    categoryId: "TR-006", 
+    fromBranch: "IKEA Mal Taman Anggrek", 
+    toBranch: "IKEA Alam Sutera", 
+    items: "Kitchen", 
+    value: "Rp 2.750.000", 
+    status: "In Progress" 
+  },
+  { 
+    id: 7, 
+    categoryId: "TR-007", 
+    fromBranch: "IKEA Alam Sutera", 
+    toBranch: "IKEA Bali", 
+    items: "Dining", 
+    value: "Rp 1.680.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 8, 
+    categoryId: "TR-008", 
+    fromBranch: "IKEA Jakarta Garden City", 
+    toBranch: "IKEA Kota Baru Parahyangan", 
+    items: "Storage", 
+    value: "Rp 2.100.000", 
+    status: "Pending" 
+  },
+  { 
+    id: 9, 
+    categoryId: "TR-009", 
+    fromBranch: "IKEA Sentul City", 
+    toBranch: "IKEA Mal Taman Anggrek", 
+    items: "Furniture", 
+    value: "Rp 1.890.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 10, 
+    categoryId: "TR-010", 
+    fromBranch: "IKEA Bali", 
+    toBranch: "IKEA Jakarta Garden City", 
+    items: "Lighting", 
+    value: "Rp 2.350.000", 
+    status: "In Progress" 
+  },
+  { 
+    id: 11, 
+    categoryId: "TR-011", 
+    fromBranch: "IKEA Kota Baru Parahyangan", 
+    toBranch: "IKEA Sentul City", 
+    items: "Bedroom", 
+    value: "Rp 2.980.000", 
+    status: "Completed" 
+  },
+  { 
+    id: 12, 
+    categoryId: "TR-012", 
+    fromBranch: "IKEA Mal Taman Anggrek", 
+    toBranch: "IKEA Alam Sutera", 
+    items: "Kitchen", 
+    value: "Rp 1.750.000", 
+    status: "Pending" 
+  }
+];
+
+// Pagination and search variables
+let currentPage = 1;
+let itemsPerPage = 4;
+let filteredData = [...transfersData];
+let searchQuery = '';
+
+// Inisialisasi chart
+let barChart, donutChart, lineChart;
+let currentYear = '2025';
+
+// Fungsi untuk memformat angka
+function formatNumber(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// Search functionality
+function performSearch(query) {
+  searchQuery = query.toLowerCase();
+  
+  if (searchQuery === '') {
+    filteredData = [...transfersData];
+  } else {
+    filteredData = transfersData.filter(item => 
+      item.fromBranch.toLowerCase().includes(searchQuery) ||
+      item.toBranch.toLowerCase().includes(searchQuery) ||
+      item.categoryId.toLowerCase().includes(searchQuery) ||
+      item.status.toLowerCase().includes(searchQuery) ||
+      item.items.toLowerCase().includes(searchQuery)
+    );
+  }
+  
+  currentPage = 1;
+  updateTotalPages();
+  renderTransfersTable(currentPage);
+  updateTotalTransfersText();
+}
+
+// Update total pages based on filtered data
+function updateTotalPages() {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  
+  // Show/hide pagination buttons based on total pages
+  document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
+  document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
+  document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
+}
+
+// Update total transfers text
+function updateTotalTransfersText() {
+  const totalText = document.getElementById('totalTransfersText');
+  if (searchQuery === '') {
+    totalText.textContent = `Total: ${transfersData.length} transfers`;
+  } else {
+    totalText.textContent = `Found: ${filteredData.length} of ${transfersData.length} transfers`;
+  }
+}
+
+// Export to PDF function
+function exportToPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  // Add title
+  doc.setFontSize(16);
+  doc.text('Transfer Records Data', 14, 22);
+  
+  // Add export date
+  doc.setFontSize(10);
+  doc.text(`Exported on: ${new Date().toLocaleDateString('en-US')}`, 14, 30);
+  
+  // Prepare table data
+  const tableData = filteredData.map((item, index) => [
+    index + 1,
+    item.categoryId,
+    item.fromBranch,
+    item.toBranch,
+    item.items,
+    item.value,
+    item.status
+  ]);
+  
+  // Add table
+  doc.autoTable({
+    head: [['No', 'Category ID', 'From Branch', 'To Branch', 'Items', 'Value', 'Status']],
+    body: tableData,
+    startY: 35,
+    styles: {
+      fontSize: 8,
+      cellPadding: 2
+    },
+    headStyles: {
+      fillColor: [25, 118, 210],
+      textColor: 255
+    }
+  });
+  
+  // Save the PDF
+  doc.save('transfer-records-data.pdf');
+}
+
+// Export to Excel function
+function exportToExcel() {
+  // Prepare data for Excel
+  const excelData = filteredData.map((item, index) => ({
+    'No': index + 1,
+    'Category ID': item.categoryId,
+    'From Branch': item.fromBranch,
+    'To Branch': item.toBranch,
+    'Items': item.items,
+    'Value': item.value,
+    'Status': item.status
+  }));
+  
+  // Create workbook and worksheet
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.json_to_sheet(excelData);
+  
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(wb, ws, 'Transfer Records Data');
+  
+  // Save the Excel file
+  XLSX.writeFile(wb, 'transfer-records-data.xlsx');
+}
+
+// Membuat custom legend untuk donut chart
+function createDonutLegend() {
+  const legendContainer = document.getElementById('donutLegend');
+  legendContainer.innerHTML = '';
+
+  donutChartData.labels.forEach((label, index) => {
+    const legendItem = document.createElement('div');
+    legendItem.className = 'legend-item';
+    
+    const colorBox = document.createElement('div');
+    colorBox.className = 'legend-color';
+    colorBox.style.backgroundColor = donutChartData.colors[index];
+    
+    const labelText = document.createElement('span');
+    labelText.textContent = `${label} (${donutChartData.series[index]}%)`;
+    
+    legendItem.appendChild(colorBox);
+    legendItem.appendChild(labelText);
+    legendContainer.appendChild(legendItem);
+  });
+}
+
+// Update insight untuk bar chart
+function updateBarChartInsight(branch) {
+  const insight = barChartData[currentYear].insights[branch] || 
+                 `Branch ${branch} shows consistent transfer patterns with seasonal variations.`;
+
+  const insightHTML = `
+    <div class="d-flex align-items-center">
+      <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+      <div>
+        <h5 style="font-size: 0.9rem;">Insight: ${branch}</h5>
+        <p class="mb-0">${insight}</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('barChartInsight').innerHTML = insightHTML;
+}
+
+// Update insight untuk line chart
+function updateLineChartInsight(branch) {
+  const lineInsights = {
+    "IKEA Alam Sutera": "IKEA Alam Sutera shows consistent transfer pattern with 12% increase QoQ. Peak transfers in Q2 due to seasonal factors.",
+    "IKEA Jakarta GC": "IKEA Jakarta GC maintains stable transfer rates with excellent branch coordination measures.",
+    "IKEA Sentul City": "IKEA Sentul City shows improving trend with better inventory management systems.",
+    "IKEA Bali": "IKEA Bali demonstrates consistent performance with minimal transfer fluctuations.",
+    "IKEA Kota Baru Parahyangan": "IKEA Kota Baru Parahyangan shows steady growth in transfers with good processing times."
+  };
+  
+  const insight = lineInsights[branch] || 
+                `Branch ${branch} shows consistent transfer patterns with seasonal variations.`;
+
+  const insightHTML = `
+    <div class="d-flex align-items-center">
+      <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+      <div>
+        <h5 style="font-size: 0.9rem;">Insight: ${branch} Trend</h5>
+        <p class="mb-0">${insight}</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('lineChartInsight').innerHTML = insightHTML;
+}
+
+// Render Transfers Table with Row Numbers
+function renderTransfersTable(page = 1) {
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const pageData = filteredData.slice(startIndex, endIndex);
+
+  const tableBody = document.getElementById('transfersTableBody');
+  const noResults = document.getElementById('noResults');
+  const tablePagination = document.getElementById('tablePagination');
+  
+  if (filteredData.length === 0) {
+    tableBody.innerHTML = '';
+    noResults.style.display = 'block';
+    tablePagination.style.display = 'none';
+    return;
+  } else {
+    noResults.style.display = 'none';
+    tablePagination.style.display = 'flex';
+  }
+
+  tableBody.innerHTML = '';
+
+  pageData.forEach((item, index) => {
+    const row = document.createElement('tr');
+    
+    const statusClass = item.status === 'Completed' ? 'status-active' : 
+                       item.status === 'In Progress' ? 'status-trending' : 'status-stable';
+    
+    const rowNumber = startIndex + index + 1;
+    
+    row.innerHTML = `
+      <td style="color: #374151; font-weight: 600;">${rowNumber}</td>
+      <td><span class="brand-id">${item.categoryId}</span></td>
+      <td><span class="brand-name">${item.fromBranch}</span></td>
+      <td><span class="brand-name">${item.toBranch}</span></td>
+      <td><span class="brand-category">${item.items}</span></td>
+      <td><span class="brand-price">${item.value}</span></td>
+      <td><span class="brand-status ${statusClass}">${item.status}</span></td>
+      <td>
+        <a class="btn btn-sm btn-outline-primary" href="edittransfer.php?id=${item.id}">
+          <i class="fas fa-eye"></i>
+        </a>
+      </td>
+    `;
+    
+    tableBody.appendChild(row);
+  });
+
+  // Update pagination info
+  const totalItems = filteredData.length;
+  const startItem = startIndex + 1;
+  const endItem = Math.min(endIndex, totalItems);
+  document.getElementById('paginationInfo').textContent = 
+    `Showing ${startItem}-${endItem} of ${totalItems} transfers`;
+
+  // Update pagination buttons
+  updatePaginationButtons(page);
+}
+
+// Update Pagination Buttons
+function updatePaginationButtons(page) {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  
+  document.getElementById('prevBtn').disabled = page === 1;
+  document.getElementById('nextBtn').disabled = page === totalPages;
+
+  // Update page buttons
+  document.getElementById('page1Btn').classList.toggle('active', page === 1);
+  document.getElementById('page2Btn').classList.toggle('active', page === 2);
+  document.getElementById('page3Btn').classList.toggle('active', page === 3);
+  
+  // Hide/show page buttons based on total pages
+  document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
+  document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
+  document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
+}
+
+// Change Page Function
+function changePage(direction) {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const newPage = currentPage + direction;
+  if (newPage >= 1 && newPage <= totalPages) {
+    currentPage = newPage;
+    renderTransfersTable(currentPage);
+  }
+}
+
+// Go to Specific Page
+function goToPage(page) {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  if (page >= 1 && page <= totalPages) {
+    currentPage = page;
+    renderTransfersTable(currentPage);
+  }
+}
+
+// Inisialisasi Bar Chart
+function initBarChart(year) {
+  const data = barChartData[year];
+  currentYear = year;
+
+  const options = {
+    series: [{
+      data: data.transfers
+    }],
+    chart: {
+      type: 'bar',
+      height: 250,
+      toolbar: {
+        show: true
+      },
+      events: {
+        dataPointSelection: function(event, chartContext, config) {
+          const branch = data.branches[config.dataPointIndex];
+          updateBarChartInsight(branch);
+        }
+      }
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 6,
+        horizontal: false,
+        columnWidth: '60%',
+        distributed: false,
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    colors: ['#1976d2'],
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'light',
+        type: 'vertical',
+        shadeIntensity: 0.25,
+        gradientToColors: ['#64b5f6'],
+        inverseColors: false,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 100]
+      }
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ['transparent']
+    },
+    xaxis: {
+      categories: data.branches,
+    },
+    yaxis: {
+      title: {
+      },
+      labels: {
+        formatter: function(val) {
+          return val + ' transfers';
+        }
+      }
+    },
+    tooltip: {
+      y: {
+        formatter: function(val) {
+          return val + ' transfers';
+        }
+      }
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'],
+        opacity: 0.5
+      }
+    }
+  };
+
+  if (barChart) {
+    barChart.destroy();
+  }
+
+  barChart = new ApexCharts(document.querySelector("#barChart"), options);
+  barChart.render();
+}
+
+// Inisialisasi Donut Chart
+function initDonutChart() {
+  const options = {
+    series: donutChartData.series,
+    chart: {
+      type: 'donut',
+      height: 200,
+    },
+    labels: donutChartData.labels,
+    colors: donutChartData.colors,
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 150
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }],
+    legend: {
+      show: false
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '60%',
+          labels: {
+            show: true,
+            total: {
+              show: true,
+              label: 'Total',
+              formatter: function (w) {
+                return '100%'
+              }
             }
           }
         }
-      });
+      }
+    },
+    dataLabels: {
+      formatter: function(val, opts) {
+        return val.toFixed(1) + '%';
+      },
+      dropShadow: {
+        enabled: false
+      }
+    }
+  };
 
-      // Transfer Trend Line Chart
-      const trendCtx = document.getElementById('trendChart').getContext('2d');
-      const trendChart = new Chart(trendCtx, {
-        type: 'line',
-        data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-          datasets: [
-            {
-              label: 'IKEA Alam Sutera',
-              data: [320, 350, 380, 410, 440, 420, 450, 480],
-              borderColor: '#4285f4',
-              backgroundColor: 'rgba(66, 133, 244, 0.1)',
-              tension: 0.4,
-              fill: false
-            },
-            {
-              label: 'IKEA Jakarta GC',
-              data: [280, 290, 310, 330, 340, 350, 370, 380],
-              borderColor: '#9c27b0',
-              backgroundColor: 'rgba(156, 39, 176, 0.1)',
-              tension: 0.4,
-              fill: false
-            },
-            {
-              label: 'IKEA Sentul City',
-              data: [250, 260, 270, 290, 300, 320, 330, 350],
-              borderColor: '#00bcd4',
-              backgroundColor: 'rgba(0, 188, 212, 0.1)',
-              tension: 0.4,
-              fill: false
-            },
-            {
-              label: 'IKEA Bali',
-              data: [200, 210, 220, 230, 240, 250, 260, 270],
-              borderColor: '#3f51b5',
-              backgroundColor: 'rgba(63, 81, 181, 0.1)',
-              tension: 0.4,
-              fill: false
-            },
-            {
-              label: 'IKEA Kota Baru Parahyangan',
-              data: [180, 190, 200, 210, 220, 230, 240, 250],
-              borderColor: '#e91e63',
-              backgroundColor: 'rgba(233, 30, 99, 0.1)',
-              tension: 0.4,
-              fill: false
-            }
-          ]
+  if (donutChart) {
+    donutChart.destroy();
+  }
+
+  donutChart = new ApexCharts(document.querySelector("#donutChart"), options);
+  donutChart.render();
+
+  // Buat custom legend setelah chart di-render
+  createDonutLegend();
+}
+
+// Inisialisasi Line Chart
+function initLineChart(year) {
+  const data = lineChartData[year];
+
+  const options = {
+    series: data,
+    chart: {
+      height: 250,
+      type: 'line',
+      zoom: {
+        enabled: false
+      },
+      toolbar: {
+        show: true
+      },
+      events: {
+        dataPointSelection: function(event, chartContext, config) {
+          const branch = data[config.seriesIndex].name;
+          updateLineChartInsight(branch);
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                usePointStyle: true,
-                padding: 20
-              }
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: false,
-              grid: {
-                color: '#f0f0f0'
-              }
-            },
-            x: {
-              grid: {
-                display: false
-              }
-            }
-          }
+        legendClick: function(chartContext, seriesIndex, config) {
+          const branch = data[seriesIndex].name;
+          updateLineChartInsight(branch);
         }
-      });
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 2,
+    },
+    colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb'],
+    markers: {
+      size: 4,
+      strokeWidth: 0,
+      hover: {
+        size: 6
+      }
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'],
+        opacity: 0.5
+      }
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+    },
+    yaxis: {
+      title: {
+      }
+    },
+    tooltip: {
+      y: {
+        formatter: function(val) {
+          return val + ' transfers';
+        }
+      }
+    }
+  };
 
-      // Counter Animation
-      $(document).ready(function() {
-        $('.metric-number').each(function() {
-          const $this = $(this);
-          const countTo = parseInt($this.text()) || 0;
-          
-          if (countTo > 0) {
-            $({ countNum: 0 }).animate({
-              countNum: countTo
-            }, {
-              duration: 2000,
-              easing: 'swing',
-              step: function() {
-                $this.text(Math.floor(this.countNum));
-              },
-              complete: function() {
-                $this.text(countTo);
-              }
-            });
-          }
-        });
-      });
-    </script>
-  </body>
+  if (lineChart) {
+    lineChart.destroy();
+  }
+
+  lineChart = new ApexCharts(document.querySelector("#lineChart"), options);
+  lineChart.render();
+}
+
+// Event listeners
+document.getElementById('barChartYear').addEventListener('change', function() {
+  const year = this.value;
+  initBarChart(year);
+  initLineChart(year);
+});
+
+document.getElementById('lineChartYear').addEventListener('change', function() {
+  const year = this.value;
+  initLineChart(year);
+});
+
+// Search input event listener
+document.getElementById('searchInput').addEventListener('input', function() {
+  performSearch(this.value);
+});
+
+// Inisialisasi saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+  // Hide loader
+  setTimeout(function() {
+    document.getElementById('global-loader').style.display = 'none';
+  }, 1000);
+
+  initBarChart('2025');
+  initDonutChart();
+  initLineChart('2025');
+  renderTransfersTable(1);
+  updateTotalTransfersText();
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+<script src="../assets/js/feather.min.js"></script>
+<script src="../assets/js/jquery.slimscroll.min.js"></script>
+<script src="../assets/js/jquery.dataTables.min.js"></script>
+<script src="../assets/js/dataTables.bootstrap4.min.js"></script>
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/moment.min.js"></script>
+<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="../assets/plugins/select2/js/select2.min.js"></script>
+<script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
+<script src="../assets/js/script.js"></script>
+</body>
 </html>
