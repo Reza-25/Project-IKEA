@@ -1,318 +1,5 @@
 <?php
-require_once __DIR__ . '/../include/config.php';
-
-// Database connection
-$conn = new mysqli("localhost", "root", "", "ikea");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-
-// Get summary statistics
-$stats_query = "
-    SELECT 
-        COUNT(*) as total_returns,
-        SUM(total_amount) as total_value,
-        AVG(DATEDIFF(completed_at, return_date)) as avg_processing_days,
-        (SELECT s.Nama_Supplier 
-         FROM supplier_returns sr 
-         JOIN supplier s ON sr.supplier_id = s.ID_Supplier 
-         GROUP BY sr.supplier_id 
-         ORDER BY COUNT(*) DESC 
-         LIMIT 1) as top_supplier,
-        (SELECT COUNT(*) 
-         FROM supplier_returns sr2 
-         WHERE sr2.supplier_id = (
-             SELECT supplier_id 
-             FROM supplier_returns 
-             GROUP BY supplier_id 
-             ORDER BY COUNT(*) DESC 
-             LIMIT 1
-         )) as top_supplier_count
-    FROM supplier_returns 
-    WHERE MONTH(return_date) = MONTH(CURRENT_DATE()) 
-    AND YEAR(return_date) = YEAR(CURRENT_DATE())
-";
-
-$stats_result = $conn->query($stats_query);
-$stats = $stats_result->fetch_assoc();
-
-// Get return data for table
-$returns_query = "
-    SELECT 
-        sr.id,
-        sr.return_code,
-        sr.return_date,
-        s.Nama_Supplier as supplier_name,
-        t.nama_toko as store_name,
-        sr.total_amount,
-        sr.refund_amount,
-        sr.status,
-        sr.return_type,
-        sr.priority,
-        (sr.total_amount - sr.refund_amount) as due_amount,
-        CASE 
-            WHEN sr.refund_amount = 0 THEN 'Unpaid'
-            WHEN sr.refund_amount = sr.total_amount THEN 'Paid'
-            ELSE 'Partial'
-        END as payment_status
-    FROM supplier_returns sr
-    LEFT JOIN supplier s ON sr.supplier_id = s.ID_Supplier
-    LEFT JOIN toko t ON sr.store_id = t.id_toko
-    ORDER BY sr.return_date DESC
-    LIMIT 20
-";
-
-$returns_result = $conn->query($returns_query);
-$returns_data = [];
-while ($row = $returns_result->fetch_assoc()) {
-    $returns_data[] = $row;
-}
-
-// Get bar chart data (returns by month for current year)
-$bar_chart_query = "
-    SELECT 
-        MONTH(return_date) as month,
-        COUNT(*) as return_count,
-        MONTHNAME(return_date) as month_name
-    FROM supplier_returns 
-    WHERE YEAR(return_date) = YEAR(CURRENT_DATE())
-    GROUP BY MONTH(return_date), MONTHNAME(return_date)
-    ORDER BY MONTH(return_date)
-";
-
-$bar_chart_result = $conn->query($bar_chart_query);
-$bar_chart_data = [];
-while ($row = $bar_chart_result->fetch_assoc()) {
-    $bar_chart_data[] = $row;
-}
-
-// Get donut chart data (returns by supplier)
-$donut_chart_query = "
-    SELECT 
-        s.Nama_Supplier as supplier_name,
-        COUNT(*) as return_count,
-        ROUND((COUNT(*) * 100.0 / (SELECT COUNT(*) FROM supplier_returns)), 1) as percentage
-    FROM supplier_returns sr
-    LEFT JOIN supplier s ON sr.supplier_id = s.ID_Supplier
-    GROUP BY sr.supplier_id, s.Nama_Supplier
-    ORDER BY return_count DESC
-    LIMIT 6
-";
-
-$donut_chart_result = $conn->query($donut_chart_query);
-$donut_chart_data = [];
-while ($row = $donut_chart_result->fetch_assoc()) {
-    $donut_chart_data[] = $row;
-}
-
-// Get line chart data (monthly trend by top suppliers)
-$line_chart_query = "
-    SELECT 
-        s.Nama_Supplier as supplier_name,
-        MONTH(sr.return_date) as month,
-        COUNT(*) as return_count
-    FROM supplier_returns sr
-    LEFT JOIN supplier s ON sr.supplier_id = s.ID_Supplier
-    WHERE YEAR(sr.return_date) = YEAR(CURRENT_DATE())
-    AND sr.supplier_id IN (
-        SELECT supplier_id 
-        FROM supplier_returns 
-        GROUP BY supplier_id 
-        ORDER BY COUNT(*) DESC 
-        LIMIT 5
-    )
-    GROUP BY sr.supplier_id, s.Nama_Supplier, MONTH(sr.return_date)
-    ORDER BY s.Nama_Supplier, MONTH(sr.return_date)
-";
-
-$line_chart_result = $conn->query($line_chart_query);
-$line_chart_data = [];
-while ($row = $line_chart_result->fetch_assoc()) {
-    $line_chart_data[] = $row;
-}
-
-// Get analytics data
-$analytics_query = "
-    SELECT 
-        supplier_id,
-        total_returns,
-        total_return_value,
-        return_rate,
-        avg_processing_time,
-        quality_score
-    FROM supplier_return_analytics 
-    WHERE month = MONTH(CURRENT_DATE()) 
-    AND year = YEAR(CURRENT_DATE())
-";
-
-$analytics_result = $conn->query($analytics_query);
-$analytics_data = [];
-while ($row = $analytics_result->fetch_assoc()) {
-    $analytics_data[] = $row;
-}
-
-// Get supplier performance data
-$performance_query = "
-    SELECT 
-        s.Nama_Supplier as supplier_name,
-        sp.overall_rating,
-        sp.quality_score,
-        sp.on_time_delivery_rate
-    FROM supplier_performance sp
-    LEFT JOIN supplier s ON sp.supplier_id = s.ID_Supplier
-    WHERE sp.month = MONTH(CURRENT_DATE()) 
-    AND sp.year = YEAR(CURRENT_DATE())
-    ORDER BY sp.overall_rating DESC
-    LIMIT 5
-";
-
-$performance_result = $conn->query($performance_query);
-$performance_data = [];
-while ($row = $performance_result->fetch_assoc()) {
-    $performance_data[] = $row;
-}
-
-// Function to safely execute query and handle errors
-function executeQuery($conn, $sql, $errorMessage = "Database query failed") {
-    $result = mysqli_query($conn, $sql);
-    if (!$result) {
-        error_log("SQL Error: " . mysqli_error($conn) . " | Query: " . $sql);
-        return false;
-    }
-    return $result;
-}
-
-// Function to safely fetch data with fallback
-function fetchData($conn, $sql, $defaultValue = []) {
-    $result = executeQuery($conn, $sql);
-    if (!$result) {
-        return $defaultValue;
-    }
-    
-    $data = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $data[] = $row;
-    }
-    return $data;
-}
-
-// Get database connection
-$conn = getDBConnection();
-if (!$conn) {
-    die("Database connection failed");
-}
-
-// Get statistics with error handling
-try {
-    // Total Returns
-    $totalReturnsQuery = "SELECT COUNT(*) as total FROM supplier_returns WHERE MONTH(return_date) = MONTH(CURDATE()) AND YEAR(return_date) = YEAR(CURDATE())";
-    $totalReturnsResult = executeQuery($conn, $totalReturnsQuery);
-    $totalReturns = $totalReturnsResult ? mysqli_fetch_assoc($totalReturnsResult)['total'] : 124;
-
-    // Total Value
-    $totalValueQuery = "SELECT SUM(total_amount) as total_value FROM supplier_returns WHERE MONTH(return_date) = MONTH(CURDATE()) AND YEAR(return_date) = YEAR(CURDATE())";
-    $totalValueResult = executeQuery($conn, $totalValueQuery);
-    $totalValue = $totalValueResult ? (mysqli_fetch_assoc($totalValueResult)['total_value'] ?? 8650) : 8650;
-
-    // Average Processing Time
-    $avgProcessingQuery = "SELECT AVG(DATEDIFF(completed_at, return_date)) as avg_days FROM supplier_returns WHERE completed_at IS NOT NULL AND MONTH(return_date) = MONTH(CURDATE()) AND YEAR(return_date) = YEAR(CURDATE())";
-    $avgProcessingResult = executeQuery($conn, $avgProcessingQuery);
-    $avgProcessing = $avgProcessingResult ? (mysqli_fetch_assoc($avgProcessingResult)['avg_days'] ?? 3.2) : 3.2;
-
-    // Top Supplier
-    $topSupplierQuery = "SELECT s.Nama_Supplier, COUNT(*) as return_count 
-                        FROM supplier_returns sr 
-                        JOIN supplier s ON sr.supplier_id = s.ID_Supplier 
-                        WHERE MONTH(sr.return_date) = MONTH(CURDATE()) AND YEAR(sr.return_date) = YEAR(CURDATE())
-                        GROUP BY sr.supplier_id 
-                        ORDER BY return_count DESC 
-                        LIMIT 1";
-    $topSupplierResult = executeQuery($conn, $topSupplierQuery);
-    $topSupplier = $topSupplierResult ? (mysqli_fetch_assoc($topSupplierResult)['Nama_Supplier'] ?? 'Apex Computers') : 'Apex Computers';
-    $topSupplierCount = $topSupplierResult ? (mysqli_fetch_assoc($topSupplierResult)['return_count'] ?? 28) : 28;
-
-} catch (Exception $e) {
-    error_log("Error fetching statistics: " . $e->getMessage());
-    // Set default values
-    $totalReturns = 124;
-    $totalValue = 8650;
-    $avgProcessing = 3.2;
-    $topSupplier = 'Apex Computers';
-    $topSupplierCount = 28;
-}
-
-// Get chart data with error handling
-try {
-    // Bar Chart Data - Monthly returns by category
-    $barChartQuery = "SELECT 
-                        MONTH(sr.return_date) as month,
-                        COUNT(*) as return_count
-                      FROM supplier_returns sr
-                      WHERE YEAR(sr.return_date) = 2025
-                      GROUP BY MONTH(sr.return_date)
-                      ORDER BY month";
-    $barChartData = fetchData($conn, $barChartQuery, []);
-
-    // Donut Chart Data - Returns by supplier
-    $donutChartQuery = "SELECT 
-                          s.Nama_Supplier,
-                          COUNT(*) as return_count,
-                          ROUND((COUNT(*) * 100.0 / (SELECT COUNT(*) FROM supplier_returns)), 1) as percentage
-                        FROM supplier_returns sr
-                        JOIN supplier s ON sr.supplier_id = s.ID_Supplier
-                        GROUP BY sr.supplier_id, s.Nama_Supplier
-                        ORDER BY return_count DESC
-                        LIMIT 6";
-    $donutChartData = fetchData($conn, $donutChartQuery, []);
-
-    // Line Chart Data - Monthly trend by supplier
-    $lineChartQuery = "SELECT 
-                         s.Nama_Supplier,
-                         MONTH(sr.return_date) as month,
-                         COUNT(*) as return_count
-                       FROM supplier_returns sr
-                       JOIN supplier s ON sr.supplier_id = s.ID_Supplier
-                       WHERE YEAR(sr.return_date) = 2025
-                       GROUP BY sr.supplier_id, s.Nama_Supplier, MONTH(sr.return_date)
-                       ORDER BY s.Nama_Supplier, month";
-    $lineChartData = fetchData($conn, $lineChartQuery, []);
-
-} catch (Exception $e) {
-    error_log("Error fetching chart data: " . $e->getMessage());
-    $barChartData = [];
-    $donutChartData = [];
-    $lineChartData = [];
-}
-
-// Get table data with error handling
-try {
-    $tableQuery = "SELECT 
-                     sr.id,
-                     sr.return_code,
-                     DATE_FORMAT(sr.return_date, '%d/%m/%Y') as return_date,
-                     s.Nama_Supplier as supplier_name,
-                     t.nama_toko as store_name,
-                     sr.total_amount,
-                     sr.refund_amount,
-                     (sr.total_amount - sr.refund_amount) as due_amount,
-                     sr.status,
-                     CASE 
-                       WHEN sr.refund_amount >= sr.total_amount THEN 'Paid'
-                       WHEN sr.refund_amount > 0 THEN 'Partial'
-                       ELSE 'Unpaid'
-                     END as payment_status
-                   FROM supplier_returns sr
-                   LEFT JOIN supplier s ON sr.supplier_id = s.ID_Supplier
-                   LEFT JOIN toko t ON sr.store_id = t.id_toko
-                   ORDER BY sr.return_date DESC
-                   LIMIT 20";
-    $tableData = fetchData($conn, $tableQuery, []);
-
-} catch (Exception $e) {
-    error_log("Error fetching table data: " . $e->getMessage());
-    $tableData = [];
-}
+require_once __DIR__ . '/../include/config.php'; // Import config.php
 ?>
 
 <!DOCTYPE html>
@@ -324,9 +11,9 @@ try {
 <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
 <meta name="author" content="Dreamguys - Bootstrap Admin Template">
 <meta name="robots" content="noindex, nofollow">
-<title>RuangKu</title>
+<title>IKEA - Supplier Returns</title>
 
-<link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.png">
+<link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="../assets/css/animate.css">
 <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">
@@ -1512,7 +1199,7 @@ try {
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das1">
                   <div class="dash-counts">
-                    <h4><span class="counters" data-count="<?php echo $totalReturns; ?>"><?php echo $totalReturns; ?></span></h4>
+                    <h4><span class="counters" data-count="124">124</span></h4>
                     <h5>Total Returns</h5>
                     <h2 class="stat-change">+8% from last month</h2>
                     </div>
@@ -1520,7 +1207,7 @@ try {
                       <i class="fa fa-undo"></i>
                     </div>
                 </div>
-                  <h4><span class="counters" data-count="<?php echo number_format($totalValue); ?>">$<?php echo number_format($totalValue); ?></span></h4>
+              </a>
             </div>
 
             <!-- 🛒 Total Value -->
@@ -1528,7 +1215,7 @@ try {
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="<?php echo number_format($stats['total_value'] ?? 0, 0); ?>">$<?php echo number_format($stats['total_value'] ?? 0, 0); ?></span></h4>
+                  <h4><span class="counters" data-count="8650">$8,650</span></h4>
                    <h5>Total Value</h5>
                   <h2 class="stat-change">+12% from last month</h2>
                 </div>
@@ -1536,7 +1223,7 @@ try {
                   <i class="fa fa-dollar-sign"></i>
                 </div>
                 </div>
-                  <h4><span class="counters" data-count="<?php echo number_format($avgProcessing, 1); ?>"><?php echo number_format($avgProcessing, 1); ?></span></h4> 
+              </a>
             </div>
 
              <!-- 📦 Avg Processing Days -->
@@ -1544,7 +1231,7 @@ try {
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das3">
                   <div class="dash-counts">
-                  <h4><span class="counters" data-count="<?php echo number_format($stats['avg_processing_days'] ?? 3.2, 1); ?>"><?php echo number_format($stats['avg_processing_days'] ?? 3.2, 1); ?></span></h4> 
+                  <h4><span class="counters" data-count="3.2">3.2</span></h4> 
                   <h5>Avg. Processing Days</h5>                 
                     <h2 class="stat-change">-0.8 days improvement</h2>
                   </div>
@@ -1552,7 +1239,7 @@ try {
                     <i class="fa fa-clock"></i>
                   </div>
                 </div>
-                     <h4><?php echo $topSupplierCount; ?></h4>
+              </a>
             </div>
 
             <!-- 🗂️ Top Supplier Returns -->
@@ -1560,56 +1247,14 @@ try {
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das4">
                   <div class="dash-counts">
-                     <h4><?php echo $stats['top_supplier_count'] ?? 0; ?></h4>
+                     <h4>28</h4>
                     <h5>Top Supplier Returns</h5>
-                   <h2 class="stat-change"><?php echo $topSupplier; ?></h2>
+                   <h2 class="stat-change">Apex Computers</h2>
                     </div>
                     <div class="icon-box bg-hijau">
                       <i class="fa fa-user-tie"></i>
                     </div>
-// Data dari database untuk visualisasi
-<?php
-// Prepare JavaScript data from PHP
-$jsBarChartData = [];
-$jsDonutChartData = [];
-$jsLineChartData = [];
-$jsTableData = [];
-
-// Process bar chart data
-if (!empty($barChartData)) {
-    foreach ($barChartData as $row) {
-        $jsBarChartData[] = $row['return_count'];
-    }
-}
-
-// Process donut chart data
-if (!empty($donutChartData)) {
-    foreach ($donutChartData as $row) {
-        $jsDonutChartData['labels'][] = $row['Nama_Supplier'];
-        $jsDonutChartData['series'][] = (int)$row['percentage'];
-    }
-}
-
-// Process table data
-if (!empty($tableData)) {
-    foreach ($tableData as $index => $row) {
-        $jsTableData[] = [
-            'id' => $row['id'],
-            'image' => 'product' . (($index % 10) + 1) . '.jpg',
-            'date' => $row['return_date'],
-            'supplier' => $row['supplier_name'] ?? 'Unknown Supplier',
-            'storage' => $row['store_name'] ?? 'Unknown Store',
-            'reference' => $row['return_code'],
-            'total' => (float)$row['total_amount'],
-            'paid' => (float)$row['refund_amount'],
-            'due' => (float)($row['total_amount'] - $row['refund_amount']),
-            'paymentStatus' => $row['payment_status'],
-            'status' => ucfirst($row['status'])
-        ];
-    }
-}
-?>
-
+                </div>
               </a>
             </div>
           </div>
@@ -1626,7 +1271,7 @@ if (!empty($tableData)) {
               <!-- Bar Chart -->
               <div class="chart-section">
                 <div class="chart-header">
-                  <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Monthly Return Trends</h5>
+                  <h5 class="chart-title"><i class="fas fa-chart-bar me-2"></i>Return Growth Trend (Top 5 Categories)</h5>
                   <select class="chart-select" id="barChartYear">
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
@@ -1638,8 +1283,8 @@ if (!empty($tableData)) {
                   <div class="d-flex align-items-center">
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
-                      <h5 style="font-size: 0.9rem;">Insight: Monthly Return Trends</h5>
-                      <p class="mb-0">Analysis shows consistent patterns with seasonal variations. Current trend indicates improvement in return processing.</p>
+                      <h5 style="font-size: 0.9rem;">Insight: Return Category Trends</h5>
+                      <p class="mb-0">Furniture category shows stable growth with 8% QoQ increase. Small decline in June due to stock issues.</p>
                     </div>
                   </div>
                 </div>
@@ -1657,7 +1302,7 @@ if (!empty($tableData)) {
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
                       <h5 style="font-size: 0.9rem;">Insight: Supplier Distribution</h5>
-                      <p class="mb-0">Top suppliers account for majority of returns. Focus on quality improvement with leading suppliers.</p>
+                      <p class="mb-0">Top 5 suppliers account for 72% of total returns. Apex Computers shows highest return rate (+15% YoY).</p>
                     </div>
                   </div>
                 </div>
@@ -1666,7 +1311,7 @@ if (!empty($tableData)) {
               <!-- Line Chart -->
               <div class="chart-section">
                 <div class="chart-header">
-                  <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Supplier Return Trends</h5>
+                  <h5 class="chart-title"><i class="fas fa-chart-line me-2"></i>Monthly Return Trend (Top 5 Suppliers)</h5>
                   <select class="chart-select" id="lineChartYear">
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
@@ -1679,7 +1324,7 @@ if (!empty($tableData)) {
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
                       <h5 id="lineChartInsightTitle" style="font-size: 0.9rem;">Insight: Return Trends</h5>
-                      <p class="mb-0" id="lineChartInsightText">Supplier performance shows consistent patterns with seasonal variations and quality improvement efforts.</p>
+                      <p class="mb-0" id="lineChartInsightText">Apex Computers shows consistent return pattern with 12% increase QoQ. Peak returns in Q2 due to seasonal factors.</p>
                     </div>
                   </div>
                 </div>
@@ -1688,42 +1333,71 @@ if (!empty($tableData)) {
               <!-- Insight Produk Bersaing -->
               <div class="chart-section">
                 <div class="chart-header">
-                  <h5 class="chart-title"><i class="fas fa-chess-board me-2"></i>Top Performing vs Problematic Suppliers</h5>
+                  <h5 class="chart-title"><i class="fas fa-chess-board me-2"></i>Insight "Top Returning Products" Supplier Comparison</h5>
                 </div>
                 <div class="row">
-                  <?php 
-                  $suppliers_sample = [
-                    ['name' => 'Modern Automobile', 'returns' => 18, 'value' => 1850, 'quality' => 'High'],
-                    ['name' => 'Best Power Tools', 'returns' => 15, 'value' => 1420, 'quality' => 'Medium']
-                  ];
-                  
-                  foreach($suppliers_sample as $index => $supplier): 
-                    $crown_color = $index == 0 ? '#ffd700' : '#c0c0c0';
-                    $icon = $index == 0 ? 'crown' : 'medal';
-                  ?>
                   <div class="col-md-6 mb-3">
                     <div class="p-3" style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); border-radius: 10px; border: 1px solid rgba(25, 118, 210, 0.1);">
                       <div class="text-center mb-2">
-                        <h6 class="mb-1" style="color: var(--primary-blue); font-weight: 600;"><?php echo $supplier['name']; ?></h6>
-                        <span style="background: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Quality: <?php echo $supplier['quality']; ?></span>
+                        <h6 class="mb-1" style="color: var(--primary-blue); font-weight: 600;">Apex Computers vs Modern Automobile</h6>
+                        <span style="background: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Electronics</span>
                       </div>
-                      <div class="text-center">
-                        <div style="width: 30px; height: 30px; background: linear-gradient(135deg, <?php echo $crown_color; ?> 0%, #ffed4e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #b8860b;">
-                          <i class="fas fa-<?php echo $icon; ?>" style="font-size: 0.8rem;"></i>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #b8860b;">
+                            <i class="fas fa-crown" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">Apex Computers</h6>
+                          <small style="font-size: 0.7rem; color: #666;">28 returns | $2,450 | High</small>
                         </div>
-                        <h6 style="font-size: 0.8rem; margin-bottom: 3px;"><?php echo $supplier['name']; ?></h6>
-                        <small style="font-size: 0.7rem; color: #666;"><?php echo $supplier['returns']; ?> returns | $<?php echo number_format($supplier['value']); ?> | <?php echo $supplier['quality']; ?></small>
+                        <div style="margin: 0 10px;">
+                          <div style="width: 25px; height: 25px; background: var(--danger-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.6rem; font-weight: 700;">VS</div>
+                        </div>
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #666;">
+                            <i class="fas fa-medal" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">Modern Automobile</h6>
+                          <small style="font-size: 0.7rem; color: #666;">18 returns | $1,850 | Medium</small>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <?php endforeach; ?>
+                  
+                  <div class="col-md-6 mb-3">
+                    <div class="p-3" style="background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); border-radius: 10px; border: 1px solid rgba(25, 118, 210, 0.1);">
+                      <div class="text-center mb-2">
+                        <h6 class="mb-1" style="color: var(--primary-blue); font-weight: 600;">AIM Infotech vs Best Power Tools</h6>
+                        <span style="background: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem;">Hardware</span>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #b8860b;">
+                            <i class="fas fa-crown" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">AIM Infotech</h6>
+                          <small style="font-size: 0.7rem; color: #666;">22 returns | $1,950 | High</small>
+                        </div>
+                        <div style="margin: 0 10px;">
+                          <div style="width: 25px; height: 25px; background: var(--danger-red); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.6rem; font-weight: 700;">VS</div>
+                        </div>
+                        <div class="text-center" style="flex: 1;">
+                          <div style="width: 30px; height: 30px; background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; color: #666;">
+                            <i class="fas fa-medal" style="font-size: 0.8rem;"></i>
+                          </div>
+                          <h6 style="font-size: 0.8rem; margin-bottom: 3px;">Best Power Tools</h6>
+                          <small style="font-size: 0.7rem; color: #666;">15 returns | $1,420 | Medium</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="insight-container">
                   <div class="d-flex align-items-center">
                     <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
                     <div>
-                      <h5 style="font-size: 0.9rem;">Insight: Supplier Performance</h5>
-                      <p class="mb-0">Focus on improving partnerships with high-return suppliers while maintaining relationships with top performers.</p>
+                      <h5 style="font-size: 0.9rem;">Insight: Supplier Competition</h5>
+                      <p class="mb-0">Apex Computers leads in return volume but also highest value. AIM Infotech shows consistent return patterns with good processing times.</p>
                     </div>
                   </div>
                 </div>
@@ -1732,39 +1406,42 @@ if (!empty($tableData)) {
 
             <!-- Right Column - Sidebar tetap di samping charts -->
             <div class="col-lg-4">
-              <!-- Analytics Summary -->
+              <!-- Prediksi Return -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
-                  <i class="fas fa-calculator me-2"></i>Return Analytics Summary
+                  <i class="fas fa-calculator me-2"></i>Return Prediction per Month
                 </div>
                 <div class="sidebar-card-body">
-                  <?php if (!empty($analytics_data)): ?>
-                    <?php foreach(array_slice($analytics_data, 0, 3) as $analytics): ?>
-                    <div class="d-flex align-items-center mb-2">
-                      <div class="bg-light p-2 rounded-circle me-2" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-chart-line text-primary" style="font-size: 1.2rem;"></i>
-                      </div>
-                      <div>
-                        <h5 class="mb-1" style="font-size: 1rem;">Returns: <?php echo $analytics['total_returns']; ?></h5>
-                        <p class="mb-0" style="font-size: 0.85rem;">Rate: <span class="fw-bold"><?php echo $analytics['return_rate']; ?>%</span></p>
-                      </div>
-                      <div class="ms-auto">
-                        <span class="trend-indicator <?php echo $analytics['return_rate'] > 5 ? 'trend-up' : 'trend-down'; ?>" style="font-size: 1.5rem;">
-                          <?php echo $analytics['return_rate'] > 5 ? '▲' : '▼'; ?>
-                        </span>
-                      </div>
+                  <div class="d-flex align-items-center mb-2">
+                    <div class="bg-light p-2 rounded-circle me-2" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                      <i class="fas fa-chart-line text-primary" style="font-size: 1.2rem;"></i>
                     </div>
-                    <?php endforeach; ?>
-                  <?php else: ?>
-                    <div class="text-center text-muted">
-                      <i class="fas fa-chart-line mb-2" style="font-size: 2rem;"></i>
-                      <p>No analytics data available</p>
+                    <div>
+                      <h5 class="mb-1" style="font-size: 1rem;">Apex Computers</h5>
+                      <p class="mb-0" style="font-size: 0.85rem;">predicted <span class="fw-bold">32 returns</span> in August 2025</p>
                     </div>
-                  <?php endif; ?>
+                    <div class="ms-auto">
+                      <span class="trend-indicator trend-up" style="font-size: 1.5rem;">▲</span>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <p class="mb-1" style="font-size: 0.8rem;">Prediction accuracy:</p>
+                      <div class="progress" style="height: 6px; width: 100px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                      <span class="fw-bold" style="font-size: 0.8rem;">85%</span>
+                    </div>
+                    <div>
+                      <p class="mb-1" style="font-size: 0.8rem;">Compare with:</p>
+                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Jul 2025: 28 returns</p>
+                      <p class="mb-0 fw-bold" style="font-size: 0.8rem;">Aug 2024: 24 returns</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- Critical Notifications -->
+              <!-- Notifikasi Kritis -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
                   <i class="fas fa-bell me-2"></i>Critical Return Notifications
@@ -1773,91 +1450,133 @@ if (!empty($tableData)) {
                   <div class="notification-card warning">
                     <i class="fas fa-exclamation-triangle text-warning"></i>
                     <div>
-                      <h5 class="mb-1">High Return Rate Alert</h5>
-                      <p class="mb-0">Some suppliers showing increased return rates</p>
+                      <h5 class="mb-1">Furniture - High Return Rate Alert</h5>
+                      <p class="mb-0">Critical return levels, investigate quality issues</p>
                     </div>
                   </div>
                   
                   <div class="notification-card danger">
                     <i class="fas fa-sync-alt text-danger"></i>
                     <div>
-                      <h5 class="mb-1">Processing Time Increase</h5>
-                      <p class="mb-0">Average processing time increased this week</p>
+                      <h5 class="mb-1">Apex Computers - 5 Returns in 7 Days</h5>
+                      <p class="mb-0">Return rate increased 45% from last week</p>
                     </div>
                   </div>
                   
                   <div class="notification-card info">
                     <i class="fas fa-thumbs-down text-info"></i>
                     <div>
-                      <h5 class="mb-1">Quality Issues</h5>
-                      <p class="mb-0">Multiple quality complaints from customers</p>
+                      <h5 class="mb-1">Customer Complaints - 8 Negative Reviews</h5>
+                      <p class="mb-0">Main complaint: damaged during shipping</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Supplier Health Score -->
+              <!-- Health Score -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
                   <i class="fas fa-heartbeat me-2"></i>Supplier Health Score
                 </div>
                 <div class="sidebar-card-body">
-                  <?php if (!empty($performance_data)): ?>
-                    <?php foreach($performance_data as $performance): 
-                      $health_class = $performance['overall_rating'] > 8 ? 'good' : 'poor';
-                      $health_percentage = $performance['overall_rating'] * 10;
-                    ?>
-                    <div class="health-score-item">
-                      <div class="health-brand-info">
-                        <h6><?php echo $performance['supplier_name']; ?></h6>
-                        <p>Quality: <?php echo $performance['quality_score']; ?>/10, Delivery: <?php echo $performance['on_time_delivery_rate']; ?>%</p>
-                      </div>
-                      <div class="health-score-value">
-                        <div class="health-score <?php echo $health_class; ?>"><?php echo number_format($performance['overall_rating'] * 10); ?>/100</div>
-                        <div class="health-progress">
-                          <div class="health-fill <?php echo $health_class; ?>" style="width: <?php echo $health_percentage; ?>%"></div>
-                        </div>
+                  <div class="health-score-item">
+                    <div class="health-brand-info">
+                      <h6>Modern Automobile</h6>
+                      <p>Low return rate (2%), good processing time</p>
+                    </div>
+                    <div class="health-score-value">
+                      <div class="health-score good">92/100</div>
+                      <div class="health-progress">
+                        <div class="health-fill good" style="width: 92%"></div>
                       </div>
                     </div>
-                    <?php endforeach; ?>
-                  <?php else: ?>
-                    <div class="text-center text-muted">
-                      <i class="fas fa-heartbeat mb-2" style="font-size: 2rem;"></i>
-                      <p>No performance data available</p>
+                  </div>
+                  
+                  <div class="health-score-item">
+                    <div class="health-brand-info">
+                      <h6>Apex Computers</h6>
+                      <p>High return rate 15% increase, quality concerns</p>
                     </div>
-                  <?php endif; ?>
+                    <div class="health-score-value">
+                      <div class="health-score poor">58/100</div>
+                      <div class="health-progress">
+                        <div class="health-fill poor" style="width: 58%"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <!-- Store Distribution -->
+              <!-- Compact Supplier Readiness -->
               <div class="sidebar-card">
                 <div class="sidebar-card-header">
-                  <i class="fas fa-map-marker-alt me-2"></i>Return Distribution by Store
+                  <i class="fas fa-bolt me-2"></i>Supplier Readiness Index
                 </div>
                 <div class="sidebar-card-body">
-                  <?php 
-                  $store_data = [
-                    ['name' => 'IKEA Alam Sutera', 'status' => 'Highest Returns', 'suppliers' => ['Apex Computers', 'Modern Auto']],
-                    ['name' => 'IKEA Jakarta Garden City', 'status' => 'Rising Returns', 'suppliers' => ['Best Tools', 'AIM Infotech']]
-                  ];
-                  
-                  foreach($store_data as $store): 
-                  ?>
+                  <div class="readiness-compact">
+                    <div class="readiness-score-compact">78%</div>
+                    <div class="readiness-brand-compact">Best Power Tools</div>
+                    <div class="readiness-label-compact">Return-Ready Score</div>
+                    
+                    <div class="readiness-features-compact">
+                      <div class="readiness-feature-compact">
+                        <i class="fas fa-box-open text-success"></i>
+                        <p>Low Returns</p>
+                      </div>
+                      <div class="readiness-feature-compact">
+                        <i class="fas fa-star text-warning"></i>
+                        <p>Quality 4.2</p>
+                      </div>
+                      <div class="readiness-feature-compact">
+                        <i class="fas fa-chart-line text-primary"></i>
+                        <p>Stable</p>
+                      </div>
+                    </div>
+                    
+                    <div class="readiness-progress-compact">
+                      <div class="readiness-fill-compact" style="width: 78%"></div>
+                    </div>
+                    
+                    <div class="readiness-status-compact">
+                      ✓ Good Supplier Status
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Distribusi Lokasi -->
+              <div class="sidebar-card">
+                <div class="sidebar-card-header">
+                  <i class="fas fa-map-marker-alt me-2"></i>Return Distribution by Store Location
+                </div>
+                <div class="sidebar-card-body">
                   <div class="location-brand-section">
                     <div class="location-brand-header">
-                      <h6 class="location-brand-name"><?php echo $store['name']; ?></h6>
-                      <span class="location-status-badge <?php echo strpos($store['status'], 'Highest') !== false ? 'top' : 'rising'; ?>">
-                        <?php echo $store['status']; ?>
-                      </span>
+                      <h6 class="location-brand-name">IKEA Alam Sutera</h6>
+                      <span class="location-status-badge top">Highest Returns</span>
                     </div>
                     <p class="location-description">Most returns from:</p>
                     <div class="location-tags">
-                      <?php foreach($store['suppliers'] as $index => $supplier): ?>
-                      <span class="location-tag <?php echo $index === 0 ? 'highlight' : ''; ?>"><?php echo $supplier; ?></span>
-                      <?php endforeach; ?>
+                      <span class="location-tag highlight">Apex Computers</span>
+                      <span class="location-tag">AIM Infotech</span>
+                      <span class="location-tag">Modern Auto</span>
+                      <span class="location-tag">Best Tools</span>
                     </div>
                   </div>
-                  <?php endforeach; ?>
+                  
+                  <div class="location-brand-section">
+                    <div class="location-brand-header">
+                      <h6 class="location-brand-name">IKEA Jakarta Garden City</h6>
+                      <span class="location-status-badge rising">Rising Returns</span>
+                    </div>
+                    <p class="location-description">Popular returns:</p>
+                    <div class="location-tags">
+                      <span class="location-tag">Best Tools</span>
+                      <span class="location-tag highlight">Hatimi Hardware</span>
+                      <span class="location-tag">Modern Auto</span>
+                      <span class="location-tag">AIM Infotech</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1867,7 +1586,7 @@ if (!empty($tableData)) {
                   <i class="fas fa-brain text-white"></i>
                   <h4 class="mb-0 text-white">AI Suggestion: Return Pattern Analysis</h4>
                 </div>
-                <p class="mb-0" style="font-size: 0.85rem;">"Return patterns show seasonal variations. Consider implementing preventive quality measures during peak periods and supplier training programs."</p>
+                <p class="mb-0" style="font-size: 0.85rem;">"Return patterns show 35% increase in electronics category. Consider reviewing supplier quality standards and implementing stricter QC processes."</p>
               </div>
             </div>
           </div>
@@ -1877,7 +1596,7 @@ if (!empty($tableData)) {
             <div class="chart-header">
               <h5 class="chart-title"><i class="fas fa-table me-2"></i>Recent Supplier Returns</h5>
               <div class="d-flex align-items-center gap-2">
-                <span style="font-size: 0.8rem; color: #64748b;" id="totalReturnsText">Total: <?php echo count($returns_data); ?> returns</span>
+                <span style="font-size: 0.8rem; color: #64748b;" id="totalReturnsText">Total: 12 returns</span>
               </div>
             </div>
             
@@ -1903,6 +1622,7 @@ if (!empty($tableData)) {
               <thead>
                 <tr>
                   <th>NO</th>
+                  <th>Image</th>
                   <th>Date</th>
                   <th>Supplier</th>
                   <th>To Storage</th>
@@ -1916,36 +1636,7 @@ if (!empty($tableData)) {
                 </tr>
               </thead>
               <tbody id="returnsTableBody">
-                <?php if (!empty($returns_data)): ?>
-                  <?php foreach(array_slice($returns_data, 0, 10) as $index => $return): 
-                    $paymentStatusClass = $return['payment_status'] === 'Paid' ? 'status-active' : 
-                                        ($return['payment_status'] === 'Partial' ? 'status-trending' : 'status-stable');
-                    $statusClass = $return['status'] === 'Completed' ? 'status-active' : 
-                                 ($return['status'] === 'Processing' ? 'status-trending' : 'status-stable');
-                  ?>
-                  <tr>
-                    <td style="color: #374151; font-weight: 600;"><?php echo $index + 1; ?></td>
-                    <td><?php echo date('d/m/Y', strtotime($return['return_date'])); ?></td>
-                    <td><span class="brand-name"><?php echo $return['supplier_name'] ?? 'Unknown'; ?></span></td>
-                    <td><?php echo $return['store_name'] ?? 'Unknown'; ?></td>
-                    <td><span class="brand-id"><?php echo $return['return_code']; ?></span></td>
-                    <td><span class="brand-price">$<?php echo number_format($return['total_amount'], 2); ?></span></td>
-                    <td><span class="brand-sales">$<?php echo number_format($return['refund_amount'], 2); ?></span></td>
-                    <td><span class="brand-price">$<?php echo number_format($return['due_amount'], 2); ?></span></td>
-                    <td><span class="brand-status <?php echo $paymentStatusClass; ?>"><?php echo $return['payment_status']; ?></span></td>
-                    <td><span class="brand-status <?php echo $statusClass; ?>"><?php echo $return['status']; ?></span></td>
-                    <td>
-                      <button class="btn btn-sm btn-outline-primary" onclick="showReturnDetails(<?php echo $return['id']; ?>)">
-                        <i class="fas fa-eye"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <?php endforeach; ?>
-                <?php else: ?>
-                  <tr>
-                    <td colspan="11" class="text-center">No data available</td>
-                  </tr>
-                <?php endif; ?>
+                <!-- Data akan diisi oleh JavaScript -->
               </tbody>
             </table>
             
@@ -1958,7 +1649,7 @@ if (!empty($tableData)) {
             
             <div class="table-pagination" id="tablePagination">
               <div class="pagination-info" id="paginationInfo">
-                Showing 1-<?php echo min(10, count($returns_data)); ?> of <?php echo count($returns_data); ?> returns
+                Showing 1-4 of 12 returns
               </div>
               <div class="pagination-controls">
                 <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)">
@@ -1995,44 +1686,1675 @@ if (!empty($tableData)) {
                 <i class="fas fa-info-circle text-primary me-2"></i>Basic Information
               </h6>
               <div class="detail-item">
-const returnsData = <?php echo !empty($jsTableData) ? json_encode($jsTableData) : '[]'; ?>;
+                <span class="detail-label">Reference:</span>
+                <span class="detail-value" id="modalReference">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Date:</span>
+                <span class="detail-value" id="modalDate">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Supplier:</span>
+                <span class="detail-value" id="modalSupplier">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Storage Location:</span>
+                <span class="detail-value" id="modalStorage">-</span>
+              </div>
+            </div>
 
-// Fallback data if no database data available
-if (returnsData.length === 0) {
-  returnsData.push(
-    { 
-      id: 1, 
-      image: "product1.jpg", 
-      date: "19/11/2022", 
-      supplier: "No Data Available", 
-      storage: "No Data Available", 
-      reference: "N/A", 
-      total: 0.00, 
-      paid: 0.00, 
-      due: 0.00, 
-      paymentStatus: "N/A", 
-      status: "N/A" 
+            <div class="detail-card mb-3">
+              <h6 class="detail-header">
+                <i class="fas fa-dollar-sign text-success me-2"></i>Financial Details
+              </h6>
+              <div class="detail-item">
+                <span class="detail-label">Grand Total:</span>
+                <span class="detail-value text-primary fw-bold" id="modalTotal">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Amount Paid:</span>
+                <span class="detail-value text-success fw-bold" id="modalPaid">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Amount Due:</span>
+                <span class="detail-value text-danger fw-bold" id="modalDue">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="col-md-6">
+            <div class="detail-card mb-3">
+              <h6 class="detail-header">
+                <i class="fas fa-clipboard-check text-warning me-2"></i>Status Information
+              </h6>
+              <div class="detail-item">
+                <span class="detail-label">Payment Status:</span>
+                <span class="detail-value" id="modalPaymentStatus">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Return Status:</span>
+                <span class="detail-value" id="modalStatus">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Processing Time:</span>
+                <span class="detail-value" id="modalProcessingTime">-</span>
+              </div>
+            </div>
+
+            <div class="detail-card mb-3">
+              <h6 class="detail-header">
+                <i class="fas fa-image text-info me-2"></i>Product Image
+              </h6>
+              <div class="text-center">
+                <img id="modalProductImage" src="/placeholder.svg" alt="Product" class="img-fluid rounded" style="max-height: 150px; border: 2px solid #e2e8f0;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="detail-card">
+              <h6 class="detail-header">
+                <i class="fas fa-chart-line text-purple me-2"></i>Return Analytics
+              </h6>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="analytics-item">
+                    <div class="analytics-number" id="modalReturnRate">-</div>
+                    <div class="analytics-label">Return Rate</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="analytics-item">
+                    <div class="analytics-number" id="modalSupplierRating">-</div>
+                    <div class="analytics-label">Supplier Rating</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="analytics-item">
+                    <div class="analytics-number" id="modalCategory">-</div>
+                    <div class="analytics-label">Category</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-2"></i>Close
+        </button>
+        <button type="button" class="btn btn-primary" onclick="editReturn()">
+          <i class="fas fa-edit me-2"></i>Edit Return
+        </button>
+        <button type="button" class="btn btn-success" onclick="printReturn()">
+          <i class="fas fa-print me-2"></i>Print Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Supplier Return Details Modal -->
+
+      <!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+<!-- Supplier Return Details Modal -->
+
+    </div>
+  </div>
+</div>
+
+<script>
+// Data dummy untuk visualisasi - MENGGUNAKAN DATA SUPPLIER RETURNS
+const barChartData = {
+  2025: {
+    categories: ["Furniture", "Electronics", "Hardware", "Automotive", "Tools"],
+    returns: [45, 38, 32, 28, 22], // dalam unit
+    insights: {
+      "Furniture": "Furniture category shows stable growth with 8% QoQ increase. Small decline in June due to stock issues.",
+      "Electronics": "Electronics returns increased 15% due to quality issues from Apex Computers supplier.",
+      "Hardware": "Hardware returns remain consistent with seasonal patterns, mainly from AIM Infotech.",
+      "Automotive": "Automotive returns decreased 5% after implementing better quality control measures with Modern Automobile.",
+      "Tools": "Tools category shows steady performance with Best Power Tools maintaining good return rates."
     }
-  );
-}
+  },
+  2024: {
+    categories: ["Electronics", "Furniture", "Hardware", "Tools", "Automotive"],
+    returns: [42, 35, 30, 25, 20],
+    insights: {
+      "Electronics": "Electronics dominated returns in 2024 with consistent issues from multiple suppliers.",
+      "Furniture": "Furniture returns were stable throughout 2024 with seasonal variations.",
+      "Hardware": "Hardware category showed improvement in Q4 2024 after supplier negotiations.",
+      "Tools": "Tools returns increased slightly due to new supplier onboarding issues.",
+      "Automotive": "Automotive returns were lowest in 2024 with excellent supplier performance."
+    }
+  },
+  2023: {
+    categories: ["Hardware", "Electronics", "Furniture", "Automotive", "Tools"],
+    returns: [38, 32, 28, 24, 18],
+    insights: {
+      "Hardware": "Hardware led returns in 2023 during the initial supplier evaluation period.",
+      "Electronics": "Electronics returns were moderate with gradual supplier improvements.",
+      "Furniture": "Furniture category maintained steady return patterns throughout 2023.",
+      "Automotive": "Automotive returns started high but improved significantly by year-end.",
+      "Tools": "Tools category had lowest returns in 2023 with excellent supplier relationships."
+    }
+  }
+};
+
+// Beautiful Blue, Purple, and Teal Color Variations for Charts
+const donutChartData = {
+  labels: ["Apex Computers", "Modern Automobile", "AIM Infotech", "Best Power Tools", "Hatimi Hardware", "Others"],
+  series: [28, 22, 18, 15, 12, 5], // persentase
+  colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb', '#e3f2fd']
+};
+
+const lineChartData = {
+  2025: [
+    { name: "Apex Computers", data: [25, 28, 32, 35, 38, 36, 40, 42] },
+    { name: "Modern Automobile", data: [18, 20, 22, 24, 26, 28, 30, 32] },
+    { name: "AIM Infotech", data: [22, 24, 26, 25, 27, 28, 29, 30] },
+    { name: "Best Power Tools", data: [20, 19, 21, 22, 23, 24, 25, 26] },
+    { name: "Hatimi Hardware", data: [15, 16, 17, 18, 19, 20, 21, 22] }
+  ],
+  2024: [
+    { name: "Apex Computers", data: [22, 24, 26, 28, 30, 32, 34, 36] },
+    { name: "Modern Automobile", data: [16, 18, 20, 22, 24, 26, 28, 30] },
+    { name: "AIM Infotech", data: [20, 22, 24, 23, 25, 26, 27, 28] },
+    { name: "Best Power Tools", data: [18, 17, 19, 20, 21, 22, 23, 24] },
+    { name: "Hatimi Hardware", data: [12, 14, 15, 16, 17, 18, 19, 20] }
+  ],
+  2023: [
+    { name: "AIM Infotech", data: [18, 20, 22, 21, 23, 24, 25, 26] },
+    { name: "Apex Computers", data: [20, 22, 24, 26, 28, 30, 32, 34] },
+    { name: "Modern Automobile", data: [14, 16, 18, 20, 22, 24, 26, 28] },
+    { name: "Best Power Tools", data: [16, 15, 17, 18, 19, 20, 21, 22] },
+    { name: "Hatimi Hardware", data: [10, 12, 13, 14, 15, 16, 17, 18] }
+  ]
+};
+
+// Supplier Returns Data for Table
+const returnsData = [
+  { 
+    id: 1, 
+    image: "product1.jpg", 
+    date: "19/11/2022", 
+    supplier: "Apex Computers", 
+    storage: "IKEA Alam Sutera", 
+    reference: "RT0001", 
+    total: 2450.00, 
+    paid: 2450.00, 
+    due: 0.00, 
+    paymentStatus: "Paid", 
+    status: "Received" 
+  },
+  { 
+    id: 2, 
+    image: "product2.jpg", 
+    date: "18/11/2022", 
+    supplier: "Modern Automobile", 
+    storage: "IKEA Sentul City", 
+    reference: "RT0002", 
+    total: 1850.00, 
+    paid: 925.00, 
+    due: 925.00, 
+    paymentStatus: "Partial", 
+    status: "Ordered" 
+  },
+  { 
+    id: 3, 
+    image: "product3.jpg", 
+    date: "17/11/2022", 
+    supplier: "AIM Infotech", 
+    storage: "IKEA Jakarta Garden City", 
+    reference: "RT0003", 
+    total: 1950.00, 
+    paid: 1950.00, 
+    due: 0.00, 
+    paymentStatus: "Paid", 
+    status: "Received" 
+  },
+  { 
+    id: 4, 
+    image: "product4.jpg", 
+    date: "16/11/2022", 
+    supplier: "Best Power Tools", 
+    storage: "IKEA Kota Baru Parahyangan", 
+    reference: "RT0004", 
+    total: 1420.00, 
+    paid: 0.00, 
+    due: 1420.00, 
+    paymentStatus: "Unpaid", 
+    status: "Pending" 
+  },
+  { 
+    id: 5, 
+    image: "product5.jpg", 
+    date: "15/11/2022", 
+    supplier: "Hatimi Hardware & Tools", 
+    storage: "IKEA Bali", 
+    reference: "RT0005", 
+    total: 3200.00, 
+    paid: 3200.00, 
+    due: 0.00, 
+    paymentStatus: "Paid", 
+    status: "Received" 
+  },
+  { 
+    id: 6, 
+    image: "product6.jpg", 
+    date: "14/11/2022", 
+    supplier: "Apex Computers", 
+    storage: "IKEA Mal Taman Anggrek", 
+    reference: "RT0006", 
+    total: 2750.00, 
+    paid: 1375.00, 
+    due: 1375.00, 
+    paymentStatus: "Partial", 
+    status: "Ordered" 
+  },
+  { 
+    id: 7, 
+    image: "product7.jpg", 
+    date: "13/11/2022", 
+    supplier: "Modern Automobile", 
+    storage: "IKEA Alam Sutera", 
+    reference: "RT0007", 
+    total: 1680.00, 
+    paid: 1680.00, 
+    due: 0.00, 
+    paymentStatus: "Paid", 
+    status: "Received" 
+  },
+  { 
+    id: 8, 
+    image: "product8.jpg", 
+    date: "12/11/2022", 
+    supplier: "AIM Infotech", 
+    storage: "IKEA Sentul City", 
+    reference: "RT0008", 
+    total: 2100.00, 
+    paid: 0.00, 
+    due: 2100.00, 
+    paymentStatus: "Unpaid", 
+    status: "Pending" 
+  },
+  { 
+    id: 9, 
+    image: "product9.jpg", 
+    date: "11/11/2022", 
+    supplier: "Best Power Tools", 
+    storage: "IKEA Jakarta Garden City", 
+    reference: "RT0009", 
+    total: 1890.00, 
+    paid: 1890.00, 
+    due: 0.00, 
+    paymentStatus: "Paid", 
+    status: "Received" 
+  },
+  { 
+    id: 10, 
+    image: "product10.jpg", 
+    date: "10/11/2022", 
+    supplier: "Hatimi Hardware & Tools", 
+    storage: "IKEA Kota Baru Parahyangan", 
+    reference: "RT0010", 
+    total: 2350.00, 
+    paid: 1175.00, 
+    due: 1175.00, 
+    paymentStatus: "Partial", 
+    status: "Ordered" 
+  },
+  { 
+    id: 11, 
+    image: "product1.jpg", 
+    date: "09/11/2022", 
+    supplier: "Apex Computers", 
+    storage: "IKEA Bali", 
+    reference: "RT0011", 
+    total: 2980.00, 
+    paid: 2980.00, 
+    due: 0.00, 
+    paymentStatus: "Paid", 
+    status: "Received" 
+  },
+  { 
+    id: 12, 
+    image: "product2.jpg", 
+    date: "08/11/2022", 
+    supplier: "Modern Automobile", 
+    storage: "IKEA Mal Taman Anggrek", 
+    reference: "RT0012", 
+    total: 1750.00, 
+    paid: 0.00, 
+    due: 1750.00, 
+    paymentStatus: "Unpaid", 
+    status: "Pending" 
+  }
+];
 
 // Pagination and search variables
 let currentPage = 1;
-let itemsPerPage = 10;
-let filteredData = [...returnsDataFromDB];
+let itemsPerPage = 4;
+let filteredData = [...returnsData];
 let searchQuery = '';
 
-// Initialize charts
-function initBarChart() {
+// Inisialisasi chart
+let barChart, donutChart, lineChart;
+let currentYear = '2025';
+
+// Fungsi untuk memformat angka
+function formatNumber(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// Search functionality
+function performSearch(query) {
+  searchQuery = query.toLowerCase();
+  
+  if (searchQuery === '') {
+    filteredData = [...returnsData];
+  } else {
+    filteredData = returnsData.filter(item => 
+      item.supplier.toLowerCase().includes(searchQuery) ||
+      item.reference.toLowerCase().includes(searchQuery) ||
+      item.status.toLowerCase().includes(searchQuery) ||
+      item.paymentStatus.toLowerCase().includes(searchQuery) ||
+      item.storage.toLowerCase().includes(searchQuery)
+    );
+  }
+  
+  currentPage = 1;
+  updateTotalPages();
+  renderReturnsTable(currentPage);
+  updateTotalReturnsText();
+}
+
+// Update total pages based on filtered data
+function updateTotalPages() {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  
+  // Show/hide pagination buttons based on total pages
+  document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
+  document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
+  document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
+}
+
+// Update total returns text
+function updateTotalReturnsText() {
+  const totalText = document.getElementById('totalReturnsText');
+  if (searchQuery === '') {
+    totalText.textContent = `Total: ${returnsData.length} returns`;
+  } else {
+    totalText.textContent = `Found: ${filteredData.length} of ${returnsData.length} returns`;
+  }
+}
+
+// Export to PDF function
+function exportToPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  
+  // Add title
+  doc.setFontSize(16);
+  doc.text('Supplier Returns Data', 14, 22);
+  
+  // Add export date
+  doc.setFontSize(10);
+  doc.text(`Exported on: ${new Date().toLocaleDateString('en-US')}`, 14, 30);
+  
+  // Prepare table data
+  const tableData = filteredData.map((item, index) => [
+    index + 1,
+    item.date,
+    item.supplier,
+    item.storage,
+    item.reference,
+    '$' + item.total.toFixed(2),
+    '$' + item.paid.toFixed(2),
+    '$' + item.due.toFixed(2),
+    item.paymentStatus,
+    item.status
+  ]);
+  
+  // Add table
+  doc.autoTable({
+    head: [['No', 'Date', 'Supplier', 'Storage', 'Reference', 'Total', 'Paid', 'Due', 'Payment', 'Status']],
+    body: tableData,
+    startY: 35,
+    styles: {
+      fontSize: 8,
+      cellPadding: 2
+    },
+    headStyles: {
+      fillColor: [25, 118, 210],
+      textColor: 255
+    }
+  });
+  
+  // Save the PDF
+  doc.save('supplier-returns-data.pdf');
+}
+
+// Export to Excel function
+function exportToExcel() {
+  // Prepare data for Excel
+  const excelData = filteredData.map((item, index) => ({
+    'No': index + 1,
+    'Date': item.date,
+    'Supplier': item.supplier,
+    'To Storage': item.storage,
+    'Reference': item.reference,
+    'Grand Total ($)': item.total,
+    'Paid ($)': item.paid,
+    'Due ($)': item.due,
+    'Payment Status': item.paymentStatus,
+    'Status': item.status
+  }));
+  
+  // Create workbook and worksheet
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.json_to_sheet(excelData);
+  
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(wb, ws, 'Supplier Returns Data');
+  
+  // Save the Excel file
+  XLSX.writeFile(wb, 'supplier-returns-data.xlsx');
+}
+
+// Membuat custom legend untuk donut chart
+function createDonutLegend() {
+  const legendContainer = document.getElementById('donutLegend');
+  legendContainer.innerHTML = '';
+
+  donutChartData.labels.forEach((label, index) => {
+    const legendItem = document.createElement('div');
+    legendItem.className = 'legend-item';
+    
+    const colorBox = document.createElement('div');
+    colorBox.className = 'legend-color';
+    colorBox.style.backgroundColor = donutChartData.colors[index];
+    
+    const labelText = document.createElement('span');
+    labelText.textContent = `${label} (${donutChartData.series[index]}%)`;
+    
+    legendItem.appendChild(colorBox);
+    legendItem.appendChild(labelText);
+    legendContainer.appendChild(legendItem);
+  });
+}
+
+// Update insight untuk bar chart
+function updateBarChartInsight(category) {
+  const insight = barChartData[currentYear].insights[category] || 
+                 `Category ${category} shows consistent return patterns with seasonal variations.`;
+
+  const insightHTML = `
+    <div class="d-flex align-items-center">
+      <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+      <div>
+        <h5 style="font-size: 0.9rem;">Insight: ${category} Category</h5>
+        <p class="mb-0">${insight}</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('barChartInsight').innerHTML = insightHTML;
+}
+
+// Update insight untuk line chart
+function updateLineChartInsight(supplier) {
+  const lineInsights = {
+    "Apex Computers": "Apex Computers shows consistent return pattern with 12% increase QoQ. Peak returns in Q2 due to seasonal factors.",
+    "Modern Automobile": "Modern Automobile maintains stable return rates with excellent quality control measures.",
+    "AIM Infotech": "AIM Infotech shows improving trend with better supplier relationship management.",
+    "Best Power Tools": "Best Power Tools demonstrates consistent performance with minimal return fluctuations.",
+    "Hatimi Hardware": "Hatimi Hardware shows steady growth in returns but maintains good processing times."
+  };
+  
+  const insight = lineInsights[supplier] || 
+                `Supplier ${supplier} shows consistent return patterns with seasonal variations.`;
+
+  const insightHTML = `
+    <div class="d-flex align-items-center">
+      <i class="fas fa-lightbulb text-warning me-2" style="font-size: 1.3rem;"></i>
+      <div>
+        <h5 style="font-size: 0.9rem;">Insight: ${supplier} Trend</h5>
+        <p class="mb-0">${insight}</p>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('lineChartInsight').innerHTML = insightHTML;
+}
+
+// Render Returns Table with Row Numbers
+function renderReturnsTable(page = 1) {
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const pageData = filteredData.slice(startIndex, endIndex);
+
+  const tableBody = document.getElementById('returnsTableBody');
+  const noResults = document.getElementById('noResults');
+  const tablePagination = document.getElementById('tablePagination');
+  
+  if (filteredData.length === 0) {
+    tableBody.innerHTML = '';
+    noResults.style.display = 'block';
+    tablePagination.style.display = 'none';
+    return;
+  } else {
+    noResults.style.display = 'none';
+    tablePagination.style.display = 'flex';
+  }
+
+  tableBody.innerHTML = '';
+
+  pageData.forEach((item, index) => {
+    const row = document.createElement('tr');
+    
+    const paymentStatusClass = item.paymentStatus === 'Paid' ? 'status-active' : 
+                              item.paymentStatus === 'Partial' ? 'status-trending' : 'status-stable';
+    const statusClass = item.status === 'Received' ? 'status-active' : 
+                       item.status === 'Ordered' ? 'status-trending' : 'status-stable';
+    
+    const rowNumber = startIndex + index + 1;
+    
+    row.innerHTML = `
+      <td style="color: #374151; font-weight: 600;">${rowNumber}</td>
+      <td>
+        <img src="../assets/img/product/${item.image}" alt="product" style="width: 40px; height: 40px; border-radius: 8px; object-fit: cover;" />
+      </td>
+      <td>${item.date}</td>
+      <td><span class="brand-name">${item.supplier}</span></td>
+      <td>${item.storage}</td>
+      <td><span class="brand-id">${item.reference}</span></td>
+      <td><span class="brand-price">$${item.total.toFixed(2)}</span></td>
+      <td><span class="brand-sales">$${item.paid.toFixed(2)}</span></td>
+      <td><span class="brand-price">$${item.due.toFixed(2)}</span></td>
+      <td><span class="brand-status ${paymentStatusClass}">${item.paymentStatus}</span></td>
+      <td><span class="brand-status ${statusClass}">${item.status}</span></td>
+      <td>
+  <button class="btn btn-sm btn-outline-primary" onclick="showReturnDetails(${item.id})">
+    <i class="fas fa-eye"></i>
+  </button>
+</td>
+    `;
+    
+    tableBody.appendChild(row);
+  });
+
+  // Update pagination info
+  const totalItems = filteredData.length;
+  const startItem = startIndex + 1;
+  const endItem = Math.min(endIndex, totalItems);
+  document.getElementById('paginationInfo').textContent = 
+    `Showing ${startItem}-${endItem} of ${totalItems} returns`;
+
+  // Update pagination buttons
+  updatePaginationButtons(page);
+}
+
+// Update Pagination Buttons
+function updatePaginationButtons(page) {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  
+  document.getElementById('prevBtn').disabled = page === 1;
+  document.getElementById('nextBtn').disabled = page === totalPages;
+
+  // Update page buttons
+  document.getElementById('page1Btn').classList.toggle('active', page === 1);
+  document.getElementById('page2Btn').classList.toggle('active', page === 2);
+  document.getElementById('page3Btn').classList.toggle('active', page === 3);
+  
+  // Hide/show page buttons based on total pages
+  document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
+  document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
+  document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
+}
+
+// Change Page Function
+function changePage(direction) {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const newPage = currentPage + direction;
+  if (newPage >= 1 && newPage <= totalPages) {
+    currentPage = newPage;
+    renderReturnsTable(currentPage);
+  }
+}
+
+// Go to Specific Page
+function goToPage(page) {
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  if (page >= 1 && page <= totalPages) {
+    currentPage = page;
+    renderReturnsTable(currentPage);
+  }
+}
+
+// Inisialisasi Bar Chart
+function initBarChart(year) {
+  const data = barChartData[year];
+  currentYear = year;
+
   const options = {
     series: [{
-      data: processedBarData.returns.length > 0 ? processedBarData.returns : [0, 0, 0, 0, 0]
+      data: data.returns
     }],
     chart: {
       type: 'bar',
       height: 250,
       toolbar: {
         show: true
+      },
+      events: {
+        dataPointSelection: function(event, chartContext, config) {
+          const category = data.categories[config.dataPointIndex];
+          updateBarChartInsight(category);
+        }
       }
     },
     plotOptions: {
@@ -2066,7 +3388,7 @@ function initBarChart() {
       colors: ['transparent']
     },
     xaxis: {
-      categories: processedBarData.categories.length > 0 ? processedBarData.categories : ['No Data'],
+      categories: data.categories,
     },
     yaxis: {
       title: {
@@ -2100,15 +3422,16 @@ function initBarChart() {
   barChart.render();
 }
 
+// Inisialisasi Donut Chart
 function initDonutChart() {
   const options = {
-    series: processedDonutData.series.length > 0 ? processedDonutData.series : [100],
+    series: donutChartData.series,
     chart: {
       type: 'donut',
       height: 200,
     },
-    labels: processedDonutData.labels.length > 0 ? processedDonutData.labels : ['No Data'],
-    colors: processedDonutData.colors,
+    labels: donutChartData.labels,
+    colors: donutChartData.colors,
     responsive: [{
       breakpoint: 480,
       options: {
@@ -2157,12 +3480,16 @@ function initDonutChart() {
   donutChart = new ApexCharts(document.querySelector("#donutChart"), options);
   donutChart.render();
 
+  // Buat custom legend setelah chart di-render
   createDonutLegend();
 }
 
-function initLineChart() {
+// Inisialisasi Line Chart
+function initLineChart(year) {
+  const data = lineChartData[year];
+
   const options = {
-    series: lineChartSeries.length > 0 ? lineChartSeries : [{name: 'No Data', data: [0,0,0,0,0,0,0,0,0,0,0,0]}],
+    series: data,
     chart: {
       height: 250,
       type: 'line',
@@ -2171,6 +3498,16 @@ function initLineChart() {
       },
       toolbar: {
         show: true
+      },
+      events: {
+        dataPointSelection: function(event, chartContext, config) {
+          const supplier = data[config.seriesIndex].name;
+          updateLineChartInsight(supplier);
+        },
+        legendClick: function(chartContext, seriesIndex, config) {
+          const supplier = data[seriesIndex].name;
+          updateLineChartInsight(supplier);
+        }
       }
     },
     dataLabels: {
@@ -2195,7 +3532,7 @@ function initLineChart() {
       }
     },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
     },
     yaxis: {
       title: {
@@ -2218,164 +3555,35 @@ function initLineChart() {
   lineChart.render();
 }
 
-function createDonutLegend() {
-  const legendContainer = document.getElementById('donutLegend');
-  legendContainer.innerHTML = '';
+// Event listeners
+document.getElementById('barChartYear').addEventListener('change', function() {
+  const year = this.value;
+  initBarChart(year);
+  initLineChart(year);
+});
 
-  if (processedDonutData.labels.length > 0 && processedDonutData.labels[0] !== 'No Data') {
-    processedDonutData.labels.forEach((label, index) => {
-      const legendItem = document.createElement('div');
-      legendItem.className = 'legend-item';
-      
-      const colorBox = document.createElement('div');
-      colorBox.className = 'legend-color';
-      colorBox.style.backgroundColor = processedDonutData.colors[index];
-      
-      const labelText = document.createElement('span');
-      labelText.textContent = `${label} (${processedDonutData.series[index].toFixed(1)}%)`;
-      
-      legendItem.appendChild(colorBox);
-      legendItem.appendChild(labelText);
-      legendContainer.appendChild(legendItem);
-    });
-  }
-}
+document.getElementById('lineChartYear').addEventListener('change', function() {
+  const year = this.value;
+  initLineChart(year);
+});
 
-// Search functionality
-function performSearch(query) {
-  searchQuery = query.toLowerCase();
-  
-  if (searchQuery === '') {
-    filteredData = [...returnsDataFromDB];
-  } else {
-    filteredData = returnsDataFromDB.filter(item => 
-      (item.supplier_name && item.supplier_name.toLowerCase().includes(searchQuery)) ||
-      (item.return_code && item.return_code.toLowerCase().includes(searchQuery)) ||
-      (item.status && item.status.toLowerCase().includes(searchQuery)) ||
-      (item.payment_status && item.payment_status.toLowerCase().includes(searchQuery)) ||
-      (item.store_name && item.store_name.toLowerCase().includes(searchQuery))
-    );
-  }
-  
-  currentPage = 1;
-  updateTotalPages();
-  renderReturnsTable(currentPage);
-  updateTotalReturnsText();
-}
+// Search input event listener
+document.getElementById('searchInput').addEventListener('input', function() {
+  performSearch(this.value);
+});
 
-function updateTotalPages() {
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  
-  document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
-  document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
-  document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
-}
+// Enhanced returns data with additional details
+const enhancedReturnsData = returnsData.map(item => ({
+  ...item,
+  returnRate: Math.floor(Math.random() * 20) + 5 + '%',
+  supplierRating: (Math.random() * 2 + 3).toFixed(1) + '/5.0',
+  category: ['Electronics', 'Furniture', 'Hardware', 'Tools', 'Automotive'][Math.floor(Math.random() * 5)],
+  processingTime: Math.floor(Math.random() * 5) + 1 + ' days'
+}));
 
-function updateTotalReturnsText() {
-  const totalText = document.getElementById('totalReturnsText');
-  if (searchQuery === '') {
-    totalText.textContent = `Total: ${returnsDataFromDB.length} returns`;
-  } else {
-    totalText.textContent = `Found: ${filteredData.length} of ${returnsDataFromDB.length} returns`;
-  }
-}
-
-function renderReturnsTable(page = 1) {
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const pageData = filteredData.slice(startIndex, endIndex);
-
-  const tableBody = document.getElementById('returnsTableBody');
-  const noResults = document.getElementById('noResults');
-  const tablePagination = document.getElementById('tablePagination');
-  
-  if (filteredData.length === 0) {
-    tableBody.innerHTML = '';
-    noResults.style.display = 'block';
-    tablePagination.style.display = 'none';
-    return;
-  } else {
-    noResults.style.display = 'none';
-    tablePagination.style.display = 'flex';
-  }
-
-  tableBody.innerHTML = '';
-
-  pageData.forEach((item, index) => {
-    const row = document.createElement('tr');
-    
-    const paymentStatusClass = item.payment_status === 'Paid' ? 'status-active' : 
-                              item.payment_status === 'Partial' ? 'status-trending' : 'status-stable';
-    const statusClass = item.status === 'Completed' ? 'status-active' : 
-                       item.status === 'Processing' ? 'status-trending' : 'status-stable';
-    
-    const rowNumber = startIndex + index + 1;
-    
-    row.innerHTML = `
-      <td style="color: #374151; font-weight: 600;">${rowNumber}</td>
-      <td>${new Date(item.return_date).toLocaleDateString('en-GB')}</td>
-      <td><span class="brand-name">${item.supplier_name || 'Unknown'}</span></td>
-      <td>${item.store_name || 'Unknown'}</td>
-      <td><span class="brand-id">${item.return_code}</span></td>
-      <td><span class="brand-price">$${parseFloat(item.total_amount).toFixed(2)}</span></td>
-      <td><span class="brand-sales">$${parseFloat(item.refund_amount).toFixed(2)}</span></td>
-      <td><span class="brand-price">$${parseFloat(item.due_amount).toFixed(2)}</span></td>
-      <td><span class="brand-status ${paymentStatusClass}">${item.payment_status}</span></td>
-      <td><span class="brand-status ${statusClass}">${item.status}</span></td>
-      <td>
-        <button class="btn btn-sm btn-outline-primary" onclick="showReturnDetails(${item.id})">
-          <i class="fas fa-eye"></i>
-        </button>
-      </td>
-    `;
-    
-    tableBody.appendChild(row);
-  });
-
-  // Update pagination info
-  const totalItems = filteredData.length;
-  const startItem = startIndex + 1;
-  const endItem = Math.min(endIndex, totalItems);
-  document.getElementById('paginationInfo').textContent = 
-    `Showing ${startItem}-${endItem} of ${totalItems} returns`;
-
-  updatePaginationButtons(page);
-}
-
-function updatePaginationButtons(page) {
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  
-  document.getElementById('prevBtn').disabled = page === 1;
-  document.getElementById('nextBtn').disabled = page === totalPages;
-
-  document.getElementById('page1Btn').classList.toggle('active', page === 1);
-  document.getElementById('page2Btn').classList.toggle('active', page === 2);
-  document.getElementById('page3Btn').classList.toggle('active', page === 3);
-  
-  document.getElementById('page1Btn').style.display = totalPages >= 1 ? 'inline-block' : 'none';
-  document.getElementById('page2Btn').style.display = totalPages >= 2 ? 'inline-block' : 'none';
-  document.getElementById('page3Btn').style.display = totalPages >= 3 ? 'inline-block' : 'none';
-}
-
-function changePage(direction) {
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const newPage = currentPage + direction;
-  if (newPage >= 1 && newPage <= totalPages) {
-    currentPage = newPage;
-    renderReturnsTable(currentPage);
-  }
-}
-
-function goToPage(page) {
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  if (page >= 1 && page <= totalPages) {
-    currentPage = page;
-    renderReturnsTable(currentPage);
-  }
-}
-
+// Show return details in modal
 function showReturnDetails(returnId) {
-  const returnData = returnsDataFromDB.find(item => item.id == returnId);
+  const returnData = enhancedReturnsData.find(item => item.id === returnId);
   
   if (!returnData) {
     console.error('Return data not found');
@@ -2383,47 +3591,54 @@ function showReturnDetails(returnId) {
   }
 
   // Populate modal with data
-  document.getElementById('modalReference').textContent = returnData.return_code;
-  document.getElementById('modalDate').textContent = new Date(returnData.return_date).toLocaleDateString('en-GB');
-  document.getElementById('modalSupplier').textContent = returnData.supplier_name || 'Unknown';
-  document.getElementById('modalStorage').textContent = returnData.store_name || 'Unknown';
-  document.getElementById('modalTotal').textContent = '$' + parseFloat(returnData.total_amount).toFixed(2);
-  document.getElementById('modalPaid').textContent = '$' + parseFloat(returnData.refund_amount).toFixed(2);
-  document.getElementById('modalDue').textContent = '$' + parseFloat(returnData.due_amount).toFixed(2);
-  document.getElementById('modalProcessingTime').textContent = '2-3 days';
-  document.getElementById('modalReturnRate').textContent = '5.2%';
-  document.getElementById('modalSupplierRating').textContent = '4.2/5.0';
-  document.getElementById('modalCategory').textContent = 'General';
-  document.getElementById('modalReturnType').textContent = returnData.return_type || 'Standard';
-  document.getElementById('modalPriority').textContent = returnData.priority || 'Medium';
+  document.getElementById('modalReference').textContent = returnData.reference;
+  document.getElementById('modalDate').textContent = returnData.date;
+  document.getElementById('modalSupplier').textContent = returnData.supplier;
+  document.getElementById('modalStorage').textContent = returnData.storage;
+  document.getElementById('modalTotal').textContent = '$' + returnData.total.toFixed(2);
+  document.getElementById('modalPaid').textContent = '$' + returnData.paid.toFixed(2);
+  document.getElementById('modalDue').textContent = '$' + returnData.due.toFixed(2);
+  document.getElementById('modalProcessingTime').textContent = returnData.processingTime;
+  document.getElementById('modalReturnRate').textContent = returnData.returnRate;
+  document.getElementById('modalSupplierRating').textContent = returnData.supplierRating;
+  document.getElementById('modalCategory').textContent = returnData.category;
 
   // Set payment status with appropriate styling
   const paymentStatusElement = document.getElementById('modalPaymentStatus');
-  paymentStatusElement.textContent = returnData.payment_status;
+  paymentStatusElement.textContent = returnData.paymentStatus;
   paymentStatusElement.className = 'detail-value brand-status ' + 
-    (returnData.payment_status === 'Paid' ? 'status-active' : 
-     returnData.payment_status === 'Partial' ? 'status-trending' : 'status-stable');
+    (returnData.paymentStatus === 'Paid' ? 'status-active' : 
+     returnData.paymentStatus === 'Partial' ? 'status-trending' : 'status-stable');
 
   // Set return status with appropriate styling
   const statusElement = document.getElementById('modalStatus');
   statusElement.textContent = returnData.status;
   statusElement.className = 'detail-value brand-status ' + 
-    (returnData.status === 'Completed' ? 'status-active' : 
-     returnData.status === 'Processing' ? 'status-trending' : 'status-stable');
+    (returnData.status === 'Received' ? 'status-active' : 
+     returnData.status === 'Ordered' ? 'status-trending' : 'status-stable');
+
+  // Set product image
+  document.getElementById('modalProductImage').src = `../assets/img/product/${returnData.image}`;
 
   // Show modal
   const modal = new bootstrap.Modal(document.getElementById('returnDetailsModal'));
   modal.show();
 }
 
+// Edit return function
 function editReturn() {
   const modal = bootstrap.Modal.getInstance(document.getElementById('returnDetailsModal'));
   modal.hide();
   
+  // Get current reference from modal
   const reference = document.getElementById('modalReference').textContent;
+  
+  // Simulate redirect to edit page
   alert(`Redirecting to edit page for return: ${reference}`);
+  // In real implementation: window.location.href = `editreturn.php?ref=${reference}`;
 }
 
+// Print return function
 function printReturn() {
   const reference = document.getElementById('modalReference').textContent;
   const supplier = document.getElementById('modalSupplier').textContent;
@@ -2431,6 +3646,7 @@ function printReturn() {
   const total = document.getElementById('modalTotal').textContent;
   const status = document.getElementById('modalStatus').textContent;
 
+  // Create print content
   const printContent = `
     <div style="font-family: Arial, sans-serif; padding: 20px;">
       <div style="text-align: center; margin-bottom: 30px;">
@@ -2471,6 +3687,7 @@ function printReturn() {
     </div>
   `;
 
+  // Open print window
   const printWindow = window.open('', '_blank');
   printWindow.document.write(`
     <!DOCTYPE html>
@@ -2496,86 +3713,24 @@ function printReturn() {
   printWindow.document.close();
 }
 
-function exportToPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  
-  doc.setFontSize(16);
-  doc.text('Supplier Returns Data', 14, 22);
-  
-  doc.setFontSize(10);
-  doc.text(`Exported on: ${new Date().toLocaleDateString('en-US')}`, 14, 30);
-  
-  const tableData = filteredData.map((item, index) => [
-    index + 1,
-    new Date(item.return_date).toLocaleDateString('en-GB'),
-    item.supplier_name || 'Unknown',
-    item.store_name || 'Unknown',
-    item.return_code,
-    '$' + parseFloat(item.total_amount).toFixed(2),
-    '$' + parseFloat(item.refund_amount).toFixed(2),
-    '$' + parseFloat(item.due_amount).toFixed(2),
-    item.payment_status,
-    item.status
-  ]);
-  
-  doc.autoTable({
-    head: [['No', 'Date', 'Supplier', 'Storage', 'Reference', 'Total', 'Paid', 'Due', 'Payment', 'Status']],
-    body: tableData,
-    startY: 35,
-    styles: {
-      fontSize: 8,
-      cellPadding: 2
-    },
-    headStyles: {
-      fillColor: [25, 118, 210],
-      textColor: 255
-    }
-  });
-  
-  doc.save('supplier-returns-data.pdf');
-}
-
-function exportToExcel() {
-  const excelData = filteredData.map((item, index) => ({
-    'No': index + 1,
-    'Date': new Date(item.return_date).toLocaleDateString('en-GB'),
-    'Supplier': item.supplier_name || 'Unknown',
-    'To Storage': item.store_name || 'Unknown',
-    'Reference': item.return_code,
-    'Grand Total ($)': parseFloat(item.total_amount),
-    'Paid ($)': parseFloat(item.refund_amount),
-    'Due ($)': parseFloat(item.due_amount),
-    'Payment Status': item.payment_status,
-    'Status': item.status
-  }));
-  
-  const wb = XLSX.utils.book_new();
-  const ws = XLSX.utils.json_to_sheet(excelData);
-  
-  XLSX.utils.book_append_sheet(wb, ws, 'Supplier Returns Data');
-  XLSX.writeFile(wb, 'supplier-returns-data.xlsx');
-}
-
-// Event listeners
-document.getElementById('searchInput').addEventListener('input', function() {
-  performSearch(this.value);
-});
-
-// Initialize when page loads
+// Inisialisasi saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function() {
+  // Hide loader
   setTimeout(function() {
     document.getElementById('global-loader').style.display = 'none';
   }, 1000);
 
-  initBarChart();
+  initBarChart('2025');
   initDonutChart();
-  initLineChart();
+  initLineChart('2025');
   renderReturnsTable(1);
   updateTotalReturnsText();
 });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/feather.min.js"></script>
@@ -2591,7 +3746,3 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="../assets/js/script.js"></script>
 </body>
 </html>
-
-<?php
-$conn->close();
-?>

@@ -82,12 +82,13 @@ $ikea_stats = getIkeaQuickStats();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IKEA AI Assistant</title>
+    <title>RuangKu</title>
+    <link href="../assets/img/favicon.png" rel="shortcut icon" type="image/x-icon"/>
 </head>
 <body>
 
 <!-- AI Tooltip -->
-<div class="ai-tooltip" id="aiTooltip">IKEA AI Assistant, we're ready to help</div>
+<div class="ai-tooltip" id="aiTooltip">RuangKu AI Assistant, we're ready to help</div>
 
 <!-- AI Button (Moved from ai.php) -->
 <div class="ai-button" id="aiButton">
@@ -99,7 +100,7 @@ $ikea_stats = getIkeaQuickStats();
 <div class="ai-popup" id="aiPopup">
     <div class="ai-header">
         <div class="ai-header-info">
-            <h5>IKEA AI Assistant</h5>
+            <h5>RuangKu AI Assistant</h5>
             <span class="ai-status" id="aiStatus">🟡 Connecting...</span>
         </div>
         <button class="close-popup" id="closePopup">&times;</button>
@@ -136,7 +137,7 @@ $ikea_stats = getIkeaQuickStats();
             <div class="ai-message">
                 <div class="message-avatar">🤖</div>
                 <div class="message-content">
-                    <p><strong>Halo! Saya IKEA AI Assistant (Python-Powered)</strong></p>
+                    <p><strong>Halo! Saya RuangKu Assistant (Python-Powered)</strong></p>
                     <p>Saya siap membantu Anda dengan analisis dan insights tentang:</p>
                     <ul>
                         <li>📊 Analisis revenue dan profit (<?php echo $ikea_stats['total_stores']; ?> toko aktif)</li>
