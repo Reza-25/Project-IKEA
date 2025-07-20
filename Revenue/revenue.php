@@ -87,7 +87,7 @@ function formatPercentage($percent) {
     <title>RuanGku</title>
 
     <!-- Same CSS includes as statelist.php -->
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.png">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/animate.css">
     <link rel="stylesheet" href="../assets/plugins/select2/css/select2.min.css">

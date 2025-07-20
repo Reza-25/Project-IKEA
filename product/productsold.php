@@ -128,8 +128,8 @@ $categoryDistributionJson = json_encode($categoryDistribution);
     <meta content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" name="keywords" />
     <meta content="Dreamguys - Bootstrap Admin Template" name="author" />
     <meta content="noindex, nofollow" name="robots" />
-    <title>RuanGku</title>
-    <link href="../assets/img/favicon.jpg" rel="shortcut icon" type="image/x-icon" />
+    <title>RuangKu</title>
+    <link href="../assets/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../assets/css/animate.css" rel="stylesheet" />
     <link href="../assets/plugins/select2/css/select2.min.css" rel="stylesheet" />

@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['prompt'])) {
 }
 ?>
 
-<div class="ai-tooltip" id="aiTooltip">IKEA AI Assistant, we're ready to help</div>
+<div class="ai-tooltip" id="aiTooltip">RuanGku AI Assistant, we're ready to help</div>
 
 <!-- AI Button -->
 <div class="ai-button" id="aiButton">
