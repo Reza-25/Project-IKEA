@@ -1,7 +1,7 @@
 
 <?php
 require_once __DIR__ . '/../include/config.php';
-
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 // *** TAMBAHAN: Include AI Helper ***
 require_once __DIR__ . '/ai_helper.php';
 

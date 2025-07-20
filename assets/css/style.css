@@ -4196,6 +4196,17 @@ span.select2-container.select2-container--default.select2-container--open {
 .sidebar .sidemenu a svg {
   stroke-width: 1px;
 }
+/* --------------- Pengaturan untuk logo1.png (Gambar "RuangKu") --------------- */
+/* Pastikan gambar logo tidak terpotong dan tetap berada di dalam batas */
+.header-left .logo img {
+    max-width: 75%;    /* Memastikan gambar tidak melebihi lebar elemen induknya */
+    height: auto;       /* Mempertahankan rasio aspek gambar secara otomatis */
+    margin-bottom: 10px; /* Memberikan jarak di bawah gambar */
+    margin-left: 25px;
+    display: block;     /* Menghilangkan sedikit ruang kosong di bawah gambar */
+    /* Anda bisa mengatur tinggi maksimal jika diperlukan, misalnya: */
+    /* max-height: 50px; */
+}
 .header-left.active #toggle_btn {
   position: relative;
   opacity: 20;

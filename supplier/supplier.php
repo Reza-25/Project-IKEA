@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -504,7 +505,6 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
         <?php include BASE_PATH . '/include/sidebar.php'; ?>
         
         <div class="page-wrapper">
-            <?php include __DIR__ . '/../include/ai.php'; ?>
             
             <div class="content">
                 <div class="page-header">
@@ -520,7 +520,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
             <div class="col-lg-3 col-sm-6 col-12 d-flex">
               <div class="dash-count das1">
                 <div class="dash-counts">
-                   <h4>$4,780,000</h4>
+                   <h4>Rp4,780,000</h4>
                   <h5>Total Procurement Value</h5>
                   <p class="stat-change">+12% from last year</p>
                   </div>

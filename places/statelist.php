@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
-
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 // Hitung statistik
 $stats = [];
 $stats['total_warehouses'] = $pdo->query("SELECT COUNT(*) FROM warehouses")->fetchColumn();
@@ -574,7 +574,7 @@ $warehouses = $pdo->query("SELECT * FROM warehouses")->fetchAll(PDO::FETCH_ASSOC
         <?php include BASE_PATH . '/include/sidebar.php'; ?>
         
         <div class="page-wrapper">
-            <?php include __DIR__ . '/../include/ai.php'; ?>
+
             
             <div class="content">
                 <div class="page-header">

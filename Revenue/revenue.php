@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
-
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 // Fetch revenue growth data
 $revenueGrowthQuery = "SELECT growth_amount, growth_percentage FROM revenue_growth ORDER BY periode DESC LIMIT 1";
 $revenueGrowthStmt = $pdo->query($revenueGrowthQuery);
@@ -577,7 +577,7 @@ function formatPercentage($percent) {
         <?php include BASE_PATH . '/include/sidebar.php'; ?>
         
         <div class="page-wrapper">
-            <?php include __DIR__ . '/../include/ai.php'; ?>
+
             
             <div class="content">
                 <div class="page-header">

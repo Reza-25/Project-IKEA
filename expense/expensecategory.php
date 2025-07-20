@@ -1,6 +1,7 @@
 <!-- animation, hover, shadow -->
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 
 // Koneksi database
 $conn = new mysqli('localhost', 'root', '', 'ikea');

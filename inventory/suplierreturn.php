@@ -1,5 +1,85 @@
 <?php
-require_once __DIR__ . '/../include/config.php'; // Import config.php
+require_once __DIR__ . '/../include/config.php';
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
+// *** TAMBAHAN: Include AI Helper untuk Supplier Return ***
+require_once __DIR__ . '/ai_helper_supplier_return.php';
+
+// *** TAMBAHAN: Get AI Insight ***
+$aiInsight = getSupplierReturnAIInsight();
+$aiData = $aiInsight['data'];
+
+// *** TAMBAHAN: Extract solutions dari AI recommendation ***
+function extractSupplierReturnSolutions($recommendation) {
+  $solutions = [];
+  $text = strtolower($recommendation);
+  
+  if (strpos($text, 'quality_control') !== false || strpos($text, 'audit') !== false) {
+      $solutions = [
+          "Lakukan audit kualitas mendalam untuk supplier dalam 7 hari",
+          "Implementasi additional QC checkpoint untuk kategori return",
+          "Review dan update kontrak supplier dengan penalty clause",
+          "Setup real-time quality monitoring dashboard"
+      ];
+  } elseif (strpos($text, 'cost_reduction') !== false || strpos($text, 'biaya') !== false) {
+      $solutions = [
+          "Implementasi bulk return processing untuk mengurangi handling cost",
+          "Negosiasi return shipping cost dengan supplier",
+          "Setup automated return approval untuk item low-value",
+          "Analisis root cause return untuk mencegah future returns"
+      ];
+  } elseif (strpos($text, 'process_optimization') !== false || strpos($text, 'processing') !== false) {
+      $solutions = [
+          "Implementasi automated return workflow untuk supplier",
+          "Setup express lane untuk return processing",
+          "Integrasi sistem return dengan supplier untuk real-time update",
+          "Training tim untuk optimized return handling procedures"
+      ];
+  } elseif (strpos($text, 'supplier_performance') !== false || strpos($text, 'benchmark') !== false) {
+      $solutions = [
+          "Gunakan supplier sebagai benchmark untuk kategori return",
+          "Analisis best practices untuk diterapkan ke supplier lain",
+          "Pertimbangkan untuk meningkatkan volume order",
+          "Setup supplier performance review meeting"
+      ];
+  } else {
+      // Default solutions
+      $supplierName = $aiData['supplier_name'] ?? 'Supplier';
+      $category = $aiData['return_category'] ?? 'Category';
+      $solutions = [
+          "Lakukan comprehensive analysis untuk supplier {$supplierName}",
+          "Monitor return patterns untuk kategori {$category}",
+          "Setup regular supplier performance review meeting",
+          "Implementasi continuous improvement program"
+      ];
+  }
+  
+  return $solutions;
+}
+
+$aiSolutions = extractSupplierReturnSolutions($aiData['recommendation']);
+
+// *** TAMBAHAN: Format functions untuk AI data ***
+function formatSupplierReturnInsightType($type) {
+  $types = [
+      'quality_control' => 'Quality Control',
+      'cost_reduction' => 'Cost Reduction',
+      'process_optimization' => 'Process Optimization',
+      'supplier_performance' => 'Supplier Performance',
+      'general' => 'General'
+  ];
+  
+  return $types[$type] ?? ucfirst($type);
+}
+
+function formatSupplierReturnUrgency($urgency) {
+  $urgencies = [
+      'low' => 'Rendah',
+      'medium' => 'Sedang',
+      'high' => 'Tinggi'
+  ];
+  
+  return $urgencies[$urgency] ?? ucfirst($urgency);
+}
 ?>
 
 <!DOCTYPE html>
@@ -950,19 +1030,202 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   cursor: not-allowed;
 }
 
-/* Suggestion Card */
+/* *** TAMBAHAN: AI Suggestion Card - SAMA SEPERTI CATEGORYLIST *** */
 .suggestion-card {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
 .suggestion-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+}
+
+.suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.suggestion-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.suggestion-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.suggestion-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.suggestion-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* *** TAMBAHAN: AI Solutions Card - SAMA SEPERTI CATEGORYLIST *** */
+.ai-solutions-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-solutions-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #1976d2;
+}
+
+.ai-solutions-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+}
+
+.solutions-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+  position: relative;
+}
+
+.solutions-icon {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+
+.solutions-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.solutions-tooltip {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: rgba(59, 130, 246, 0.1);
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.solutions-body {
+  margin-bottom: 15px;
+}
+
+.solution-item-card {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.solution-item-card:hover {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  transform: translateX(5px);
+}
+
+.solution-item-card:last-child {
+  margin-bottom: 0;
+}
+
+.solution-number {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+
+.solution-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #374151;
+  font-weight: 500;
+}
+
+.solutions-footer {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.solutions-footer small {
+  color: #64748b;
+  font-size: 0.75rem;
 }
 
 /* Responsive */
@@ -1580,13 +1843,51 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
               </div>
 
-              <!-- AI Suggestion -->
-              <div class="suggestion-card">
-                <div class="insight-card-header">
-                  <i class="fas fa-brain text-white"></i>
-                  <h4 class="mb-0 text-white">AI Suggestion: Return Pattern Analysis</h4>
+              <!-- *** TAMBAHAN: AI Suggestion Card - SAMA SEPERTI CATEGORYLIST *** -->
+              <div class="suggestion-card" id="aiSuggestionCard">
+                <div class="suggestion-header">
+                  <div class="suggestion-icon">
+                    <i class="fas fa-brain"></i>
+                  </div>
+                  <h4 class="suggestion-title" id="aiSuggestionTitle">
+                    AI Suggestion: <?= formatSupplierReturnInsightType($aiData['insight_type']) ?>
+                  </h4>
                 </div>
-                <p class="mb-0" style="font-size: 0.85rem;">"Return patterns show 35% increase in electronics category. Consider reviewing supplier quality standards and implementing stricter QC processes."</p>
+                <p class="suggestion-content" id="aiSuggestionContent">
+                  <?= htmlspecialchars($aiData['recommendation']) ?>
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <small style="opacity: 0.8;" id="aiSuggestionMeta">
+                    <?= $aiData['supplier_name'] ?? 'General' ?> • <?= $aiData['return_category'] ?? 'Category' ?> • <?= formatSupplierReturnUrgency($aiData['urgency']) ?>
+                  </small>
+                  <small style="opacity: 0.7;" id="aiSuggestionTime">
+                    <?= date('d M H:i', strtotime($aiData['generated_at'])) ?>
+                  </small>
+                </div>
+              </div>
+
+              <!-- *** TAMBAHAN: AI Solutions Card - SAMA SEPERTI CATEGORYLIST *** -->
+              <div class="ai-solutions-card" id="aiSolutionsCard">
+                <div class="solutions-header">
+                  <div class="solutions-icon">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <h5 class="solutions-title">Solusi AI Actionable</h5>
+                  <div class="solutions-tooltip">
+                    Solusi berdasarkan AI suggestion di atas
+                  </div>
+                </div>
+                <div class="solutions-body">
+                  <?php foreach ($aiSolutions as $index => $solution) { ?>
+                  <div class="solution-item-card">
+                    <div class="solution-number"><?php echo $index + 1; ?></div>
+                    <div class="solution-text"><?php echo htmlspecialchars($solution); ?></div>
+                  </div>
+                  <?php } ?>
+                </div>
+                <div class="solutions-footer">
+                  <small><i class="fas fa-robot me-1"></i>Generated by AI • <?php echo date('H:i'); ?></small>
+                </div>
               </div>
             </div>
           </div>
@@ -1799,1014 +2100,42 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   </div>
 </div>
 
-<!-- Supplier Return Details Modal -->
-
-      <!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-<!-- Supplier Return Details Modal -->
-
     </div>
   </div>
 </div>
 
 <script>
+// *** TAMBAHAN: Fungsi refresh AI suggestion - SAMA SEPERTI CATEGORYLIST ***
+function refreshAISolutions() {
+  console.log('AI Solutions refreshed for supplier returns');
+  // Optional: Add refresh functionality for solutions if needed
+  
+  // Simulate fetching new AI solutions
+  fetch('get_supplier_return_ai_solution.php')
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              // Update solutions display
+              const solutionsBody = document.querySelector('.solutions-body');
+              if (solutionsBody && data.data.solutions) {
+                  solutionsBody.innerHTML = '';
+                  data.data.solutions.forEach((solution, index) => {
+                      const solutionCard = document.createElement('div');
+                      solutionCard.className = 'solution-item-card';
+                      solutionCard.innerHTML = `
+                          <div class="solution-number">${index + 1}</div>
+                          <div class="solution-text">${solution}</div>
+                      `;
+                      solutionsBody.appendChild(solutionCard);
+                  });
+              }
+          }
+      })
+      .catch(error => {
+          console.error('Error refreshing AI solutions:', error);
+      });
+}
+
 // Data dummy untuk visualisasi - MENGGUNAKAN DATA SUPPLIER RETURNS
 const barChartData = {
   2025: {
@@ -3278,10 +2607,10 @@ function renderReturnsTable(page = 1) {
       <td><span class="brand-status ${paymentStatusClass}">${item.paymentStatus}</span></td>
       <td><span class="brand-status ${statusClass}">${item.status}</span></td>
       <td>
-  <button class="btn btn-sm btn-outline-primary" onclick="showReturnDetails(${item.id})">
-    <i class="fas fa-eye"></i>
-  </button>
-</td>
+        <button class="btn btn-sm btn-outline-primary" onclick="showReturnDetails(${item.id})">
+          <i class="fas fa-eye"></i>
+        </button>
+      </td>
     `;
     
     tableBody.appendChild(row);
@@ -3520,15 +2849,11 @@ function initLineChart(year) {
     colors: ['#1976d2', '#42a5f5', '#64b5f6', '#90caf9', '#bbdefb'],
     markers: {
       size: 4,
-      strokeWidth: 0,
+      strokeWidth: 2,
+      fillOpacity: 1,
+      strokeOpacity: 1,
       hover: {
         size: 6
-      }
-    },
-    grid: {
-      row: {
-        colors: ['#f3f3f3', 'transparent'],
-        opacity: 0.5
       }
     },
     xaxis: {
@@ -3536,6 +2861,11 @@ function initLineChart(year) {
     },
     yaxis: {
       title: {
+      },
+      labels: {
+        formatter: function(val) {
+          return val + ' returns';
+        }
       }
     },
     tooltip: {
@@ -3543,6 +2873,17 @@ function initLineChart(year) {
         formatter: function(val) {
           return val + ' returns';
         }
+      }
+    },
+    legend: {
+      position: 'top',
+      horizontalAlign: 'left',
+      offsetX: 40
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'],
+        opacity: 0.5
       }
     }
   };
@@ -3555,182 +2896,115 @@ function initLineChart(year) {
   lineChart.render();
 }
 
-// Event listeners
-document.getElementById('barChartYear').addEventListener('change', function() {
-  const year = this.value;
-  initBarChart(year);
-  initLineChart(year);
-});
-
-document.getElementById('lineChartYear').addEventListener('change', function() {
-  const year = this.value;
-  initLineChart(year);
-});
-
-// Search input event listener
-document.getElementById('searchInput').addEventListener('input', function() {
-  performSearch(this.value);
-});
-
-// Enhanced returns data with additional details
-const enhancedReturnsData = returnsData.map(item => ({
-  ...item,
-  returnRate: Math.floor(Math.random() * 20) + 5 + '%',
-  supplierRating: (Math.random() * 2 + 3).toFixed(1) + '/5.0',
-  category: ['Electronics', 'Furniture', 'Hardware', 'Tools', 'Automotive'][Math.floor(Math.random() * 5)],
-  processingTime: Math.floor(Math.random() * 5) + 1 + ' days'
-}));
-
-// Show return details in modal
+// Show Return Details Modal
 function showReturnDetails(returnId) {
-  const returnData = enhancedReturnsData.find(item => item.id === returnId);
+  const returnItem = returnsData.find(item => item.id === returnId);
+  if (!returnItem) return;
+
+  // Populate modal with return data
+  document.getElementById('modalReference').textContent = returnItem.reference;
+  document.getElementById('modalDate').textContent = returnItem.date;
+  document.getElementById('modalSupplier').textContent = returnItem.supplier;
+  document.getElementById('modalStorage').textContent = returnItem.storage;
+  document.getElementById('modalTotal').textContent = '$' + returnItem.total.toFixed(2);
+  document.getElementById('modalPaid').textContent = '$' + returnItem.paid.toFixed(2);
+  document.getElementById('modalDue').textContent = '$' + returnItem.due.toFixed(2);
   
-  if (!returnData) {
-    console.error('Return data not found');
-    return;
-  }
-
-  // Populate modal with data
-  document.getElementById('modalReference').textContent = returnData.reference;
-  document.getElementById('modalDate').textContent = returnData.date;
-  document.getElementById('modalSupplier').textContent = returnData.supplier;
-  document.getElementById('modalStorage').textContent = returnData.storage;
-  document.getElementById('modalTotal').textContent = '$' + returnData.total.toFixed(2);
-  document.getElementById('modalPaid').textContent = '$' + returnData.paid.toFixed(2);
-  document.getElementById('modalDue').textContent = '$' + returnData.due.toFixed(2);
-  document.getElementById('modalProcessingTime').textContent = returnData.processingTime;
-  document.getElementById('modalReturnRate').textContent = returnData.returnRate;
-  document.getElementById('modalSupplierRating').textContent = returnData.supplierRating;
-  document.getElementById('modalCategory').textContent = returnData.category;
-
   // Set payment status with appropriate styling
   const paymentStatusElement = document.getElementById('modalPaymentStatus');
-  paymentStatusElement.textContent = returnData.paymentStatus;
-  paymentStatusElement.className = 'detail-value brand-status ' + 
-    (returnData.paymentStatus === 'Paid' ? 'status-active' : 
-     returnData.paymentStatus === 'Partial' ? 'status-trending' : 'status-stable');
-
-  // Set return status with appropriate styling
+  paymentStatusElement.textContent = returnItem.paymentStatus;
+  paymentStatusElement.className = `detail-value ${
+    returnItem.paymentStatus === 'Paid' ? 'text-success' : 
+    returnItem.paymentStatus === 'Partial' ? 'text-warning' : 'text-danger'
+  } fw-bold`;
+  
+  // Set status with appropriate styling
   const statusElement = document.getElementById('modalStatus');
-  statusElement.textContent = returnData.status;
-  statusElement.className = 'detail-value brand-status ' + 
-    (returnData.status === 'Received' ? 'status-active' : 
-     returnData.status === 'Ordered' ? 'status-trending' : 'status-stable');
-
+  statusElement.textContent = returnItem.status;
+  statusElement.className = `detail-value ${
+    returnItem.status === 'Received' ? 'text-success' : 
+    returnItem.status === 'Ordered' ? 'text-warning' : 'text-danger'
+  } fw-bold`;
+  
   // Set product image
-  document.getElementById('modalProductImage').src = `../assets/img/product/${returnData.image}`;
+  document.getElementById('modalProductImage').src = `../assets/img/product/${returnItem.image}`;
+  
+  // Set additional analytics data (simulated)
+  document.getElementById('modalProcessingTime').textContent = '2.5 days';
+  document.getElementById('modalReturnRate').textContent = '8.5%';
+  document.getElementById('modalSupplierRating').textContent = '4.2/5';
+  document.getElementById('modalCategory').textContent = 'Electronics';
 
   // Show modal
   const modal = new bootstrap.Modal(document.getElementById('returnDetailsModal'));
   modal.show();
 }
 
-// Edit return function
+// Edit Return Function
 function editReturn() {
-  const modal = bootstrap.Modal.getInstance(document.getElementById('returnDetailsModal'));
-  modal.hide();
-  
-  // Get current reference from modal
-  const reference = document.getElementById('modalReference').textContent;
-  
-  // Simulate redirect to edit page
-  alert(`Redirecting to edit page for return: ${reference}`);
-  // In real implementation: window.location.href = `editreturn.php?ref=${reference}`;
+  alert('Edit return functionality would be implemented here');
 }
 
-// Print return function
+// Print Return Function
 function printReturn() {
-  const reference = document.getElementById('modalReference').textContent;
-  const supplier = document.getElementById('modalSupplier').textContent;
-  const date = document.getElementById('modalDate').textContent;
-  const total = document.getElementById('modalTotal').textContent;
-  const status = document.getElementById('modalStatus').textContent;
-
-  // Create print content
-  const printContent = `
-    <div style="font-family: Arial, sans-serif; padding: 20px;">
-      <div style="text-align: center; margin-bottom: 30px;">
-        <h2 style="color: #1976d2;">IKEA - Supplier Return Details</h2>
-        <p style="color: #666;">Generated on ${new Date().toLocaleDateString()}</p>
-      </div>
-      
-      <div style="border: 2px solid #1976d2; padding: 20px; border-radius: 8px;">
-        <h3 style="color: #1976d2; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">Return Information</h3>
-        
-        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-          <tr>
-            <td style="padding: 8px; font-weight: bold; width: 30%;">Reference:</td>
-            <td style="padding: 8px;">${reference}</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 8px; font-weight: bold;">Date:</td>
-            <td style="padding: 8px;">${date}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; font-weight: bold;">Supplier:</td>
-            <td style="padding: 8px;">${supplier}</td>
-          </tr>
-          <tr style="background: #f8fafc;">
-            <td style="padding: 8px; font-weight: bold;">Total Amount:</td>
-            <td style="padding: 8px; color: #1976d2; font-weight: bold;">${total}</td>
-          </tr>
-          <tr>
-            <td style="padding: 8px; font-weight: bold;">Status:</td>
-            <td style="padding: 8px;">${status}</td>
-          </tr>
-        </table>
-      </div>
-      
-      <div style="margin-top: 30px; text-align: center; color: #666; font-size: 12px;">
-        <p>This is a computer-generated document. No signature required.</p>
-      </div>
-    </div>
-  `;
-
-  // Open print window
-  const printWindow = window.open('', '_blank');
-  printWindow.document.write(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Return Details - ${reference}</title>
-      <style>
-        @media print {
-          body { margin: 0; }
-          .no-print { display: none; }
-        }
-      </style>
-    </head>
-    <body>
-      ${printContent}
-      <div class="no-print" style="text-align: center; margin-top: 20px;">
-        <button onclick="window.print()" style="background: #1976d2; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Print</button>
-        <button onclick="window.close()" style="background: #666; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-left: 10px;">Close</button>
-      </div>
-    </body>
-    </html>
-  `);
-  printWindow.document.close();
+  window.print();
 }
 
-// Inisialisasi saat halaman dimuat
+// Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
   // Hide loader
-  setTimeout(function() {
-    document.getElementById('global-loader').style.display = 'none';
-  }, 1000);
+  document.getElementById('global-loader').style.display = 'none';
 
+  // Initialize charts
   initBarChart('2025');
   initDonutChart();
   initLineChart('2025');
+
+  // Initialize table
   renderReturnsTable(1);
   updateTotalReturnsText();
+
+  // Search functionality
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', function() {
+    performSearch(this.value);
+  });
+
+  // Chart year selectors
+  document.getElementById('barChartYear').addEventListener('change', function() {
+    initBarChart(this.value);
+  });
+
+  document.getElementById('lineChartYear').addEventListener('change', function() {
+    initLineChart(this.value);
+  });
+
+  // Initialize default insights
+  updateBarChartInsight('Furniture');
+  updateLineChartInsight('Apex Computers');
+
+  // Counter animation
+  const counters = document.querySelectorAll('.counters');
+  counters.forEach(counter => {
+    const target = parseInt(counter.getAttribute('data-count'));
+    const increment = target / 100;
+    let current = 0;
+    
+    const updateCounter = () => {
+      if (current < target) {
+        current += increment;
+        counter.textContent = Math.ceil(current);
+        setTimeout(updateCounter, 20);
+      } else {
+        counter.textContent = target;
+      }
+    };
+    
+    updateCounter();
+  });
 });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Bootstrap 5 JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/js/feather.min.js"></script>
@@ -3738,11 +3012,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="../assets/js/jquery.dataTables.min.js"></script>
 <script src="../assets/js/dataTables.bootstrap4.min.js"></script>
 <script src="../assets/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/js/moment.min.js"></script>
-<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
 <script src="../assets/plugins/select2/js/select2.min.js"></script>
 <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
 <script src="../assets/js/script.js"></script>
+
 </body>
 </html>

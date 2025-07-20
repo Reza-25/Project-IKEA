@@ -1,6 +1,6 @@
 ﻿<?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
-
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 // Ambil data statistik
 try {
     $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);

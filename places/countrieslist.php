@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../include/config.php'; // Import config.php
-
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 // 1. Ambil data toko aktif
 try {
   $stmt = $pdo->query("
@@ -875,7 +875,7 @@ $avgDailyVisitors     = 4200;
         <?php include BASE_PATH . '/include/sidebar.php'; ?>
         
         <div class="page-wrapper">
-            <?php include __DIR__ . '/../include/ai.php'; ?>
+
             
             <div class="content">
                 <div class="page-header">

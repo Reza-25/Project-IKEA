@@ -179,7 +179,7 @@ $ikea_stats = getIkeaQuickStats();
             </div>
         </div>
         <div class="chat-footer-info">
-            <small>AI powered by Groq | IKEA Management System</small>
+            <small>AI powered by Groq | RuangKu Management System</small>
         </div>
     </div>
 </div>
@@ -647,14 +647,14 @@ class IkeaAIChat {
         this.serverAvailable = false;
         
         this.templates = {
-            revenue: "Bagaimana performa revenue IKEA bulan ini? Apakah ada tren pertumbuhan yang signifikan?",
+            revenue: "Bagaimana performa revenue RuangKu bulan ini? Apakah ada tren pertumbuhan yang signifikan?",
             brands: "Brand mana yang paling performan baik dan mana yang perlu perhatian khusus?",
-            stores: "Bagaimana performa operasional toko-toko IKEA? Toko mana yang paling efisien?",
+            stores: "Bagaimana performa operasional toko-toko RuangKu? Toko mana yang paling efisien?",
             categories: "Kategori produk mana yang paling laris dan mana yang perlu strategi baru?",
             inventory: "Bagaimana status inventory saat ini? Apakah ada produk yang perlu restock urgent?",
             customers: "Bagaimana tingkat kepuasan customer dan tren return produk?",
             suppliers: "Bagaimana performa supplier dan apakah ada yang perlu evaluasi?",
-            performance: "Berikan summary performa keseluruhan IKEA management saat ini"
+            performance: "Berikan summary performa keseluruhan RuangKu management saat ini"
         };
         
         this.contextData = {
@@ -907,14 +907,14 @@ class IkeaAIChat {
     async callPythonAI(message) {
         // Create context for AI
         const context = `
-        Anda adalah AI Assistant khusus untuk IKEA Management System. 
-        Data IKEA saat ini:
+        Anda adalah AI Assistant khusus untuk RuangKu Management System. 
+        Data RuangKu saat ini:
         - Total Toko: ${this.contextData.total_stores}
         - Total Brand: ${this.contextData.total_brands}  
         - Total Kategori: ${this.contextData.total_categories}
         - Revenue Bulanan: Rp ${this.formatNumber(this.contextData.monthly_revenue)}
         
-        Jawab pertanyaan berikut dengan fokus pada manajemen IKEA, berikan insights yang actionable dan spesifik.
+        Jawab pertanyaan berikut dengan fokus pada manajemen RuangKu, berikan insights yang actionable dan spesifik.
         Gunakan data yang tersedia dan berikan rekomendasi praktis.
         
         Pertanyaan: ${message}
@@ -946,15 +946,15 @@ class IkeaAIChat {
     
     getLocalFallbackResponse(message) {
         const fallbackResponses = {
-            'revenue': 'Berdasarkan data terkini, revenue IKEA menunjukkan tren positif dengan total Rp 105.8M bulan ini. Toko IKEA Alam Sutera dan Bali menunjukkan performa terbaik. Saya merekomendasikan fokus pada optimasi kategori furniture dan storage yang menunjukkan performa terbaik.',
+            'revenue': 'Berdasarkan data terkini, revenue RuangKu menunjukkan tren positif dengan total Rp 105.8M bulan ini. Toko RuangKu Alam Sutera dan Bali menunjukkan performa terbaik. Saya merekomendasikan fokus pada optimasi kategori furniture dan storage yang menunjukkan performa terbaik.',
             'brands': 'Brand LACK, HEMNES, dan BILLY menunjukkan performa terbaik dengan rating tinggi dan penjualan stabil. LACK memiliki rating 4.5 dengan penjualan 1,850 unit/bulan. Pertimbangkan untuk meningkatkan stock availability dan marketing untuk brand dengan rating tinggi.',
-            'stores': 'Dari 7 toko aktif, IKEA Alam Sutera dan Bali menunjukkan performa revenue terbaik. Alam Sutera mencapai target 92% dengan profit margin 1.5%. Analisis operasional mereka dapat dijadikan best practice untuk toko lain.',
+            'stores': 'Dari 7 toko aktif, RuangKu Alam Sutera dan Bali menunjukkan performa revenue terbaik. Alam Sutera mencapai target 92% dengan profit margin 1.5%. Analisis operasional mereka dapat dijadikan best practice untuk toko lain.',
             'categories': 'Dari 21 kategori aktif, kategori Furniture dan Storage menunjukkan growth rate tertinggi. Furniture memiliki market share 35.2% dengan growth 12.3%. Fokuskan inventory dan marketing pada kategori ini.',
             'inventory': 'Status inventory menunjukkan beberapa brand memerlukan perhatian. POÄNG memiliki stock availability 82.1% (perlu restock), sementara BILLY mencapai 95.8% (optimal). Monitor brand dengan stock di bawah 85%.',
             'customers': 'Customer satisfaction rata-rata 4.5/5 dengan return rate 5%. Kategori furniture menunjukkan tingkat kepuasan tertinggi. Focus pada peningkatan kualitas produk dengan rating di bawah 4.0.',
             'suppliers': 'Dari supplier aktif, PT Furnitur Maju menunjukkan performa terbaik dengan rating 8.2/10 dan on-time delivery 85%. Pertimbangkan evaluasi supplier dengan performance di bawah 7.0.',
-            'performance': 'Summary performa IKEA: 7 toko aktif, 12 brand, revenue Rp 105.8M/bulan. Top performers: Alam Sutera (92% target), LACK brand (4.5 rating), Furniture category (35.2% market share). Area improvement: stock optimization untuk POÄNG, supplier delivery time.',
-            'default': 'Terima kasih atas pertanyaan Anda tentang IKEA management. Berdasarkan data yang tersedia: 7 toko aktif dengan revenue Rp 105.8M, 12 brand dengan LACK sebagai top performer, dan 21 kategori produk. Saya merekomendasikan fokus pada optimasi inventory, peningkatan customer satisfaction, dan analisis performa toko secara berkala.'
+            'performance': 'Summary performa RuangKu: 7 toko aktif, 12 brand, revenue Rp 105.8M/bulan. Top performers: Alam Sutera (92% target), LACK brand (4.5 rating), Furniture category (35.2% market share). Area improvement: stock optimization untuk POÄNG, supplier delivery time.',
+            'default': 'Terima kasih atas pertanyaan Anda tentang RuangKu management. Berdasarkan data yang tersedia: 7 toko aktif dengan revenue Rp 105.8M, 12 brand dengan LACK sebagai top performer, dan 21 kategori produk. Saya merekomendasikan fokus pada optimasi inventory, peningkatan customer satisfaction, dan analisis performa toko secara berkala.'
         };
         
         // Simple keyword matching for fallback

@@ -1,6 +1,6 @@
 ﻿<?php
 require_once __DIR__ . '/../include/config.php';
-
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
 // Query untuk mengambil data supplier
 $sql = "SELECT * FROM supplier";
 $stmt = $pdo->query($sql);

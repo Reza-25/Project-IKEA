@@ -1,5 +1,104 @@
 <?php
 require_once __DIR__ . '/../include/config.php';
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
+// *** TAMBAHAN: Include AI Helper untuk Customer Return ***
+require_once __DIR__ . '/ai_helper_customer_return.php';
+
+// Define the function formatCustomerReturnInsightType
+if (!function_exists('formatCustomerReturnInsightType')) {
+    function formatCustomerReturnInsightType($insightType) {
+        // Example implementation
+        $formattedTypes = [
+            'Quality' => 'Product Quality Insight',
+            'Urgency' => 'High Urgency Insight',
+            'Trend' => 'Customer Trend Insight'
+        ];
+        return $formattedTypes[$insightType] ?? 'General Insight';
+    }
+}
+
+// Define the function formatCustomerReturnUrgency
+if (!function_exists('formatCustomerReturnUrgency')) {
+    function formatCustomerReturnUrgency($urgency) {
+        // Example implementation
+        $formattedUrgencies = [
+            'High' => 'High Priority',
+            'Medium' => 'Medium Priority',
+            'Low' => 'Low Priority'
+        ];
+        return $formattedUrgencies[$urgency] ?? 'Unknown Priority';
+    }
+}
+
+// *** TAMBAHAN: Get AI Insight ***
+if (!function_exists('getCustomerReturnAIInsight')) {
+    function getCustomerReturnAIInsight() {
+        // Example implementation
+        return [
+            'data' => [
+                'recommendation' => 'Improve product quality',
+                'customer_name' => 'John Doe',
+                'return_category' => 'Furniture',
+                'insight_type' => 'Quality',
+                'urgency' => 'High',
+                'generated_at' => date('Y-m-d H:i:s')
+            ]
+        ];
+    }
+}
+
+$aiInsight = getCustomerReturnAIInsight();
+$aiData = $aiInsight['data'];
+
+// *** TAMBAHAN: Extract solutions dari AI recommendation ***
+function extractCustomerReturnSolutions($recommendation) {
+  $solutions = [];
+  $text = strtolower($recommendation);
+  
+  if (strpos($text, 'customer_satisfaction') !== false || strpos($text, 'satisfaction') !== false) {
+      $solutions = [
+          "Implementasi customer satisfaction survey dalam 3 hari kerja",
+          "Setup dedicated customer service untuk high-return customers",
+          "Buat customer experience improvement program",
+          "Analisis feedback customer untuk continuous improvement"
+      ];
+  } elseif (strpos($text, 'product_quality') !== false || strpos($text, 'quality') !== false) {
+      $solutions = [
+          "Review product quality untuk kategori yang sering dikembalikan",
+          "Implementasi quality assurance checklist sebelum pengiriman",
+          "Setup product quality monitoring dashboard",
+          "Koordinasi dengan supplier untuk quality improvement"
+      ];
+  } elseif (strpos($text, 'process_improvement') !== false || strpos($text, 'processing') !== false) {
+      $solutions = [
+          "Optimasi return processing time menjadi maksimal 24 jam",
+          "Implementasi express return service untuk VIP customers",
+          "Setup automated refund system untuk faster processing",
+          "Training tim customer service untuk better handling"
+      ];
+  } elseif (strpos($text, 'customer_retention') !== false || strpos($text, 'retention') !== false) {
+      $solutions = [
+          "Buat loyalty program khusus dengan benefit eksklusif",
+          "Implementasi personalized shopping experience",
+          "Setup customer retention campaign dengan special offers",
+          "Analisis customer lifetime value untuk targeted approach"
+      ];
+  } else {
+      // Default solutions
+      $customerName = $aiData['customer_name'] ?? 'Customer';
+      $category = $aiData['return_category'] ?? 'Category';
+      $solutions = [
+          "Analisis mendalam return pattern {$customerName} dalam 1 minggu",
+          "Monitor customer satisfaction untuk kategori {$category}",
+          "Setup regular customer feedback collection",
+          "Implementasi continuous improvement program"
+      ];
+  }
+  
+  return $solutions;
+}
+
+$aiSolutions = extractCustomerReturnSolutions($aiData['recommendation']);
 
 // Check if connection exists, if not create it
 if (!isset($conn) || $conn === null) {
@@ -1160,19 +1259,202 @@ $returns_table_data = getReturnsTableData($conn);
   cursor: not-allowed;
 }
 
-/* Suggestion Card */
+/* *** TAMBAHAN: AI Suggestion Card - SAMA SEPERTI SUPPLIER RETURN *** */
 .suggestion-card {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
 .suggestion-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+}
+
+.suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.suggestion-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.suggestion-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.suggestion-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.suggestion-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* *** TAMBAHAN: AI Solutions Card - SAMA SEPERTI SUPPLIER RETURN *** */
+.ai-solutions-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-solutions-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #1976d2;
+}
+
+.ai-solutions-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+}
+
+.solutions-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+  position: relative;
+}
+
+.solutions-icon {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+
+.solutions-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.solutions-tooltip {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: rgba(59, 130, 246, 0.1);
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.solutions-body {
+  margin-bottom: 15px;
+}
+
+.solution-item-card {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.solution-item-card:hover {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  transform: translateX(5px);
+}
+
+.solution-item-card:last-child {
+  margin-bottom: 0;
+}
+
+.solution-number {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+
+.solution-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #374151;
+  font-weight: 500;
+}
+
+.solutions-footer {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.solutions-footer small {
+  color: #64748b;
+  font-size: 0.75rem;
 }
 
 /* Responsive */
@@ -1707,13 +1989,51 @@ $returns_table_data = getReturnsTableData($conn);
                 </div>
               </div>
 
-              <!-- AI Suggestion -->
-              <div class="suggestion-card">
-                <div class="insight-card-header">
-                  <i class="fas fa-robot text-white"></i>
-                  <h4 class="mb-0 text-white">AI Suggestion: Return Optimization</h4>
+              <!-- *** TAMBAHAN: AI Suggestion Card - SAMA SEPERTI SUPPLIER RETURN *** -->
+              <div class="suggestion-card" id="aiSuggestionCard">
+                <div class="suggestion-header">
+                  <div class="suggestion-icon">
+                    <i class="fas fa-brain"></i>
+                  </div>
+                  <h4 class="suggestion-title" id="aiSuggestionTitle">
+                    AI Suggestion: <?= formatCustomerReturnInsightType($aiData['insight_type']) ?>
+                  </h4>
                 </div>
-                <p class="mb-0" style="font-size: 0.85rem;">"Analysis shows 'furniture defects' increased 45% in the last 3 months. AI Recommendation: Implement quality control + restock strategy for KALLAX series"</p>
+                <p class="suggestion-content" id="aiSuggestionContent">
+                  <?= htmlspecialchars($aiData['recommendation']) ?>
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <small style="opacity: 0.8;" id="aiSuggestionMeta">
+                    <?= $aiData['customer_name'] ?? 'General' ?> • <?= $aiData['return_category'] ?? 'Category' ?> • <?= formatCustomerReturnUrgency($aiData['urgency']) ?>
+                  </small>
+                  <small style="opacity: 0.7;" id="aiSuggestionTime">
+                    <?= date('d M H:i', strtotime($aiData['generated_at'])) ?>
+                  </small>
+                </div>
+              </div>
+
+              <!-- *** TAMBAHAN: AI Solutions Card - SAMA SEPERTI SUPPLIER RETURN *** -->
+              <div class="ai-solutions-card" id="aiSolutionsCard">
+                <div class="solutions-header">
+                  <div class="solutions-icon">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <h5 class="solutions-title">Solusi AI Actionable</h5>
+                  <div class="solutions-tooltip">
+                    Solusi berdasarkan AI suggestion di atas
+                  </div>
+                </div>
+                <div class="solutions-body">
+                  <?php foreach ($aiSolutions as $index => $solution) { ?>
+                  <div class="solution-item-card">
+                    <div class="solution-number"><?php echo $index + 1; ?></div>
+                    <div class="solution-text"><?php echo htmlspecialchars($solution); ?></div>
+                  </div>
+                  <?php } ?>
+                </div>
+                <div class="solutions-footer">
+                  <small><i class="fas fa-robot me-1"></i>Generated by AI • <?php echo date('H:i'); ?></small>
+                </div>
               </div>
             </div>
           </div>
@@ -1794,6 +2114,36 @@ $returns_table_data = getReturnsTableData($conn);
 </div>
 
 <script>
+// *** TAMBAHAN: Fungsi refresh AI suggestion - SAMA SEPERTI SUPPLIER RETURN ***
+function refreshAISolutions() {
+  console.log('AI Solutions refreshed for customer returns');
+  
+  // Simulate fetching new AI solutions
+  fetch('get_customer_return_ai_solution.php')
+      .then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              // Update solutions display
+              const solutionsBody = document.querySelector('.solutions-body');
+              if (solutionsBody && data.solutions) {
+                  solutionsBody.innerHTML = '';
+                  data.solutions.forEach((solution, index) => {
+                      const solutionCard = document.createElement('div');
+                      solutionCard.className = 'solution-item-card';
+                      solutionCard.innerHTML = `
+                          <div class="solution-number">${index + 1}</div>
+                          <div class="solution-text">${solution}</div>
+                      `;
+                      solutionsBody.appendChild(solutionCard);
+                  });
+              }
+          }
+      })
+      .catch(error => {
+          console.error('Error refreshing AI solutions:', error);
+      });
+}
+
 // Data for customer returns visualizations from PHP
 const barChartData = {
   2025: {
