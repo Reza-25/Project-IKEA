@@ -12,6 +12,7 @@ if (!isset($conn) || $conn === null) {
   }
 }
 
+
 // Fungsi untuk mengambil statistik utama
 function getMainStats($conn) {
     $stats = [];
@@ -24,28 +25,12 @@ function getMainStats($conn) {
     // Total Refund Value
     $query = "SELECT SUM(refund_amount) as total_refund FROM customer_returns WHERE MONTH(return_date) = MONTH(CURRENT_DATE()) AND YEAR(return_date) = YEAR(CURRENT_DATE())";
     $result = mysqli_query($conn, $query);
-    $total_refund_raw = mysqli_fetch_assoc($result)['total_refund'] ?? 0;
-    $stats['total_refund'] = $total_refund_raw;
-    
-    // Format refund untuk display (dalam ribuan)
-    if ($total_refund_raw >= 1000000) {
-        $stats['total_refund_display'] = number_format($total_refund_raw / 1000000, 1) . 'M';
-    } elseif ($total_refund_raw >= 1000) {
-        $stats['total_refund_display'] = number_format($total_refund_raw / 1000, 0) . 'K';
-    } else {
-        $stats['total_refund_display'] = number_format($total_refund_raw, 0);
-    }
-    
-    // Nilai sederhana untuk counter
-    $stats['total_refund_simple'] = $total_refund_raw >= 1000000 ? 
-        number_format($total_refund_raw / 1000000, 1) : 
-        ($total_refund_raw >= 1000 ? number_format($total_refund_raw / 1000, 0) : $total_refund_raw);
+    $stats['total_refund'] = mysqli_fetch_assoc($result)['total_refund'] ?? 0;
     
     // Average Return Rate
     $query = "SELECT AVG(return_rate) as avg_return_rate FROM return_analytics WHERE month = MONTH(CURRENT_DATE()) AND year = YEAR(CURRENT_DATE())";
     $result = mysqli_query($conn, $query);
-    $avg_rate = mysqli_fetch_assoc($result)['avg_return_rate'] ?? 0;
-    $stats['avg_return_rate'] = is_numeric($avg_rate) ? $avg_rate : 3.2; // Default value jika null
+    $stats['avg_return_rate'] = mysqli_fetch_assoc($result)['avg_return_rate'] ?? 0;
     
     // Top Category Returns
     $query = "SELECT cp.category_name, COUNT(ri.id) as return_count 
@@ -1344,7 +1329,7 @@ $returns_table_data = getReturnsTableData($conn);
               <a href="#" class="w-100 text-decoration-none text-dark">
                 <div class="dash-count das2">
                   <div class="dash-counts">
-                  <h4>Rp<span class="counters" data-count="<?php echo $main_stats['total_refund_simple']; ?>"><?php echo $main_stats['total_refund_simple']; ?></span></h4>
+                  <h4>Rp<span class="counters" data-count="<?php echo $stats['total_refund_simple']; ?>"><?php echo $stats['total_refund_simple']; ?></span></h4>
                    <h5>Total Refund Value</h5>
                   <h2 class="stat-change">+8% from last month</h2>
                 </div>
