@@ -1,5 +1,80 @@
 <?php
-require_once __DIR__ . '/../include/config.php'; // Import config.php
+require_once __DIR__ . '/../include/config.php';
+
+// *** TAMBAHAN: Include AI Helper untuk Transfer ***
+require_once __DIR__ . '/ai_helper_transfer.php';
+require_once __DIR__ . '/../AI-integrated/AI-CHAT.PHP';
+// *** TAMBAHAN: Get AI Insight ***
+$aiInsight = getTransferAIInsight();
+$aiData = $aiInsight['data'];
+
+// *** TAMBAHAN: Extract solutions dari AI recommendation ***
+function extractTransferSolutions($recommendation) {
+    $solutions = [];
+    $text = strtolower($recommendation);
+    
+    if (strpos($text, 'route_optimization') !== false || strpos($text, 'optimasi_rute') !== false) {
+        $solutions = [
+            "Implementasi rute langsung untuk mengurangi waktu transfer 45%",
+            "Analisis traffic pattern untuk optimasi jadwal transfer harian",
+            "Setup automated routing system untuk efisiensi maksimal"
+        ];
+    } elseif (strpos($text, 'efficiency') !== false || strpos($text, 'efisiensi') !== false) {
+        $solutions = [
+            "Audit proses transfer antar branch dalam 3 hari",
+            "Implementasi real-time tracking untuk semua transfer",
+            "Training tim untuk prosedur transfer yang lebih efisien"
+        ];
+    } elseif (strpos($text, 'cost_reduction') !== false || strpos($text, 'pengurangan_biaya') !== false) {
+        $solutions = [
+            "Review kontrak transportasi untuk optimasi biaya",
+            "Implementasi bulk transfer untuk mengurangi biaya per unit",
+            "Analisis alternatif transportasi yang lebih cost-effective"
+        ];
+    } elseif (strpos($text, 'time_optimization') !== false || strpos($text, 'optimasi_waktu') !== false) {
+        $solutions = [
+            "Setup express transfer lane untuk item prioritas tinggi",
+            "Implementasi pre-scheduling system untuk transfer rutin",
+            "Optimasi loading/unloading process di kedua branch"
+        ];
+    } else {
+        // Default solutions
+        $branchFrom = $aiData['branch_from'] ?? 'Branch';
+        $branchTo = $aiData['branch_to'] ?? 'Branch';
+        $solutions = [
+            "Analisis mendalam performa transfer {$branchFrom}-{$branchTo} dalam 1 minggu",
+            "Buat action plan spesifik untuk optimasi transfer corridor",
+            "Monitor KPI transfer secara real-time selama 30 hari"
+        ];
+    }
+    
+    return $solutions;
+}
+
+$aiSolutions = extractTransferSolutions($aiData['recommendation']);
+
+// *** TAMBAHAN: Format functions untuk AI data ***
+function formatTransferInsightType($type) {
+    $types = [
+        'route_optimization' => 'Optimasi Rute',
+        'efficiency' => 'Efisiensi Transfer',
+        'cost_reduction' => 'Pengurangan Biaya',
+        'time_optimization' => 'Optimasi Waktu',
+        'general' => 'Umum'
+    ];
+    
+    return $types[$type] ?? ucfirst($type);
+}
+
+function formatTransferUrgency($urgency) {
+    $urgencies = [
+        'low' => 'Rendah',
+        'medium' => 'Sedang',
+        'high' => 'Tinggi'
+    ];
+    
+    return $urgencies[$urgency] ?? ucfirst($urgency);
+}
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +86,7 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
 <meta name="author" content="Dreamguys - Bootstrap Admin Template">
 <meta name="robots" content="noindex, nofollow">
-<title>IKEA - Transfer Analytics</title>
+<title>RuanGku</title>
 
 <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.jpg">
 <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -950,19 +1025,202 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
   cursor: not-allowed;
 }
 
-/* Suggestion Card */
+/* *** TAMBAHAN: AI Suggestion Card - SAMA SEPERTI CATEGORYLIST *** */
 .suggestion-card {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
   color: white;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+  position: relative;
+  overflow: hidden;
 }
 
 .suggestion-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+}
+
+.suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.suggestion-card:hover::before {
+  top: -30%;
+  right: -30%;
+}
+
+.suggestion-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.suggestion-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.suggestion-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.suggestion-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+}
+
+/* *** TAMBAHAN: AI Solutions Card - SAMA SEPERTI CATEGORYLIST *** */
+.ai-solutions-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-solutions-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #1976d2;
+}
+
+.ai-solutions-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+}
+
+.solutions-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+  position: relative;
+}
+
+.solutions-icon {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+
+.solutions-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.solutions-tooltip {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: rgba(59, 130, 246, 0.1);
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.solutions-body {
+  margin-bottom: 15px;
+}
+
+.solution-item-card {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.solution-item-card:hover {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  transform: translateX(5px);
+}
+
+.solution-item-card:last-child {
+  margin-bottom: 0;
+}
+
+.solution-number {
+  background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(25, 118, 210, 0.3);
+}
+
+.solution-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #374151;
+  font-weight: 500;
+}
+
+.solutions-footer {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.solutions-footer small {
+  color: #64748b;
+  font-size: 0.75rem;
 }
 
 /* Responsive */
@@ -1512,13 +1770,51 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
                 </div>
               </div>
 
-              <!-- AI Suggestion -->
-              <div class="suggestion-card">
-                <div class="insight-card-header">
-                  <i class="fas fa-brain text-white"></i>
-                  <h4 class="mb-0 text-white">AI Suggestion: Transfer Pattern Analysis</h4>
+              <!-- *** TAMBAHAN: AI Suggestion Card - SAMA SEPERTI CATEGORYLIST *** -->
+              <div class="suggestion-card" id="aiSuggestionCard">
+                <div class="suggestion-header">
+                  <div class="suggestion-icon">
+                    <i class="fas fa-brain"></i>
+                  </div>
+                  <h4 class="suggestion-title" id="aiSuggestionTitle">
+                    AI Suggestion: <?= formatTransferInsightType($aiData['insight_type']) ?>
+                  </h4>
                 </div>
-                <p class="mb-0" style="font-size: 0.85rem;">"Transfer patterns show 35% increase in furniture category. Consider direct transfer routes to reduce 45% transfer time and optimize Jakarta-Bali corridor."</p>
+                <p class="suggestion-content" id="aiSuggestionContent">
+                  <?= htmlspecialchars($aiData['recommendation']) ?>
+                </p>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <small style="opacity: 0.8;" id="aiSuggestionMeta">
+                    <?= $aiData['branch_from'] ?? 'General' ?> → <?= $aiData['branch_to'] ?? 'Branch' ?> • <?= formatTransferUrgency($aiData['urgency']) ?>
+                  </small>
+                  <small style="opacity: 0.7;" id="aiSuggestionTime">
+                    <?= date('d M H:i', strtotime($aiData['generated_at'])) ?>
+                  </small>
+                </div>
+              </div>
+
+              <!-- *** TAMBAHAN: AI Solutions Card - SAMA SEPERTI CATEGORYLIST *** -->
+              <div class="ai-solutions-card" id="aiSolutionsCard">
+                <div class="solutions-header">
+                  <div class="solutions-icon">
+                    <i class="fas fa-lightbulb"></i>
+                  </div>
+                  <h5 class="solutions-title">Solusi AI Actionable</h5>
+                  <div class="solutions-tooltip">
+                    Solusi berdasarkan AI suggestion di atas
+                  </div>
+                </div>
+                <div class="solutions-body">
+                  <?php foreach ($aiSolutions as $index => $solution) { ?>
+                  <div class="solution-item-card">
+                    <div class="solution-number"><?php echo $index + 1; ?></div>
+                    <div class="solution-text"><?php echo htmlspecialchars($solution); ?></div>
+                  </div>
+                  <?php } ?>
+                </div>
+                <div class="solutions-footer">
+                  <small><i class="fas fa-robot me-1"></i>Generated by AI • <?php echo date('H:i'); ?></small>
+                </div>
               </div>
             </div>
           </div>
@@ -1774,6 +2070,37 @@ require_once __DIR__ . '/../include/config.php'; // Import config.php
 </div>
 
 <script>
+// *** TAMBAHAN: Fungsi refresh AI suggestion - SAMA SEPERTI CATEGORYLIST ***
+function refreshAISolutions() {
+    console.log('AI Solutions refreshed for transfers');
+    // Optional: Add refresh functionality for solutions if needed
+    
+    // Simulate fetching new AI solutions
+    fetch('get_ai_solution.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update solutions display
+                const solutionsBody = document.querySelector('.solutions-body');
+                if (solutionsBody && data.solutions) {
+                    solutionsBody.innerHTML = '';
+                    data.solutions.forEach((solution, index) => {
+                        const solutionCard = document.createElement('div');
+                        solutionCard.className = 'solution-item-card';
+                        solutionCard.innerHTML = `
+                            <div class="solution-number">${index + 1}</div>
+                            <div class="solution-text">${solution}</div>
+                        `;
+                        solutionsBody.appendChild(solutionCard);
+                    });
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error refreshing AI solutions:', error);
+        });
+}
+
 // Data dummy untuk visualisasi - MENGGUNAKAN DATA TRANSFER
 const barChartData = {
   2025: {
@@ -2716,4 +3043,3 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="../assets/plugins/sweetalert/sweetalerts.min.js"></script>
 <script src="../assets/js/script.js"></script>
 </body>
-</html>
