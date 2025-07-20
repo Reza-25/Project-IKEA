@@ -87,7 +87,7 @@ $ikea_stats = getIkeaQuickStats();
 <div class="ai-popup" id="aiPopup">
     <div class="ai-header">
         <div class="ai-header-info">
-            <h5>IKEA AI Assistant</h5>
+            <h5>RuangKu Assistant</h5>
             <span class="ai-status">🟢 Online</span>
         </div>
         <button class="close-popup" id="closePopup">&times;</button>

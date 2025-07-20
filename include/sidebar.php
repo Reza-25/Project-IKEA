@@ -128,18 +128,7 @@ function is_active($pages) {
                     </ul>
                 </li>
                 
-                <!-- Settings -->
-                <li class="submenu <?= (['generalsettings.php', 'emailsettings.php', 'paymentsettings.php', 'currencysettings.php', 'grouppermissions.php', 'taxrates.php']) ?>">
-                    <a href="javascript:void(0);"><img src="../assets/img/icons/settings.svg" alt="img" /><span> Settings</span> <span class="menu-arrow"></span></a>
-                    <ul>
-                        <li class="<?= (['generalsettings.php']) ?>"><a href="../generalsettings.php">General Settings</a></li>
-                        <li class="<?= (['emailsettings.php']) ?>"><a href="../emailsettings.php">Email Settings</a></li>
-                        <li class="<?= (['paymentsettings.php']) ?>"><a href="../paymentsettings.php">Payment Settings</a></li>
-                        <li class="<?= (['currencysettings.php']) ?>"><a href="../currencysettings.php">Currency Settings</a></li>
-                        <li class="<?= (['grouppermissions.php']) ?>"><a href="../grouppermissions.php">Group Permissions</a></li>
-                        <li class="<?= (['taxrates.php']) ?>"><a href="../taxrates.php">Tax Rates</a></li>
-                    </ul>
-                </li>
+                
             </ul>
         </div>
     </div>
