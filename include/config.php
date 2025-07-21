@@ -1,4 +1,7 @@
 <?php
+// At the top of config.php
+ini_set('display_errors', 0); // Turn off for production
+error_reporting(E_ALL);
 ob_start(); // Tangkap semua output
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -42,7 +45,7 @@ $host = 'localhost';
 $dbname = 'ikea';
 $username = 'root';
 $password = '';
-
+$dbname = 'ikea';
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -66,6 +69,10 @@ try {
 } catch (Exception $e) {
     die("MySQLi Connection error: " . $e->getMessage());
 }
+
+// Add compatibility variables for legacy code
+$servername = $host;  // Make $servername available
+$conn = $connection;  // Use the existing $connection as $conn
 
 // Session handling (existing code)
 if (!isset($_SESSION['user_id']) && isset($_COOKIE['user_id'])) {
