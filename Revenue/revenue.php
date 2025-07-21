@@ -66,9 +66,9 @@ $storesDataQuery = "
 $storesDataStmt = $pdo->query($storesDataQuery);
 $storesData = $storesDataStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Format numbers for display
+// Format numbers for display - UPDATED TO RUPIAH
 function formatCurrency($amount) {
-    return '$' . number_format($amount, 0);
+    return 'Rp ' . number_format($amount, 0, ',', '.');
 }
 
 function formatPercentage($percent) {
@@ -612,7 +612,7 @@ function formatPercentage($percent) {
                   <p class="stat-change">Keep up the good work!</p>
                 </div>
                 <div class="icon-box bg-biru">
-                  <i class="fa fa-dollar-sign"></i>
+                  <i class="fa fa-rupiah-sign"></i>
                 </div>
               </div>
             </div>
@@ -801,6 +801,11 @@ function formatPercentage($percent) {
         const allStoresData = <?php echo json_encode($storesData); ?>;
         let filteredData = [...allStoresData];
 
+        // UPDATED: Format currency function for Rupiah
+        function formatRupiah(amount) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(amount);
+        }
+
         // Initialize charts and functionality
         function initializeCharts() {
             // Bar Chart - Top 5 Stores
@@ -934,7 +939,7 @@ function formatPercentage($percent) {
             });
         }
 
-        // Export to PDF function
+        // UPDATED: Export to PDF function with Rupiah format
         function exportToPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('landscape');
@@ -943,7 +948,7 @@ function formatPercentage($percent) {
             doc.text('Revenue Analytics Data - IKEA', 14, 22);
             
             doc.setFontSize(10);
-            doc.text(`Exported on: ${new Date().toLocaleDateString('en-US')}`, 14, 30);
+            doc.text(`Exported on: ${new Date().toLocaleDateString('id-ID')}`, 14, 30);
             
             const tableData = filteredData.map((store, index) => [
                 index + 1,
@@ -951,7 +956,7 @@ function formatPercentage($percent) {
                 store.nama_toko,
                 store.status,
                 (store.profit >= 0 ? '+' : '') + (store.profit || 0) + '%',
-                '$' + (store.pendapatan || 0).toLocaleString(),
+                formatRupiah(store.pendapatan || 0),
                 (store.target || 0) + '%'
             ]);
             
@@ -966,7 +971,7 @@ function formatPercentage($percent) {
             doc.save('revenue-analytics-data.pdf');
         }
 
-        // Export to Excel function
+        // UPDATED: Export to Excel function with Rupiah format
         function exportToExcel() {
             const worksheet = XLSX.utils.json_to_sheet(filteredData.map((store, index) => ({
                 'NO': index + 1,
@@ -974,7 +979,7 @@ function formatPercentage($percent) {
                 'Store Name': store.nama_toko,
                 'Status': store.status,
                 'Profit (%)': (store.profit >= 0 ? '+' : '') + (store.profit || 0) + '%',
-                'Revenue': '$' + (store.pendapatan || 0).toLocaleString(),
+                'Revenue': formatRupiah(store.pendapatan || 0),
                 'Target': (store.target || 0) + '%'
             })));
             
@@ -983,12 +988,12 @@ function formatPercentage($percent) {
             XLSX.writeFile(workbook, 'revenue-analytics-data.xlsx');
         }
 
-        // View store details function
+        // UPDATED: View store details function with Rupiah format
         function viewStoreDetails(storeId) {
             // Find store data
             const store = allStoresData.find(s => s.id_toko == storeId);
             if (store) {
-                alert(`Store Details:\n\nName: ${store.nama_toko}\nCode: ${store.kode_toko || 'N/A'}\nStatus: ${store.status}\nProfit: ${store.profit || 0}%\nRevenue: $${(store.pendapatan || 0).toLocaleString()}\nTarget: ${store.target || 0}%`);
+                alert(`Store Details:\n\nName: ${store.nama_toko}\nCode: ${store.kode_toko || 'N/A'}\nStatus: ${store.status}\nProfit: ${store.profit || 0}%\nRevenue: ${formatRupiah(store.pendapatan || 0)}\nTarget: ${store.target || 0}%`);
             }
         }
 
