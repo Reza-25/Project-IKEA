@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" />
     <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Sign Up - IKEA</title>
+    <title>Sign Up - RuangKu</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.jpg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -444,9 +444,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php endif; ?>
         <div class="form-section">
             <div class="form-box">
-                <div class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/IKEA_logo.svg/240px-IKEA_logo.svg.png" alt="IKEA Logo" />
-                </div>
+               <div class="logo">
+            <img src="assets/img/favicon.png" alt="RuangKu" />
+          </div>
 
                 <h3>Create an Account</h3>
                 <p class="subtitle">Join our community to get started</p>
@@ -521,7 +521,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         <div class="image-section">
             <div class="image-content">
-                <h2>Welcome to IKEA Family</h2>
+                <h2>Welcome to RuangKu Family</h2>
                 <p>Create an account to unlock exclusive benefits and personalized experiences</p>
                 
                 <div class="features">

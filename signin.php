@@ -49,7 +49,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
     <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects" />
     <meta name="author" content="Dreamguys - Bootstrap Admin Template" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Sign In - IKEA</title>
+    <title>Sign In - RuangKu</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.jpg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -427,11 +427,11 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
       <div class="form-section">
         <div class="form-box">
           <div class="logo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/IKEA_logo.svg/240px-IKEA_logo.svg.png" alt="IKEA Logo" />
+            <img src="assets/img/favicon.png" alt="RuangKu" />
           </div>
 
           <h3>Welcome Back</h3>
-          <p>Sign in to continue your IKEA experience</p>
+          <p>Sign in to continue your RuangKu experience</p>
 
           <form action="signin.php" method="POST" id="signin-form">
     <div class="form-group">
@@ -486,7 +486,7 @@ if (isset($_SESSION['signup_success']) && $_SESSION['signup_success']) {
 
       <div class="image-section">
         <div class="image-content">
-          <h2>Your IKEA Journey Continues</h2>
+          <h2>Your RuangKu Journey Continues</h2>
           <p>Sign in to access your personalized home solutions, saved designs, and exclusive member benefits.</p>
           
           <div class="features">
