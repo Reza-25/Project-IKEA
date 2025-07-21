@@ -169,7 +169,7 @@ $ikea_stats = getIkeaQuickStats();
     <!-- Chat Input -->
     <div class="ai-footer">
         <div class="input-container">
-            <input type="text" id="chatInput" placeholder="Tanya tentang IKEA management..." maxlength="500" />
+            <input type="text" id="chatInput" placeholder="Tanya tentang RuangKu management..." maxlength="500" />
             <div class="input-actions">
                 <button class="send-btn" id="sendBtn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">

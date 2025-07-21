@@ -149,7 +149,7 @@ $ikea_stats = getIkeaQuickStats();
     <!-- Chat Input -->
     <div class="ai-footer">
         <div class="input-container">
-            <input type="text" id="chatInput" placeholder="Tanya tentang IKEA management..." maxlength="500" />
+            <input type="text" id="chatInput" placeholder="Tanya tentang Ruangku management..." maxlength="500" />
             <div class="input-actions">
                 <button class="send-btn" id="sendBtn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -159,7 +159,7 @@ $ikea_stats = getIkeaQuickStats();
             </div>
         </div>
         <div class="chat-footer-info">
-            <small>AI IKEA Management System</small>
+            <small>AI RuangKu Management System</small>
         </div>
     </div>
 </div>
@@ -562,14 +562,14 @@ class IkeaAIChat {
         this.isOpen = false;
         this.isTyping = false;
         this.templates = {
-            revenue: "Bagaimana performa revenue IKEA bulan ini? Apakah ada tren pertumbuhan yang signifikan?",
+            revenue: "Bagaimana performa revenue RuangKu bulan ini? Apakah ada tren pertumbuhan yang signifikan?",
             brands: "Brand mana yang paling performan baik dan mana yang perlu perhatian khusus?",
-            stores: "Bagaimana performa operasional toko-toko IKEA? Toko mana yang paling efisien?",
+            stores: "Bagaimana performa operasional toko-toko RuangKu? Toko mana yang paling efisien?",
             categories: "Kategori produk mana yang paling laris dan mana yang perlu strategi baru?",
             inventory: "Bagaimana status inventory saat ini? Apakah ada produk yang perlu restock urgent?",
             customers: "Bagaimana tingkat kepuasan customer dan tren return produk?",
             suppliers: "Bagaimana performa supplier dan apakah ada yang perlu evaluasi?",
-            performance: "Berikan summary performa keseluruhan IKEA management saat ini"
+            performance: "Berikan summary performa keseluruhan RuangKu management saat ini"
         };
         
         this.contextData = {
@@ -740,8 +740,8 @@ class IkeaAIChat {
     async callAI(message) {
         // Create context for AI
         const context = `
-        Anda adalah AI Assistant khusus untuk IKEA Management System. 
-        Data IKEA saat ini:
+        Anda adalah AI Assistant khusus untuk RuangKu Management System. 
+        Data RuangKu saat ini:
         - Total Toko: ${this.contextData.total_stores}
         - Total Brand: ${this.contextData.total_brands}  
         - Total Kategori: ${this.contextData.total_categories}
